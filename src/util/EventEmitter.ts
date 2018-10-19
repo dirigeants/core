@@ -2,14 +2,14 @@ export default class EventEmitter {
 
 	public maxListeners: number = 10;
 
-	private _listeners: Map<string|Symbol, Function[]> = new Map();
-	private _onceListeners: Map<string|Symbol, Function[]> = new Map();
+	private _listeners: Map<string|symbol, Function[]> = new Map();
+	private _onceListeners: Map<string|symbol, Function[]> = new Map();
 
-	public get eventNames(): (string|Symbol)[] {
+	public get eventNames(): (string|symbol)[] {
 		return [...new Set([...this._listeners.keys(), ...this._onceListeners.keys()])];
 	}
 
-	public emit(event: string|Symbol, ...args: any[]): this {
+	public emit(event: string|symbol, ...args: any[]): this {
 		const onceListeners = this.onceListeners(event);
 		for (const listener of onceListeners) listener(...args);
 		this._onceListeners.delete(event);
@@ -18,42 +18,42 @@ export default class EventEmitter {
 		return this;
 	}
 
-	public listenerCount(event: string|Symbol): number {
+	public listenerCount(event: string|symbol): number {
 		return this.listeners(event).length;
 	}
 
-	public listeners(event: string|Symbol): Function[] {
+	public listeners(event: string|symbol): Function[] {
 		return this._listeners.get(event) || [];
 	}
 
-	public onceListeners(event: string|Symbol): Function[] {
+	public onceListeners(event: string|symbol): Function[] {
 		return this._onceListeners.get(event) || [];
 	}
 
-	public on(event: string|Symbol, listener: Function): this {
+	public on(event: string|symbol, listener: Function): this {
 		const listeners = this.listeners(event);
 		if (!listeners.length) this._listeners.set(event, listeners);
 		listeners.push(listener);
 		if (listeners.length >= this.maxListeners) {
-			console.warn(`Possible EventEmitter memory leak: (${listeners.length}) listeners created for the ${event} event`);
+			console.warn(`Possible EventEmitter memory leak: (${listeners.length}) listeners created for the ${String(event)} event`);
 		}
 		return this;
 	}
 
-	public off(event: string|Symbol, listener: Function): this {
+	public off(event: string|symbol, listener: Function): this {
 		const listeners = this.listeners(event);
 		listeners.splice(listeners.indexOf(listener), 1);
 		return this;
 	}
 
-	public once(event: string|Symbol, listener: Function): this {
+	public once(event: string|symbol, listener: Function): this {
 		const listeners = this.onceListeners(event);
 		if (!listeners.length) this._onceListeners.set(event, listeners);
 		listeners.push(listener);
 		return this;
 	}
 
-	public removeAllListeners(event?: string|Symbol): this {
+	public removeAllListeners(event?: string|symbol): this {
 		if (event) {
 			this._onceListeners.delete(event);
 			this._listeners.delete(event);	
