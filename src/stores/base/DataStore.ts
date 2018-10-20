@@ -15,7 +15,7 @@ export default class DataStore<Piece extends Base, VConstructor extends new (...
 	}
 
 	// tslint:disable-next-line no-any
-	public add(data: { id: string, [k: string]: any }, cache: boolean = true) {
+	public add(data: { id: string; [k: string]: any }, cache: boolean = true) {
 		const existing = this.get(data.id);
 		if (existing) return existing.patch(data);
 

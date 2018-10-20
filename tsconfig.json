@@ -1,0 +1,23 @@
+{
+	"compilerOptions": {
+		"module": "es6",
+		"target": "esnext",
+		"lib": [
+			"dom",
+			"es2018",
+			"esnext"
+		],
+		"sourceMap": true,
+		"declaration": true,
+		"removeComments": false,
+		"experimentalDecorators": true,
+		"noImplicitAny": false,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true
+	},
+	"exclude": [
+		"bin",
+		"examples",
+		"scripts"
+	]
+}

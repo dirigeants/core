@@ -2,14 +2,14 @@ export default class EventEmitter {
 
 	public maxListeners: number = 10;
 
-	private _listeners: Map<string|symbol, Function[]> = new Map();
-	private _onceListeners: Map<string|symbol, Function[]> = new Map();
+	private _listeners: Map<string|symbol, Array<Function>> = new Map();
+	private _onceListeners: Map<string|symbol, Array<Function>> = new Map();
 
-	public get eventNames(): (string|symbol)[] {
+	public get eventNames(): Array<string|symbol> {
 		return [...new Set([...this._listeners.keys(), ...this._onceListeners.keys()])];
 	}
 
-	public emit(event: string|symbol, ...args: any[]): this {
+	public emit(event: string|symbol, ...args: Array<any>): this {
 		const onceListeners = this.onceListeners(event);
 		for (const listener of onceListeners) listener(...args);
 		this._onceListeners.delete(event);
@@ -22,11 +22,11 @@ export default class EventEmitter {
 		return this.listeners(event).length;
 	}
 
-	public listeners(event: string|symbol): Function[] {
+	public listeners(event: string|symbol): Array<Function> {
 		return this._listeners.get(event) || [];
 	}
 
-	public onceListeners(event: string|symbol): Function[] {
+	public onceListeners(event: string|symbol): Array<Function> {
 		return this._onceListeners.get(event) || [];
 	}
 
@@ -35,6 +35,7 @@ export default class EventEmitter {
 		if (!listeners.length) this._listeners.set(event, listeners);
 		listeners.push(listener);
 		if (listeners.length >= this.maxListeners) {
+			// tslint:disable-next-line no-console
 			console.warn(`Possible EventEmitter memory leak: (${listeners.length}) listeners created for the ${String(event)} event`);
 		}
 		return this;
@@ -56,10 +57,10 @@ export default class EventEmitter {
 	public removeAllListeners(event?: string|symbol): this {
 		if (event) {
 			this._onceListeners.delete(event);
-			this._listeners.delete(event);	
+			this._listeners.delete(event);
 		} else {
 			this._onceListeners.clear();
-			this._listeners.clear();	
+			this._listeners.clear();
 		}
 		return this;
 	}
