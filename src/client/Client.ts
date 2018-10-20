@@ -1,4 +1,4 @@
-import { default as EventEmitter } from '../util/EventEmitter';
+import EventEmitter from '../util/EventEmitter';
 
 export default class Client extends EventEmitter {
 
