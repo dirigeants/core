@@ -1,4 +1,4 @@
-export default function EventEmitter<T extends {new(...args:any[]):{}}>(constructor:T) {
+export default function EventEmitter<T extends {new(...args: any[]): {}}>(constructor: T) {
 	return class extends constructor {
 
 		public maxListeners: number = 10;
@@ -66,5 +66,5 @@ export default function EventEmitter<T extends {new(...args:any[]):{}}>(construc
 			return this;
 		}
 
-	}
+	};
 }
