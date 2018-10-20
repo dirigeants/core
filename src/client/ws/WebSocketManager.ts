@@ -1,5 +1,6 @@
 import EventEmitter from '../../util/EventEmitter';
 import Shard from './Shard';
+
 @EventEmitter
 export default class WebsocketManager extends Map<number, Shard> {
 
