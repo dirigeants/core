@@ -1,6 +1,7 @@
 import EventEmitter from '../util/EventEmitter';
 
-export default class Client extends EventEmitter {
+@EventEmitter
+export default class Client {
 
 	private token: string;
 
