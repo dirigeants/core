@@ -4,7 +4,7 @@ import Shard from './Shard';
 @EventEmitter
 export default class WebsocketManager extends Map<number, Shard> {
 
-	public constructor(shards: number|Array<number>) {
+	public constructor(shards: number | Array<number>) {
 		super();
 
 		if (Array.isArray(shards)) {
