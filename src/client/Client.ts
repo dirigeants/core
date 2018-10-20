@@ -4,7 +4,7 @@ import Router from './rest/Router';
 import WebsocketManager from './ws/WebSocketManager';
 
 export interface ClientOptions {
-	shards ?: number | Array<number>;
+	shards?: number | Array<number>;
 }
 
 @EventEmitter
