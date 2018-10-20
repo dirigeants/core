@@ -1,7 +1,7 @@
 import Client from '../Client';
 import RestManager from './RestManager';
 
-interface IRequest {
+export interface Request {
 	method: string;
 	url: string;
 	data: any;
@@ -9,7 +9,7 @@ interface IRequest {
 	reject: Function;
 }
 
-export default class RequestHandler extends Array<IRequest> {
+export default class RequestHandler extends Array<Request> {
 
 	public client: Client;
 	private manager: RestManager;

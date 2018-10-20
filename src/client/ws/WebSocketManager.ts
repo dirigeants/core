@@ -1,5 +1,5 @@
 import EventEmitter from '../../util/EventEmitter';
-import Client from '../Client';
+import { Client } from '../Client';
 import Shard from './Shard';
 
 @EventEmitter

@@ -30,7 +30,7 @@
 		"file-name-casing": true,
 		"import-spacing": true,
 		"indent": true,
-		"interface-name": true,
+		"interface-name": false,
 		"jsdoc-format": true,
 		"label-position": true,
 		"max-classes-per-file": true,
