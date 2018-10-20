@@ -2,6 +2,7 @@ import Client from '../../client/Client';
 import Base from '../../structures/base/Base';
 
 export default class DataStore<Piece extends Base, VConstructor extends new (...args) => Piece> extends Map<string, Piece> {
+
 	public client: Client;
 	private holds: VConstructor;
 

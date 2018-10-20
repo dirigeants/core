@@ -1,6 +1,7 @@
 import Client from '../../client/Client';
 
 export default abstract class Base {
+
 	public readonly client: Client;
 	public abstract readonly id: string;
 
