@@ -3,8 +3,8 @@ import Client from '../Client';
 export default class Router {
 
 	private client: Client;
-	private url: Array<string>;
-	private route: Array<string>;
+	private url: Array<string> = [];
+	private route: Array<string> = [];
 
 	public constructor(client: Client) {
 		this.client = client;
