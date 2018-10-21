@@ -58,6 +58,24 @@ export default class Router {
 		return this;
 	}
 
+	public webhooks(webhook: string, ...args: Array<string>): this {
+		this.url.push('webhooks', webhook, ...args);
+		this.route.push('webhooks', ':id', ...args);
+		return this;
+	}
+
+	public invites(invite: string, ...args: Array<string>): this {
+		this.url.push('invites', invite, ...args);
+		this.route.push('invites', ':id', ...args);
+		return this;
+	}
+
+	public applications(application: string, ...args: Array<string>): this {
+		this.url.push('applications', application, ...args);
+		this.route.push('applications', ':id', ...args);
+		return this;
+	}
+
 	public get() {
 		return this.client.rest.makeRequest('get', this.url.join('/'), this.route.join('/'));
 	}
