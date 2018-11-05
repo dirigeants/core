@@ -102,12 +102,7 @@ export default class Cache<K, V> extends Map<K, V> {
 	}
 
 	public equals(cache: Cache<K, V>): boolean {
-		if (this === cache) return true;
-		if (this.size !== cache.size) return false;
-		return !this.find((value, key) => {
-			const testVal = cache.get(key);
-			return testVal !== value || (testVal === undefined && !cache.has(key));
-		});
+		return this === cache || (this.size === cache.size && this.every((value, key) => cache.get(key) === value));
 	}
 
 	public sort(compareFunction: (v0: V, v1: V, k0?: K, k1?: K) => number = (x, y) => +(x > y) || +(x === y) - 1): Cache<K, V> {
