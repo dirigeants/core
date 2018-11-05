@@ -1,27 +1,27 @@
 export default class Cache<K, V> extends Map<K, V> {
 
-	public get first(): [K, V] {
-		return this.entries().next().value;
+	public get first(): [K, V] | null {
+		return this.size ? this.entries().next().value : null;
 	}
 
-	public get firstValue(): V {
-		return this.values().next().value;
+	public get firstValue(): V | null {
+		return this.size ? this.values().next().value : null;
 	}
 
-	public get firstKey(): K {
-		return this.keys().next().value;
+	public get firstKey(): K | null {
+		return this.size ? this.keys().next().value : null;
 	}
 
-	public get last(): [K, V] {
-		return [...this.entries()][this.size - 1];
+	public get last(): [K, V] | null {
+		return this.size ? [...this.entries()][this.size - 1] : null;
 	}
 
-	public get lastValue(): V {
-		return [...this.values()][this.size - 1];
+	public get lastValue(): V | null {
+		return this.size ? [...this.values()][this.size - 1] : null;
 	}
 
-	public get lastKey(): K {
-		return [...this.keys()][this.size - 1];
+	public get lastKey(): K | null {
+		return this.size ? [...this.keys()][this.size - 1] : null;
 	}
 
 	public find(fn: (value: V, key: K, map: this) => boolean, thisArg?: any): [K, V] | void {
