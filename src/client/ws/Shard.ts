@@ -2,13 +2,9 @@ import WebsocketManager from './WebSocketManager';
 
 export default class Shard {
 
-	public readonly manager: WebsocketManager;
-	public readonly id: number;
 	private ws: Worker;
 
-	private constructor(manager: WebsocketManager, id: number) {
-		this.manager = manager;
-		this.id = id;
+	private constructor(public readonly manager: WebsocketManager, public readonly id: number) {
 		this.ws = new Worker('./WebsocketConnection.ts');
 	}
 

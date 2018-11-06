@@ -4,13 +4,10 @@ import RequestHandler from './RequestHandler';
 
 export default class RestManager {
 
-	public client: Client;
 	private queues: Cache<string, RequestHandler> = new Cache();
 	private sweeper: number = setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
 
-	public constructor(client: Client) {
-		this.client = client;
-	}
+	public constructor(public client: Client) { }
 
 	public makeRequest(method: string, route: string, url: string, data?: any): Promise<any> {
 		return new Promise((resolve, reject) => {

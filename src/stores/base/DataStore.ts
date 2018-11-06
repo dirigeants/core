@@ -4,15 +4,8 @@ import Cache from '../../util/Cache';
 
 export default class DataStore<Structure extends Base, VConstructor extends new (...args) => Structure> extends Cache<string, Structure> {
 
-	public client: Client;
-	private holds: VConstructor;
-
-	public constructor(client: Client, holds: VConstructor, iterable?: Iterable<Structure>) {
+	public constructor(public client: Client, private holds: VConstructor, iterable?: Iterable<Structure>) {
 		super();
-
-		this.client = client;
-		this.holds = holds;
-
 		if (iterable) for (const item of iterable) this.add(item);
 	}
 

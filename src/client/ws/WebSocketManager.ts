@@ -3,19 +3,12 @@ import Shard from './Shard';
 
 export default class WebsocketManager extends Map<number, Shard> implements EventTarget {
 
-	public client: Client;
-
 	public addEventListener: (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) => void = EventTarget.prototype.addEventListener;
 	public removeEventListener: (type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions) => void = EventTarget.prototype.removeEventListener;
 	public dispatchEvent: (event: Event) => boolean = EventTarget.prototype.dispatchEvent;
 
-	private shards: number | Array<number>;
-
-	public constructor(client: Client, shards: number | Array<number>) {
+	public constructor(public client: Client, private shards: number | Array<number>) {
 		super();
-
-		this.client = client;
-		this.shards = shards;
 	}
 
 	public spawn() {

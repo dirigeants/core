@@ -2,13 +2,10 @@ import Client from '../Client';
 
 export default class Router {
 
-	private client: Client;
 	private url: Array<string> = [];
 	private route: Array<string> = [];
 
-	public constructor(client: Client) {
-		this.client = client;
-	}
+	public constructor(public client: Client) { }
 
 	public guilds(id: string, ...args: Array<string>): this {
 		this.url.push('guilds', id, ...args);
