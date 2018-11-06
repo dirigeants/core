@@ -20,4 +20,9 @@ export default class RequestHandler extends Array<Request> {
 		this.manager = restManager;
 	}
 
+	public get inactive(): boolean {
+		// todo: actual inactive behavior
+		return true;
+	}
+
 }

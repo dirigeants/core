@@ -1,10 +1,12 @@
+import Cache from '../../util/Cache';
 import Client from '../Client';
 import RequestHandler from './RequestHandler';
 
 export default class RestManager {
 
 	public client: Client;
-	private queues: Map<string, RequestHandler> = new Map();
+	private queues: Cache<string, RequestHandler> = new Cache();
+	private sweeper: number = setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
 
 	public constructor(client: Client) {
 		this.client = client;
