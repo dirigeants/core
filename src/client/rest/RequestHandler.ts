@@ -12,12 +12,10 @@ export interface Request {
 export default class RequestHandler extends Array<Request> {
 
 	public client: Client;
-	private manager: RestManager;
 
-	public constructor(restManager: RestManager) {
+	public constructor(private manager: RestManager) {
 		super();
-		this.client = restManager.client;
-		this.manager = restManager;
+		this.client = this.manager.client;
 	}
 
 	public get inactive(): boolean {
