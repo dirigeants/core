@@ -13,14 +13,12 @@ export default class Client extends EventTarget {
 	}
 
 	public ws: WebsocketManager;
-	public options: ClientOptions;
 	public rest: RestManager;
 	private token: string;
 
-	public constructor(options: ClientOptions) {
+	public constructor(public options: ClientOptions) {
 		super();
-		this.options = options;
-		this.ws = new WebsocketManager(this, options.shards);
+		this.ws = new WebsocketManager(this, this.options.shards);
 		this.rest = new RestManager(this);
 	}
 

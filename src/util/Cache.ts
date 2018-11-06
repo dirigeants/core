@@ -105,9 +105,12 @@ export default class Cache<K, V> extends Map<K, V> {
 		return this === cache || (this.size === cache.size && this.every((value, key) => cache.get(key) === value));
 	}
 
-	public sort(compareFunction: (v0: V, v1: V, k0?: K, k1?: K) => number = (x, y) => +(x > y) || +(x === y) - 1): Cache<K, V> {
-		return new this.constructor[Symbol.species]([...this.entries()]
-			.sort((e0, e1) => compareFunction(e0[1], e1[1], e0[0], e1[0])));
+	public sort(compareFunction: (v0: V, v1: V, k0?: K, k1?: K) => number = (x, y) => +(x > y) || +(x === y) - 1): this {
+		const entries = [...this.entries()]
+			.sort((e0, e1) => compareFunction(e0[1], e1[1], e0[0], e1[0]));
+		this.clear();
+		for (const [key, value] of entries) this.set(key, value);
+		return this;
 	}
 
 }
