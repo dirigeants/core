@@ -1,13 +1,24 @@
 import BitField, { BitFieldResolvable } from './BitField';
 
+/**
+ * Handles Permission BitFields in D.TS
+ */
 export default class Permissions extends BitField {
 
-	public has(permission: BitFieldResolvable, checkAdmin: boolean = true) {
+	/**
+	 * Determines if this Permissions includes a permission or permissions
+	 * @param permission The permission/s to check for
+	 * @param checkAdmin Whether this should account for implied Administrator permissions
+	 */
+	public has(permission: BitFieldResolvable, checkAdmin: boolean = false) {
 		const constructor = <typeof Permissions> this.constructor;
 		if (checkAdmin && super.has(constructor.FLAGS.ADMINISTRATOR)) return true;
 		return super.has(permission);
 	}
 
+	/**
+	 * The Permissions flags
+	 */
 	/* tslint:disable:object-literal-sort-keys */
 	public static FLAGS: any = {
 		CREATE_INSTANT_INVITE: 1 << 0,
@@ -45,8 +56,14 @@ export default class Permissions extends BitField {
 	};
 	/* tslint:enable:object-literal-sort-keys */
 
+	/**
+	 * The value of all permissions in this bitfield
+	 */
 	public static ALL: number = Object.values<number>(Permissions.FLAGS).reduce<number>((all, p) => all | p, 0);
 
+	/**
+	 * The default permissions granted
+	 */
 	public static DEFAULT: number = 104324097;
 
 }

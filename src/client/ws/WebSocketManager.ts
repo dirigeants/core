@@ -1,17 +1,23 @@
 import Client from '../Client';
 import Shard from './Shard';
 
+/**
+ * The singleton to manage multiple Websocket Connections to the discord api
+ */
 export default class WebsocketManager extends Map<number, Shard> implements EventTarget {
 
 	public addEventListener: (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) => void = EventTarget.prototype.addEventListener;
 	public removeEventListener: (type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions) => void = EventTarget.prototype.removeEventListener;
 	public dispatchEvent: (event: Event) => boolean = EventTarget.prototype.dispatchEvent;
 
-	public constructor(public client: Client, private shards: number | Array<number>) {
+	public constructor(public readonly client: Client, private readonly shards: number | Array<number>) {
 		super();
 	}
 
-	public spawn() {
+	/**
+	 * Spawns the Websocket connections
+	 */
+	private spawn() {
 		if (Array.isArray(this.shards)) {
 			for (const shard of this.shards) this.set(shard, Shard.spawn(this, shard));
 		} else {
