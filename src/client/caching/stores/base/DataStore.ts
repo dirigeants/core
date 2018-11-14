@@ -1,13 +1,13 @@
-import Client from '../../client/Client';
-import Base from '../../structures/base/Base';
-import Cache from '../../util/Cache';
+import Cache from '../../../../util/Cache';
+import Client from '../../../Client';
+import Structure from '../../structures/base/Structure';
 
 /**
  * The data caches with extra methods unique to each data store
  */
-export default class DataStore<Structure extends Base, VConstructor extends new (...args) => Structure> extends Cache<string, Structure> {
+export default class DataStore<S extends Structure, VConstructor extends new (...args) => S> extends Cache<string, S> {
 
-	public constructor(public readonly client: Client, private readonly holds: VConstructor, iterable?: Iterable<Structure>) {
+	public constructor(public readonly client: Client, private readonly holds: VConstructor, iterable?: Iterable<S>) {
 		super();
 		if (iterable) for (const item of iterable) this.add(item);
 	}
@@ -31,7 +31,7 @@ export default class DataStore<Structure extends Base, VConstructor extends new 
 	 * Resolves data into Structures
 	 * @param data The data to resolve
 	 */
-	public resolve(data: Structure | string): Structure | null {
+	public resolve(data: S | string): S | null {
 		if (typeof data === 'string') return this.get(data) || null;
 		if (data instanceof this.holds) return data;
 		return null;
@@ -41,7 +41,7 @@ export default class DataStore<Structure extends Base, VConstructor extends new 
 	 * Resolves data into ids
 	 * @param data The data to resolve
 	 */
-	public resolveID(data: Structure | string): string | null {
+	public resolveID(data: S | string): string | null {
 		if (typeof data === 'string') return data;
 		if (data instanceof this.holds) return data.id;
 		return null;

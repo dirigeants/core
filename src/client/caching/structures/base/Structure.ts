@@ -1,9 +1,9 @@
-import Client from '../../client/Client';
+import Client from '../../../Client';
 
 /**
  * The base class for Structures
  */
-export default abstract class Base {
+export default abstract class Structure {
 
 	/**
 	 * The id to be defined in Structures
@@ -15,7 +15,7 @@ export default abstract class Base {
 	/**
 	 * Basic clone method
 	 */
-	public clone<T = Base>(): T {
+	public clone<T = Structure>(): T {
 		return Object.assign(Object.create(this), this);
 	}
 
@@ -23,7 +23,7 @@ export default abstract class Base {
 	 * The method of patching this instance defined in Structures
 	 * @param data The data packet
 	 */
-	public abstract patch(data: object): this;
+	public abstract patch(data: any): this;
 
 	/**
 	 * The basic value of this Structure

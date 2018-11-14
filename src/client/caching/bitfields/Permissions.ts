@@ -1,4 +1,4 @@
-import BitField, { BitFieldResolvable } from './BitField';
+import BitField, { BitFieldResolvable } from './base/BitField';
 
 /**
  * Handles Permission BitFields in D.TS
