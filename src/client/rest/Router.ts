@@ -62,6 +62,16 @@ export default class Router {
 	}
 
 	/**
+	 * The gateway route
+	 * @param args Any additional arguments
+	 */
+	public gateway(...args: Array<string>): this {
+		this.url.push('gateway', ...args);
+		this.route.push('gateway', ...args);
+		return this;
+	}
+
+	/**
 	 * A channel pin's route
 	 * @param id The id of the pin
 	 * @param args Any additional arguments
