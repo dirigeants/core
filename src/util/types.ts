@@ -3,7 +3,9 @@
  */
 export type snowflake = string;
 
+/********************************************************************************/
 // API Payloads (prefixed with API, suffix is Data for full payloads or Partial)
+/********************************************************************************/
 
 /**
  * https://discordapp.com/developers/docs/resources/channel#message-object-message-structure
@@ -27,23 +29,9 @@ export interface APIMessageData {
 	nonce?: snowflake | null;
 	pinned: boolean;
 	webhook_id?: snowflake;
-	type: APIMessageType;
+	type: MessageType;
 	activity?: APIMessageActivityData;
 	application?: APIMessageApplicationData;
-}
-
-/**
- * https://discordapp.com/developers/docs/resources/channel#message-object-message-types
- */
-export enum APIMessageType {
-	Default,
-	RecipientAdd,
-	RecipientRemove,
-	Call,
-	ChannelNameChange,
-	ChannelIconChange,
-	ChannelPinnedMessage,
-	GuildMemberJoin
 }
 
 /**
@@ -116,7 +104,7 @@ export interface APIReactionData {
  * https://discordapp.com/developers/docs/resources/channel#message-object-message-activity-structure
  */
 export interface APIMessageActivityData {
-	type: APIMessageType;
+	type: MessageType;
 	party_id?: string;
 }
 
@@ -182,13 +170,13 @@ export interface APIGuildData extends APIGuildPartial {
 	afk_timeout: number;
 	embed_enabled?: boolean;
 	embed_channel_id?: snowflake;
-	verification_level: APIGuildVerificationLevel;
-	default_message_notifications: APIGuildDefaultMessageNotifications;
-	explicit_content_filter: APIGuildExplicitContentFilterLevel;
+	verification_level: GuildVerificationLevel;
+	default_message_notifications: GuildDefaultMessageNotifications;
+	explicit_content_filter: GuildExplicitContentFilterLevel;
 	roles: APIRoleData[];
 	emojis: APIEmojiData[];
 	features: string[];
-	mfa_level: APIGuildMFALevel;
+	mfa_level: GuildMFALevel;
 	application_id: snowflake | null;
 	widget_enabled?: boolean;
 	widget_channel_id?: boolean;
@@ -201,42 +189,6 @@ export interface APIGuildData extends APIGuildPartial {
 	members?: APIGuildMemberData[];
 	channels?: APIChannelData[];
 	presences?: APIPresenceUpdateData[];
-}
-
-/**
- * https://discordapp.com/developers/docs/resources/guild#guild-object-default-message-notification-level
- */
-export enum APIGuildDefaultMessageNotifications {
-	AllMessages,
-	OnlyMentions
-}
-
-/**
- * https://discordapp.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level
- */
-export enum APIGuildExplicitContentFilterLevel {
-	Disabled,
-	MembersWithoutRoles,
-	AllMembers
-}
-
-/**
- * https://discordapp.com/developers/docs/resources/guild#guild-object-mfa-level
- */
-export enum APIGuildMFALevel {
-	None,
-	Elevated
-}
-
-/**
- * https://discordapp.com/developers/docs/resources/guild#guild-object-verification-level
- */
-export enum APIGuildVerificationLevel {
-	None,
-	Low,
-	Medium,
-	High,
-	VeryHigh
 }
 
 /**
@@ -359,7 +311,7 @@ export interface APIVoiceRegionData {
  */
 export interface APIChannelPartial {
 	id: snowflake;
-	type: APIChannelType;
+	type: ChannelType;
 	name?: string;
 }
 
@@ -385,17 +337,6 @@ export interface APIChannelData extends APIChannelPartial {
 }
 
 /**
- * https://discordapp.com/developers/docs/resources/channel#channel-object-channel-types
- */
-export enum APIChannelType {
-	GuildText,
-	DM,
-	GuildVoice,
-	GroupDM,
-	GuildCategory
-}
-
-/**
  * https://discordapp.com/developers/docs/topics/gateway#presence-update
  */
 export interface APIPresenceUpdateData {
@@ -403,18 +344,8 @@ export interface APIPresenceUpdateData {
 	roles: snowflake[];
 	game: APIActivityData | null;
 	guild_id: snowflake;
-	status: APIPresenceUpdateStatus;
+	status: PresenceUpdateStatus;
 	activities: APIActivityData[];
-}
-
-/**
- * https://discordapp.com/developers/docs/topics/gateway#activity-object-activity-types
- */
-export enum APIPresenceUpdateStatus {
-	Idle = 'idle',
-	DnD = 'dnd',
-	Online = 'online',
-	Offline = 'offline'
 }
 
 /**
@@ -422,7 +353,7 @@ export enum APIPresenceUpdateStatus {
  */
 export interface APIActivityData {
 	name: string;
-	type: APIActivityType;
+	type: ActivityType;
 	url?: string | null;
 	timestamps?: APIActivityDataTimestamps[];
 	application_id?: snowflake;
@@ -433,15 +364,6 @@ export interface APIActivityData {
 	secrets?: APIActivityDataSecrets;
 	instance?: boolean;
 	flags?: number;
-}
-
-/**
- * https://discordapp.com/developers/docs/topics/gateway#activity-object-activity-types
- */
-export enum APIActivityType {
-	Game,
-	Streaming,
-	Listening
 }
 
 /**
@@ -477,18 +399,6 @@ export interface APIActivityDataSecrets {
 	join?: string;
 	spectate?: string;
 	match?: string;
-}
-
-/**
- * https://discordapp.com/developers/docs/topics/gateway#activity-object-activity-flags
- */
-export enum APIActivityFlags {
-	Instance = 1 << 0,
-	Join = 1 << 1,
-	Spectate = 1 << 2,
-	JoinRequest = 1 << 3,
-	Sync = 1 << 4,
-	Play = 1 << 5
 }
 
 // Embeds
@@ -596,7 +506,7 @@ export interface APIAuditLogEntryData {
 	changes?: APIAuditLogChangeData[];
 	user_id: snowflake;
 	id: snowflake;
-	action_type: APIAuditLogEvent;
+	action_type: AuditLogEvent;
 	options?: APIAuditLogOptionsData;
 	reason?: string;
 }
@@ -608,38 +518,6 @@ export interface APIAuditLogChangeData {
 	new_value: any;
 	old_value: any;
 	key: string;
-}
-
-/**
- * https://discordapp.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events
- */
-export enum APIAuditLogEvent {
-	GuildUpdate = 1,
-	ChannelCreate = 10,
-	ChannelUpdate = 11,
-	ChannelDelete = 12,
-	ChannelOverwriteCreate = 13,
-	ChannelOverwriteUpdate = 14,
-	ChannelOverwriteDelete = 15,
-	MemberKick = 20,
-	MemberPrune = 21,
-	MemberBanAdd = 22,
-	MemberBanRemove = 23,
-	MemberUpdate = 24,
-	MemberRoleUpdate = 25,
-	RoleCreate = 30,
-	RoleUpdate = 31,
-	RoleDelete = 32,
-	InviteCreate = 40,
-	InviteUpdate = 41,
-	InviteDelete = 42,
-	WebhookCreate = 50,
-	WebhookUpdate = 51,
-	WebhookDelete = 52,
-	EmojiCreate = 60,
-	EmojiUpdate = 61,
-	EmojiDelete = 62,
-	MessageDelete = 72
 }
 
 /**
@@ -668,4 +546,120 @@ export interface APIWebhookData {
 	name: string | null;
 	avatar: string | null;
 	token: string;
+}
+
+/**********************************/
+// Enums for discord's ws payloads
+/**********************************/
+
+/**
+ * https://discordapp.com/developers/docs/resources/channel#message-object-message-types
+ */
+export enum MessageType {
+	Default,
+	RecipientAdd,
+	RecipientRemove,
+	Call,
+	ChannelNameChange,
+	ChannelIconChange,
+	ChannelPinnedMessage,
+	GuildMemberJoin
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/guild#guild-object-default-message-notification-level
+ */
+export enum GuildDefaultMessageNotifications {
+	AllMessages,
+	OnlyMentions
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level
+ */
+export enum GuildExplicitContentFilterLevel {
+	Disabled,
+	MembersWithoutRoles,
+	AllMembers
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/guild#guild-object-mfa-level
+ */
+export enum GuildMFALevel {
+	None,
+	Elevated
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/guild#guild-object-verification-level
+ */
+export enum GuildVerificationLevel {
+	None,
+	Low,
+	Medium,
+	High,
+	VeryHigh
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/channel#channel-object-channel-types
+ */
+export enum ChannelType {
+	GuildText,
+	DM,
+	GuildVoice,
+	GroupDM,
+	GuildCategory
+}
+
+/**
+ * https://discordapp.com/developers/docs/topics/gateway#activity-object-activity-types
+ */
+export enum PresenceUpdateStatus {
+	Idle = 'idle',
+	DnD = 'dnd',
+	Online = 'online',
+	Offline = 'offline'
+}
+
+/**
+ * https://discordapp.com/developers/docs/topics/gateway#activity-object-activity-types
+ */
+export enum ActivityType {
+	Game,
+	Streaming,
+	Listening
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/audit-log#audit-log-entry-object-audit-log-events
+ */
+export enum AuditLogEvent {
+	GuildUpdate = 1,
+	ChannelCreate = 10,
+	ChannelUpdate = 11,
+	ChannelDelete = 12,
+	ChannelOverwriteCreate = 13,
+	ChannelOverwriteUpdate = 14,
+	ChannelOverwriteDelete = 15,
+	MemberKick = 20,
+	MemberPrune = 21,
+	MemberBanAdd = 22,
+	MemberBanRemove = 23,
+	MemberUpdate = 24,
+	MemberRoleUpdate = 25,
+	RoleCreate = 30,
+	RoleUpdate = 31,
+	RoleDelete = 32,
+	InviteCreate = 40,
+	InviteUpdate = 41,
+	InviteDelete = 42,
+	WebhookCreate = 50,
+	WebhookUpdate = 51,
+	WebhookDelete = 52,
+	EmojiCreate = 60,
+	EmojiUpdate = 61,
+	EmojiDelete = 62,
+	MessageDelete = 72
 }
