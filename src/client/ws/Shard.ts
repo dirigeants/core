@@ -8,10 +8,15 @@ export default class Shard {
 	/**
 	 * The Websocket Connection worker
 	 */
-	private readonly ws: Worker;
+	private readonly connection: Worker;
 
 	private constructor(public readonly manager: WebsocketManager, public readonly id: number) {
-		this.ws = new Worker('./WebsocketConnection.ts');
+		this.connection = new Worker('./WebsocketConnection.ts');
+
+		this.connection.onmessage = (event) => {
+			event.data.shardID = this.id;
+			this.manager.dispatchEvent(event);
+		}
 	}
 
 	/**
