@@ -1,4 +1,4 @@
-import Client from '../../../Client';
+import Client from '../../../Client.ts';
 
 /**
  * The base class for Structures

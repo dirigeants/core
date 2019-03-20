@@ -1,6 +1,6 @@
-import Cache from '../../util/Cache';
-import Client from '../Client';
-import RequestHandler from './RequestHandler';
+import Cache from '../../util/Cache.ts';
+import Client from '../Client.ts';
+import RequestHandler from './RequestHandler.ts';
 
 /**
  * The overall manager of REST requests

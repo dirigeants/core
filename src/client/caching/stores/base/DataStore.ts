@@ -1,6 +1,6 @@
-import Cache from '../../../../util/Cache';
-import Client from '../../../Client';
-import Structure from '../../structures/base/Structure';
+import Cache from '../../../../util/Cache.ts';
+import Client from '../../../Client.ts';
+import Structure from '../../structures/base/Structure.ts';
 
 /**
  * The data caches with extra methods unique to each data store

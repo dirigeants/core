@@ -1,4 +1,4 @@
-import WebsocketManager from './WebSocketManager';
+import WebsocketManager from './WebSocketManager.ts';
 
 /**
  * The Structure to manage a Websocket Worker with

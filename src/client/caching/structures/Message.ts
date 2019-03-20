@@ -1,6 +1,6 @@
-import { APIMessageData } from '../../../util/types';
-import Client from '../../Client';
-import Structure from './base/Structure';
+import { APIMessageData } from '../../../util/types.ts';
+import Client from '../../Client.ts';
+import Structure from './base/Structure.ts';
 
 export default class extends Structure {
 

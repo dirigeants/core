@@ -1,4 +1,4 @@
-import BitField from './base/BitField';
+import BitField from './base/BitField.ts';
 
 /**
  * Handles Speaking BitFields in D.TS

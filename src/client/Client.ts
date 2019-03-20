@@ -1,6 +1,6 @@
-import RestManager from './rest/RestManager';
-import Router from './rest/Router';
-import WebsocketManager from './ws/WebSocketManager';
+import RestManager from './rest/RestManager.ts';
+import Router from './rest/Router.ts';
+import WebsocketManager from './ws/WebSocketManager.ts';
 
 export interface ClientOptions {
 	shards?: number | Array<number>;
