@@ -4,16 +4,14 @@ import Shard from './Shard.ts';
 /**
  * The singleton to manage multiple Websocket Connections to the discord api
  */
-export default class WebsocketManager extends Map<number, Shard> implements EventTarget {
+export default class WebsocketManager extends EventTarget {
 
-	public addEventListener: (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) => void = EventTarget.prototype.addEventListener;
-	public removeEventListener: (type: string, callback: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions) => void = EventTarget.prototype.removeEventListener;
-	public dispatchEvent: (event: Event) => boolean = EventTarget.prototype.dispatchEvent;
-	public listeners: {
-		[type in string]: EventListenerOrEventListenerObject[]
-	} = {};
+	/**
+	 * The shards of this WebsocketManager
+	 */
+	private readonly shards: Map<number, Shard> = new Map();
 
-	public constructor(public readonly client: Client, private readonly shards: number | Array<number>) {
+	public constructor(public readonly client: Client, private readonly shardIDs: number | Array<number>) {
 		super();
 	}
 
@@ -21,10 +19,10 @@ export default class WebsocketManager extends Map<number, Shard> implements Even
 	 * Spawns the Websocket connections
 	 */
 	private spawn() {
-		if (Array.isArray(this.shards)) {
-			for (const shard of this.shards) this.set(shard, Shard.spawn(this, shard));
+		if (Array.isArray(this.shardIDs)) {
+			for (const shard of this.shardIDs) this.shards.set(shard, Shard.spawn(this, shard));
 		} else {
-			for (let i = 0; i < this.shards; i++) this.set(i, Shard.spawn(this, i));
+			for (let i = 0; i < this.shardIDs; i++) this.shards.set(i, Shard.spawn(this, i));
 		}
 	}
 
