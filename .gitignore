@@ -1,4 +1,9 @@
-
 node_modules/
+package-lock.json
 
-package-lock\.json
+out/
+coverage/
+.nyc_output/
+dist/
+docs/
+test-results.xml

@@ -1,4 +1,5 @@
-let connection: WebsocketConnection = null;
+import * as WebSocket from 'ws';
+import { parentPort, workerData } from 'worker_threads';
 
 enum OpCodes {
     DISPATCH,
@@ -50,7 +51,7 @@ class WebsocketConnection extends WebSocket {
     }
 
     private dispatch(p) {
-        self.postMessage(p.d);
+        parentPort.postMessage(p.d);
     }
 
     private heartbeat(p) {
@@ -59,9 +60,11 @@ class WebsocketConnection extends WebSocket {
 
 }
 
-self.onmessage = function(message) {
-    if (message.data.action === 'connect') {
+parentPort.on('message', (message) => {
+    if (message.action === 'connect') {
         if (connection) connection.destroy();
-        connection = new WebsocketConnection(message.data.url, message.data.token);
+        connection = new WebsocketConnection(message.url, message.token);
     }
-};
+});
+
+let connection: WebsocketConnection = new WebsocketConnection(workerData.url, workerData.token);

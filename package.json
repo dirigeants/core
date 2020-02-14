@@ -1,0 +1,42 @@
+{
+  "name": "project-blue",
+  "version": "0.0.1",
+  "description": "wip-concept",
+  "main": "dist/index.js",
+  "scripts": {
+    "prepublishOnly": "yarn build",
+    "build": "tsc",
+    "test": "ava",
+    "test:lint": "eslint --ext ts src test",
+    "test:coverage": "npx nyc check-coverage --lines 90 --functions 90 --branches 90",
+    "coverage": "npx nyc --require ts-node/register --require source-map-support/register npm test",
+    "coverage:report": "npx nyc report --reporter=html",
+    "lint": "eslint --fix --ext ts src test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dirigeants/project-blue.git"
+  },
+  "devDependencies": {
+    "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@types/node": "^13.7.0",
+    "@typescript-eslint/eslint-plugin": "^2.19.0",
+    "@typescript-eslint/parser": "^2.19.0",
+    "ava": "^3.2.0",
+    "eslint": "^6.8.0",
+    "eslint-config-klasa": "dirigeants/klasa-lint",
+    "nyc": "^15.0.0",
+    "source-map-support": "^0.5.13",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  },
+  "author": "dirigeants",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dirigeants/project-blue/issues"
+  },
+  "homepage": "https://github.com/dirigeants/project-blue#readme",
+  "dependencies": {
+    "ws": "^7.2.1"
+  }
+}

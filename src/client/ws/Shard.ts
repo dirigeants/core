@@ -1,3 +1,4 @@
+import { Worker } from 'worker_threads';
 import WebsocketManager from './WebSocketManager.ts';
 
 /**
@@ -11,12 +12,15 @@ export default class Shard {
 	private readonly connection: Worker;
 
 	private constructor(public readonly manager: WebsocketManager, public readonly id: number) {
-		this.connection = new Worker('./WebsocketConnection.ts');
+		this.connection = new Worker('./WebsocketConnection.ts', {
+			url: 'whateverURL',
+			token: manager.client.token
+		});
 
-		this.connection.onmessage = (event) => {
-			event.data.shardID = this.id;
-			this.manager.dispatchEvent(event);
-		}
+		this.connection.on('message', (packet) => {
+			packet.d.shard_id = this.id;
+			this.manager.emit(packet.t, packet.d);
+		});
 	}
 
 	/**
