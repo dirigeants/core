@@ -1,11 +1,11 @@
 import * as WebSocket from 'ws';
 import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
 
-function checkMainThread(port: unknown): port is MessagePort {
+function checkMainThread(port: unknown): asserts port is MessagePort {
 	if (!isMainThread) throw new Error('WebsocketConnection.ts can only be run as a WorkerThread');
-	return isMainThread;
 };
 
+checkMainThread(parentPort);
 
 enum OpCodes {
     DISPATCH,
@@ -25,7 +25,7 @@ enum OpCodes {
 class WebsocketConnection extends WebSocket {
 
     public constructor(url: string, private readonly token: string) {
-        super(url);
+		super(url);
     }
 
     public destroy() {
@@ -66,13 +66,11 @@ class WebsocketConnection extends WebSocket {
 
 }
 
-if (checkMainThread(parentPort)) {
-	let connection: WebsocketConnection = new WebsocketConnection(workerData.url, workerData.token);  
+let connection: WebsocketConnection = new WebsocketConnection(workerData.url, workerData.token);  
 
-	parentPort.on('message', (message) => {
-		if (message.action === 'connect') {
-			if (connection) connection.destroy();
-			connection = new WebsocketConnection(message.url, message.token);
-		}
-	});
-}
+parentPort.on('message', (message) => {
+	if (message.action === 'connect') {
+		if (connection) connection.destroy();
+		connection = new WebsocketConnection(message.url, message.token);
+	}
+});
