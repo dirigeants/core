@@ -31,11 +31,13 @@ export class AsyncQueue {
 		if (this.promises.length > 0) {
 			const last = this.promises[this.promises.length - 1];
 
-			const promise = new Promise<void>(resolve => {
-				this.promises.push({
-					resolve,
-					promise
-				});
+			let resolve: () => void;
+			const promise = new Promise<void>(res => { resolve = res; });
+
+			this.promises.push({
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				resolve: resolve!,
+				promise
 			});
 
 			await last.promise;
