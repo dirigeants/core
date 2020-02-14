@@ -12,9 +12,10 @@ export default class Shard {
 	private readonly connection: Worker;
 
 	private constructor(public readonly manager: WebsocketManager, public readonly id: number) {
-		this.connection = new Worker('./WebsocketConnection.ts', {
-			url: 'whateverURL',
-			token: manager.client.token
+		this.connection = new Worker('./WebsocketConnection.ts', { workerData: {
+				url: 'whateverURL',
+				token: manager.client.token
+			}
 		});
 
 		this.connection.on('message', (packet) => {

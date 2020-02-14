@@ -1,23 +1,26 @@
 {
+	"compileOnSave": true,
 	"compilerOptions": {
-		"module": "es6",
-		"target": "esnext",
-		"lib": [
-			"dom",
-			"es2018",
-			"esnext"
-		],
+		"alwaysStrict": true,
+		"strict": true,
+		"lib": ["esnext"],
+		"module": "commonjs",
+		"noUnusedParameters": true,
+		"outDir": "./dist",
 		"sourceMap": true,
-		"declaration": true,
-		"removeComments": false,
-		"experimentalDecorators": true,
-		"noImplicitAny": false,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true
+		"types": ["node", "@types/ws"],
+        "declaration": true,
+        "noUnusedLocals": true,
+        "removeComments": false,
+        "target": "esnext"
 	},
 	"exclude": [
+		"node_modules",
 		"bin",
 		"examples",
 		"scripts"
+	],
+	"include": [
+		"./src/**/*"
 	]
 }

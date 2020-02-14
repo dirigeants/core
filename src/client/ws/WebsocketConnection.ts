@@ -1,5 +1,11 @@
 import * as WebSocket from 'ws';
-import { parentPort, workerData } from 'worker_threads';
+import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
+
+function checkMainThread(port: unknown): port is MessagePort {
+	if (!isMainThread) throw new Error('WebsocketConnection.ts can only be run as a WorkerThread');
+	return isMainThread;
+};
+
 
 enum OpCodes {
     DISPATCH,
@@ -18,7 +24,7 @@ enum OpCodes {
 
 class WebsocketConnection extends WebSocket {
 
-    public constructor(url, private readonly token) {
+    public constructor(url: string, private readonly token: string) {
         super(url);
     }
 
@@ -51,7 +57,7 @@ class WebsocketConnection extends WebSocket {
     }
 
     private dispatch(p) {
-        parentPort.postMessage(p.d);
+        (parentPort as MessagePort).postMessage(p.d);
     }
 
     private heartbeat(p) {
@@ -60,11 +66,13 @@ class WebsocketConnection extends WebSocket {
 
 }
 
-parentPort.on('message', (message) => {
-    if (message.action === 'connect') {
-        if (connection) connection.destroy();
-        connection = new WebsocketConnection(message.url, message.token);
-    }
-});
+if (checkMainThread(parentPort)) {
+	let connection: WebsocketConnection = new WebsocketConnection(workerData.url, workerData.token);  
 
-let connection: WebsocketConnection = new WebsocketConnection(workerData.url, workerData.token);
+	parentPort.on('message', (message) => {
+		if (message.action === 'connect') {
+			if (connection) connection.destroy();
+			connection = new WebsocketConnection(message.url, message.token);
+		}
+	});
+}
