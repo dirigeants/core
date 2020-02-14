@@ -1,4 +1,4 @@
-import * as EventEmitter from 'events';
+import { EventEmitter } from 'events';
 import Client from '../Client.ts';
 import Shard from './Shard.ts';
 

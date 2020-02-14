@@ -8,7 +8,7 @@
 		"noUnusedParameters": true,
 		"outDir": "./dist",
 		"sourceMap": true,
-		"types": ["node", "@types/ws"],
+		"types": ["node", "ws"],
         "declaration": true,
         "noUnusedLocals": true,
         "removeComments": false,

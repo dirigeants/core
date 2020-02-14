@@ -15,7 +15,7 @@ export default class RestManager {
 	/**
 	 * The sweeper to ensure queues don't memory leak
 	 */
-	private readonly sweeper: number = setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
+	private readonly sweeper: NodeJS.Timeout = setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
 
 	public constructor(public readonly client: Client) { }
 
