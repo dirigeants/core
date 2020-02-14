@@ -1,4 +1,4 @@
-import * as WebSocket from 'ws';
+import * as WS from 'ws';
 import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
 
 function checkMainThread(port: unknown): asserts port is MessagePort {
@@ -22,10 +22,16 @@ enum OpCodes {
     HEARTBEAT_ACK
 }
 
-class WebsocketConnection extends WebSocket {
+export interface DataPacket {
+	t: string;
+	d: any;
+	op: number;
+}
 
-    public constructor(url: string, private readonly token: string) {
-		super(url);
+class WebsocketConnection extends (WS as WebSocket) {
+
+    public constructor(host: string, private readonly token: string) {
+		super({ host });
     }
 
     public destroy() {
@@ -36,7 +42,7 @@ class WebsocketConnection extends WebSocket {
         this.send(JSON.stringify({ op: OpCodes.IDENTIFY, data: { token: this.token } }));
     }
 
-    private onPacket(p) {
+    private onPacket(p: DataPacket) {
         switch (p.op) {
             case OpCodes.DISPATCH: return this.dispatch(p);
             case OpCodes.HEARTBEAT: return this.heartbeat(p);
@@ -56,11 +62,11 @@ class WebsocketConnection extends WebSocket {
         }
     }
 
-    private dispatch(p) {
-        (parentPort as MessagePort).postMessage(p.d);
+    private dispatch(p: DataPacket) {
+        (parentPort as MessagePort).postMessage(p);
     }
 
-    private heartbeat(p) {
+    private heartbeat(p: DataPacket) {
         // handle the beating of the heart
     }
 

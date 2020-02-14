@@ -17,7 +17,7 @@ export default class RestManager {
 	 */
 	private readonly sweeper: NodeJS.Timeout = setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
 
-	public constructor(public readonly client: Client) { }
+	public constructor(public readonly client: Client, private token: string) { }
 
 	/**
 	 * Makes a new request
@@ -38,7 +38,7 @@ export default class RestManager {
 	 * @param route The route the new queue is run on
 	 */
 	private createQueue(route: string): RequestHandler {
-		const queue = new RequestHandler(this);
+		const queue = new RequestHandler(this, this.token);
 		this.queues.set(route, queue);
 		return queue;
 	}

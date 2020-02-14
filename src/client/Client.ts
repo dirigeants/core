@@ -21,22 +21,15 @@ export default class Client extends EventTarget {
 	/**
 	 * The websocket manager
 	 */
-	public ws: WebsocketManager;
+	public ws: WebsocketManager | null = null;
 
 	/**
 	 * The rest api manager
 	 */
-	public rest: RestManager;
-
-	/**
-	 * The token used to interact with the api
-	 */
-	private token: string;
+	public rest: RestManager | null = null;
 
 	public constructor(public options: ClientOptions) {
 		super();
-		this.ws = new WebsocketManager(this, this.options.shards);
-		this.rest = new RestManager(this);
 	}
 
 	/**
@@ -44,8 +37,8 @@ export default class Client extends EventTarget {
 	 * @param token The token to use to connect to the api with
 	 */
 	public async login(token: string) {
-		this.token = token;
-		// wip
+		this.rest = new RestManager(this, token);
+		this.ws = new WebsocketManager(this, this.options.shards || 1, token);
 	}
 
 }

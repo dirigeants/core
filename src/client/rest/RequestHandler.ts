@@ -19,7 +19,7 @@ export default class RequestHandler extends Array<Request> {
 	 */
 	public client: Client;
 
-	public constructor(private readonly manager: RestManager) {
+	public constructor(private readonly manager: RestManager, private token: string) {
 		super();
 		this.client = this.manager.client;
 	}
