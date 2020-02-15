@@ -64,7 +64,7 @@ export class Permissions extends BitField {
 	/**
 	 * The default permissions granted
 	 */
-	public static DEFAULT = 104324097;
+	public static DEFAULT = 104324673;
 
 }
 
