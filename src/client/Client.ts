@@ -5,6 +5,13 @@ import { WebSocketManager } from './ws/WebSocketManager';
 
 export interface ClientOptions {
 	shards?: number | Array<number>;
+	rest?: RestOptions;
+}
+
+export interface RestOptions {
+	offset?: number;
+	retryLimit?: number;
+	timeout?: number;
 }
 
 /**
@@ -37,7 +44,7 @@ export class Client extends EventEmitter {
 	 * Logs this client into the api
 	 * @param token The token to use to connect to the api with
 	 */
-	public async login(token: string) {
+	public async login(token: string): Promise<void> {
 		this.rest = new RestManager(this, token);
 		this.ws = new WebSocketManager(this, this.options.shards || 1, token);
 	}

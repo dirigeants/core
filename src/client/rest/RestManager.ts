@@ -12,7 +12,7 @@ export class RestManager {
 	 */
 	private readonly queues: Cache<string, RequestHandler> = new Cache();
 
-	public globalTimeout: NodeJS.Timeout | null = null;
+	public globalTimeout: Promise<void> | null = null;
 
 	/**
 	 * The sweeper to ensure queues don't memory leak

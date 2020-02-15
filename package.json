@@ -20,6 +20,7 @@
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/node": "^13.7.1",
+    "@types/node-fetch": "^2.5.4",
     "@types/ws": "^7.2.1",
     "@typescript-eslint/eslint-plugin": "^2.19.2",
     "@typescript-eslint/parser": "^2.19.2",
@@ -38,6 +39,8 @@
   },
   "homepage": "https://github.com/dirigeants/project-blue#readme",
   "dependencies": {
+    "abort-controller": "^3.0.0",
+    "node-fetch": "^2.6.0",
     "ws": "^7.2.1"
   }
 }
