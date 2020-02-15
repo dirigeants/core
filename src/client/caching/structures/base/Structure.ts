@@ -1,15 +1,16 @@
-import Client from '../../../Client.ts';
+import { Client } from '../../../Client';
 
 /**
  * The base class for Structures
  */
-export default abstract class Structure {
+export abstract class Structure {
 
 	/**
 	 * The id to be defined in Structures
 	 */
 	public abstract readonly id: string;
 
+	// eslint-disable-next-line no-useless-constructor
 	public constructor(public readonly client: Client) { }
 
 	/**
@@ -23,7 +24,7 @@ export default abstract class Structure {
 	 * The method of patching this instance defined in Structures
 	 * @param data The data packet
 	 */
-	public abstract patch(data: any): this;
+	protected abstract _patch(data: any): this;
 
 	/**
 	 * The basic value of this Structure

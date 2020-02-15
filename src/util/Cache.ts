@@ -1,7 +1,7 @@
 /**
- * The cache structure D.TS uses
+ * The cache structure Project-Blue uses
  */
-export default class Cache<K, V> extends Map<K, V> {
+export class Cache<K, V> extends Map<K, V> {
 
 	/**
 	 * The first item in this Cache
@@ -102,7 +102,7 @@ export default class Cache<K, V> extends Map<K, V> {
 	public filter(fn: (value: V, key: K, map: this) => boolean, thisArg?: any): Cache<K, V> {
 		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
 
-		const results = new this.constructor[Symbol.species]();
+		const results = new (this.constructor as typeof Cache)[Symbol.species]() as Cache<K, V>;
 		for (const [key, val] of this) if (fn(val, key, this)) results.set(key, val);
 		return results;
 	}
@@ -163,7 +163,7 @@ export default class Cache<K, V> extends Map<K, V> {
 	 * Returns a shallow clone of this Cache
 	 */
 	public clone(): Cache<K, V> {
-		return new this.constructor[Symbol.species](this);
+		return new (this.constructor as typeof Cache)[Symbol.species](this) as Cache<K, V>;
 	}
 
 	/**
@@ -188,7 +188,7 @@ export default class Cache<K, V> extends Map<K, V> {
 	 * Sorts entries in this Cache
 	 * @param compareFunction Function to determine how this Cache should be sorted
 	 */
-	public sort(compareFunction: (v0: V, v1: V, k0?: K, k1?: K) => number = (x, y) => +(x > y) || +(x === y) - 1): this {
+	public sort(compareFunction: (v0: V, v1: V, k0?: K, k1?: K) => number = (first, second): number => +(first > second) || +(first === second) - 1): this {
 		const entries = [...this.entries()]
 			.sort((e0, e1) => compareFunction(e0[1], e1[1], e0[0], e1[0]));
 		this.clear();

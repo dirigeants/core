@@ -1,26 +1,26 @@
 {
-	"compileOnSave": true,
-	"compilerOptions": {
-		"alwaysStrict": true,
-		"strict": true,
-		"lib": ["esnext"],
-		"module": "commonjs",
-		"noUnusedParameters": true,
-		"outDir": "./dist",
-		"sourceMap": true,
-		"types": ["node", "ws"],
-        "declaration": true,
-        "noUnusedLocals": true,
-        "removeComments": false,
-        "target": "esnext"
-	},
-	"exclude": [
-		"node_modules",
-		"bin",
-		"examples",
-		"scripts"
-	],
-	"include": [
-		"./src/**/*"
-	]
+  "compileOnSave": true,
+  "compilerOptions": {
+    "alwaysStrict": true,
+    "strict": true,
+    "lib": ["esnext"],
+    "module": "commonjs",
+    "noUnusedParameters": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "types": ["node", "ws"],
+    "declaration": true,
+    "noUnusedLocals": true,
+    "removeComments": false,
+    "target": "ES2019"
+  },
+  "exclude": [
+    "node_modules",
+    "bin",
+    "examples",
+    "scripts"
+  ],
+  "include": [
+    "./src/**/*"
+  ]
 }

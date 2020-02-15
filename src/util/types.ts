@@ -3,10 +3,10 @@
  */
 export type snowflake = string;
 
-//#region API Payloads
-//(prefixed with API, suffix is Data for full payloads or Partial)
+// #region API Payloads
+// (prefixed with API, suffix is Data for full payloads or Partial)
 
-//#region Activity
+// #region Activity
 
 /**
  * https://discordapp.com/developers/docs/topics/gateway#activity-object
@@ -61,9 +61,9 @@ export interface APIActivityDataSecrets {
 	match?: string;
 }
 
-//#endregion Activity
+// #endregion Activity
 
-//#region Audit Logs
+// #region Audit Logs
 
 /**
  * https://discordapp.com/developers/docs/resources/audit-log#audit-log-object
@@ -109,9 +109,9 @@ export interface APIAuditLogOptionsData {
 	role_name?: string;
 }
 
-//#endregion Audit Logs
+// #endregion Audit Logs
 
-//#region Bans
+// #region Bans
 
 /**
  * https://discordapp.com/developers/docs/resources/guild#ban-object-ban-structure
@@ -121,9 +121,9 @@ export interface APIBanData {
 	user: APIUserData;
 }
 
-//#endregion Bans
+// #endregion Bans
 
-//#region Channels
+// #region Channels
 
 /**
  * Not Documented, but partial only includes id, name, and type
@@ -155,9 +155,9 @@ export interface APIChannelData extends APIChannelPartial {
 	last_pin_timestamp?: string;
 }
 
-//#endregion Channels
+// #endregion Channels
 
-//#region Connections
+// #region Connections
 
 /**
  * https://discordapp.com/developers/docs/resources/user#connection-object-connection-structure
@@ -170,9 +170,9 @@ export interface APIConnectionData {
 	integrations: APIIntegrationData[];
 }
 
-//#endregion Connections
+// #endregion Connections
 
-//#region Embeds
+// #region Embeds
 
 /**
  * https://discordapp.com/developers/docs/resources/channel#embed-object
@@ -258,9 +258,9 @@ export interface APIEmbedFieldData {
 	inline?: boolean;
 }
 
-//#endregion Embeds
+// #endregion Embeds
 
-//#region Emojis
+// #region Emojis
 
 /**
  * Not Documented, but partial doesn't include roles, users, require_colons, or managed
@@ -281,9 +281,9 @@ export interface APIEmojiData extends APIEmojiPartial {
 	managed?: boolean;
 }
 
-//#endregion Emojis
+// #endregion Emojis
 
-//#region Guilds
+// #region Guilds
 
 /**
  * Not Documented, but partial only includes id, name, icon, and splash
@@ -336,9 +336,9 @@ export interface APIGuildEmbedData {
 	channel_id: snowflake | null;
 }
 
-//#endregion Guilds
+// #endregion Guilds
 
-//#region Integrations
+// #region Integrations
 
 /**
  * https://discordapp.com/developers/docs/resources/guild#integration-object-integration-structure
@@ -365,9 +365,9 @@ export interface APIIntegrationAccountData {
 	name: string;
 }
 
-//#endregion Integrations
+// #endregion Integrations
 
-//#region Invites
+// #region Invites
 
 /**
  * https://discordapp.com/developers/docs/resources/invite#invite-object-invite-structure
@@ -393,9 +393,9 @@ export interface APIInviteMetadataData {
 	revoked: boolean;
 }
 
-//#endregion Invites
+// #endregion Invites
 
-//#region Members
+// #region Members
 
 /**
  * Not Documented, but Partial packets only exclude the user property
@@ -415,9 +415,9 @@ export interface APIGuildMemberData extends APIGuildMemberPartial {
 	user: APIUserData;
 }
 
-//#endregion Members
+// #endregion Members
 
-//#region Messages
+// #region Messages
 
 /**
  * https://discordapp.com/developers/docs/resources/channel#message-object-message-structure
@@ -478,9 +478,9 @@ export interface APIMessageApplicationData {
 	name: string;
 }
 
-//#endregion Messages
+// #endregion Messages
 
-//#region PermissionOverwrites
+// #region PermissionOverwrites
 
 /**
  * https://discordapp.com/developers/docs/resources/channel#reaction-object
@@ -492,9 +492,9 @@ export interface APIOverwriteData {
 	deny: number;
 }
 
-//#endregion PermissionOverwrites
+// #endregion PermissionOverwrites
 
-//#region Presence
+// #region Presence
 
 /**
  * https://discordapp.com/developers/docs/topics/gateway#presence-update
@@ -508,9 +508,9 @@ export interface APIPresenceUpdateData {
 	activities: APIActivityData[];
 }
 
-//#endregion Presence
+// #endregion Presence
 
-//#region Reactions
+// #region Reactions
 
 /**
  * https://discordapp.com/developers/docs/resources/channel#reaction-object
@@ -521,9 +521,9 @@ export interface APIReactionData {
 	emoji: APIEmojiPartial;
 }
 
-//#endregion Reactions
+// #endregion Reactions
 
-//#region Roles
+// #region Roles
 
 /**
  * https://discordapp.com/developers/docs/topics/permissions#role-object
@@ -539,9 +539,9 @@ export interface APIRoleData {
 	mentionable: boolean;
 }
 
-//#endregion Roles
+// #endregion Roles
 
-//#region Users
+// #region Users
 
 /**
  * https://discordapp.com/developers/docs/resources/user#user-object
@@ -558,9 +558,9 @@ export interface APIUserData {
 	email?: string;
 }
 
-//#endregion Users
+// #endregion Users
 
-//#region Voice
+// #region Voice
 
 /**
  * Not Documented, but partial doesn't include guild_id or member
@@ -596,9 +596,9 @@ export interface APIVoiceRegionData {
 	custom: boolean;
 }
 
-//#endregion Voice
+// #endregion Voice
 
-//#region Webhooks
+// #region Webhooks
 
 /**
  * https://discordapp.com/developers/docs/resources/webhook#webhook-object-webhook-structure
@@ -613,11 +613,11 @@ export interface APIWebhookData {
 	token: string;
 }
 
-//#endregion Webhooks
+// #endregion Webhooks
 
-//#endregion API Payloads
+// #endregion API Payloads
 
-//#region Enums
+// #region Enums
 
 /**
  * https://discordapp.com/developers/docs/resources/channel#message-object-message-types
@@ -731,4 +731,4 @@ export enum AuditLogEvent {
 	MessageDelete = 72
 }
 
-//#endregion Enums
+// #endregion Enums

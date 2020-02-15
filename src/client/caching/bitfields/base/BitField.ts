@@ -1,9 +1,9 @@
-export type BitFieldResolvable = string | number | BitField | string[] | number [] | BitField[];
+export type BitFieldResolvable = string | number | BitField | string[] | number[] | BitField[];
 
 /**
  * The base class for handling BitField data
  */
-export default class BitField {
+export class BitField {
 
 	/**
 	 * The bitfield data
@@ -11,7 +11,7 @@ export default class BitField {
 	private bitfield: number;
 
 	public constructor(bits: BitFieldResolvable) {
-		const constructor = <typeof BitField> this.constructor;
+		const constructor = this.constructor as typeof BitField;
 		this.bitfield = constructor.resolve(bits);
 	}
 
@@ -20,7 +20,7 @@ export default class BitField {
 	 * @param bit The bit/s to check
 	 */
 	public equals(bit: BitFieldResolvable): boolean {
-		const constructor = <typeof BitField> this.constructor;
+		const constructor = this.constructor as typeof BitField;
 		return this.bitfield === constructor.resolve(bit);
 	}
 
@@ -29,9 +29,9 @@ export default class BitField {
 	 * @param bit The bit/s to check
 	 * @param _hasParams Additional params to pass to child has methods
 	 */
-	public has(bit: BitFieldResolvable, ..._hasParams: any[]): boolean {
-		const constructor = <typeof BitField> this.constructor;
-		if (Array.isArray(bit)) return (bit as (string | number | BitField)[]).every((p) => this.has(p));
+	public has(bit: BitFieldResolvable, ...hasParams: any[]): boolean {
+		const constructor = this.constructor as typeof BitField;
+		if (Array.isArray(bit)) return (bit as (string | number | BitField)[]).every((byte) => this.has(byte, ...hasParams));
 		bit = constructor.resolve(bit);
 		return (this.bitfield & bit) === bit;
 	}
@@ -42,9 +42,9 @@ export default class BitField {
 	 * @param hasParams Additional params to pass to child has methods
 	 */
 	public missing(bits: BitFieldResolvable, ...hasParams: any[]): Array<BitFieldResolvable> {
-		const constructor = <typeof BitField> this.constructor;
+		const constructor = this.constructor as typeof BitField;
 		if (!Array.isArray(bits)) bits = new constructor(bits).toArray(false);
-		return (bits as (string | number | BitField)[]).filter((p) => !this.has(p, ...hasParams));
+		return (bits as (string | number | BitField)[]).filter((byte) => !this.has(byte, ...hasParams));
 	}
 
 	/**
@@ -59,7 +59,7 @@ export default class BitField {
 	 * @param bits The bit/s to add
 	 */
 	public add(...bits: BitFieldResolvable[]): BitField {
-		const constructor = <typeof BitField> this.constructor;
+		const constructor = this.constructor as typeof BitField;
 		let total = 0;
 		for (const bit of bits) total |= constructor.resolve(bit);
 		if (Object.isFrozen(this)) return new constructor(this.bitfield | total);
@@ -72,7 +72,7 @@ export default class BitField {
 	 * @param bits The bit/s to remove
 	 */
 	public remove(...bits: BitFieldResolvable[]): BitField {
-		const constructor = <typeof BitField> this.constructor;
+		const constructor = this.constructor as typeof BitField;
 		let total = 0;
 		for (const bit of bits) total |= constructor.resolve(bit);
 		if (Object.isFrozen(this)) return new constructor(this.bitfield & ~total);
@@ -85,9 +85,9 @@ export default class BitField {
 	 * @param hasParams Additional params to pass to child has methods
 	 */
 	public serialize(...hasParams: any[]): any {
-		const constructor = <typeof BitField> this.constructor;
-		const serialized = {};
-		for (const perm in constructor.FLAGS) serialized[perm] = this.has(perm, ...hasParams);
+		const constructor = this.constructor as typeof BitField;
+		const serialized: Record<string, boolean> = {};
+		for (const perm of Object.keys(constructor.FLAGS)) serialized[perm] = this.has(perm, ...hasParams);
 		return serialized;
 	}
 
@@ -96,7 +96,7 @@ export default class BitField {
 	 * @param hasParams Additional params to pass to child has methods
 	 */
 	public toArray(...hasParams: any[]): Array<string> {
-		const constructor = <typeof BitField> this.constructor;
+		const constructor = this.constructor as typeof BitField;
 		return Object.keys(constructor.FLAGS).filter((bit) => this.has(bit, ...hasParams));
 	}
 
@@ -124,7 +124,7 @@ export default class BitField {
 	/**
 	 * Flags for this BitField (Should be implemented in child classes)
 	 */
-	public static FLAGS: any = {};
+	public static FLAGS: Record<string, number> = {};
 
 	/**
 	 * Resolves a BitFieldResolvable into a number
@@ -133,7 +133,7 @@ export default class BitField {
 	public static resolve(bit: BitFieldResolvable = 0): number {
 		if (typeof bit === 'number' && bit >= 0) return bit;
 		if (bit instanceof BitField) return bit.bitfield;
-		if (Array.isArray(bit)) return (bit as (string | number | BitField)[]).map((p) => this.resolve(p)).reduce((prev, p) => prev | p, 0);
+		if (Array.isArray(bit)) return (bit as (string | number | BitField)[]).map((byte) => this.resolve(byte)).reduce((bytes, byte) => bytes | byte, 0);
 		if (typeof bit === 'string') return this.FLAGS[bit];
 		throw new RangeError('BITFIELD_INVALID');
 	}

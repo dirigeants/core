@@ -1,11 +1,11 @@
-import Cache from '../../util/Cache.ts';
-import Client from '../Client.ts';
-import RequestHandler from './RequestHandler.ts';
+import { Cache } from '../../util/Cache';
+import { Client } from '../Client';
+import { RequestHandler } from './RequestHandler';
 
 /**
  * The overall manager of REST requests
  */
-export default class RestManager {
+export class RestManager {
 
 	/**
 	 * The current request queues
@@ -17,6 +17,7 @@ export default class RestManager {
 	 */
 	private readonly sweeper: NodeJS.Timeout = setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
 
+	// eslint-disable-next-line no-useless-constructor
 	public constructor(public readonly client: Client, private token: string) { }
 
 	/**

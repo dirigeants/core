@@ -1,15 +1,16 @@
-import RestManager from './rest/RestManager.ts';
-import Router from './rest/Router.ts';
-import WebsocketManager from './ws/WebSocketManager.ts';
+import { EventEmitter } from 'events';
+import { RestManager } from './rest/RestManager';
+import { Router } from './rest/Router';
+import { WebSocketManager } from './ws/WebSocketManager';
 
 export interface ClientOptions {
 	shards?: number | Array<number>;
 }
 
 /**
- * The D.TS Client used to wrap the discord api
+ * The Project-Blue Client used to wrap the discord api
  */
-export default class Client extends EventTarget {
+export class Client extends EventEmitter {
 
 	/**
 	 * The api router
@@ -19,9 +20,9 @@ export default class Client extends EventTarget {
 	}
 
 	/**
-	 * The websocket manager
+	 * The WebSocket manager
 	 */
-	public ws: WebsocketManager | null = null;
+	public ws: WebSocketManager | null = null;
 
 	/**
 	 * The rest api manager
@@ -38,7 +39,7 @@ export default class Client extends EventTarget {
 	 */
 	public async login(token: string) {
 		this.rest = new RestManager(this, token);
-		this.ws = new WebsocketManager(this, this.options.shards || 1, token);
+		this.ws = new WebSocketManager(this, this.options.shards || 1, token);
 	}
 
 }

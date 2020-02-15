@@ -51,6 +51,7 @@ export class AsyncQueue {
 		const deferred = this.promises.shift();
 		if (typeof deferred !== 'undefined') deferred.resolve();
 	}
+
 }
 
 /**

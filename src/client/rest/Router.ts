@@ -1,9 +1,9 @@
-import Client from '../Client.ts';
+import { Client } from '../Client';
 
 /**
  * The route builder class
  */
-export default class Router {
+export class Router {
 
 	/**
 	 * The url being built
@@ -15,6 +15,7 @@ export default class Router {
 	 */
 	private readonly route: Array<string> = [];
 
+	// eslint-disable-next-line no-useless-constructor
 	public constructor(public readonly client: Client) { }
 
 	/**
@@ -152,14 +153,14 @@ export default class Router {
 	 * Makes this Router's route into a get request
 	 */
 	public get() {
-		return this.client.rest.makeRequest('get', this.url.join('/'), this.route.join('/'));
+		return this.client.rest!.makeRequest('get', this.url.join('/'), this.route.join('/'));
 	}
 
 	/**
 	 * Makes this Router's route into a delete request
 	 */
 	public delete() {
-		return this.client.rest.makeRequest('delete', this.url.join('/'), this.route.join('/'));
+		return this.client.rest!.makeRequest('delete', this.url.join('/'), this.route.join('/'));
 	}
 
 	/**
@@ -167,7 +168,7 @@ export default class Router {
 	 * @param data The data to patch
 	 */
 	public patch(data: any) {
-		return this.client.rest.makeRequest('patch', this.url.join('/'), this.route.join('/'), data);
+		return this.client.rest!.makeRequest('patch', this.url.join('/'), this.route.join('/'), data);
 	}
 
 	/**
@@ -175,7 +176,7 @@ export default class Router {
 	 * @param data The data to put
 	 */
 	public put(data: any) {
-		return this.client.rest.makeRequest('put', this.url.join('/'), this.route.join('/'), data);
+		return this.client.rest!.makeRequest('put', this.url.join('/'), this.route.join('/'), data);
 	}
 
 	/**
@@ -183,7 +184,7 @@ export default class Router {
 	 * @param data The data to post
 	 */
 	public post(data: any) {
-		return this.client.rest.makeRequest('post', this.url.join('/'), this.route.join('/'), data);
+		return this.client.rest!.makeRequest('post', this.url.join('/'), this.route.join('/'), data);
 	}
 
 }

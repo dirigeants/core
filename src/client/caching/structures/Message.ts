@@ -1,21 +1,21 @@
-import { APIMessageData } from '../../../util/types.ts';
-import Client from '../../Client.ts';
-import Structure from './base/Structure.ts';
+import { APIMessageData } from '../../../util/types';
+import { Client } from '../../Client';
+import { Structure } from './base/Structure';
 
-export default class extends Structure {
+export class Message extends Structure {
 
 	public id: string;
-	public content: string;
+	public content!: string;
 
 	public constructor(client: Client, data: APIMessageData) {
 		super(client);
+
 		this.id = data.id;
-		// Make ts error go away for now
-		this.content = data.content;
-		this.patch(data);
+
+		this._patch(data);
 	}
 
-	public patch(data: APIMessageData): this {
+	protected _patch(data: APIMessageData): this {
 		this.content = data.content;
 		// to-do fill in logic
 		return this;

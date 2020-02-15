@@ -1,18 +1,16 @@
-import BitField from './base/BitField.ts';
+import { BitField } from './base/BitField';
 
 /**
- * Handles Speaking BitFields in D.TS
+ * Handles Speaking BitFields in Project-Blue
  */
-export default class Speaking extends BitField {
+export class Speaking extends BitField {
 
 	/**
 	 * The Speaking flags
 	 */
-	/* tslint:disable:object-literal-sort-keys */
-	public static FLAGS: any = {
+	public static FLAGS = {
 		SPEAKING: 1 << 0,
 		SOUNDSHARE: 1 << 1
 	};
-	/* tslint:enable:object-literal-sort-keys */
 
 }

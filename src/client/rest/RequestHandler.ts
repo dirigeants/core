@@ -1,5 +1,5 @@
-import Client from '../Client.ts';
-import RestManager from './RestManager.ts';
+import { Client } from '../Client';
+import RestManager from './RestManager';
 
 export interface Request {
 	method: string;
@@ -10,12 +10,12 @@ export interface Request {
 }
 
 /**
- * The structure used to rate limit REST requests
+ * The structure used to handle requests for a route
  */
-export default class RequestHandler extends Array<Request> {
+export class RequestHandler extends Array<Request> {
 
 	/**
-	 * The D.TS client
+	 * The Project-Blue client
 	 */
 	public client: Client;
 

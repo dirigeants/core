@@ -1,17 +1,17 @@
-import BitField, { BitFieldResolvable } from './base/BitField.ts';
+import { BitField, BitFieldResolvable } from './base/BitField';
 
 /**
- * Handles Permission BitFields in D.TS
+ * Handles Permission BitFields in Project-Blue
  */
-export default class Permissions extends BitField {
+export class Permissions extends BitField {
 
 	/**
 	 * Determines if this Permissions includes a permission or permissions
 	 * @param permission The permission/s to check for
 	 * @param checkAdmin Whether this should account for implied Administrator permissions
 	 */
-	public has(permission: BitFieldResolvable, checkAdmin: boolean = false) {
-		const constructor = <typeof Permissions> this.constructor;
+	public has(permission: BitFieldResolvable, checkAdmin = false): boolean {
+		const constructor = this.constructor as typeof Permissions;
 		if (checkAdmin && super.has(constructor.FLAGS.ADMINISTRATOR)) return true;
 		return super.has(permission);
 	}
@@ -19,8 +19,7 @@ export default class Permissions extends BitField {
 	/**
 	 * The Permissions flags
 	 */
-	/* tslint:disable:object-literal-sort-keys */
-	public static FLAGS: any = {
+	public static FLAGS = {
 		CREATE_INSTANT_INVITE: 1 << 0,
 		KICK_MEMBERS: 1 << 1,
 		BAN_MEMBERS: 1 << 2,
@@ -30,7 +29,7 @@ export default class Permissions extends BitField {
 		ADD_REACTIONS: 1 << 6,
 		VIEW_AUDIT_LOG: 1 << 7,
 		PRIORITY_SPEAKER: 1 << 8,
-
+		STREAM: 1 << 9,
 		VIEW_CHANNEL: 1 << 10,
 		SEND_MESSAGES: 1 << 11,
 		SEND_TTS_MESSAGES: 1 << 12,
@@ -54,16 +53,15 @@ export default class Permissions extends BitField {
 		MANAGE_WEBHOOKS: 1 << 29,
 		MANAGE_EMOJIS: 1 << 30
 	};
-	/* tslint:enable:object-literal-sort-keys */
 
 	/**
 	 * The value of all permissions in this bitfield
 	 */
-	public static ALL: number = Object.values<number>(Permissions.FLAGS).reduce<number>((all, p) => all | p, 0);
+	public static ALL = Object.values<number>(Permissions.FLAGS).reduce((all, byte) => all | byte, 0);
 
 	/**
 	 * The default permissions granted
 	 */
-	public static DEFAULT: number = 104324097;
+	public static DEFAULT = 104324097;
 
 }

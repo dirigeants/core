@@ -13,10 +13,9 @@ export default class Shard {
 
 	private constructor(public readonly manager: WebsocketManager, public readonly id: number, token: string) {
 		this.connection = new Worker('./WebsocketConnection.ts', { workerData: {
-				url: 'whateverURL',
-				token
-			}
-		});
+			url: 'whateverURL',
+			token
+		} });
 
 		this.connection.on('message', (packet) => {
 			packet.d.shard_id = this.id;
