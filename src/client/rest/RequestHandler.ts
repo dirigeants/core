@@ -18,7 +18,7 @@ export class RequestHandler {
 	 * The Project-Blue client
 	 */
 	public client: Client;
-	private asyncQueue: AsyncQueue = new AsyncQueue();
+	private asyncQueue = new AsyncQueue();
 	private reset = -1;
 	private remaining = -1;
 	private limit = -1;
