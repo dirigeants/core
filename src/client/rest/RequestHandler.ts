@@ -77,7 +77,7 @@ export class RequestHandler {
 		return { url, options };
 	}
 
-	private async makeRequest(url: string, options: RequestInit, retries = 0): Promise<any> {
+	private async makeRequest(url: string, options: RequestInit, retries = 0): Promise<unknown> {
 		const controller = new AbortController();
 		const timeout = setTimeout(() => controller.abort(), this.client.options.rest.timeout);
 		let res: Response;
@@ -123,7 +123,7 @@ export class RequestHandler {
 			return this.makeRequest(url, options, retries);
 		} else if (res.status >= 500 && res.status < 600) {
 			// Retry the specified number of times for possible serverside issues
-			if (retries !== this.client.options.rest.retryLimit) return this.makeRequest(url, options, retries++);
+			if (retries !== this.client.options.rest.retryLimit) return this.makeRequest(url, options, ++retries);
 			// todo: Make an HTTPError class
 			throw new Error([res.statusText, res.constructor.name, res.status, options.method, url].join(', '));
 		} else {
