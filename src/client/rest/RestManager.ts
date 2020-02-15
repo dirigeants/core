@@ -12,6 +12,8 @@ export class RestManager {
 	 */
 	private readonly queues: Cache<string, RequestHandler> = new Cache();
 
+	public globalTimeout: NodeJS.Timeout | null = null;
+
 	/**
 	 * The sweeper to ensure queues don't memory leak
 	 */
@@ -27,11 +29,9 @@ export class RestManager {
 	 * @param url The url
 	 * @param data The data to patch/post
 	 */
-	public makeRequest(method: string, route: string, url: string, data?: any): Promise<any> {
-		return new Promise((resolve, reject) => {
-			const queue = this.queues.get(route) || this.createQueue(route);
-			queue.push({ method, url, data, resolve, reject });
-		});
+	public queueRequest(method: string, route: string, url: string, data?: any): Promise<any> {
+		const queue = this.queues.get(route) || this.createQueue(route);
+		return queue.push({ method, url, data });
 	}
 
 	/**
@@ -39,7 +39,7 @@ export class RestManager {
 	 * @param route The route the new queue is run on
 	 */
 	private createQueue(route: string): RequestHandler {
-		const queue = new RequestHandler(this, this.token);
+		const queue = new RequestHandler(this, route, this.token);
 		this.queues.set(route, queue);
 		return queue;
 	}

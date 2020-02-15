@@ -9,6 +9,13 @@ export class AsyncQueue {
 	private promises: InternalAsyncQueueDeferredPromise[] = [];
 
 	/**
+	 * The remaining amount of queued promises
+	 */
+	public get remaining(): number {
+		return this.promises.length;
+	}
+
+	/**
 	 * Waits for last promise and queues a new one
 	 * @example
 	 * const queue = new AsyncQueue();

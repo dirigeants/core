@@ -153,14 +153,14 @@ export class Router {
 	 * Makes this Router's route into a get request
 	 */
 	public get() {
-		return this.client.rest!.makeRequest('get', this.url.join('/'), this.route.join('/'));
+		return this.client.rest!.queueRequest('get', this.url.join('/'), this.route.join('/'));
 	}
 
 	/**
 	 * Makes this Router's route into a delete request
 	 */
 	public delete() {
-		return this.client.rest!.makeRequest('delete', this.url.join('/'), this.route.join('/'));
+		return this.client.rest!.queueRequest('delete', this.url.join('/'), this.route.join('/'));
 	}
 
 	/**
@@ -168,7 +168,7 @@ export class Router {
 	 * @param data The data to patch
 	 */
 	public patch(data: any) {
-		return this.client.rest!.makeRequest('patch', this.url.join('/'), this.route.join('/'), data);
+		return this.client.rest!.queueRequest('patch', this.url.join('/'), this.route.join('/'), data);
 	}
 
 	/**
@@ -176,7 +176,7 @@ export class Router {
 	 * @param data The data to put
 	 */
 	public put(data: any) {
-		return this.client.rest!.makeRequest('put', this.url.join('/'), this.route.join('/'), data);
+		return this.client.rest!.queueRequest('put', this.url.join('/'), this.route.join('/'), data);
 	}
 
 	/**
@@ -184,7 +184,7 @@ export class Router {
 	 * @param data The data to post
 	 */
 	public post(data: any) {
-		return this.client.rest!.makeRequest('post', this.url.join('/'), this.route.join('/'), data);
+		return this.client.rest!.queueRequest('post', this.url.join('/'), this.route.join('/'), data);
 	}
 
 }
