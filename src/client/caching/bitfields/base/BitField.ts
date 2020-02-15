@@ -1,5 +1,7 @@
 export type BitFieldResolvable = string | number | BitField | string[] | number[] | BitField[];
 
+/* eslint-disable no-bitwise */
+
 /**
  * The base class for handling BitField data
  */
@@ -139,3 +141,5 @@ export class BitField {
 	}
 
 }
+
+/* eslint-enable no-bitwise */

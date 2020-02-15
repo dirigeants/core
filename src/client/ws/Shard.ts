@@ -1,18 +1,18 @@
 import { Worker } from 'worker_threads';
-import WebsocketManager from './WebSocketManager.ts';
+import { WebSocketManager } from './WebSocketManager';
 
 /**
  * The Structure to manage a Websocket Worker with
  */
-export default class Shard {
+export class Shard {
 
 	/**
 	 * The Websocket Connection worker
 	 */
 	private readonly connection: Worker;
 
-	private constructor(public readonly manager: WebsocketManager, public readonly id: number, token: string) {
-		this.connection = new Worker('./WebsocketConnection.ts', { workerData: {
+	private constructor(public readonly manager: WebSocketManager, public readonly id: number, token: string) {
+		this.connection = new Worker('./WebSocketConnection', { workerData: {
 			url: 'whateverURL',
 			token
 		} });
@@ -29,7 +29,7 @@ export default class Shard {
 	 * @param id The id of this shard to spawn
 	 * @param token The bot token
 	 */
-	public static spawn(manager: WebsocketManager, id: number, token: string) {
+	public static spawn(manager: WebSocketManager, id: number, token: string) {
 		return new this(manager, id, token);
 	}
 

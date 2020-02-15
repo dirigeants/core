@@ -1,5 +1,7 @@
 import { BitField } from './base/BitField';
 
+/* eslint-disable no-bitwise */
+
 /**
  * Handles Speaking BitFields in Project-Blue
  */
@@ -14,3 +16,5 @@ export class Speaking extends BitField {
 	};
 
 }
+
+/* eslint-enable no-bitwise */

@@ -1,5 +1,7 @@
 import { BitField } from './base/BitField';
 
+/* eslint-disable no-bitwise */
+
 /**
  * Handles Activity BitFields in Project-Blue
  */
@@ -18,3 +20,5 @@ export class Activity extends BitField {
 	};
 
 }
+
+/* eslint-enable no-bitwise */

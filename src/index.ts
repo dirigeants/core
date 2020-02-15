@@ -1,1 +1,1 @@
-export { Client, ClientOptions } from './client/Client';
+export * from './client/Client';

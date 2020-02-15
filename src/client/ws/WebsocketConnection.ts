@@ -2,7 +2,7 @@ import * as WS from 'ws';
 import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
 
 function checkMainThread(port: unknown): asserts port is MessagePort {
-	if (!isMainThread) throw new Error('WebsocketConnection.ts can only be run as a WorkerThread');
+	if (!isMainThread) throw new Error('WebSocketConnection.ts can only be run as a WorkerThread');
 }
 
 checkMainThread(parentPort);
@@ -28,7 +28,7 @@ export interface DataPacket {
 	op: number;
 }
 
-class WebsocketConnection extends WS {
+class WebSocketConnection extends WS {
 
 	public constructor(host: string, private readonly token: string) {
 		super(host);
@@ -68,11 +68,11 @@ class WebsocketConnection extends WS {
 
 }
 
-let connection: WebsocketConnection = new WebsocketConnection(workerData.url, workerData.token);
+let connection: WebSocketConnection = new WebSocketConnection(workerData.url, workerData.token);
 
 parentPort.on('message', (message) => {
 	if (message.action === 'connect') {
 		if (connection) connection.destroy();
-		connection = new WebsocketConnection(message.url, message.token);
+		connection = new WebSocketConnection(message.url, message.token);
 	}
 });

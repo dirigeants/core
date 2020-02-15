@@ -1,5 +1,7 @@
 import { BitField, BitFieldResolvable } from './base/BitField';
 
+/* eslint-disable no-bitwise */
+
 /**
  * Handles Permission BitFields in Project-Blue
  */
@@ -65,3 +67,5 @@ export class Permissions extends BitField {
 	public static DEFAULT = 104324097;
 
 }
+
+/* eslint-enable no-bitwise */

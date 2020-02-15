@@ -1,11 +1,11 @@
 import { EventEmitter } from 'events';
-import Client from '../Client.ts';
-import Shard from './Shard.ts';
+import { Client } from '../Client';
+import { Shard } from './Shard';
 
 /**
  * The singleton to manage multiple Websocket Connections to the discord api
  */
-export default class WebsocketManager extends EventEmitter {
+export class WebSocketManager extends EventEmitter {
 
 	/**
 	 * The shards of this WebsocketManager

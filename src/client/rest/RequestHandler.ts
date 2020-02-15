@@ -1,5 +1,5 @@
 import { Client } from '../Client';
-import RestManager from './RestManager';
+import { RestManager } from './RestManager';
 
 export interface Request {
 	method: string;
