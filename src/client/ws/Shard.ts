@@ -9,15 +9,17 @@ export class Shard {
 	/**
 	 * The Websocket Connection worker
 	 */
-	private readonly connection: Worker;
+	private readonly workerThread: Worker;
 
 	private constructor(public readonly manager: WebSocketManager, public readonly id: number, token: string) {
-		this.connection = new Worker('./WebSocketConnection', { workerData: {
-			url: 'whateverURL',
-			token
-		} });
+		this.workerThread = new Worker('./WebSocketConnection.js', {
+			workerData: {
+				url: 'whateverURL',
+				token
+			}
+		});
 
-		this.connection.on('message', (packet) => {
+		this.workerThread.on('message', (packet) => {
 			packet.d.shard_id = this.id;
 			this.manager.emit(packet.t, packet.d);
 		});
@@ -29,7 +31,7 @@ export class Shard {
 	 * @param id The id of this shard to spawn
 	 * @param token The bot token
 	 */
-	public static spawn(manager: WebSocketManager, id: number, token: string) {
+	public static spawn(manager: WebSocketManager, id: number, token: string): Shard {
 		return new this(manager, id, token);
 	}
 

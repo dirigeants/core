@@ -2,12 +2,12 @@ import * as WS from 'ws';
 import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
 
 function checkMainThread(port: unknown): asserts port is MessagePort {
-	if (!isMainThread) throw new Error('WebSocketConnection.ts can only be run as a WorkerThread');
+	if (!isMainThread || port === null) throw new Error('WebSocketConnection.ts can only be run as a WorkerThread');
 }
 
 checkMainThread(parentPort);
 
-enum OpCodes {
+const enum OpCodes {
 	DISPATCH,
 	HEARTBEAT,
 	IDENTIFY,
@@ -32,37 +32,54 @@ class WebSocketConnection extends WS {
 
 	public constructor(host: string, private readonly token: string) {
 		super(host);
+		this.onopen = this._onopen.bind(this);
+		this.onmessage = this._onmessage.bind(this);
+		this.onerror = this._onerror.bind(this);
+		this.onclose = this._onclose.bind(this);
 	}
 
-	public destroy() {
+	public destroy(): void {
 		// idk, die instance die
 	}
 
-	private onPacket(p: DataPacket) {
-		switch (p.op) {
-			case OpCodes.DISPATCH: return this.dispatch(p);
-			case OpCodes.HEARTBEAT: return this.heartbeat(p);
-			case OpCodes.IDENTIFY: return this.heartbeat(p);
-			case OpCodes.STATUS_UPDATE: return this.heartbeat(p);
-			case OpCodes.VOICE_STATE_UPDATE: return this.heartbeat(p);
-			case OpCodes.VOICE_GUILD_PING: return this.heartbeat(p);
-			case OpCodes.RESUME: return this.heartbeat(p);
-			case OpCodes.RECONNECT: return this.heartbeat(p);
-			case OpCodes.REQUEST_GUILD_MEMBERS: return this.heartbeat(p);
-			case OpCodes.INVALID_SESSION: return this.heartbeat(p);
-			case OpCodes.HELLO: return this.heartbeat(p);
-			case OpCodes.HEARTBEAT_ACK: return this.heartbeat(p);
-			default: {
-				// do nothing
-			}
+	private _onopen(event: WS.OpenEvent) {
+
+	}
+
+	private _onmessage(event: WS.MessageEvent) {
+
+	}
+
+	private _onerror(event: WS.ErrorEvent) {
+
+	}
+
+	private _onclose(event: WS.CloseEvent) {
+
+	}
+
+	private onPacket(packet: DataPacket): unknown {
+		switch (packet.op) {
+			case OpCodes.DISPATCH: return this.dispatch(packet);
+			case OpCodes.HEARTBEAT: return this.heartbeat(packet);
+			case OpCodes.IDENTIFY: return this.heartbeat(packet);
+			case OpCodes.STATUS_UPDATE: return this.heartbeat(packet);
+			case OpCodes.VOICE_STATE_UPDATE: return this.heartbeat(packet);
+			case OpCodes.VOICE_GUILD_PING: return this.heartbeat(packet);
+			case OpCodes.RESUME: return this.heartbeat(packet);
+			case OpCodes.RECONNECT: return this.heartbeat(packet);
+			case OpCodes.REQUEST_GUILD_MEMBERS: return this.heartbeat(packet);
+			case OpCodes.INVALID_SESSION: return this.heartbeat(packet);
+			case OpCodes.HELLO: return this.heartbeat(packet);
+			case OpCodes.HEARTBEAT_ACK: return this.heartbeat(packet);
 		}
 	}
 
-	private dispatch(p: DataPacket) {
-		(parentPort as MessagePort).postMessage(p);
+	private dispatch(packet: DataPacket) {
+		(parentPort as MessagePort).postMessage(packet);
 	}
 
-	private heartbeat(p: DataPacket) {
+	private heartbeat(packet: DataPacket) {
 		// handle the beating of the heart
 	}
 
