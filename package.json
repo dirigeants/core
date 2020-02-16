@@ -40,6 +40,7 @@
   "homepage": "https://github.com/dirigeants/project-blue#readme",
   "dependencies": {
     "abort-controller": "^3.0.0",
+    "form-data": "^3.0.0",
     "node-fetch": "^2.6.0",
     "ws": "^7.2.1"
   }

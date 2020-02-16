@@ -1,15 +1,31 @@
 import fetch, { Response, RequestInit } from 'node-fetch';
 import AbortController from 'abort-controller';
+import { Agent } from 'https';
+import { URLSearchParams } from 'url';
+import * as FormData from 'form-data';
 
 import { Client } from '../Client';
 import { RestManager } from './RestManager';
 import { AsyncQueue } from '../../util/AsyncQueue';
 import { sleep } from '../../util/Util';
+import { UserAgent } from '../../util/Constants';
+
+const agent = new Agent({ keepAlive: true });
 
 export interface Request {
 	method: string;
 	url: string;
-	data: any;
+	query?: any;
+	headers?: any;
+	data?: any;
+	files?: any[];
+	reason?: string;
+}
+
+export interface Headers {
+	'User-Agent': string;
+	Authorization: string;
+	'X-Audit-Log-Reason'?: string;
 }
 
 /**
@@ -68,12 +84,38 @@ export class RequestHandler {
 	}
 
 	private resolveRequest(request: Request): { url: string, options: RequestInit } {
-		// todo: handle cdn and versioning
-		const url = `add cdn, and version${request.url}`;
-		// todo: handle rest of the options
-		const options = {
-			method: request.method
+		let queryString = '';
+
+		if (request.query) queryString = `?${new URLSearchParams(request.query.filter(([, value]: [string, unknown]) => value !== null && typeof value !== undefined).toString())}`;
+
+		const url = `${this.client.options.rest.api}/v${this.client.options.rest.version}${request.url}${queryString}`;
+
+		const headers: Headers = {
+			'User-Agent': UserAgent,
+			Authorization: `Bot ${this.token}`
 		};
+
+		if (request.reason) headers['X-Audit-Log-Reason'] = encodeURIComponent(request.reason);
+
+		let body;
+		let additionalHeaders;
+		if (request.files) {
+			body = new FormData();
+			for (const file of request.files) if (file && file.file) body.append(file.name, file.file, file.name);
+			if (typeof request.data !== 'undefined') body.append('payload_json', JSON.stringify(request.data));
+			additionalHeaders = body.getHeaders();
+		} else if (request.data != null) { // eslint-disable-line eqeqeq
+			body = JSON.stringify(request.data);
+			additionalHeaders = { 'Content-Type': 'application/json' };
+		}
+
+		const options = {
+			method: request.method,
+			headers: { ...request.headers || {}, ...additionalHeaders || {}, ...headers },
+			agent,
+			body
+		};
+
 		return { url, options };
 	}
 

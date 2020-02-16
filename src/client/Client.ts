@@ -12,6 +12,8 @@ export interface RestOptions {
 	offset?: number;
 	retryLimit?: number;
 	timeout?: number;
+	version?: number;
+	api?: string;
 }
 
 /**
