@@ -1,6 +1,7 @@
 import { Cache } from '../../util/Cache';
 import { Client } from '../Client';
 import { RequestHandler } from './RequestHandler';
+import { Request } from './Router';
 
 /**
  * The overall manager of REST requests
@@ -29,9 +30,9 @@ export class RestManager {
 	 * @param url The url
 	 * @param data The data to patch/post
 	 */
-	public queueRequest(method: string, route: string, url: string, data?: any): Promise<any> {
+	public queueRequest(route: string, request: Request): Promise<any> {
 		const queue = this.queues.get(route) || this.createQueue(route);
-		return queue.push({ method, url, data });
+		return queue.push(request);
 	}
 
 	/**

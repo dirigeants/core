@@ -5,22 +5,13 @@ import { URLSearchParams } from 'url';
 import * as FormData from 'form-data';
 
 import { Client } from '../Client';
+import { Request } from './Router';
 import { RestManager } from './RestManager';
 import { AsyncQueue } from '../../util/AsyncQueue';
 import { sleep } from '../../util/Util';
 import { UserAgent } from '../../util/Constants';
 
 const agent = new Agent({ keepAlive: true });
-
-export interface Request {
-	method: string;
-	url: string;
-	query?: any;
-	headers?: any;
-	data?: any;
-	files?: any[];
-	reason?: string;
-}
 
 export interface Headers {
 	'User-Agent': string;

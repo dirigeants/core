@@ -1,5 +1,18 @@
 import { Client } from '../Client';
 
+export interface RequestOptions {
+	query?: any;
+	headers?: any;
+	data?: any;
+	files?: any[];
+	reason?: string;
+}
+
+export interface Request extends RequestOptions {
+	method: string;
+	url: string;
+}
+
 /**
  * The route builder class
  */
@@ -152,39 +165,39 @@ export class Router {
 	/**
 	 * Makes this Router's route into a get request
 	 */
-	public get() {
-		return this.client.rest!.queueRequest('get', this.url.join('/'), this.route.join('/'));
+	public get(options: RequestOptions = {}): any {
+		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'get', url: this.url.join('/'), ...options });
 	}
 
 	/**
 	 * Makes this Router's route into a delete request
 	 */
-	public delete() {
-		return this.client.rest!.queueRequest('delete', this.url.join('/'), this.route.join('/'));
+	public delete(options: RequestOptions = {}): any {
+		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'delete', url: this.url.join('/'), ...options });
 	}
 
 	/**
 	 * Makes this Router's route into a patch request
 	 * @param data The data to patch
 	 */
-	public patch(data: any) {
-		return this.client.rest!.queueRequest('patch', this.url.join('/'), this.route.join('/'), data);
+	public patch(options: RequestOptions = {}): any {
+		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'patch', url: this.url.join('/'), ...options });
 	}
 
 	/**
 	 * Makes this Router's route into a put request
 	 * @param data The data to put
 	 */
-	public put(data: any) {
-		return this.client.rest!.queueRequest('put', this.url.join('/'), this.route.join('/'), data);
+	public put(options: RequestOptions = {}): any {
+		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'put', url: this.url.join('/'), ...options });
 	}
 
 	/**
 	 * Makes this Router's route into a post request
 	 * @param data The data to post
 	 */
-	public post(data: any) {
-		return this.client.rest!.queueRequest('post', this.url.join('/'), this.route.join('/'), data);
+	public post(options: RequestOptions = {}): any {
+		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'post', url: this.url.join('/'), ...options });
 	}
 
 }
