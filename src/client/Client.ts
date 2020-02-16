@@ -2,18 +2,20 @@ import { EventEmitter } from 'events';
 import { RestManager } from './rest/RestManager';
 import { Router } from './rest/Router';
 import { WebSocketManager } from './ws/WebSocketManager';
+import { mergeDefault } from '@klasa/utils';
+import { ClientOptionsDefaults } from '../util/Constants';
 
 export interface ClientOptions {
-	shards?: number | Array<number>;
-	rest?: RestOptions;
+	shards: number | Array<number>;
+	rest: RestOptions;
 }
 
 export interface RestOptions {
-	offset?: number;
-	retryLimit?: number;
-	timeout?: number;
-	version?: number;
-	api?: string;
+	offset: number;
+	retryLimit: number;
+	timeout: number;
+	version: number;
+	api: string;
 }
 
 /**
@@ -38,8 +40,11 @@ export class Client extends EventEmitter {
 	 */
 	public rest: RestManager | null = null;
 
-	public constructor(public options: ClientOptions) {
+	public options: ClientOptions;
+
+	public constructor(options: Partial<ClientOptions>) {
 		super();
+		this.options = mergeDefault(ClientOptionsDefaults, options);
 	}
 
 	/**

@@ -18,10 +18,12 @@ export class RestManager {
 	/**
 	 * The sweeper to ensure queues don't memory leak
 	 */
-	private readonly sweeper: NodeJS.Timeout = setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
+	private readonly sweeper: NodeJS.Timeout;
 
 	// eslint-disable-next-line no-useless-constructor
-	public constructor(public readonly client: Client, private token: string) { }
+	public constructor(public readonly client: Client, private token: string) {
+		this.sweeper = setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
+	}
 
 	/**
 	 * Makes a new request

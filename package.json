@@ -39,6 +39,7 @@
   },
   "homepage": "https://github.com/dirigeants/project-blue#readme",
   "dependencies": {
+    "@klasa/utils": "^0.0.4",
     "abort-controller": "^3.0.0",
     "form-data": "^3.0.0",
     "node-fetch": "^2.6.0",

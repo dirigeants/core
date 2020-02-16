@@ -8,7 +8,7 @@ import { Client } from '../Client';
 import { Request } from './Router';
 import { RestManager } from './RestManager';
 import { AsyncQueue } from '../../util/AsyncQueue';
-import { sleep } from '../../util/Util';
+import { sleep } from '@klasa/utils';
 import { UserAgent } from '../../util/Constants';
 
 const agent = new Agent({ keepAlive: true });
