@@ -10,23 +10,13 @@ export interface RequestOptions {
 
 export interface Request extends RequestOptions {
 	method: string;
-	url: string;
+	endpoint: string;
 }
 
 /**
  * The route builder class
  */
 export class Router {
-
-	/**
-	 * The url being built
-	 */
-	private readonly url: string[] = [''];
-
-	/**
-	 * The route being built
-	 */
-	private readonly route: string[] = [''];
 
 	/**
 	 * The types of ids that differenciate ratelimit buckets
@@ -38,243 +28,71 @@ export class Router {
 	public constructor(public readonly client: Client) { }
 
 	/**
-	 * A guilds route
+	 * Gets data from the api
+	 * @param endpoint The endpoint to get from
+	 * @param options The request options
 	 */
-	public get guilds(): this {
-		this.url.push('guilds');
-		this.route.push('guilds');
-		return this;
+	public get(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
+		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'get', endpoint, ...options });
 	}
 
 	/**
-	 * A channels route
+	 * Deletes data from the api
+	 * @param endpoint The endpoint to delete from
+	 * @param options The request options
 	 */
-	public get channels(): this {
-		this.url.push('channels');
-		this.route.push('channels');
-		return this;
+	public delete(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
+		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'delete', endpoint, ...options });
 	}
 
 	/**
-	 * A users route
+	 * Patches data on the api
+	 * @param endpoint The endpoint to patch
+	 * @param options The request options
 	 */
-	public get users(): this {
-		this.url.push('users');
-		this.route.push('users');
-		return this;
+	public patch(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
+		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'patch', endpoint, ...options });
 	}
 
 	/**
-	 * An emojis route
+	 * Puts data into the api
+	 * @param endpoint The endpoint to put in
+	 * @param options The request options
 	 */
-	public get emojis(): this {
-		this.url.push('emojis');
-		this.route.push('emojis');
-		return this;
+	public put(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
+		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'put', endpoint, ...options });
 	}
 
 	/**
-	 * The gateway route
-	 * @param args Any additional arguments
+	 * Posts to the api
+	 * @param endpoint The endpoint to post to
+	 * @param options The request options
 	 */
-	public get gateway(): this {
-		this.url.push('gateway');
-		this.route.push('gateway');
-		return this;
+	public post(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
+		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'post', endpoint, ...options });
 	}
 
 	/**
-	 * A channel pins route
+	 * Generates identifiers for buckets given what we know about ratelimits
+	 * @param endpoint The endpoint we are generating an identifier for
 	 */
-	public get pins(): this {
-		this.url.push('pins');
-		this.route.push('pins');
-		return this;
-	}
+	private static generateRouteID(endpoint: string): string {
+		const split = endpoint.split('/');
+		const route = [];
 
-	/**
-	 * A members route
-	 */
-	public members(): this {
-		this.url.push('members');
-		this.route.push('members');
-		return this;
-	}
-
-	/**
-	 * A messages route
-	 */
-	public get messages(): this {
-		this.url.push('messages');
-		this.route.push('messages');
-		return this;
-	}
-
-	/**
-	 * A reactions route
-	 */
-	public get reactions(): this {
-		this.url.push('reactions');
-		this.route.push('reactions');
-		return this;
-	}
-
-	/**
-	 * A webhooks route
-	 */
-	public get webhooks(): this {
-		this.url.push('webhooks');
-		this.route.push('webhooks');
-		return this;
-	}
-
-	/**
-	 * An invites route
-	 */
-	public get invites(): this {
-		this.url.push('invites');
-		this.route.push('invites');
-		return this;
-	}
-
-	/**
-	 * An application's route
-	 */
-	public get applications(): this {
-		this.url.push('applications');
-		this.route.push('applications');
-		return this;
-	}
-
-	/**
-	 * A permissions route
-	 */
-	public get permissions(): this {
-		this.url.push('permissions');
-		this.route.push('permissions');
-		return this;
-	}
-
-	/**
-	 * A recipients route
-	 */
-	public get recipients(): this {
-		this.url.push('recipients');
-		this.route.push('recipients');
-		return this;
-	}
-
-	/**
-	 * The audit-logs route
-	 */
-	public get auditLogs(): this {
-		this.url.push('audit-logs');
-		this.route.push('audit-logs');
-		return this;
-	}
-
-	/**
-	 * The prune route
-	 */
-	public get prune(): this {
-		this.url.push('prune');
-		this.route.push('prune');
-		return this;
-	}
-
-	/**
-	 * The prune route
-	 */
-	public get regions(): this {
-		this.url.push('prune');
-		this.route.push('prune');
-		return this;
-	}
-
-	/**
-	 * The integrations route
-	 */
-	public get integrations(): this {
-		this.url.push('integrations');
-		this.route.push('integrations');
-		return this;
-	}
-
-	/**
-	 * The embed route
-	 */
-	public get embed(): this {
-		this.url.push('embed');
-		this.route.push('embed');
-		return this;
-	}
-
-	/**
-	 * The vanity-url route
-	 */
-	public get vanityURL(): this {
-		this.url.push('vanity-url');
-		this.route.push('vanity-url');
-		return this;
-	}
-
-	/**
-	 * A specific id's route
-	 */
-	public id(...ids: string[]): this {
-		this.url.push(...ids);
-
-		for (const id of ids) {
-			const previousSegment = this.route[this.route.length - 1];
-			let routeSegment = id;
+		for (const segment of split) {
+			const previousSegment = route[route.length - 1];
+			let routeSegment = segment;
 
 			// The 'reactions' route and sub-routes all share the same bucket
-			if (previousSegment === 'reactions') return this;
+			if (previousSegment === 'reactions') break;
 			// The ID should only be litteral if it's not an id of a Major Parameter
-			if (!Router.MAJOR_PARAMETERS.includes(previousSegment)) routeSegment = ':id';
+			if (!this.MAJOR_PARAMETERS.includes(previousSegment)) routeSegment = ':id';
 			// All other IDs should be considered as part of the bucket identifier "route"
-			this.route.push(routeSegment);
+			route.push(routeSegment);
 		}
 
-		return this;
-	}
-
-	/**
-	 * Makes this Router's route into a get request
-	 */
-	public get(options: RequestOptions = {}): any {
-		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'get', url: this.url.join('/'), ...options });
-	}
-
-	/**
-	 * Makes this Router's route into a delete request
-	 */
-	public delete(options: RequestOptions = {}): any {
-		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'delete', url: this.url.join('/'), ...options });
-	}
-
-	/**
-	 * Makes this Router's route into a patch request
-	 * @param data The data to patch
-	 */
-	public patch(options: RequestOptions = {}): any {
-		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'patch', url: this.url.join('/'), ...options });
-	}
-
-	/**
-	 * Makes this Router's route into a put request
-	 * @param data The data to put
-	 */
-	public put(options: RequestOptions = {}): any {
-		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'put', url: this.url.join('/'), ...options });
-	}
-
-	/**
-	 * Makes this Router's route into a post request
-	 * @param data The data to post
-	 */
-	public post(options: RequestOptions = {}): any {
-		return this.client.rest!.queueRequest(this.route.join('/'), { method: 'post', url: this.url.join('/'), ...options });
+		return route.join('/');
 	}
 
 }

@@ -63,7 +63,7 @@ export class RequestHandler {
 					timeToReset: this.timeToReset,
 					limit: this.limit,
 					method: request.method,
-					path: request.url,
+					path: request.endpoint,
 					route: this.route
 				});
 				await sleep(this.timeToReset);
@@ -79,7 +79,7 @@ export class RequestHandler {
 
 		if (request.query) queryString = `?${new URLSearchParams(request.query.filter(([, value]: [string, unknown]) => value !== null && typeof value !== undefined).toString())}`;
 
-		const url = `${this.client.options.rest.api}/v${this.client.options.rest.version}${request.url}${queryString}`;
+		const url = `${this.client.options.rest.api}/v${this.client.options.rest.version}${request.endpoint}${queryString}`;
 
 		const headers: Headers = {
 			'User-Agent': UserAgent,

@@ -26,9 +26,7 @@ export class Client extends EventEmitter {
 	/**
 	 * The api router
 	 */
-	public get api(): Router {
-		return new Router(this);
-	}
+	public api: Router;
 
 	/**
 	 * The WebSocket manager
@@ -40,11 +38,15 @@ export class Client extends EventEmitter {
 	 */
 	public rest: RestManager | null = null;
 
+	/**
+	 * The options to use for this client
+	 */
 	public options: ClientOptions;
 
 	public constructor(options: Partial<ClientOptions>) {
 		super();
 		this.options = mergeDefault(ClientOptionsDefaults, options);
+		this.api = new Router(this);
 	}
 
 	/**
@@ -53,7 +55,7 @@ export class Client extends EventEmitter {
 	 */
 	public async login(token: string): Promise<void> {
 		this.rest = new RestManager(this, token);
-		this.ws = new WebSocketManager(this, this.options.shards || 1, token);
+		this.ws = new WebSocketManager(this, this.options.shards, token);
 	}
 
 }
