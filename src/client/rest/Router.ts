@@ -28,50 +28,48 @@ export class Router {
 	 */
 	private readonly route: Array<string> = [];
 
+	/**
+	 * The types of ids that differenciate ratelimit buckets
+	 * https://discordapp.com/developers/docs/topics/rate-limits#rate-limits
+	 */
+	private static MAJOR_PARAMETERS = ['channels', 'guilds', 'webhooks'];
+
 	// eslint-disable-next-line no-useless-constructor
 	public constructor(public readonly client: Client) { }
 
 	/**
-	 * A guild's route
-	 * @param id The guild's id
-	 * @param args Any additional arguments
+	 * A guilds route
 	 */
-	public guilds(id: string, ...args: Array<string>): this {
-		this.url.push('guilds', id, ...args);
-		this.route.push('guilds', id, ...args);
+	public get guilds(): this {
+		this.url.push('guilds');
+		this.route.push('guilds');
 		return this;
 	}
 
 	/**
-	 * A channel's route
-	 * @param id The channel's id
-	 * @param args Any additional arguments
+	 * A channels route
 	 */
-	public channels(id: string, ...args: Array<string>): this {
-		this.url.push('channels', id, ...args);
-		this.route.push('channels', id, ...args);
+	public get channels(): this {
+		this.url.push('channels');
+		this.route.push('channels');
 		return this;
 	}
 
 	/**
-	 * A user's route
-	 * @param id The user's id
-	 * @param args Any additional arguments
+	 * A users route
 	 */
-	public users(id: string, ...args: Array<string>): this {
-		this.url.push('users', id, ...args);
-		this.route.push('users', ':id', ...args);
+	public get users(): this {
+		this.url.push('users');
+		this.route.push('users');
 		return this;
 	}
 
 	/**
-	 * An emoji's route
-	 * @param id The emoji's id
-	 * @param args Any additional arguments
+	 * An emojis route
 	 */
-	public emojis(id: string, ...args: Array<string>): this {
-		this.url.push('emojis', id, ...args);
-		this.route.push('emojis', ':id', ...args);
+	public get emojis(): this {
+		this.url.push('emojis');
+		this.route.push('emojis');
 		return this;
 	}
 
@@ -79,86 +77,165 @@ export class Router {
 	 * The gateway route
 	 * @param args Any additional arguments
 	 */
-	public gateway(...args: Array<string>): this {
-		this.url.push('gateway', ...args);
-		this.route.push('gateway', ...args);
+	public get gateway(): this {
+		this.url.push('gateway');
+		this.route.push('gateway');
 		return this;
 	}
 
 	/**
-	 * A channel pin's route
-	 * @param id The id of the pin
-	 * @param args Any additional arguments
+	 * A channel pins route
 	 */
-	public pins(id: string, ...args: Array<string>): this {
-		this.url.push('pins', id, ...args);
-		this.route.push('pins', ':id', ...args);
+	public get pins(): this {
+		this.url.push('pins');
+		this.route.push('pins');
 		return this;
 	}
 
 	/**
-	 * A member's route
-	 * @param id The member's id
-	 * @param args Any additional arguments
+	 * A members route
 	 */
-	public members(id: string, ...args: Array<string>): this {
-		this.url.push('members', id, ...args);
-		this.route.push('members', ':id', ...args);
+	public members(): this {
+		this.url.push('members');
+		this.route.push('members');
 		return this;
 	}
 
 	/**
-	 * A message's route
-	 * @param id The message's id
-	 * @param args Any additional arguments
+	 * A messages route
 	 */
-	public messages(id: string, ...args: Array<string>): this {
-		this.url.push('messages', id, ...args);
-		this.route.push('messages', ':id', ...args);
+	public get messages(): this {
+		this.url.push('messages');
+		this.route.push('messages');
 		return this;
 	}
 
 	/**
-	 * A reaction's route
-	 * @param emoji The emoji's id
-	 * @param args Any additional arguments
+	 * A reactions route
 	 */
-	public reactions(emoji: string, ...args: Array<string>): this {
-		this.url.push('reactions', emoji, ...args);
-		this.route.push('reactions', ':emoji', ...args);
+	public get reactions(): this {
+		this.url.push('reactions');
+		this.route.push('reactions');
 		return this;
 	}
 
 	/**
-	 * A webhook's route
-	 * @param webhook The webhook's id
-	 * @param args Any additional arguments
+	 * A webhooks route
 	 */
-	public webhooks(webhook: string, ...args: Array<string>): this {
-		this.url.push('webhooks', webhook, ...args);
-		this.route.push('webhooks', ':id', ...args);
+	public get webhooks(): this {
+		this.url.push('webhooks');
+		this.route.push('webhooks');
 		return this;
 	}
 
 	/**
-	 * An invite's route
-	 * @param invite The invite's id
-	 * @param args Any additional arguments
+	 * An invites route
 	 */
-	public invites(invite: string, ...args: Array<string>): this {
-		this.url.push('invites', invite, ...args);
-		this.route.push('invites', ':id', ...args);
+	public get invites(): this {
+		this.url.push('invites');
+		this.route.push('invites');
 		return this;
 	}
 
 	/**
 	 * An application's route
-	 * @param application The application's id
-	 * @param args Any additional arguments
 	 */
-	public applications(application: string, ...args: Array<string>): this {
-		this.url.push('applications', application, ...args);
-		this.route.push('applications', ':id', ...args);
+	public get applications(): this {
+		this.url.push('applications');
+		this.route.push('applications');
+		return this;
+	}
+
+	/**
+	 * A permissions route
+	 */
+	public get permissions(): this {
+		this.url.push('permissions');
+		this.route.push('permissions');
+		return this;
+	}
+
+	/**
+	 * A recipients route
+	 */
+	public get recipients(): this {
+		this.url.push('recipients');
+		this.route.push('recipients');
+		return this;
+	}
+
+	/**
+	 * The audit-logs route
+	 */
+	public get auditLogs(): this {
+		this.url.push('audit-logs');
+		this.route.push('audit-logs');
+		return this;
+	}
+
+	/**
+	 * The prune route
+	 */
+	public get prune(): this {
+		this.url.push('prune');
+		this.route.push('prune');
+		return this;
+	}
+
+	/**
+	 * The prune route
+	 */
+	public get regions(): this {
+		this.url.push('prune');
+		this.route.push('prune');
+		return this;
+	}
+
+	/**
+	 * The integrations route
+	 */
+	public get integrations(): this {
+		this.url.push('integrations');
+		this.route.push('integrations');
+		return this;
+	}
+
+	/**
+	 * The embed route
+	 */
+	public get embed(): this {
+		this.url.push('embed');
+		this.route.push('embed');
+		return this;
+	}
+
+	/**
+	 * The vanity-url route
+	 */
+	public get vanityURL(): this {
+		this.url.push('vanity-url');
+		this.route.push('vanity-url');
+		return this;
+	}
+
+	/**
+	 * A specific id's route
+	 */
+	public id(...ids: string[]): this {
+		this.url.push(...ids);
+
+		for (const id of ids) {
+			const previousSegment = this.route[this.route.length - 1];
+			let routeSegment = id;
+
+			// The 'reactions' route and sub-routes all share the same bucket
+			if (previousSegment === 'reactions') return this;
+			// The ID should only be litteral if it's not an id of a Major Parameter
+			if (!Router.MAJOR_PARAMETERS.includes(previousSegment)) routeSegment = ':id';
+			// All other IDs should be considered as part of the bucket identifier "route"
+			this.route.push(routeSegment);
+		}
+
 		return this;
 	}
 
