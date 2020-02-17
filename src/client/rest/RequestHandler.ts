@@ -34,7 +34,7 @@ export class RequestHandler {
 	private limit = -1;
 	private retryAfter = -1;
 
-	public constructor(private readonly manager: RestManager, private hash: string, private token: string) {
+	public constructor(private readonly manager: RestManager, private readonly hash: string, private token: string) {
 		this.client = this.manager.client;
 	}
 
@@ -138,8 +138,6 @@ export class RequestHandler {
 				this.client.emit('debug', `bucket hash update: ${this.hash} => ${hash} for ${options.method}:${route}`);
 				// This queue will eventually drain and become inactive allowing it to be swept
 				this.manager.hashs.set(`${options.method}:${route}`, hash);
-				// We will change this.hash to make any remaining queued requests skip this branch
-				this.hash = hash;
 			}
 
 			// https://github.com/discordapp/discord-api-docs/issues/182
