@@ -83,8 +83,6 @@ export class Router {
 		for (const segment of split) {
 			const previousSegment = route[route.length - 1];
 
-			// The 'reactions' route and sub-routes all share the same bucket
-			if (previousSegment === 'reactions') break;
 			// The ID should only be litteral if it's not an id of a Major Parameter
 			if (/\d{16,19}/g.test(segment) && !this.MAJOR_PARAMETERS.includes(previousSegment)) route.push(':id');
 			// All other IDs should be considered as part of the bucket identifier "route"

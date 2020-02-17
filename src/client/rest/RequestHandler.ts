@@ -34,7 +34,7 @@ export class RequestHandler {
 	private limit = -1;
 	private retryAfter = -1;
 
-	public constructor(private readonly manager: RestManager, private readonly route: string, private token: string) {
+	public constructor(private readonly manager: RestManager, private hash: string, private token: string) {
 		this.client = this.manager.client;
 	}
 
@@ -53,7 +53,7 @@ export class RequestHandler {
 		return this.reset - Date.now();
 	}
 
-	public async push(request: Request): Promise<any> {
+	public async push(route: string, request: Request): Promise<any> {
 		const { url, options } = this.resolveRequest(request);
 		await this.asyncQueue.wait();
 		try {
@@ -63,12 +63,11 @@ export class RequestHandler {
 					timeToReset: this.timeToReset,
 					limit: this.limit,
 					method: request.method,
-					path: request.endpoint,
-					route: this.route
+					endpoint: request.endpoint
 				});
 				await sleep(this.timeToReset);
 			}
-			return await this.makeRequest(url, options);
+			return await this.makeRequest(route, url, options);
 		} finally {
 			this.asyncQueue.shift();
 		}
@@ -110,7 +109,7 @@ export class RequestHandler {
 		return { url, options };
 	}
 
-	private async makeRequest(url: string, options: RequestInit, retries = 0): Promise<unknown> {
+	private async makeRequest(route: string, url: string, options: RequestInit, retries = 0): Promise<unknown> {
 		const controller = new AbortController();
 		const timeout = setTimeout(() => controller.abort(), this.client.options.rest.timeout);
 		let res: Response;
@@ -127,14 +126,24 @@ export class RequestHandler {
 			const remaining = res.headers.get('x-ratelimit-remaining');
 			const reset = res.headers.get('x-ratelimit-reset');
 			const retryAfter = res.headers.get('retry-after');
+			const hash = res.headers.get('x-ratelimit-bucket');
 
 			this.limit = limit ? Number(limit) : Infinity;
 			this.remaining = remaining ? Number(remaining) : 1;
 			this.reset = reset ? RequestHandler.calculateReset(reset, serverDate) + this.client.options.rest.offset : Date.now();
 			this.retryAfter = retryAfter ? Number(retryAfter) + this.client.options.rest.offset : -1;
 
+			// Handle buckets via the hash header retroactivily
+			if (hash && hash !== this.hash) {
+				this.client.emit('debug', `bucket hash update: ${this.hash} => ${hash} for ${options.method}:${route}`);
+				// This queue will eventually drain and become inactive allowing it to be swept
+				this.manager.hashs.set(`${options.method}:${route}`, hash);
+				// We will change this.hash to make any remaining queued requests skip this branch
+				this.hash = hash;
+			}
+
 			// https://github.com/discordapp/discord-api-docs/issues/182
-			if (this.route.includes('reactions')) {
+			if (route.includes('reactions')) {
 				this.reset = new Date(serverDate).getTime() - RequestHandler.getAPIOffset(serverDate) + 250;
 			}
 
@@ -150,13 +159,13 @@ export class RequestHandler {
 		if (res.ok) {
 			return RequestHandler.parseResponse(res);
 		} else if (res.status === 429) {
-			// A ratelimit was hit - this should never happen
-			this.client.emit('debug', `429 hit on route ${this.route}`);
+			// A ratelimit was hit - this may happen if the route isn't associated with an official bucket hash yet, or it's new
+			this.client.emit('debug', `429 hit on route: ${route}`);
 			await sleep(this.retryAfter);
-			return this.makeRequest(url, options, retries);
+			return this.makeRequest(route, url, options, retries);
 		} else if (res.status >= 500 && res.status < 600) {
 			// Retry the specified number of times for possible serverside issues
-			if (retries !== this.client.options.rest.retryLimit) return this.makeRequest(url, options, ++retries);
+			if (retries !== this.client.options.rest.retryLimit) return this.makeRequest(route, url, options, ++retries);
 			// todo: Make an HTTPError class
 			throw new Error([res.statusText, res.constructor.name, res.status, options.method, url].join(', '));
 		} else {

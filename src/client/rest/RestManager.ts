@@ -13,6 +13,11 @@ export class RestManager {
 	 */
 	private readonly queues: Cache<string, RequestHandler> = new Cache();
 
+	/**
+	 * Bucket hash lookup
+	 */
+	public readonly hashs: Cache<string, string> = new Cache();
+
 	public globalTimeout: Promise<void> | null = null;
 
 	/**
@@ -27,24 +32,27 @@ export class RestManager {
 
 	/**
 	 * Makes a new request
-	 * @param method The http method
-	 * @param route The route
-	 * @param url The url
-	 * @param data The data to patch/post
+	 * @param request The request info
 	 */
 	public queueRequest(route: string, request: Request): Promise<any> {
-		const queue = this.queues.get(route) || this.createQueue(route);
-		return queue.push(request);
+		const hash = this.hashs.get(`${request.method}:${route}`) || `${request.method}:unknown(${RestManager.getMajorParameter(request.endpoint)})`;
+		const queue = this.queues.get(hash) || this.createQueue(hash);
+		return queue.push(route, request);
 	}
 
 	/**
-	 * Creates a new rate limit queue for a new route
-	 * @param route The route the new queue is run on
+	 * Creates a new rate limit queue for a new or existing hash
+	 * @param hash The hash the new queue is run on
 	 */
-	private createQueue(route: string): RequestHandler {
-		const queue = new RequestHandler(this, route, this.token);
-		this.queues.set(route, queue);
+	private createQueue(hash: string): RequestHandler {
+		const queue = new RequestHandler(this, hash, this.token);
+		this.queues.set(hash, queue);
 		return queue;
+	}
+
+	private static getMajorParameter(endpoint: string): string {
+		const result = /^\/(?:channels|guilds|webhooks)\/(\d{16,19})/.exec(endpoint);
+		return (result && result[1]) || 'unknown';
 	}
 
 }
