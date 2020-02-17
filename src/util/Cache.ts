@@ -112,7 +112,7 @@ export class Cache<K, V> extends Map<K, V> {
 	 * @param fn Function to determine what is mapped to the new Array
 	 * @param thisArg Optional binding for the fn param
 	 */
-	public map(fn: (value: V, key: K, map: this) => any, thisArg?: any): Array<any> {
+	public map<T = any>(fn: (value: V, key: K, map: this) => T, thisArg?: any): T[] {
 		if (typeof thisArg !== 'undefined') fn = fn.bind(thisArg);
 
 		const arr = [];
@@ -170,7 +170,7 @@ export class Cache<K, V> extends Map<K, V> {
 	 * Returns a new Cache with this and other caches together
 	 * @param caches Other caches to include in the new cache
 	 */
-	public concat(...caches: Array<Cache<K, V>>): Cache<K, V> {
+	public concat(...caches: Cache<K, V>[]): Cache<K, V> {
 		const newColl = this.clone();
 		for (const coll of caches) for (const [key, val] of coll) newColl.set(key, val);
 		return newColl;

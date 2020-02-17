@@ -43,7 +43,7 @@ export class BitField {
 	 * @param bits The bit/s to check for
 	 * @param hasParams Additional params to pass to child has methods
 	 */
-	public missing(bits: BitFieldResolvable, ...hasParams: any[]): Array<BitFieldResolvable> {
+	public missing(bits: BitFieldResolvable, ...hasParams: any[]): BitFieldResolvable[] {
 		const constructor = this.constructor as typeof BitField;
 		if (!Array.isArray(bits)) bits = new constructor(bits).toArray(false);
 		return (bits as (string | number | BitField)[]).filter((byte) => !this.has(byte, ...hasParams));
@@ -97,7 +97,7 @@ export class BitField {
 	 * Returns an array of Flags that make up this BitField
 	 * @param hasParams Additional params to pass to child has methods
 	 */
-	public toArray(...hasParams: any[]): Array<string> {
+	public toArray(...hasParams: any[]): string[] {
 		const constructor = this.constructor as typeof BitField;
 		return Object.keys(constructor.FLAGS).filter((bit) => this.has(bit, ...hasParams));
 	}

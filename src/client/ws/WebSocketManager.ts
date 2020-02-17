@@ -12,7 +12,7 @@ export class WebSocketManager extends EventEmitter {
 	 */
 	private readonly shards: Map<number, Shard> = new Map();
 
-	public constructor(public readonly client: Client, private readonly shardIDs: number | Array<number>, token: string) {
+	public constructor(public readonly client: Client, private readonly shardIDs: number | number[], token: string) {
 		super();
 		if (Array.isArray(this.shardIDs)) {
 			for (const shard of this.shardIDs) this.shards.set(shard, Shard.spawn(this, shard, token));

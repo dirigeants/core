@@ -6,7 +6,7 @@ import { mergeDefault } from '@klasa/utils';
 import { ClientOptionsDefaults } from '../util/Constants';
 
 export interface ClientOptions {
-	shards: number | Array<number>;
+	shards: number | number[];
 	rest: RestOptions;
 }
 

@@ -21,12 +21,12 @@ export class Router {
 	/**
 	 * The url being built
 	 */
-	private readonly url: Array<string> = [''];
+	private readonly url: string[] = [''];
 
 	/**
 	 * The route being built
 	 */
-	private readonly route: Array<string> = [''];
+	private readonly route: string[] = [''];
 
 	/**
 	 * The types of ids that differenciate ratelimit buckets
