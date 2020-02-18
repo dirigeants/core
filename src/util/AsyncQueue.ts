@@ -35,6 +35,7 @@ export class AsyncQueue {
 	 * request(someUrl3, someOptions3); // Will call fetch() after the second finished
 	 */
 	public wait(): Promise<void> {
+		const next = this.promises.length ? this.promises[this.promises.length - 1].promise : Promise.resolve();
 		let resolve: () => void;
 		const promise = new Promise<void>(res => { resolve = res; });
 
@@ -44,7 +45,7 @@ export class AsyncQueue {
 			promise
 		});
 
-		return this.promises.length ? this.promises[this.promises.length - 1].promise : Promise.resolve();
+		return next;
 	}
 
 	/**
