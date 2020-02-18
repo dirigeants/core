@@ -5,6 +5,7 @@ import { Client } from '../Client';
 import { RestManager } from './RestManager';
 import { AsyncQueue } from '../../util/AsyncQueue';
 import { sleep } from '@klasa/utils';
+import { RouteIdentifier } from './Router';
 
 /**
  * The structure used to handle requests for a given bucket
@@ -71,7 +72,7 @@ export class RequestHandler {
 	 * @param route The generalized api route with literal ids for major parameters
 	 * @param request All the information needed to make a request
 	 */
-	public async push(route: string, url: string, options: RequestInit): Promise<unknown> {
+	public async push(routeID: RouteIdentifier, url: string, options: RequestInit): Promise<unknown> {
 		// Wait for any previous requests to be completed before this one is run
 		await this.asyncQueue.wait();
 		try {
@@ -85,13 +86,13 @@ export class RequestHandler {
 					limit: this.limit,
 					method: options.method,
 					hash: this.hash,
-					route
+					route: routeID.route
 				});
 				// Wait the remaining time left before the ratelimit resets
 				await sleep(this.timeToReset);
 			}
 			// Make the request, and return the results
-			return await this.makeRequest(route, url, options);
+			return await this.makeRequest(routeID, url, options);
 		} finally {
 			// Allow the next request to fire
 			this.asyncQueue.shift();
@@ -105,7 +106,7 @@ export class RequestHandler {
 	 * @param options The node-fetch options needed to make the request
 	 * @param retries The number of retries this request has already attempted (recursion)
 	 */
-	private async makeRequest(route: string, url: string, options: RequestInit, retries = 0): Promise<unknown> {
+	private async makeRequest(routeID: RouteIdentifier, url: string, options: RequestInit, retries = 0): Promise<unknown> {
 		const controller = new AbortController();
 		const timeout = setTimeout(() => controller.abort(), this.client.options.rest.timeout);
 		let res: Response;
@@ -137,11 +138,11 @@ export class RequestHandler {
 			if (retry) retryAfter = Number(retry) + this.client.options.rest.offset;
 
 			// Handle buckets via the hash header retroactively
-			if (hash && hash !== this.hash) {
+			if (hash && `${hash}:${routeID.majorParameter}` !== this.hash) {
 				// Let library users know when ratelimit buckets have been updated
-				this.client.emit('debug', `bucket hash update: ${this.hash} => ${hash} for ${options.method}:${route}`);
+				this.client.emit('debug', `bucket hash update: ${this.hash} => ${hash}:${routeID.majorParameter} for ${options.method}:${routeID.route}`);
 				// This queue will eventually be eliminated via attrition
-				this.manager.hashes.set(`${options.method}:${route}`, hash);
+				this.manager.hashes.set(`${options.method}:${routeID.route}`, `${hash}:${routeID.majorParameter}`);
 			}
 
 			// Handle global ratelimit
@@ -158,14 +159,14 @@ export class RequestHandler {
 			return RequestHandler.parseResponse(res);
 		} else if (res.status === 429) {
 			// A ratelimit was hit - this may happen if the route isn't associated with an official bucket hash yet, or when first globally ratelimited
-			this.client.emit('debug', `429 hit on route: ${route}`);
+			this.client.emit('debug', `429 hit on route: ${routeID.route}`);
 			// Wait the retryAfter amount of time before retrying the request
 			await sleep(retryAfter);
 			// Since this is not a server side issue, the next request should pass, so we don't bump the retries counter
-			return this.makeRequest(route, url, options, retries);
+			return this.makeRequest(routeID, url, options, retries);
 		} else if (res.status >= 500 && res.status < 600) {
 			// Retry the specified number of times for possible server side issues
-			if (retries !== this.client.options.rest.retryLimit) return this.makeRequest(route, url, options, ++retries);
+			if (retries !== this.client.options.rest.retryLimit) return this.makeRequest(routeID, url, options, ++retries);
 			// todo: Make an HTTPError class
 			throw new Error([res.statusText, res.constructor.name, res.status, options.method, url].join(', '));
 		} else {

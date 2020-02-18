@@ -6,7 +6,7 @@ import * as FormData from 'form-data';
 import { Cache } from '../../util/Cache';
 import { Client } from '../Client';
 import { RequestHandler } from './RequestHandler';
-import { Request } from './Router';
+import { Request, RouteIdentifier } from './Router';
 import { UserAgent } from '../../util/Constants';
 
 const agent = new Agent({ keepAlive: true });
@@ -54,18 +54,18 @@ export class RestManager {
 
 	/**
 	 * Makes a new request
-	 * @param route The generalized api route with literal ids for major parameters
+	 * @param routeID The generalized api route with literal ids for major parameters
 	 * @param request The request info
 	 */
-	public queueRequest(route: string, request: Request): Promise<unknown> {
+	public queueRequest(routeID: RouteIdentifier, request: Request): Promise<unknown> {
 		// When a hash isn't know, fallback to the old "Ratelimits are per generalized route, per major parameter"
-		const hash = this.hashes.get(`${request.method}:${route}`) || `UnknownHash(${route})`;
+		const hash = this.hashes.get(`${request.method}:${routeID.route}`) || `UnknownHash(${routeID.route})`;
 		// Get an existing request queue or create a new one
 		const queue = this.queues.get(hash) || this.createQueue(hash);
 		// Resolve the request into usable node-fetch parameters once
 		const { url, options } = this.resolveRequest(request);
 		// Queue up the request
-		return queue.push(route, url, options);
+		return queue.push(routeID, url, options);
 	}
 
 	/**

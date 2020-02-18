@@ -1,5 +1,10 @@
 import { Client } from '../Client';
 
+export interface RouteIdentifier {
+	route: string;
+	majorParameter: string;
+}
+
 export interface RequestOptions {
 	query?: any;
 	headers?: any;
@@ -33,7 +38,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public get(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'get', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRouteIdentifiers(endpoint), { method: 'get', endpoint, ...options });
 	}
 
 	/**
@@ -42,7 +47,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public delete(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'delete', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRouteIdentifiers(endpoint), { method: 'delete', endpoint, ...options });
 	}
 
 	/**
@@ -51,7 +56,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public patch(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'patch', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRouteIdentifiers(endpoint), { method: 'patch', endpoint, ...options });
 	}
 
 	/**
@@ -60,7 +65,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public put(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'put', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRouteIdentifiers(endpoint), { method: 'put', endpoint, ...options });
 	}
 
 	/**
@@ -69,27 +74,36 @@ export class Router {
 	 * @param options The request options
 	 */
 	public post(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'post', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRouteIdentifiers(endpoint), { method: 'post', endpoint, ...options });
 	}
 
 	/**
 	 * Generalizes the endpoint into a api route with only "major parameters"
 	 * @param endpoint The endpoint we are generalizing
 	 */
-	private static generateRoute(endpoint: string): string {
+	private static generateRouteIdentifiers(endpoint: string): RouteIdentifier {
 		const split = endpoint.split('/');
-		const route = [];
+		const routeParts = [];
+		let majorParameter;
 
 		for (const segment of split) {
-			const previousSegment = route[route.length - 1];
+			const previousSegment = routeParts[routeParts.length - 1];
 
-			// Snowflake ids should be generalized if it's not an id of a "major parameter"
-			if (/\d{16,19}/g.test(segment) && !this.MAJOR_PARAMETERS.includes(previousSegment)) route.push(':id');
-			// Everything else should be the same as the passed endpoint
-			else route.push(segment);
+			if (/\d{16,19}/g.test(segment)) {
+				// Snowflake ids should be generalized unless it's an id of a "major parameter"
+				if (this.MAJOR_PARAMETERS.includes(previousSegment)) {
+					majorParameter = segment;
+					routeParts.push(segment);
+				} else {
+					routeParts.push(':id');
+				}
+			} else {
+				// Everything else should be the same as the passed endpoint
+				routeParts.push(segment);
+			}
 		}
 
-		return route.join('/');
+		return { route: routeParts.join('/'), majorParameter: majorParameter as string };
 	}
 
 }
