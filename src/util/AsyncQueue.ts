@@ -34,21 +34,19 @@ export class AsyncQueue {
 	 * request(someUrl2, someOptions2); // Will call fetch() after the first finished
 	 * request(someUrl3, someOptions3); // Will call fetch() after the second finished
 	 */
-	public async wait(): Promise<void> {
-		if (this.promises.length > 0) {
-			const last = this.promises[this.promises.length - 1];
+	public wait(): Promise<void> {
+		const last = this.promises[this.promises.length - 1];
 
-			let resolve: () => void;
-			const promise = new Promise<void>(res => { resolve = res; });
+		let resolve: () => void;
+		const promise = new Promise<void>(res => { resolve = res; });
 
-			this.promises.push({
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				resolve: resolve!,
-				promise
-			});
+		this.promises.push({
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			resolve: resolve!,
+			promise
+		});
 
-			await last.promise;
-		}
+		return (last && last.promise) || Promise.resolve();
 	}
 
 	/**
