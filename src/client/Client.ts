@@ -111,8 +111,8 @@ export class Client extends EventEmitter {
 	 * Clears running timeouts and intervals created in Project Blue so node can gracefully exit
 	 */
 	public destroy(): void {
-		for (const i of this._timeouts) this.clearTimeout(i);
-		for (const i of this._intervals) this.clearInterval(i);
+		for (const i of this._timeouts) clearTimeout(i);
+		for (const i of this._intervals) clearInterval(i);
 		this._timeouts.clear();
 		this._intervals.clear();
 	}
