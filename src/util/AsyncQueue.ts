@@ -4,16 +4,16 @@
 export class AsyncQueue {
 
 	/**
-	 * The promises array
-	 */
-	private promises: InternalAsyncQueueDeferredPromise[] = [];
-
-	/**
 	 * The remaining amount of queued promises
 	 */
 	public get remaining(): number {
 		return this.promises.length;
 	}
+
+	/**
+	 * The promises array
+	 */
+	private promises: InternalAsyncQueueDeferredPromise[] = [];
 
 	/**
 	 * Waits for last promise and queues a new one
@@ -34,7 +34,7 @@ export class AsyncQueue {
 	 * request(someUrl2, someOptions2); // Will call fetch() after the first finished
 	 * request(someUrl3, someOptions3); // Will call fetch() after the second finished
 	 */
-	public async wait() {
+	public async wait(): Promise<void> {
 		if (this.promises.length > 0) {
 			const last = this.promises[this.promises.length - 1];
 
@@ -54,7 +54,7 @@ export class AsyncQueue {
 	/**
 	 * Frees the queue's lock for the next item to process
 	 */
-	public shift() {
+	public shift(): void {
 		const deferred = this.promises.shift();
 		if (typeof deferred !== 'undefined') deferred.resolve();
 	}

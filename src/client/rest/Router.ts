@@ -19,7 +19,7 @@ export interface Request extends RequestOptions {
 export class Router {
 
 	/**
-	 * The types of ids that differenciate ratelimit buckets
+	 * The types of ids that differentiate ratelimit buckets from similar endpoints
 	 * https://discordapp.com/developers/docs/topics/rate-limits#rate-limits
 	 */
 	private static MAJOR_PARAMETERS = ['channels', 'guilds', 'webhooks'];
@@ -83,7 +83,7 @@ export class Router {
 		for (const segment of split) {
 			const previousSegment = route[route.length - 1];
 
-			// The ID should only be litteral if it's not an id of a Major Parameter
+			// The ID should only be literal if it's not an id of a Major Parameter
 			if (/\d{16,19}/g.test(segment) && !this.MAJOR_PARAMETERS.includes(previousSegment)) route.push(':id');
 			// All other IDs should be considered as part of the bucket identifier "route"
 			else route.push(segment);

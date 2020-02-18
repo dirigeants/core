@@ -43,6 +43,9 @@ export class Client extends EventEmitter {
 	 */
 	public options: ClientOptions;
 
+	/**
+	 * @param options All of your preferences on how Project-Blue should work for you
+	 */
 	public constructor(options: Partial<ClientOptions>) {
 		super();
 		this.options = mergeDefault(ClientOptionsDefaults, options);
