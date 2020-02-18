@@ -59,7 +59,7 @@ export class RestManager {
 	 */
 	public queueRequest(routeID: RouteIdentifier, request: Request): Promise<unknown> {
 		// When a hash isn't know, fallback to the old "Ratelimits are per generalized route, per major parameter"
-		const hash = this.hashes.get(`${request.method}:${routeID.route}`) || `UnknownHash(${routeID.route})`;
+		const hash = this.hashes.get(`${request.method}-${routeID.route}`) || `UnknownHash(${routeID.route})`;
 		// Get an existing request queue or create a new one
 		const queue = this.queues.get(`${hash}:${routeID.majorParameter}`) || this.createQueue(hash, routeID.majorParameter);
 		// Resolve the request into usable node-fetch parameters once
