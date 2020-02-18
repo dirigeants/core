@@ -44,6 +44,16 @@ export class Client extends EventEmitter {
 	public options: ClientOptions;
 
 	/**
+	 * A collection of timeouts to clear on destroy
+	 */
+	private _timeouts: Set<NodeJS.Timeout> = new Set();
+
+	/**
+	 * A collection of intervals to clear on destroy
+	 */
+	private _intervals: Set<NodeJS.Timeout> = new Set();
+
+	/**
 	 * @param options All of your preferences on how Project-Blue should work for you
 	 */
 	public constructor(options: Partial<ClientOptions>) {
@@ -53,12 +63,68 @@ export class Client extends EventEmitter {
 	}
 
 	/**
+	 * Set a timeout that Project Blue can clear when destroyed
+	 * @param fn callback function
+	 * @param delay amount of time before running the callback
+	 * @param args additional arguments to pass back to the callback
+	 */
+	public setTimeout<A = unknown>(fn: (...args: A[]) => void, delay: number, ...args: A[]): NodeJS.Timeout {
+		const timeout = setTimeout(() => {
+			fn(...args);
+			this._timeouts.delete(timeout);
+		}, delay);
+		this._timeouts.add(timeout);
+		return timeout;
+	}
+
+	/**
+	 * Clears a timeout set via Project Blue
+	 * @param timeout The timeout to clear
+	 */
+	public clearTimeout(timeout: NodeJS.Timeout): void {
+		clearTimeout(timeout);
+		this._timeouts.delete(timeout);
+	}
+
+	/**
+	 * Set an interval that Project Blue can clear when destroyed
+	 * @param fn callback function
+	 * @param delay amount of time before running the callback
+	 * @param args additional arguments to pass back to the callback
+	 */
+	public setInterval<A = unknown>(fn: (...args: A[]) => void, delay: number, ...args: A[]): NodeJS.Timeout {
+		const interval = setInterval(fn, delay, ...args);
+		this._intervals.add(interval);
+		return interval;
+	}
+
+	/**
+	 * Clears an interval set via Project Blue
+	 * @param interval The interval to clear
+	 */
+	public clearInterval(interval: NodeJS.Timeout): void {
+		clearInterval(interval);
+		this._intervals.delete(interval);
+	}
+
+	/**
+	 * Clears running timeouts and intervals created in Project Blue so node can gracefully exit
+	 */
+	public destroy(): void {
+		for (const i of this._timeouts) this.clearTimeout(i);
+		for (const i of this._intervals) this.clearInterval(i);
+		this._timeouts.clear();
+		this._intervals.clear();
+	}
+
+	/**
 	 * Logs this client into the api
 	 * @param token The token to use to connect to the api with
 	 */
 	public async login(token: string): Promise<void> {
 		this.rest = new RestManager(this, token);
-		this.ws = new WebSocketManager(this, this.options.shards, token);
+		// todo: Not ready yet
+		// this.ws = new WebSocketManager(this, this.options.shards, token);
 	}
 
 }

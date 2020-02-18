@@ -49,7 +49,7 @@ export class RestManager {
 	 */
 	public constructor(public readonly client: Client, private readonly token: string) {
 		// Periodically remove inactive handlers
-		this.sweeper = setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
+		this.sweeper = this.client.setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
 	}
 
 	/**

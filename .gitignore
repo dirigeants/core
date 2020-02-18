@@ -7,3 +7,5 @@ coverage/
 dist/
 docs/
 test-results.xml
+
+test.js
