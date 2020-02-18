@@ -1,24 +1,10 @@
 import fetch, { Response, RequestInit } from 'node-fetch';
 import AbortController from 'abort-controller';
-import { Agent } from 'https';
-import { URLSearchParams } from 'url';
-import * as FormData from 'form-data';
 
 import { Client } from '../Client';
-import { Request } from './Router';
 import { RestManager } from './RestManager';
 import { AsyncQueue } from '../../util/AsyncQueue';
 import { sleep } from '@klasa/utils';
-import { UserAgent } from '../../util/Constants';
-
-const agent = new Agent({ keepAlive: true });
-
-export interface Headers {
-	'User-Agent': string;
-	Authorization: string;
-	'X-RateLimit-Precision': string;
-	'X-Audit-Log-Reason'?: string;
-}
 
 /**
  * The structure used to handle requests for a given bucket
@@ -55,7 +41,7 @@ export class RequestHandler {
 	 * @param hash The hash that this RequestHandler handles
 	 * @param token The bot token used to make requests
 	 */
-	public constructor(private readonly manager: RestManager, private readonly hash: string, private token: string) {
+	public constructor(private readonly manager: RestManager, private readonly hash: string) {
 		this.client = this.manager.client;
 	}
 
@@ -85,9 +71,7 @@ export class RequestHandler {
 	 * @param route The api route w/ major parameters
 	 * @param request All the information needed to make a request
 	 */
-	public async push(route: string, request: Request): Promise<any> {
-		// Resolve the request into usable node-fetch parameters once
-		const { url, options } = this.resolveRequest(request);
+	public async push(route: string, url: string, options: RequestInit): Promise<unknown> {
 		// Wait for any previous requests to be completed before this one is run
 		await this.asyncQueue.wait();
 		try {
@@ -99,9 +83,9 @@ export class RequestHandler {
 				this.client.emit('ratelimited', {
 					timeToReset: this.timeToReset,
 					limit: this.limit,
-					method: request.method,
+					method: options.method,
 					hash: this.hash,
-					endpoint: request.endpoint
+					route
 				});
 				// Wait the remaining time left before the ratelimit resets
 				await sleep(this.timeToReset);
@@ -115,60 +99,7 @@ export class RequestHandler {
 	}
 
 	/**
-	 * Formats the request data into a format that node-fetch can use
-	 * @param request All the information needed to make a request
-	 */
-	private resolveRequest(request: Request): { url: string, options: RequestInit } {
-		let querystring = '';
-
-		// If there is query options passed, format it into a querystring
-		if (request.query) querystring = `?${new URLSearchParams(request.query.filter(([, value]: [string, unknown]) => value !== null && typeof value !== undefined).toString())}`;
-
-		// Format the full request url (base, version, endpoint, query)
-		const url = `${this.client.options.rest.api}/v${this.client.options.rest.version}${request.endpoint}${querystring}`;
-
-		// Assign the basic request headers
-		const headers: Headers = {
-			'User-Agent': UserAgent,
-			Authorization: `Bot ${this.token}`,
-			'X-RateLimit-Precision': 'millisecond'
-		};
-
-		// Optionally assign an audit log reason
-		if (request.reason) headers['X-Audit-Log-Reason'] = encodeURIComponent(request.reason);
-
-		let body;
-		let additionalHeaders;
-
-		if (request.files) {
-			body = new FormData();
-			// Add attachments to the multipart form-data
-			for (const file of request.files) if (file && file.file) body.append(file.name, file.file, file.name);
-			// Add json data to the multipart form-data
-			if (typeof request.data !== 'undefined') body.append('payload_json', JSON.stringify(request.data));
-			// Get the headers we need to add for all of the multipart data
-			additionalHeaders = body.getHeaders();
-		} else if (request.data != null) { // eslint-disable-line eqeqeq
-			// Stringify the data
-			body = JSON.stringify(request.data);
-			// We are sending data as json in this case
-			additionalHeaders = { 'Content-Type': 'application/json' };
-		}
-
-		// Format all the fetch options together
-		const options = {
-			method: request.method,
-			headers: { ...request.headers || {}, ...additionalHeaders || {}, ...headers },
-			agent,
-			body
-		};
-
-		// Return the data needed for node-fetch
-		return { url, options };
-	}
-
-	/**
-	 * The method that actually makes the request to the api, and updates things accordingly
+	 * The method that actually makes the request to the api, and updates info about the bucket accordingly
 	 * @param route The api route w/ major parameters
 	 * @param url The fully resolved url to make the request to
 	 * @param options The node-fetch options needed to make the request
