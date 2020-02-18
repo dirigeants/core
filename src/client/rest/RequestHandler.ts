@@ -20,6 +20,11 @@ export class RequestHandler {
 	/**
 	 * The interface used to sequence async requests sequentially
 	 */
+	public id: string;
+
+	/**
+	 * The interface used to sequence async requests sequentially
+	 */
 	private asyncQueue = new AsyncQueue();
 
 	/**
@@ -42,8 +47,9 @@ export class RequestHandler {
 	 * @param hash The hash that this RequestHandler handles
 	 * @param token The bot token used to make requests
 	 */
-	public constructor(private readonly manager: RestManager, private readonly hash: string) {
+	public constructor(private readonly manager: RestManager, private readonly hash: string, private readonly majorParameter: string) {
 		this.client = this.manager.client;
+		this.id = `${hash}:${majorParameter}`;
 	}
 
 	/**
@@ -86,7 +92,8 @@ export class RequestHandler {
 					limit: this.limit,
 					method: options.method,
 					hash: this.hash,
-					route: routeID.route
+					route: routeID.route,
+					majorParameter: this.majorParameter
 				});
 				// Wait the remaining time left before the ratelimit resets
 				await sleep(this.timeToReset);
@@ -138,11 +145,11 @@ export class RequestHandler {
 			if (retry) retryAfter = Number(retry) + this.client.options.rest.offset;
 
 			// Handle buckets via the hash header retroactively
-			if (hash && `${hash}:${routeID.majorParameter}` !== this.hash) {
+			if (hash && hash !== this.hash) {
 				// Let library users know when ratelimit buckets have been updated
-				this.client.emit('debug', `bucket hash update: ${this.hash} => ${hash}:${routeID.majorParameter} for ${options.method}:${routeID.route}`);
+				this.client.emit('debug', `bucket hash update: ${this.hash} => ${hash} for ${options.method}:${routeID.route}`);
 				// This queue will eventually be eliminated via attrition
-				this.manager.hashes.set(`${options.method}:${routeID.route}`, `${hash}:${routeID.majorParameter}`);
+				this.manager.hashes.set(`${options.method}:${routeID.route}`, hash);
 			}
 
 			// Handle global ratelimit

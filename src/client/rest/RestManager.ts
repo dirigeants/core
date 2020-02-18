@@ -61,7 +61,7 @@ export class RestManager {
 		// When a hash isn't know, fallback to the old "Ratelimits are per generalized route, per major parameter"
 		const hash = this.hashes.get(`${request.method}:${routeID.route}`) || `UnknownHash(${routeID.route})`;
 		// Get an existing request queue or create a new one
-		const queue = this.queues.get(hash) || this.createQueue(hash);
+		const queue = this.queues.get(`${hash}:${routeID.majorParameter}`) || this.createQueue(hash, routeID.majorParameter);
 		// Resolve the request into usable node-fetch parameters once
 		const { url, options } = this.resolveRequest(request);
 		// Queue up the request
@@ -72,11 +72,11 @@ export class RestManager {
 	 * Creates a new rate limit queue for a new or existing hash
 	 * @param hash The hash the new queue is run on
 	 */
-	private createQueue(hash: string): RequestHandler {
+	private createQueue(hash: string, majorParameter: string): RequestHandler {
 		// Creates an async request queue to handle a bucket of requests
-		const queue = new RequestHandler(this, hash);
+		const queue = new RequestHandler(this, hash, majorParameter);
 		// Caches the queue based on the hash given
-		this.queues.set(hash, queue);
+		this.queues.set(queue.id, queue);
 		// Returns the new queue
 		return queue;
 	}

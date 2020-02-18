@@ -82,28 +82,11 @@ export class Router {
 	 * @param endpoint The endpoint we are generalizing
 	 */
 	private static generateRouteIdentifiers(endpoint: string): RouteIdentifier {
-		const split = endpoint.split('/');
-		const routeParts = [];
-		let majorParameter!: string;
+		const majorParameterResults = /^\/(?:channels|guilds|webhooks)\/(\d{16,19})/.exec(endpoint);
+		const majorParameter = majorParameterResults![1];
+		const route = endpoint.replace(/\d{16,19}/g, ':id');
 
-		for (const segment of split) {
-			const previousSegment = routeParts[routeParts.length - 1];
-
-			if (/\d{16,19}/g.test(segment)) {
-				// Snowflake ids should be generalized unless it's an id of a "major parameter"
-				if (this.MAJOR_PARAMETERS.includes(previousSegment)) {
-					majorParameter = segment;
-					routeParts.push(segment);
-				} else {
-					routeParts.push(':id');
-				}
-			} else {
-				// Everything else should be the same as the passed endpoint
-				routeParts.push(segment);
-			}
-		}
-
-		return { route: routeParts.join('/'), majorParameter };
+		return { route, majorParameter };
 	}
 
 }
