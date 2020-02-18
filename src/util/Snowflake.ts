@@ -79,7 +79,7 @@ export class Snowflake {
 		if (INCREMENT >= 4095n) INCREMENT = 0n;
 
 		// timestamp, workerID hard-coded to 1, processID hard-coded to 1, increment
-		return new Snowflake((BigInt(timestamp) << 22n) | (1n << 17n) | (1n << 12n) | INCREMENT++); // eslint-disable-line no-undef
+		return new Snowflake((BigInt(timestamp - this.EPOCH) << 22n) | (1n << 17n) | (1n << 12n) | INCREMENT++); // eslint-disable-line no-undef
 	}
 
 }
