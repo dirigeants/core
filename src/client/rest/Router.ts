@@ -84,7 +84,7 @@ export class Router {
 	private static generateRouteIdentifiers(endpoint: string): RouteIdentifier {
 		const split = endpoint.split('/');
 		const routeParts = [];
-		let majorParameter;
+		let majorParameter!: string;
 
 		for (const segment of split) {
 			const previousSegment = routeParts[routeParts.length - 1];
@@ -103,7 +103,7 @@ export class Router {
 			}
 		}
 
-		return { route: routeParts.join('/'), majorParameter: majorParameter as string };
+		return { route: routeParts.join('/'), majorParameter };
 	}
 
 }
