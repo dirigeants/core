@@ -70,8 +70,8 @@ export class Client extends EventEmitter {
 	 */
 	public setTimeout<A = unknown>(fn: (...args: A[]) => void, delay: number, ...args: A[]): NodeJS.Timeout {
 		const timeout = setTimeout(() => {
-			fn(...args);
 			this._timeouts.delete(timeout);
+			fn(...args);
 		}, delay);
 		this._timeouts.add(timeout);
 		return timeout;
