@@ -16,7 +16,7 @@ export class RestManager {
 	/**
 	 * Bucket hash lookup
 	 */
-	public readonly hashs: Cache<string, string> = new Cache();
+	public readonly hashes: Cache<string, string> = new Cache();
 
 	public globalTimeout: Promise<void> | null = null;
 
@@ -32,10 +32,12 @@ export class RestManager {
 
 	/**
 	 * Makes a new request
+	 * @param route
 	 * @param request The request info
 	 */
 	public queueRequest(route: string, request: Request): Promise<any> {
-		const hash = this.hashs.get(`${request.method}:${route}`) || `${request.method}:unknown(${RestManager.getMajorParameter(request.endpoint)})`;
+		// When a hash isn't know, fallback to the old "Ratelimits are per route, per major parameter"
+		const hash = this.hashes.get(`${request.method}:${route}`) || `UnknownHash(${route})`;
 		const queue = this.queues.get(hash) || this.createQueue(hash);
 		return queue.push(route, request);
 	}
@@ -48,11 +50,6 @@ export class RestManager {
 		const queue = new RequestHandler(this, hash, this.token);
 		this.queues.set(hash, queue);
 		return queue;
-	}
-
-	private static getMajorParameter(endpoint: string): string {
-		const result = /^\/(?:channels|guilds|webhooks)\/(\d{16,19})/.exec(endpoint);
-		return (result && result[1]) || 'unknown';
 	}
 
 }

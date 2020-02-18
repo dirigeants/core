@@ -137,7 +137,7 @@ export class RequestHandler {
 			if (hash && hash !== this.hash) {
 				this.client.emit('debug', `bucket hash update: ${this.hash} => ${hash} for ${options.method}:${route}`);
 				// This queue will eventually drain and become inactive allowing it to be swept
-				this.manager.hashs.set(`${options.method}:${route}`, hash);
+				this.manager.hashes.set(`${options.method}:${route}`, hash);
 			}
 
 			// https://github.com/discordapp/discord-api-docs/issues/182
