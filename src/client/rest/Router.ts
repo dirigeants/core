@@ -33,7 +33,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public get(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'get', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'get', endpoint, ...options });
 	}
 
 	/**
@@ -42,7 +42,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public delete(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'delete', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'delete', endpoint, ...options });
 	}
 
 	/**
@@ -51,7 +51,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public patch(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'patch', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'patch', endpoint, ...options });
 	}
 
 	/**
@@ -60,7 +60,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public put(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'put', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'put', endpoint, ...options });
 	}
 
 	/**
@@ -69,23 +69,23 @@ export class Router {
 	 * @param options The request options
 	 */
 	public post(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.client.rest!.queueRequest(Router.generateRouteID(endpoint), { method: 'post', endpoint, ...options });
+		return this.client.rest!.queueRequest(Router.generateRoute(endpoint), { method: 'post', endpoint, ...options });
 	}
 
 	/**
-	 * Generates identifiers for buckets given what we know about ratelimits
-	 * @param endpoint The endpoint we are generating an identifier for
+	 * Generalizes the endpoint into a api route with only "major parameters"
+	 * @param endpoint The endpoint we are generalizing
 	 */
-	private static generateRouteID(endpoint: string): string {
+	private static generateRoute(endpoint: string): string {
 		const split = endpoint.split('/');
 		const route = [];
 
 		for (const segment of split) {
 			const previousSegment = route[route.length - 1];
 
-			// The ID should only be literal if it's not an id of a Major Parameter
+			// Snowflake ids should be generalized if it's not an id of a "major parameter"
 			if (/\d{16,19}/g.test(segment) && !this.MAJOR_PARAMETERS.includes(previousSegment)) route.push(':id');
-			// All other IDs should be considered as part of the bucket identifier "route"
+			// Everything else should be the same as the passed endpoint
 			else route.push(segment);
 		}
 

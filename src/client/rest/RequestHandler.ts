@@ -68,7 +68,7 @@ export class RequestHandler {
 
 	/**
 	 * Queues a request to be sent
-	 * @param route The api route w/ major parameters
+	 * @param route The generalized api route with literal ids for major parameters
 	 * @param request All the information needed to make a request
 	 */
 	public async push(route: string, url: string, options: RequestInit): Promise<unknown> {
@@ -100,7 +100,7 @@ export class RequestHandler {
 
 	/**
 	 * The method that actually makes the request to the api, and updates info about the bucket accordingly
-	 * @param route The api route w/ major parameters
+	 * @param route The generalized api route with literal ids for major parameters
 	 * @param url The fully resolved url to make the request to
 	 * @param options The node-fetch options needed to make the request
 	 * @param retries The number of retries this request has already attempted (recursion)

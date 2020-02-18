@@ -54,11 +54,11 @@ export class RestManager {
 
 	/**
 	 * Makes a new request
-	 * @param route The api route w/ major parameters
+	 * @param route The generalized api route with literal ids for major parameters
 	 * @param request The request info
 	 */
 	public queueRequest(route: string, request: Request): Promise<unknown> {
-		// When a hash isn't know, fallback to the old "Ratelimits are per route, per major parameter"
+		// When a hash isn't know, fallback to the old "Ratelimits are per generalized route, per major parameter"
 		const hash = this.hashes.get(`${request.method}:${route}`) || `UnknownHash(${route})`;
 		// Get an existing request queue or create a new one
 		const queue = this.queues.get(hash) || this.createQueue(hash);
