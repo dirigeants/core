@@ -77,7 +77,8 @@ export class Router {
 	 * @param endpoint The endpoint we are generalizing
 	 */
 	private static generateRouteIdentifiers(endpoint: string, method: string): RouteIdentifier {
-		const majorParameter = /^\/(?:channels|guilds|webhooks)\/(\d{16,19})/.exec(endpoint)![1];
+		const result = /^\/(?:channels|guilds|webhooks)\/(\d{16,19})/.exec(endpoint);
+		const majorParameter = (result && result[1]) || 'global';
 		const baseRoute = endpoint.replace(/\d{16,19}/g, ':id');
 
 		let exceptions = '';
