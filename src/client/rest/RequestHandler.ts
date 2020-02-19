@@ -6,6 +6,8 @@ import { RestManager } from './RestManager';
 import { AsyncQueue } from '../../util/AsyncQueue';
 import { sleep } from '@klasa/utils';
 import { RouteIdentifier } from './Router';
+import { DiscordAPIError } from './DiscordAPIError';
+import { HTTPError } from './HTTPError';
 
 /**
  * The structure used to handle requests for a given bucket
@@ -174,14 +176,15 @@ export class RequestHandler {
 		} else if (res.status >= 500 && res.status < 600) {
 			// Retry the specified number of times for possible server side issues
 			if (retries !== this.client.options.rest.retryLimit) return this.makeRequest(routeID, url, options, ++retries);
-			// todo: Make an HTTPError class
-			throw new Error([res.statusText, res.constructor.name, res.status, options.method, url].join(', '));
+			// We are out of retries, throw an error
+			throw new HTTPError(res.statusText, res.constructor.name, res.status, options.method as string, url);
 		} else {
 			// Handle possible malformed requests
 			if (res.status >= 400 && res.status < 500) {
+				// The request will not succeed for some reason, parse the error returned from the api
 				const data = await RequestHandler.parseResponse(res);
-				// todo: Make a DiscordAPIError class
-				throw new Error([url, data, options.method, res.status].join(', '));
+				// throw the api error
+				throw new DiscordAPIError(data.message, data.code, res.status, options.method as string, url);
 			}
 			return null;
 		}
