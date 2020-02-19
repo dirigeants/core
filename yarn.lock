@@ -2755,10 +2755,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^3.7.5:
-  version "3.7.5"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.7.5.tgz#0692e21f65fd4108b9330238aac11dd2e177a1ae"
-  integrity sha512-/P5lkRXkWHNAbcJIiHPfRoKqyd7bsyCma1hZNUGfn20qm64T6ZBlrzprymeu918H+mB/0rIg2gGK/BXkhhYgBw==
+typescript@^3.9.0-dev.20200219:
+  version "3.9.0-dev.20200219"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.0-dev.20200219.tgz#9895b7a27566703852ea091325cf62ed3fb6f980"
+  integrity sha512-MuH6+UIDR3nHlR0RbmsCl+9XXogbYKbnY+luKgjtUOpJqKkJvyA5o4HRw18dTRFJntPz8ZJpjB/UEELBvJq4UQ==
 
 unique-string@^2.0.0:
   version "2.0.0"

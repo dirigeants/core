@@ -1,4 +1,4 @@
-import { APIMessageData } from '../../../util/types';
+import { APIMessageData } from '../../../util/types/DiscordAPI';
 import { Client } from '../../Client';
 import { Structure } from './base/Structure';
 

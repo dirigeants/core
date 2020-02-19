@@ -85,7 +85,7 @@ class WebSocketConnection extends WS {
 
 }
 
-let connection: WebSocketConnection = new WebSocketConnection(workerData.url, workerData.token);
+let connection = new WebSocketConnection(workerData.url, workerData.token);
 
 parentPort.on('message', (message) => {
 	if (message.action === 'connect') {

@@ -17,4 +17,4 @@ export * from './util/AsyncQueue';
 export * from './util/Cache';
 export * from './util/Constants';
 export * from './util/Snowflake';
-export * from './util/types';
+export * from './util/types/DiscordAPI';

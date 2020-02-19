@@ -10,15 +10,17 @@ export interface APIActivityData {
 	name: string;
 	type: ActivityType;
 	url?: string | null;
+	created_at: number;
 	timestamps?: APIActivityDataTimestamps[];
 	application_id?: string;
 	details?: string | null;
 	state?: string | null;
+	emoji?: APIActivityDataEmoji | null;
 	party?: APIActivityDataParty;
 	assets?: APIActivityDataAssets;
 	secrets?: APIActivityDataSecrets;
 	instance?: boolean;
-	flags?: number;
+	flags?: ActivityFlags;
 }
 
 /**
@@ -27,6 +29,15 @@ export interface APIActivityData {
 export interface APIActivityDataTimestamps {
 	start?: number;
 	end?: number;
+}
+
+/**
+ * https://discordapp.com/developers/docs/topics/gateway#activity-object-activity-emoji
+ */
+export interface APIActivityDataEmoji {
+	name: string;
+	id?: string;
+	animated?: boolean;
 }
 
 /**
@@ -67,6 +78,7 @@ export interface APIAuditLogData {
 	webhooks: APIWebhookData[];
 	users: APIUserData[];
 	audit_log_entries: APIAuditLogEntryData[];
+	integrations: Partial<APIIntegrationData>[];
 }
 
 /**
@@ -86,8 +98,8 @@ export interface APIAuditLogEntryData {
  * https://discordapp.com/developers/docs/resources/audit-log#audit-log-change-object-audit-log-change-structure
  */
 export interface APIAuditLogChangeData {
-	new_value: any;
-	old_value: any;
+	new_value?: unknown;
+	old_value?: unknown;
 	key: string;
 }
 
@@ -95,10 +107,11 @@ export interface APIAuditLogChangeData {
  * https://discordapp.com/developers/docs/resources/audit-log#audit-log-entry-object-optional-audit-entry-info
  */
 export interface APIAuditLogOptionsData {
-	delete_member_days?: number;
-	members_removed?: number;
+	delete_member_days?: string;
+	members_removed?: string;
 	channel_id?: string;
-	count?: number;
+	message_id?: string;
+	count?: string;
 	id?: string;
 	type?: 'member' | 'role';
 	role_name?: string;
@@ -163,6 +176,10 @@ export interface APIConnectionData {
 	type: string;
 	revoked: boolean;
 	integrations: APIIntegrationData[];
+	verified: boolean;
+	friend_sync: boolean;
+	show_activity: boolean;
+	visibility: ConnectionVisibility;
 }
 
 // #endregion Connections
@@ -174,7 +191,7 @@ export interface APIConnectionData {
  */
 export interface APIEmbedData {
 	title?: string;
-	type?: 'rich' | 'image' | 'video';
+	type?: EmbedType;
 	description?: string;
 	url?: string;
 	timestamp?: string;
@@ -262,8 +279,8 @@ export interface APIEmbedFieldData {
  */
 export interface APIEmojiPartial {
 	id: string | null;
-	name: string;
-	animated: boolean;
+	name: string | null;
+	animated?: boolean;
 }
 
 /**
@@ -294,6 +311,7 @@ export interface APIGuildPartial {
  * https://discordapp.com/developers/docs/resources/guild#guild-object-guild-structure
  */
 export interface APIGuildData extends APIGuildPartial {
+	discovery_splash: string | null;
 	owner?: boolean;
 	owner_id: string;
 	permissions?: number;
@@ -313,6 +331,8 @@ export interface APIGuildData extends APIGuildPartial {
 	widget_enabled?: boolean;
 	widget_channel_id?: boolean;
 	system_channel_id: string | null;
+	system_channel_flags: GuildSystemChannelFlags;
+	rules_channel_id: string | null;
 	joined_at?: string;
 	large?: boolean;
 	unavailable?: boolean;
@@ -321,6 +341,15 @@ export interface APIGuildData extends APIGuildPartial {
 	members?: APIGuildMemberData[];
 	channels?: APIChannelData[];
 	presences?: APIPresenceUpdateData[];
+	max_presences?: number | null;
+	max_members?: number;
+	vanity_url_code: string | null;
+	description: string | null;
+	banner: string | null;
+	premium_tier: GuildPremiumTier;
+	premium_subscription_count?: number;
+	preferred_locale: string;
+	public_updates_channel_id: string | null;
 }
 
 /**
@@ -371,6 +400,9 @@ export interface APIInviteData {
 	code: string;
 	guild?: APIGuildPartial;
 	channel: APIChannelPartial;
+	inviter?: APIUserData;
+	target_user?: APIUserData;
+	target_user_type?: number;
 	approximate_presence_count?: number;
 	approximate_member_count?: number;
 }
@@ -379,13 +411,11 @@ export interface APIInviteData {
  * https://discordapp.com/developers/docs/resources/invite#invite-metadata-object-invite-metadata-structure
  */
 export interface APIInviteMetadataData {
-	inviter: APIUserData;
 	uses: number;
 	max_uses: number;
 	max_age: number;
 	temporary: boolean;
 	created_at: string;
-	revoked: boolean;
 }
 
 // #endregion Invites
@@ -399,6 +429,7 @@ export interface APIGuildMemberPartial {
 	nick?: string;
 	roles: string[];
 	joined_at: string;
+	premium_since?: string | null;
 	deaf: boolean;
 	mute: boolean;
 }
@@ -430,6 +461,7 @@ export interface APIMessageData {
 	mention_everyone: boolean;
 	mentions: (APIUserData | (APIUserData & APIGuildMemberPartial))[];
 	mention_roles: string[];
+	mention_channels: APIMessageMentionChannelData[];
 	attachments: APIMessageAttachmentData[];
 	embeds: APIEmbedData[];
 	reactions?: APIReactionData[];
@@ -439,6 +471,8 @@ export interface APIMessageData {
 	type: MessageType;
 	activity?: APIMessageActivityData;
 	application?: APIMessageApplicationData;
+	message_reference?: APIMessageReferenceData;
+	flags?: MessageFlags;
 }
 
 /**
@@ -458,7 +492,7 @@ export interface APIMessageAttachmentData {
  * https://discordapp.com/developers/docs/resources/channel#message-object-message-activity-structure
  */
 export interface APIMessageActivityData {
-	type: MessageType;
+	type: MessageActivityType;
 	party_id?: string;
 }
 
@@ -467,9 +501,28 @@ export interface APIMessageActivityData {
  */
 export interface APIMessageApplicationData {
 	id: string;
-	cover_image: string;
+	cover_image?: string;
 	description: string;
-	icon: string;
+	icon: string | null;
+	name: string;
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/channel#message-object-message-reference-structure
+ */
+export interface APIMessageReferenceData {
+	message_id?: string;
+	channel_id: string;
+	guild_id?: string;
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/channel#channel-mention-object
+ */
+export interface APIMessageMentionChannelData {
+	id: string;
+	guild_id: string;
+	type: ChannelType;
 	name: string;
 }
 
@@ -478,7 +531,7 @@ export interface APIMessageApplicationData {
 // #region PermissionOverwrites
 
 /**
- * https://discordapp.com/developers/docs/resources/channel#reaction-object
+ * https://discordapp.com/developers/docs/resources/channel#overwrite-object
  */
 export interface APIOverwriteData {
 	id: string;
@@ -501,7 +554,15 @@ export interface APIPresenceUpdateData {
 	guild_id: string;
 	status: PresenceUpdateStatus;
 	activities: APIActivityData[];
+	client_status: APIClientStatusData;
+	premium_since?: string | null;
+	nick?: string | null;
 }
+
+/**
+ * https://discordapp.com/developers/docs/topics/gateway#client-status-object
+ */
+export type APIClientStatusData = Partial<Record<'desktop' | 'mobile' | 'web', PresenceUpdateStatus>>
 
 // #endregion Presence
 
@@ -547,10 +608,13 @@ export interface APIUserData {
 	discriminator: string;
 	avatar: string | null;
 	bot?: boolean;
+	system?: boolean;
 	mfa_enabled?: boolean;
 	locale?: string;
 	verified?: boolean;
 	email?: string;
+	flags?: UserFlags;
+	premium_type?: PremiumType;
 }
 
 // #endregion Users
@@ -568,6 +632,7 @@ export interface APIVoiceStatePartial {
 	mute: boolean;
 	self_deaf: boolean;
 	self_mute: boolean;
+	self_stream?: boolean;
 	suppress: boolean;
 }
 
@@ -600,12 +665,13 @@ export interface APIVoiceRegionData {
  */
 export interface APIWebhookData {
 	id: string;
+	type: WebhookType;
 	guild_id?: string;
 	channel_id: string;
 	user?: APIUserData;
 	name: string | null;
 	avatar: string | null;
-	token: string;
+	token?: string;
 }
 
 // #endregion Webhooks
@@ -613,6 +679,26 @@ export interface APIWebhookData {
 // #endregion API Payloads
 
 // #region Enums
+
+/**
+ * https://discordapp.com/developers/docs/topics/gateway#activity-object-activity-flags
+ */
+export const enum ActivityFlags {
+	Instance = 1 << 0,
+	Join = 1 << 1,
+	Spectate = 1 << 2,
+	JoinRequest = 1 << 3,
+	Sync = 1 << 4,
+	Play = 1 << 5
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/user#connection-object-visibility-types
+ */
+export const enum ConnectionVisibility {
+	None,
+	Everyone
+}
 
 /**
  * https://discordapp.com/developers/docs/resources/channel#message-object-message-types
@@ -625,7 +711,33 @@ export const enum MessageType {
 	ChannelNameChange,
 	ChannelIconChange,
 	ChannelPinnedMessage,
-	GuildMemberJoin
+	GuildMemberJoin,
+	UserPremiumGuildSubscription,
+	UserPremiumGuildSubscriptionTier1,
+	UserPremiumGuildSubscriptionTier2,
+	UserPremiumGuildSubscriptionTier3,
+	ChannelFollowAdd
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/channel#message-object-message-activity-types
+ */
+export const enum MessageActivityType {
+	Join = 1,
+	Spectate,
+	Listen,
+	JoinRequest
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/channel#message-object-message-flags
+ */
+export const enum MessageFlags {
+	Crossposted = 1 << 0,
+	IsCrosspost = 1 << 1,
+	SuppressEmbeds = 1 << 2,
+	SourceMessageDeleted = 1 << 3,
+	Urgent = 1 << 4
 }
 
 /**
@@ -665,6 +777,24 @@ export const enum GuildVerificationLevel {
 }
 
 /**
+ * https://discordapp.com/developers/docs/resources/guild#guild-object-system-channel-flags
+ */
+export const enum GuildSystemChannelFlags {
+	SuppressJoinNotifications = 1 << 0,
+	SuppressPremiumSubscriptions = 1 << 1
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/guild#guild-object-premium-tier
+ */
+export const enum GuildPremiumTier {
+	None,
+	Tier1,
+	Tier2,
+	Tier3
+}
+
+/**
  * https://discordapp.com/developers/docs/resources/channel#channel-object-channel-types
  */
 export const enum ChannelType {
@@ -672,7 +802,10 @@ export const enum ChannelType {
 	DM,
 	GuildVoice,
 	GroupDM,
-	GuildCategory
+	GuildCategory,
+	// According to Discords Dev Docs it's GUILD_NEWS, but according to the client it's Announcement Channels
+	GuildAnnouncement,
+	GuildStore,
 }
 
 /**
@@ -691,7 +824,8 @@ export const enum PresenceUpdateStatus {
 export const enum ActivityType {
 	Game,
 	Streaming,
-	Listening
+	Listening,
+	CustomStatus = 4
 }
 
 /**
@@ -711,6 +845,9 @@ export const enum AuditLogEvent {
 	MemberBanRemove = 23,
 	MemberUpdate = 24,
 	MemberRoleUpdate = 25,
+	MemberMode = 26,
+	MemberDisconnect = 27,
+	BotAdd = 28,
 	RoleCreate = 30,
 	RoleUpdate = 31,
 	RoleDelete = 32,
@@ -723,7 +860,50 @@ export const enum AuditLogEvent {
 	EmojiCreate = 60,
 	EmojiUpdate = 61,
 	EmojiDelete = 62,
-	MessageDelete = 72
+	MessageDelete = 72,
+	MessageBulkDelete = 73,
+	MessagePin = 74,
+	MessageUnPin = 75,
+	IntegrationCreate = 80,
+	IntegrationUpdate = 81,
+	IntegrationDelete = 82
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/user#user-object-user-flags
+ */
+export const enum UserFlags {
+	Employee = 1 << 0,
+	Partner = 1 << 1,
+	HypeSquadEvents = 1 << 2,
+	BugHunterLevel1 = 1 << 3,
+	HypeSquadHouseBravery = 1 << 6,
+	HypeSquadHouseBrilliance = 1 << 7,
+	HypeSquadHouseBalance = 1 << 8,
+	EarlySupporter = 1 << 9,
+	TeamUser = 1 << 10,
+	System = 1 << 12,
+	BugHunterTier2 = 1 << 14
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/user#user-object-premium-types
+ */
+export const enum PremiumType {
+	NitroClassic = 1,
+	Nitro
+}
+
+/**
+ * https://discordapp.com/developers/docs/resources/webhook#webhook-object-webhook-types
+ */
+export const enum WebhookType {
+	Incoming = 1,
+	ChannelFollower
 }
 
 // #endregion Enums
+
+// #region Types
+export type EmbedType = 'link' | 'rich' | 'image' | 'video' | 'gifv' | 'article' | 'application_news';
+// #endregion Types
