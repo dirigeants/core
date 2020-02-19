@@ -1,8 +1,3 @@
-/**
- * Snowflakes
- */
-export type Snowflake = string;
-
 // #region API Payloads
 // (prefixed with API, suffix is Data for full payloads or Partial)
 
@@ -16,7 +11,7 @@ export interface APIActivityData {
 	type: ActivityType;
 	url?: string | null;
 	timestamps?: APIActivityDataTimestamps[];
-	application_id?: Snowflake;
+	application_id?: string;
 	details?: string | null;
 	state?: string | null;
 	party?: APIActivityDataParty;
@@ -38,7 +33,7 @@ export interface APIActivityDataTimestamps {
  * https://discordapp.com/developers/docs/topics/gateway#activity-object-activity-party
  */
 export interface APIActivityDataParty {
-	id?: Snowflake;
+	id?: string;
 	size?: [number, number];
 }
 
@@ -78,10 +73,10 @@ export interface APIAuditLogData {
  * https://discordapp.com/developers/docs/resources/audit-log#audit-log-entry-object
  */
 export interface APIAuditLogEntryData {
-	target_id: Snowflake | null;
+	target_id: string | null;
 	changes?: APIAuditLogChangeData[];
-	user_id: Snowflake;
-	id: Snowflake;
+	user_id: string;
+	id: string;
 	action_type: AuditLogEvent;
 	options?: APIAuditLogOptionsData;
 	reason?: string;
@@ -102,9 +97,9 @@ export interface APIAuditLogChangeData {
 export interface APIAuditLogOptionsData {
 	delete_member_days?: number;
 	members_removed?: number;
-	channel_id?: Snowflake;
+	channel_id?: string;
 	count?: number;
-	id?: Snowflake;
+	id?: string;
 	type?: 'member' | 'role';
 	role_name?: string;
 }
@@ -129,7 +124,7 @@ export interface APIBanData {
  * Not Documented, but partial only includes id, name, and type
  */
 export interface APIChannelPartial {
-	id: Snowflake;
+	id: string;
 	type: ChannelType;
 	name?: string;
 }
@@ -138,7 +133,7 @@ export interface APIChannelPartial {
  * https://discordapp.com/developers/docs/resources/channel#channel-object
  */
 export interface APIChannelData extends APIChannelPartial {
-	guild_id?: Snowflake;
+	guild_id?: string;
 	position?: number;
 	permission_overwrites?: APIOverwriteData[];
 	topic?: string | null;
@@ -149,9 +144,9 @@ export interface APIChannelData extends APIChannelPartial {
 	rate_limit_per_user?: number;
 	recipients?: APIUserData[];
 	icon?: string | null;
-	owner_id?: Snowflake;
-	application_id?: Snowflake;
-	parent_id?: Snowflake | null;
+	owner_id?: string;
+	application_id?: string;
+	parent_id?: string | null;
 	last_pin_timestamp?: string;
 }
 
@@ -266,7 +261,7 @@ export interface APIEmbedFieldData {
  * Not Documented, but partial doesn't include roles, users, require_colons, or managed
  */
 export interface APIEmojiPartial {
-	id: Snowflake | null;
+	id: string | null;
 	name: string;
 	animated: boolean;
 }
@@ -275,7 +270,7 @@ export interface APIEmojiPartial {
  * https://discordapp.com/developers/docs/resources/emoji#emoji-object-emoji-structure
  */
 export interface APIEmojiData extends APIEmojiPartial {
-	roles?: Snowflake[];
+	roles?: string[];
 	user?: APIUserData;
 	require_colons?: boolean;
 	managed?: boolean;
@@ -289,7 +284,7 @@ export interface APIEmojiData extends APIEmojiPartial {
  * Not Documented, but partial only includes id, name, icon, and splash
  */
 export interface APIGuildPartial {
-	id: Snowflake;
+	id: string;
 	name: string;
 	icon: string | null;
 	splash: string | null;
@@ -300,13 +295,13 @@ export interface APIGuildPartial {
  */
 export interface APIGuildData extends APIGuildPartial {
 	owner?: boolean;
-	owner_id: Snowflake;
+	owner_id: string;
 	permissions?: number;
 	region: string;
-	afk_channel_id: Snowflake | null;
+	afk_channel_id: string | null;
 	afk_timeout: number;
 	embed_enabled?: boolean;
-	embed_channel_id?: Snowflake;
+	embed_channel_id?: string;
 	verification_level: GuildVerificationLevel;
 	default_message_notifications: GuildDefaultMessageNotifications;
 	explicit_content_filter: GuildExplicitContentFilterLevel;
@@ -314,10 +309,10 @@ export interface APIGuildData extends APIGuildPartial {
 	emojis: APIEmojiData[];
 	features: string[];
 	mfa_level: GuildMFALevel;
-	application_id: Snowflake | null;
+	application_id: string | null;
 	widget_enabled?: boolean;
 	widget_channel_id?: boolean;
-	system_channel_id: Snowflake | null;
+	system_channel_id: string | null;
 	joined_at?: string;
 	large?: boolean;
 	unavailable?: boolean;
@@ -333,7 +328,7 @@ export interface APIGuildData extends APIGuildPartial {
  */
 export interface APIGuildEmbedData {
 	enabled: boolean;
-	channel_id: Snowflake | null;
+	channel_id: string | null;
 }
 
 // #endregion Guilds
@@ -344,12 +339,12 @@ export interface APIGuildEmbedData {
  * https://discordapp.com/developers/docs/resources/guild#integration-object-integration-structure
  */
 export interface APIIntegrationData {
-	id: Snowflake;
+	id: string;
 	name: string;
 	type: string;
 	enabled: boolean;
 	syncing: boolean;
-	role_id: Snowflake;
+	role_id: string;
 	expire_behavior: number;
 	expire_grace_period: number;
 	user: APIUserData;
@@ -361,7 +356,7 @@ export interface APIIntegrationData {
  * https://discordapp.com/developers/docs/resources/guild#integration-account-object
  */
 export interface APIIntegrationAccountData {
-	id: Snowflake;
+	id: string;
 	name: string;
 }
 
@@ -402,7 +397,7 @@ export interface APIInviteMetadataData {
  */
 export interface APIGuildMemberPartial {
 	nick?: string;
-	roles: Snowflake[];
+	roles: string[];
 	joined_at: string;
 	deaf: boolean;
 	mute: boolean;
@@ -423,9 +418,9 @@ export interface APIGuildMemberData extends APIGuildMemberPartial {
  * https://discordapp.com/developers/docs/resources/channel#message-object-message-structure
  */
 export interface APIMessageData {
-	id: Snowflake;
-	channel_id: Snowflake;
-	guild_id?: Snowflake;
+	id: string;
+	channel_id: string;
+	guild_id?: string;
 	author: APIUserData;
 	member?: APIGuildMemberPartial;
 	content: string;
@@ -434,13 +429,13 @@ export interface APIMessageData {
 	tts: boolean;
 	mention_everyone: boolean;
 	mentions: (APIUserData | (APIUserData & APIGuildMemberPartial))[];
-	mention_roles: Snowflake[];
+	mention_roles: string[];
 	attachments: APIMessageAttachmentData[];
 	embeds: APIEmbedData[];
 	reactions?: APIReactionData[];
-	nonce?: Snowflake | null;
+	nonce?: string | null;
 	pinned: boolean;
-	webhook_id?: Snowflake;
+	webhook_id?: string;
 	type: MessageType;
 	activity?: APIMessageActivityData;
 	application?: APIMessageApplicationData;
@@ -450,7 +445,7 @@ export interface APIMessageData {
  * https://discordapp.com/developers/docs/resources/channel#attachment-object
  */
 export interface APIMessageAttachmentData {
-	id: Snowflake;
+	id: string;
 	filename: string;
 	size: number;
 	url: string;
@@ -471,7 +466,7 @@ export interface APIMessageActivityData {
  * https://discordapp.com/developers/docs/resources/channel#message-object-message-application-structure
  */
 export interface APIMessageApplicationData {
-	id: Snowflake;
+	id: string;
 	cover_image: string;
 	description: string;
 	icon: string;
@@ -486,7 +481,7 @@ export interface APIMessageApplicationData {
  * https://discordapp.com/developers/docs/resources/channel#reaction-object
  */
 export interface APIOverwriteData {
-	id: Snowflake;
+	id: string;
 	type: 'role' | 'member';
 	allow: number;
 	deny: number;
@@ -501,9 +496,9 @@ export interface APIOverwriteData {
  */
 export interface APIPresenceUpdateData {
 	user: APIUserData;
-	roles: Snowflake[];
+	roles: string[];
 	game: APIActivityData | null;
-	guild_id: Snowflake;
+	guild_id: string;
 	status: PresenceUpdateStatus;
 	activities: APIActivityData[];
 }
@@ -529,7 +524,7 @@ export interface APIReactionData {
  * https://discordapp.com/developers/docs/topics/permissions#role-object
  */
 export interface APIRoleData {
-	id: Snowflake;
+	id: string;
 	name: string;
 	color: number;
 	hoist: boolean;
@@ -547,7 +542,7 @@ export interface APIRoleData {
  * https://discordapp.com/developers/docs/resources/user#user-object
  */
 export interface APIUserData {
-	id: Snowflake;
+	id: string;
 	username: string;
 	discriminator: string;
 	avatar: string | null;
@@ -566,8 +561,8 @@ export interface APIUserData {
  * Not Documented, but partial doesn't include guild_id or member
  */
 export interface APIVoiceStatePartial {
-	channel_id: Snowflake | null;
-	user_id: Snowflake;
+	channel_id: string | null;
+	user_id: string;
 	session_id: string;
 	deaf: boolean;
 	mute: boolean;
@@ -580,7 +575,7 @@ export interface APIVoiceStatePartial {
  * https://discordapp.com/developers/docs/resources/voice#voice-state-object
  */
 export interface APIVoiceStateData extends APIVoiceStatePartial {
-	guild_id?: Snowflake;
+	guild_id?: string;
 	member?: APIGuildMemberData;
 }
 
@@ -604,9 +599,9 @@ export interface APIVoiceRegionData {
  * https://discordapp.com/developers/docs/resources/webhook#webhook-object-webhook-structure
  */
 export interface APIWebhookData {
-	id: Snowflake;
-	guild_id?: Snowflake;
-	channel_id: Snowflake;
+	id: string;
+	guild_id?: string;
+	channel_id: string;
 	user?: APIUserData;
 	name: string | null;
 	avatar: string | null;
