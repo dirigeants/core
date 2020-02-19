@@ -2,7 +2,7 @@
   "name": "project-blue",
   "version": "0.0.1",
   "description": "wip-concept",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "prepublishOnly": "yarn build",
     "build": "tsc",
