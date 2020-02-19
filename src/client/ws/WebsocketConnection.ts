@@ -13,8 +13,7 @@ const enum OpCodes {
 	IDENTIFY,
 	STATUS_UPDATE,
 	VOICE_STATE_UPDATE,
-	VOICE_GUILD_PING,
-	RESUME,
+	RESUME = 6,
 	RECONNECT,
 	REQUEST_GUILD_MEMBERS,
 	INVALID_SESSION,
@@ -23,9 +22,10 @@ const enum OpCodes {
 }
 
 export interface DataPacket {
-	t: string;
-	d: any;
 	op: number;
+	d?: unknown;
+	s: string;
+	t?: string;
 }
 
 class WebSocketConnection extends WS {
@@ -62,13 +62,7 @@ class WebSocketConnection extends WS {
 		switch (packet.op) {
 			case OpCodes.DISPATCH: return this.dispatch(packet);
 			case OpCodes.HEARTBEAT: return this.heartbeat(packet);
-			case OpCodes.IDENTIFY: return this.heartbeat(packet);
-			case OpCodes.STATUS_UPDATE: return this.heartbeat(packet);
-			case OpCodes.VOICE_STATE_UPDATE: return this.heartbeat(packet);
-			case OpCodes.VOICE_GUILD_PING: return this.heartbeat(packet);
-			case OpCodes.RESUME: return this.heartbeat(packet);
 			case OpCodes.RECONNECT: return this.heartbeat(packet);
-			case OpCodes.REQUEST_GUILD_MEMBERS: return this.heartbeat(packet);
 			case OpCodes.INVALID_SESSION: return this.heartbeat(packet);
 			case OpCodes.HELLO: return this.heartbeat(packet);
 			case OpCodes.HEARTBEAT_ACK: return this.heartbeat(packet);
