@@ -122,6 +122,10 @@ export class RequestHandler {
 
 		try {
 			res = await fetch(url, { ...options, signal: controller.signal });
+		} catch (error) {
+			// Retry the specified number of times for possible timed out requests
+			if (error.name === 'AbortError' && retries !== this.client.options.rest.retries) return this.makeRequest(routeID, url, options, ++retries);
+			throw error;
 		} finally {
 			clearTimeout(timeout);
 		}
@@ -175,7 +179,7 @@ export class RequestHandler {
 			return this.makeRequest(routeID, url, options, retries);
 		} else if (res.status >= 500 && res.status < 600) {
 			// Retry the specified number of times for possible server side issues
-			if (retries !== this.client.options.rest.retryLimit) return this.makeRequest(routeID, url, options, ++retries);
+			if (retries !== this.client.options.rest.retries) return this.makeRequest(routeID, url, options, ++retries);
 			// We are out of retries, throw an error
 			throw new HTTPError(res.statusText, res.constructor.name, res.status, options.method as string, url);
 		} else {

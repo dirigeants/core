@@ -12,7 +12,7 @@ export interface ClientOptions {
 
 export interface RestOptions {
 	offset: number;
-	retryLimit: number;
+	retries: number;
 	timeout: number;
 	version: number;
 	api: string;
