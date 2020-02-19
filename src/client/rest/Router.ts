@@ -78,9 +78,12 @@ export class Router {
 	 */
 	private static generateRouteIdentifiers(endpoint: string, method: string): RouteIdentifier {
 		const result = /^\/(?:channels|guilds|webhooks)\/(\d{16,19})/.exec(endpoint);
-		const majorParameter = (result && result[1]) || 'global';
+		// If there is no major parameter, all requests should be bucketed together globally across the api
+		const majorParameter = result ? result[1] : 'global';
+		// Convert all specific ids to a general string so the route is generic
 		const baseRoute = endpoint.replace(/\d{16,19}/g, ':id');
 
+		// Add-on strings to split route identifiers apart where discord has made rate-limiting exceptions
 		let exceptions = '';
 
 		// Hard-Code Old Message Deletion Exception (2 week+ old messages are a different bucket)
