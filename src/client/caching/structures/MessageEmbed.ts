@@ -1,27 +1,83 @@
 import { deepClone } from '@klasa/utils';
-import { APIEmbedData, APIEmbedFieldData, APIEmbedProviderData, EmbedType } from '../../../util/types/DiscordAPI';
+import { APIEmbedData, APIEmbedFieldData, APIEmbedProviderData, EmbedType, APIEmbedAuthorData, APIEmbedFooterData, APIEmbedImageData } from '../../../util/types/DiscordAPI';
 
-export class MessageEmbed implements EmbedData {
+export interface StringableObject {
+	toString(): string;
+}
 
+export type StringResolvable = string | StringableObject;
+
+/**
+ * Handles Message Embed creation and received embeds
+ */
+export class MessageEmbed implements APIEmbedData {
+
+	/**
+	 * Embed Fields
+	 */
 	public fields!: APIEmbedFieldData[];
+
+	/**
+	 * The type of embed
+	 */
 	public type?: EmbedType;
+
+	/**
+	 * The embed title
+	 */
 	public title?: string;
+
+	/**
+	 * The embed description
+	 */
 	public description?: string;
+
+	/**
+	 * The embed url
+	 */
 	public url?: string;
+
+	/**
+	 * The embed bar color
+	 */
 	public color?: number;
-	public timestamp!: number | null;
-	public thumbnail!: ImageData | null;
-	public image!: ImageData | null;
-	public video!: ImageData | null;
-	public author!: AuthorIconData | null;
+
+	/**
+	 * The timestamp of the embed
+	 */
+	public timestamp?: string;
+
+	/**
+	 * The embed thumbnail data
+	 */
+	public thumbnail?: APIEmbedImageData;
+
+	/**
+	 * The embed image data
+	 */
+	public image?: APIEmbedImageData;
+
+	/**
+	 * Received video data
+	 */
+	public video?: APIEmbedImageData;
+
+	/**
+	 * The embed author data
+	 */
+	public author?: APIEmbedAuthorData;
+
+	/**
+	 * Received data about the embed provider
+	 */
 	public provider?: APIEmbedProviderData;
-	public footer!: IconData | null;
+
+	/**
+	 * The embed footer data
+	 */
+	public footer?: APIEmbedFooterData;
 
 	public constructor(data: APIEmbedData = {}) {
-		this.setup(data);
-	}
-
-	public setup(data: APIEmbedData) {
 		this.type = data.type;
 
 		this.title = data.title;
@@ -32,168 +88,241 @@ export class MessageEmbed implements EmbedData {
 
 		this.color = Number(data.color);
 
-		this.timestamp = data.timestamp ? new Date(data.timestamp).getTime() : null;
+		this.timestamp = data.timestamp ? new Date(data.timestamp).toISOString() : undefined;
 
 		this.fields = data.fields ? data.fields.map(deepClone) : [];
 
 		this.thumbnail = data.thumbnail ? {
 			url: data.thumbnail.url,
-			proxyURL: data.thumbnail.proxy_url,
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			proxy_url: data.thumbnail.proxy_url,
 			height: data.thumbnail.height,
 			width: data.thumbnail.width
-		} : null;
+		} : undefined;
 
 		this.image = data.image ? {
 			url: data.image.url,
-			proxyURL: data.image.proxy_url,
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			proxy_url: data.image.proxy_url,
 			height: data.image.height,
 			width: data.image.width
-		} : null;
+		} : undefined;
 
 		this.video = data.video ? {
 			url: data.video.url,
 			height: data.video.height,
 			width: data.video.width
-		} : null;
+		} : undefined;
 
 		this.author = data.author ? {
 			name: data.author.name,
 			url: data.author.url,
-			iconURL: data.author.icon_url,
-			proxyIconURL: data.author.proxy_icon_url
-		} : null;
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			icon_url: data.author.icon_url,
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			proxy_icon_url: data.author.proxy_icon_url
+		} : undefined;
 
 		this.provider = data.provider;
 
 		this.footer = data.footer ? {
 			text: data.footer.text,
-			iconURL: data.footer.icon_url,
-			proxyIconURL: data.footer.proxy_icon_url
-		} : null;
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			icon_url: data.footer.icon_url,
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			proxy_icon_url: data.footer.proxy_icon_url
+		} : undefined;
 	}
 
+	/**
+	 * JS Date of the embed timestamp
+	 */
 	public get createdAt(): Date | null {
 		return this.timestamp ? new Date(this.timestamp) : null;
 	}
 
+	/**
+	 * The color as hex
+	 */
 	public get hexColor(): string | null {
 		return this.color ? `#${this.color.toString(16).padStart(6, '0')}` : null;
 	}
 
-	public addFields(...fields: EmbedFields): this {
-		this.fields.push(...MessageEmbed.normalizeFields(...fields));
+	/**
+	 * Adds a field to the embed
+	 * @param name The field name
+	 * @param value The field value
+	 * @param inline If the field should be inline with other fields
+	 */
+	public addField(name: StringResolvable, value: StringResolvable, inline?: boolean): this {
+		this.fields.push(MessageEmbed.checkField(name, value, inline));
 		return this;
 	}
 
+	/**
+	 * Adds a blank field to the embed
+	 * @param inline If the field should be inline with other fields
+	 */
 	public addBlankField(inline?: boolean): this {
-		return this.addFields({ name: '\u200B', value: '\u200B', inline });
+		return this.addField('\u200B', '\u200B', inline);
 	}
 
-	public spliceFields(index: number, deleteCount: number, ...fields: EmbedFields): this {
-		this.fields.splice(index, deleteCount, ...MessageEmbed.normalizeFields(...fields));
+	/**
+	 * Deletes and/or inserts fields by index in the embed
+	 * @param index The index to start at
+	 * @param deleteCount How many fields to delete
+	 * @param name The field name to insert
+	 * @param value The field value to insert
+	 * @param inline If the inserted field is inline
+	 */
+	public spliceField(index: number, deleteCount: number, name?: StringResolvable, value?: StringResolvable, inline?: boolean): this {
+		if (name && value) this.fields.splice(index, deleteCount, MessageEmbed.checkField(name, value, inline));
+		else this.fields.splice(index, deleteCount);
 		return this;
 	}
 
-	public setAuthor(name: string, iconURL?: string, url?: string): this {
-		this.author = { ...this.author, name: String(name), iconURL, url };
+	/**
+	 * Sets the author with new data
+	 * @param name The author's name
+	 * @param iconURL The icon url for the author
+	 * @param url The url for clicking on the author
+	 */
+	public setAuthor(name?: string, iconURL?: string, url?: string): this {
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		this.author = name === undefined ? undefined : { name: String(name), icon_url: iconURL, url };
 		return this;
 	}
 
-	public setColor(color: number): this {
-		this.color = Number(color);
+	/**
+	 * Updates existing author data fields
+	 * @param data The fields you want to update
+	 */
+	public updateAuthor(data: APIEmbedAuthorData): this {
+		this.author = { ...this.author, ...data };
 		return this;
 	}
 
-	public setFooter(text: string, iconURL?: string): this {
-		this.footer = { ...this.footer, text: String(text), iconURL };
+	/**
+	 * Sets the color of the embed bar
+	 * @param color The color to set the bar
+	 */
+	public setColor(color?: number): this {
+		this.color = color;
 		return this;
 	}
 
-	public setImage(url: string): this {
-		this.image = { ...this.image, url };
+	/**
+	 * Sets the footer to new data
+	 * @param text The footer text
+	 * @param iconURL The url for the footer icon
+	 */
+	public setFooter(text?: StringResolvable, iconURL?: string): this {
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		this.footer = text === undefined ? undefined : { text: String(text), icon_url: iconURL };
 		return this;
 	}
 
-	public setThumbnail(url: string): this {
-		this.thumbnail = { ...this.thumbnail, url };
+	/**
+	 * Updates the footer to new data
+	 * @param data The fields you want to update
+	 */
+	public updateFooter(data: APIEmbedFooterData): this {
+		this.footer = { ...this.footer, ...data };
 		return this;
 	}
 
-	public setTimestamp(timestamp: number | Date = Date.now()): this {
-		this.timestamp = timestamp instanceof Date ? timestamp.getTime() : timestamp;
+	/**
+	 * Sets the image url you would like
+	 * @param url The url of the image
+	 */
+	public setImage(url?: StringResolvable): this {
+		this.image = url === undefined ? undefined : { url: String(url) };
 		return this;
 	}
 
-	public setTitle(title: string): this {
-		this.title = String(title);
+	/**
+	 * Updates the image data you would like
+	 * @param data The fields you want to update
+	 */
+	public updateImage(data: APIEmbedImageData): this {
+		this.image = { ...this.image, ...data };
 		return this;
 	}
 
-	public setURL(url: string): this {
-		this.url = url;
+	/**
+	 * Sets the image url you would like
+	 * @param url The url of the image
+	 */
+	public setThumbnail(url?: StringResolvable): this {
+		this.thumbnail = url === undefined ? undefined : { url: String(url) };
 		return this;
 	}
 
-	public toJSON(): MessageEmbedJSON {
-		return {
-			title: this.title,
-			type: 'rich',
-			description: this.description,
-			url: this.url,
-			timestamp: this.timestamp ? new Date(this.timestamp) : null,
-			color: this.color,
-			fields: this.fields,
-			thumbnail: this.thumbnail,
-			image: this.image,
-			author: this.author ? {
-				name: this.author.name,
-				url: this.author.url,
-				icon_url: this.author.iconURL
-			} : undefined,
-			footer: this.footer ? {
-				text: this.footer.text!,
-				icon_url: this.footer.iconURL
-			} : undefined
-		};
+	/**
+	 * Updates the image data you would like
+	 * @param data The fields you want to update
+	 */
+	public updateThumbnail(data: APIEmbedImageData): this {
+		this.thumbnail = { ...this.thumbnail, ...data };
+		return this;
 	}
 
-	private static normalizeField(name: string, value: string, inline = false): Required<APIEmbedFieldData> {
-		if (typeof name !== 'string') name = String(name);
-		if (typeof value !== 'string') value = String(value);
+	/**
+	 * Sets the timestamp for the Embed
+	 * @param timestamp The timestamp you want to set
+	 */
+	public setTimestamp(timestamp?: number | Date): this {
+		this.timestamp = timestamp === undefined ? undefined : new Date(timestamp).toISOString();
+		return this;
+	}
+
+	/**
+	 * Sets the timestamp to now
+	 */
+	public updateTimestamp(): this {
+		this.timestamp = new Date().toISOString();
+		return this;
+	}
+
+	/**
+	 * Sets the title of the embed
+	 * @param title The title you want
+	 */
+	public setTitle(title?: StringResolvable): this {
+		this.title = title === undefined ? undefined : String(title);
+		return this;
+	}
+
+	/**
+	 * Sets the title of the embed
+	 * @param description The description you want
+	 */
+	public setDescription(description?: StringResolvable): this {
+		this.description = description === undefined ? undefined : String(description);
+		return this;
+	}
+
+	/**
+	 * Sets the url of the embed
+	 * @param url The url to click on
+	 */
+	public setURL(url?: StringResolvable): this {
+		this.url = url === undefined ? undefined : String(url);
+		return this;
+	}
+
+	/**
+	 * Checks for valid field input and resolves strings
+	 * @param name The name of the field
+	 * @param value The value of the field
+	 * @param inline Set the field to display inline
+	 */
+	private static checkField(name: StringResolvable, value: StringResolvable, inline = false): APIEmbedFieldData {
+		name = String(name);
+		if (typeof name !== 'string') throw new TypeError(`Embed field name must be a string or have a toString() method, received: ${typeof name}`);
+		value = String(value);
+		if (typeof value !== 'string') throw new TypeError(`Embed field value must be a string or have a toString() method: ${typeof value}`);
 		return { name, value, inline };
 	}
 
-	private static normalizeFields(...fields: EmbedFields): Required<APIEmbedFieldData>[] {
-		return fields.flat(2).map(({ name, value, inline }: APIEmbedFieldData): Required<APIEmbedFieldData> => this.normalizeField(name, value, inline));
-	}
-
-}
-
-interface ImageData {
-	url?: string;
-	proxyURL?: string;
-	height?: number;
-	width?: number;
-}
-
-interface IconData {
-	proxyIconURL?: string;
-	text?: string;
-	iconURL?: string;
-}
-
-interface AuthorIconData extends Omit<IconData, 'text'> {
-	name?: string;
-	url?: string;
-}
-
-type EmbedData = Omit<APIEmbedData, 'timestamp' | 'thumbnail' | 'image' | 'video' | 'author' | 'footer'>;
-
-type EmbedFields = (APIEmbedFieldData | APIEmbedFieldData[])[];
-
-interface MessageEmbedJSON extends Omit<APIEmbedData, 'type' | 'timestamp' | 'thumbnail' | 'image'> {
-	type: 'rich';
-	timestamp: Date | null;
-	thumbnail: ImageData | null;
-	image: ImageData | null;
 }
