@@ -12,7 +12,7 @@
     "declaration": true,
     "noUnusedLocals": true,
     "removeComments": false,
-    "target": "esnext",
+    "target": "ESNext",
     "resolveJsonModule": true
   },
   "exclude": [
