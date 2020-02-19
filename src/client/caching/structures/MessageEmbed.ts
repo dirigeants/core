@@ -1,11 +1,9 @@
 import { deepClone } from '@klasa/utils';
 import { APIEmbedData, APIEmbedFieldData, APIEmbedProviderData, EmbedType, APIEmbedAuthorData, APIEmbedFooterData, APIEmbedImageData } from '../../../util/types/DiscordAPI';
 
-export interface StringableObject {
+export interface StringResolvable {
 	toString(): string;
 }
-
-export type StringResolvable = string | StringableObject;
 
 /**
  * Handles Message Embed creation and received embeds
@@ -187,9 +185,11 @@ export class MessageEmbed implements APIEmbedData {
 	 * @param iconURL The icon url for the author
 	 * @param url The url for clicking on the author
 	 */
-	public setAuthor(name?: string, iconURL?: string, url?: string): this {
+	public setAuthor(name?: StringResolvable, iconURL?: StringResolvable, url?: StringResolvable): this {
+		const icon = iconURL === undefined ? undefined : String(iconURL);
+		const link = url === undefined ? undefined : String(url);
 		// eslint-disable-next-line @typescript-eslint/camelcase
-		this.author = name === undefined ? undefined : { name: String(name), icon_url: iconURL, url };
+		this.author = name === undefined ? undefined : { name: String(name), icon_url: icon, url: link };
 		return this;
 	}
 
@@ -216,9 +216,10 @@ export class MessageEmbed implements APIEmbedData {
 	 * @param text The footer text
 	 * @param iconURL The url for the footer icon
 	 */
-	public setFooter(text?: StringResolvable, iconURL?: string): this {
+	public setFooter(text?: StringResolvable, iconURL?: StringResolvable): this {
+		const icon = iconURL === undefined ? undefined : String(iconURL);
 		// eslint-disable-next-line @typescript-eslint/camelcase
-		this.footer = text === undefined ? undefined : { text: String(text), icon_url: iconURL };
+		this.footer = text === undefined ? undefined : { text: String(text), icon_url: icon };
 		return this;
 	}
 
