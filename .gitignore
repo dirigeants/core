@@ -9,3 +9,5 @@ docs/
 test-results.xml
 
 test.js
+
+config.json
