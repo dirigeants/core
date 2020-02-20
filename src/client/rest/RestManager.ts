@@ -4,17 +4,26 @@ import { RequestInit } from 'node-fetch';
 import * as FormData from 'form-data';
 
 import { Cache } from '../../util/Cache';
-import { Client } from '../Client';
 import { RequestHandler } from './RequestHandler';
 import { Request, RouteIdentifier } from './Router';
-import { UserAgent } from '../../util/Constants';
+import { UserAgent, RestOptionsDefaults } from '../../util/Constants';
+import { TimerManager } from '../../util/TimerManager';
+import { mergeDefault } from '@klasa/utils';
 
 const agent = new Agent({ keepAlive: true });
 
+export interface RestOptions {
+	offset: number;
+	retries: number;
+	timeout: number;
+	version: number;
+	api: string;
+}
+
 export interface Headers {
 	'User-Agent': string;
-	Authorization: string;
 	'X-RateLimit-Precision': string;
+	Authorization?: string;
 	'X-Audit-Log-Reason'?: string;
 }
 
@@ -27,6 +36,11 @@ export class RestManager {
 	 * A timeout promise when we are globally ratelimited
 	 */
 	public globalTimeout: Promise<void> | null = null;
+
+	/**
+	 * The options for this rest manager
+	 */
+	public options: RestOptions;
 
 	/**
 	 * Caches known hashes from the api route provided
@@ -44,12 +58,11 @@ export class RestManager {
 	private readonly sweeper: NodeJS.Timeout;
 
 	/**
-	 * @param client The Project-Blue client
-	 * @param token The bot token used to make api requests
 	 */
-	public constructor(public readonly client: Client, private readonly token: string) {
+	public constructor(options: Partial<RestOptions>) {
+		this.options = mergeDefault(RestOptionsDefaults, options);
 		// Periodically remove inactive handlers
-		this.sweeper = this.client.setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
+		this.sweeper = TimerManager.setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
 	}
 
 	/**
@@ -92,15 +105,17 @@ export class RestManager {
 		if (request.query) querystring = `?${new URLSearchParams(request.query.filter(([, value]: [string, unknown]) => value !== null && typeof value !== undefined).toString())}`;
 
 		// Format the full request url (base, version, endpoint, query)
-		const url = `${this.client.options.rest.api}/v${this.client.options.rest.version}${request.endpoint}${querystring}`;
+		const url = `${this.options.api}/v${this.options.version}${request.endpoint}${querystring}`;
 
 		// Assign the basic request headers
 		const headers: Headers = {
 			'User-Agent': UserAgent,
-			Authorization: `Bot ${this.token}`,
 			'X-RateLimit-Precision': 'millisecond'
 		};
 
+		// Provide authorization by default (allow not sending auth for webhooks)
+		// eslint-disable-next-line no-process-env
+		if (request.auth === undefined || request.auth === true) headers.Authorization = `Bot ${process.env.DISCORD_TOKEN}`;
 		// Optionally assign an audit log reason
 		if (request.reason) headers['X-Audit-Log-Reason'] = encodeURIComponent(request.reason);
 

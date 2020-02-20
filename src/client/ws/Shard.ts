@@ -11,15 +11,17 @@ export class Shard {
 	 */
 	private readonly workerThread: Worker;
 
-	private constructor(public readonly manager: WebSocketManager, public readonly id: number, token: string) {
+	private constructor(public readonly manager: WebSocketManager, public readonly id: number) {
 		this.workerThread = new Worker('./WebSocketConnection.js', {
 			workerData: {
 				url: 'whateverURL',
-				token
+				// eslint-disable-next-line no-process-env
+				token: process.env.DISCORD_TOKEN
 			}
 		});
 
 		this.workerThread.on('message', (packet) => {
+			// eslint-disable-next-line @typescript-eslint/camelcase
 			packet.d.shard_id = this.id;
 			this.manager.emit(packet.t, packet.d);
 		});
@@ -31,8 +33,8 @@ export class Shard {
 	 * @param id The id of this shard to spawn
 	 * @param token The bot token
 	 */
-	public static spawn(manager: WebSocketManager, id: number, token: string): Shard {
-		return new this(manager, id, token);
+	public static spawn(manager: WebSocketManager, id: number): Shard {
+		return new this(manager, id);
 	}
 
 }

@@ -1,3 +1,9 @@
+export * from './util/AsyncQueue';
+export * from './util/Cache';
+export * from './util/Constants';
+export * from './util/Snowflake';
+export * from './util/TimerManager';
+export * from './util/types/DiscordAPI';
 export * from './client/Client';
 export * from './client/caching/bitfields/Activity';
 export * from './client/caching/bitfields/Permissions';
@@ -14,8 +20,3 @@ export * from './client/rest/RestManager';
 export * from './client/rest/Router';
 export * from './client/ws/Shard';
 export * from './client/ws/WebSocketManager';
-export * from './util/AsyncQueue';
-export * from './util/Cache';
-export * from './util/Constants';
-export * from './util/Snowflake';
-// export * from './util/types/DiscordAPI';
