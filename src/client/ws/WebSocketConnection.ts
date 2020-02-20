@@ -60,12 +60,12 @@ class WebSocketConnection extends WS {
 
 	private onPacket(packet: DataPacket): unknown {
 		switch (packet.op) {
-			case OpCodes.DISPATCH: return this.dispatch(packet);
-			case OpCodes.HEARTBEAT: return this.heartbeat(packet);
-			case OpCodes.RECONNECT: return this.heartbeat(packet);
-			case OpCodes.INVALID_SESSION: return this.heartbeat(packet);
 			case OpCodes.HELLO: return this.heartbeat(packet);
+			case OpCodes.HEARTBEAT: return this.heartbeat(packet);
 			case OpCodes.HEARTBEAT_ACK: return this.heartbeat(packet);
+			case OpCodes.INVALID_SESSION: return this.heartbeat(packet);
+			case OpCodes.RECONNECT: return this.heartbeat(packet);
+			case OpCodes.DISPATCH: return this.dispatch(packet);
 		}
 	}
 
