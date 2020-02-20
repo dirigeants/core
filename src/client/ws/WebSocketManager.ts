@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { Shard } from './Shard';
-import { REST } from '../rest/REST';
+import type { REST } from '../rest/REST';
 
 /**
  * The singleton to manage multiple Websocket Connections to the discord api

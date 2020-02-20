@@ -1,7 +1,8 @@
-import { Client } from '../../Client';
-import { WebhookClient } from '../../WebhookClient';
-import { APIWebhookData, WebhookType, APIUserData } from '../../../util/types/DiscordAPI';
 import { Snowflake } from '../../../util/Snowflake';
+
+import type { Client } from '../../Client';
+import type { WebhookClient } from '../../WebhookClient';
+import type { APIWebhookData, WebhookType, APIUserData } from '../../../util/types/DiscordAPI';
 
 export interface WebhookUpdateData {
 	name?: string;

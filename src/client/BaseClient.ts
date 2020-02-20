@@ -1,8 +1,9 @@
 import { EventEmitter } from 'events';
-import { REST } from './rest/REST';
 import { mergeDefault } from '@klasa/utils';
+import { REST } from './rest/REST';
 import { ClientOptionsDefaults } from '../util/Constants';
-import { RESTOptions } from './rest/RESTManager';
+
+import type { RESTOptions } from './rest/RESTManager';
 
 export interface BaseClientOptions {
 	rest: RESTOptions;

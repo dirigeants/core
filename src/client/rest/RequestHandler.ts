@@ -1,12 +1,13 @@
 import fetch, { Response, RequestInit } from 'node-fetch';
 import AbortController from 'abort-controller';
-
-import { RESTManager } from './RESTManager';
-import { AsyncQueue } from '../../util/AsyncQueue';
 import { sleep } from '@klasa/utils';
-import { RouteIdentifier } from './REST';
+
+import { AsyncQueue } from '../../util/AsyncQueue';
 import { DiscordAPIError } from './DiscordAPIError';
 import { HTTPError } from './HTTPError';
+
+import type { RESTManager } from './RESTManager';
+import type { RouteIdentifier } from './REST';
 
 /**
  * The structure used to handle requests for a given bucket

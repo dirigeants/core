@@ -1,6 +1,7 @@
-import { APIMessageData } from '../../../util/types/DiscordAPI';
-import { Client } from '../../Client';
 import { Structure } from './base/Structure';
+
+import type { Client } from '../../Client';
+import type { APIMessageData } from '../../../util/types/DiscordAPI';
 
 export class Message extends Structure {
 

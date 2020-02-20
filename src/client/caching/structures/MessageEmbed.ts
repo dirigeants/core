@@ -1,5 +1,6 @@
 import { deepClone } from '@klasa/utils';
-import { APIEmbedData, APIEmbedFieldData, APIEmbedProviderData, EmbedType, APIEmbedAuthorData, APIEmbedFooterData, APIEmbedImageData } from '../../../util/types/DiscordAPI';
+
+import type { APIEmbedData, APIEmbedFieldData, APIEmbedProviderData, EmbedType, APIEmbedAuthorData, APIEmbedFooterData, APIEmbedImageData } from '../../../util/types/DiscordAPI';
 
 export interface StringResolvable {
 	toString(): string;

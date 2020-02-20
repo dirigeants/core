@@ -1,14 +1,16 @@
 import { Agent } from 'https';
 import { URLSearchParams } from 'url';
-import { RequestInit } from 'node-fetch';
 import * as FormData from 'form-data';
+import { mergeDefault } from '@klasa/utils';
+
+import type { RequestInit } from 'node-fetch';
 
 import { Cache } from '../../util/Cache';
 import { RequestHandler } from './RequestHandler';
-import { Request, RouteIdentifier, REST } from './REST';
 import { UserAgent, RestOptionsDefaults } from '../../util/Constants';
 import { TimerManager } from '../../util/TimerManager';
-import { mergeDefault } from '@klasa/utils';
+
+import type { Request, RouteIdentifier, REST } from './REST';
 
 const agent = new Agent({ keepAlive: true });
 

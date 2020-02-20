@@ -1,5 +1,5 @@
 import { Worker } from 'worker_threads';
-import { WebSocketManager } from './WebSocketManager';
+import type { WebSocketManager } from './WebSocketManager';
 
 /**
  * The Structure to manage a Websocket Worker with
