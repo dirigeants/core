@@ -1,7 +1,7 @@
 /**
  * Manages timers so that this application can be cleanly exited
  */
-export class TimerManager {
+export class TimerManager extends null {
 
 	/**
 	 * A collection of timeouts to clear on destroy
@@ -12,10 +12,6 @@ export class TimerManager {
 	 * A collection of intervals to clear on destroy
 	 */
 	private static _intervals: Set<NodeJS.Timeout> = new Set();
-
-	private constructor() {
-		throw new Error('This class cannot be initiated with new');
-	}
 
 	/**
 	 * Set a timeout that Project Blue can clear when destroyed

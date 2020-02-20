@@ -1,25 +1,18 @@
-import { EventEmitter } from 'events';
-import { Router } from './rest/Router';
+import { BaseClient, BaseClientOptions } from './BaseClient';
+import { REST } from './rest/REST';
 import { WebSocketManager } from './ws/WebSocketManager';
 import { mergeDefault } from '@klasa/utils';
 import { ClientOptionsDefaults } from '../util/Constants';
 import { TimerManager } from '../util/TimerManager';
-import { RestOptions } from './rest/RestManager';
 
-export interface ClientOptions {
+export interface ClientOptions extends BaseClientOptions {
 	shards: number | number[];
-	rest: RestOptions;
 }
 
 /**
  * The Project-Blue Client used to wrap the discord api
  */
-export class Client extends EventEmitter {
-
-	/**
-	 * The api router
-	 */
-	public api: Router;
+export class Client extends BaseClient {
 
 	/**
 	 * The WebSocket manager
@@ -36,9 +29,9 @@ export class Client extends EventEmitter {
 	 * @param options All of your preferences on how Project-Blue should work for you
 	 */
 	public constructor(options: Partial<ClientOptions>) {
-		super();
+		super(options);
 		this.options = mergeDefault(ClientOptionsDefaults, options);
-		this.api = new Router(this.options.rest);
+		this.api = new REST(this.options.rest);
 		this.ws = new WebSocketManager(this.api, this.options.shards);
 	}
 

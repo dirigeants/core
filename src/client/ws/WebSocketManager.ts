@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { Shard } from './Shard';
-import { Router } from '../rest/Router';
+import { REST } from '../rest/REST';
 
 /**
  * The singleton to manage multiple Websocket Connections to the discord api
@@ -12,7 +12,7 @@ export class WebSocketManager extends EventEmitter {
 	 */
 	private readonly shards: Map<number, Shard> = new Map();
 
-	public constructor(private api: Router, private readonly shardIDs: number | number[]) {
+	public constructor(private api: REST, private readonly shardIDs: number | number[]) {
 		super();
 	}
 

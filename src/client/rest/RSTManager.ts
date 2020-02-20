@@ -5,7 +5,7 @@ import * as FormData from 'form-data';
 
 import { Cache } from '../../util/Cache';
 import { RequestHandler } from './RequestHandler';
-import { Request, RouteIdentifier } from './Router';
+import { Request, RouteIdentifier, REST } from './REST';
 import { UserAgent, RestOptionsDefaults } from '../../util/Constants';
 import { TimerManager } from '../../util/TimerManager';
 import { mergeDefault } from '@klasa/utils';
@@ -30,7 +30,7 @@ export interface Headers {
 /**
  * The overall manager of REST requests
  */
-export class RestManager {
+export class RESTManager {
 
 	/**
 	 * A timeout promise when we are globally ratelimited
@@ -59,7 +59,7 @@ export class RestManager {
 
 	/**
 	 */
-	public constructor(options: Partial<RestOptions>) {
+	public constructor(public rest: REST, options: Partial<RestOptions>) {
 		this.options = mergeDefault(RestOptionsDefaults, options);
 		// Periodically remove inactive handlers
 		this.sweeper = TimerManager.setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);

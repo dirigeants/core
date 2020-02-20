@@ -1,5 +1,6 @@
+import { EventEmitter } from 'events';
 import { Snowflake } from '../../util/Snowflake';
-import { RestManager, RestOptions } from './RestManager';
+import { RESTManager, RestOptions } from './RESTManager';
 
 export interface RouteIdentifier {
 	route: string;
@@ -23,18 +24,19 @@ export interface Request extends RequestOptions {
 /**
  * The route builder class
  */
-export class Router {
+export class REST extends EventEmitter {
 
 	/**
 	 * The rest manager for handling requests
 	 */
-	private manager: RestManager;
+	private manager: RESTManager;
 
 	/**
 	 * @param options The options for rest requests
 	 */
 	public constructor(options: Partial<RestOptions>) {
-		this.manager = new RestManager(options);
+		super();
+		this.manager = new RESTManager(this, options);
 	}
 
 	/**
@@ -43,7 +45,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public get(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.manager.queueRequest(Router.generateRouteIdentifiers(endpoint, 'get'), { method: 'get', endpoint, ...options });
+		return this.manager.queueRequest(REST.generateRouteIdentifiers(endpoint, 'get'), { method: 'get', endpoint, ...options });
 	}
 
 	/**
@@ -52,7 +54,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public delete(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.manager.queueRequest(Router.generateRouteIdentifiers(endpoint, 'delete'), { method: 'delete', endpoint, ...options });
+		return this.manager.queueRequest(REST.generateRouteIdentifiers(endpoint, 'delete'), { method: 'delete', endpoint, ...options });
 	}
 
 	/**
@@ -61,7 +63,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public patch(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.manager.queueRequest(Router.generateRouteIdentifiers(endpoint, 'patch'), { method: 'patch', endpoint, ...options });
+		return this.manager.queueRequest(REST.generateRouteIdentifiers(endpoint, 'patch'), { method: 'patch', endpoint, ...options });
 	}
 
 	/**
@@ -70,7 +72,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public put(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.manager.queueRequest(Router.generateRouteIdentifiers(endpoint, 'put'), { method: 'put', endpoint, ...options });
+		return this.manager.queueRequest(REST.generateRouteIdentifiers(endpoint, 'put'), { method: 'put', endpoint, ...options });
 	}
 
 	/**
@@ -79,7 +81,7 @@ export class Router {
 	 * @param options The request options
 	 */
 	public post(endpoint: string, options: RequestOptions = {}): Promise<unknown> {
-		return this.manager.queueRequest(Router.generateRouteIdentifiers(endpoint, 'post'), { method: 'post', endpoint, ...options });
+		return this.manager.queueRequest(REST.generateRouteIdentifiers(endpoint, 'post'), { method: 'post', endpoint, ...options });
 	}
 
 	/**
