@@ -3,7 +3,7 @@ export * from './util/Cache';
 export * from './util/Constants';
 export * from './util/Snowflake';
 export * from './util/TimerManager';
-export * from './util/types/DiscordAPI';
+export type * from './util/types/DiscordAPI';
 export * from './client/Client';
 export * from './client/caching/bitfields/Activity';
 export * from './client/caching/bitfields/Permissions';
