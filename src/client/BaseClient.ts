@@ -4,6 +4,7 @@ import { REST } from './rest/REST';
 import { ClientOptionsDefaults } from '../util/Constants';
 
 import type { RESTOptions } from './rest/RESTManager';
+import { TimerManager } from '../util/TimerManager';
 
 export interface BaseClientOptions {
 	rest: RESTOptions;
@@ -34,6 +35,13 @@ export class BaseClient extends EventEmitter {
 		this.api = new REST(this.options.rest)
 			.on('debug', this.emit.bind(this, 'debug'))
 			.on('ratelimited', this.emit.bind(this, 'ratelimited'));
+	}
+
+	/**
+	 * Destroys all timers
+	 */
+	public async destroy(): Promise<void> {
+		TimerManager.destroy();
 	}
 
 }

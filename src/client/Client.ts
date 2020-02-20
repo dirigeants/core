@@ -2,7 +2,6 @@ import { BaseClient, BaseClientOptions } from './BaseClient';
 import { WebSocketManager } from './ws/WebSocketManager';
 import { mergeDefault } from '@klasa/utils';
 import { ClientOptionsDefaults } from '../util/Constants';
-import { TimerManager } from '../util/TimerManager';
 
 export interface ClientOptions extends BaseClientOptions {
 	shards: number | number[];
@@ -45,7 +44,7 @@ export class Client extends BaseClient {
 	 * Destroys all timers and disconnects all shards from the websocket
 	 */
 	public async destroy(): Promise<void> {
-		TimerManager.destroy();
+		await super.destroy();
 		// todo: Not ready yet
 		// await this.ws.despawn();
 	}
