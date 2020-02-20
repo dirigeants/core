@@ -1,5 +1,4 @@
 import { BaseClient, BaseClientOptions } from './BaseClient';
-import { REST } from './rest/REST';
 import { WebSocketManager } from './ws/WebSocketManager';
 import { mergeDefault } from '@klasa/utils';
 import { ClientOptionsDefaults } from '../util/Constants';
@@ -31,7 +30,6 @@ export class Client extends BaseClient {
 	public constructor(options: Partial<ClientOptions>) {
 		super(options);
 		this.options = mergeDefault(ClientOptionsDefaults, options);
-		this.api = new REST(this.options.rest);
 		this.ws = new WebSocketManager(this.api, this.options.shards);
 	}
 

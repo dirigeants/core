@@ -30,8 +30,7 @@ export class BaseClient extends EventEmitter {
 	public constructor(options: Partial<BaseClientOptions>) {
 		super();
 		this.options = mergeDefault(ClientOptionsDefaults, options);
-		this.api = new REST(this.options.rest);
-		this.api
+		this.api = new REST(this.options.rest)
 			.on('debug', this.emit.bind(this, 'debug'))
 			.on('ratelimited', this.emit.bind(this, 'ratelimited'));
 	}
