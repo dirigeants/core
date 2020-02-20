@@ -13,7 +13,6 @@ export class TimerManager {
 	 */
 	private static _intervals: Set<NodeJS.Timeout> = new Set();
 
-
 	private constructor() {
 		throw new Error('This class cannot be initiated with new');
 	}

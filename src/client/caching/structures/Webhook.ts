@@ -108,9 +108,9 @@ export class Webhook {
 	 * @param token The token of the webhook
 	 */
 	public static async fetch(client: Client | WebhookClient, id: string, token?: string): Promise<Webhook> {
-		const webhookData = token ?
-			await client.api.get(`/webhooks/${id}`) :
-			await client.api.get(`/webhooks/${id}/${token}`, { auth: false });
+		const webhookData = await (token ?
+			client.api.get(`/webhooks/${id}/${token}`, { auth: false }) :
+			client.api.get(`/webhooks/${id}`));
 
 		return new this(client, webhookData as APIWebhookData);
 	}
