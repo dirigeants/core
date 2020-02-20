@@ -1,11 +1,11 @@
 import * as Package from '../../package.json';
 import { ClientOptions } from '../client/Client';
-import { RestOptions } from '../client/rest/RSTManager';
+import { RESTOptions } from '../client/rest/RESTManager';
 import { BaseClientOptions } from '../client/BaseClient';
 
 export const UserAgent = `DiscordBot (${Package.homepage.split('#')[0]}, ${Package.version}) Node.js/${process.version}`;
 
-export const RestOptionsDefaults: Required<RestOptions> = {
+export const RestOptionsDefaults: Required<RESTOptions> = {
 	offset: 100,
 	retries: 1,
 	timeout: 15000,

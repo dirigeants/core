@@ -1,7 +1,7 @@
 import fetch, { Response, RequestInit } from 'node-fetch';
 import AbortController from 'abort-controller';
 
-import { RESTManager } from './RSTManager';
+import { RESTManager } from './RESTManager';
 import { AsyncQueue } from '../../util/AsyncQueue';
 import { sleep } from '@klasa/utils';
 import { RouteIdentifier } from './REST';

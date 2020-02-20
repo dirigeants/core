@@ -12,7 +12,7 @@ import { mergeDefault } from '@klasa/utils';
 
 const agent = new Agent({ keepAlive: true });
 
-export interface RestOptions {
+export interface RESTOptions {
 	offset: number;
 	retries: number;
 	timeout: number;
@@ -40,7 +40,7 @@ export class RESTManager {
 	/**
 	 * The options for this rest manager
 	 */
-	public options: RestOptions;
+	public options: RESTOptions;
 
 	/**
 	 * Caches known hashes from the api route provided
@@ -59,7 +59,7 @@ export class RESTManager {
 
 	/**
 	 */
-	public constructor(public rest: REST, options: Partial<RestOptions>) {
+	public constructor(public rest: REST, options: Partial<RESTOptions>) {
 		this.options = mergeDefault(RestOptionsDefaults, options);
 		// Periodically remove inactive handlers
 		this.sweeper = TimerManager.setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);

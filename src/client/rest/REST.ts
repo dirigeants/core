@@ -1,6 +1,6 @@
 import { EventEmitter } from 'events';
 import { Snowflake } from '../../util/Snowflake';
-import { RESTManager, RestOptions } from './RESTManager';
+import { RESTManager, RESTOptions } from './RESTManager';
 
 export interface RouteIdentifier {
 	route: string;
@@ -34,7 +34,7 @@ export class REST extends EventEmitter {
 	/**
 	 * @param options The options for rest requests
 	 */
-	public constructor(options: Partial<RestOptions>) {
+	public constructor(options: Partial<RESTOptions>) {
 		super();
 		this.manager = new RESTManager(this, options);
 	}
