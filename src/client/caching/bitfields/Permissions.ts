@@ -59,11 +59,6 @@ export class Permissions extends BitField<PermissionsResolvable> {
 	};
 
 	/**
-	 * The value of all permissions in this bitfield
-	 */
-	public static ALL = Object.values<number>(Permissions.FLAGS).reduce((all, byte) => all | byte, 0);
-
-	/**
 	 * The default permissions granted
 	 */
 	public static DEFAULT = 104324673;

@@ -99,11 +99,6 @@ export class Intents extends BitField<IntentsResolvable> {
 	};
 
 	/**
-	 * The value of all intents in this bitfield
-	 */
-	public static ALL = Object.values<number>(Intents.FLAGS).reduce((all, byte) => all | byte, 0);
-
-	/**
 	 * Project-Blue default intents, consisting of:
 	 * - GUILDS
 	 * - GUILD_MEMBERS

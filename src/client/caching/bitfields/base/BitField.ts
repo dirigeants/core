@@ -133,6 +133,13 @@ export class BitField<T extends BitFieldResolvable> implements BitFieldObject {
 	public static FLAGS: Record<string, number> = {};
 
 	/**
+	 * The value of all bits in this bitfield
+	 */
+	public static get ALL(): number {
+		return Object.values<number>(this.FLAGS).reduce((all, byte) => all | byte, 0);
+	}
+
+	/**
 	 * Resolves a BitFieldResolvable into a number
 	 * @param bit The bit/s to resolve
 	 */
