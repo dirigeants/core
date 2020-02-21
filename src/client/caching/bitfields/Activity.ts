@@ -1,11 +1,13 @@
 import { BitField } from './base/BitField';
 
+export type ActivityResolvable = keyof typeof Activity.FLAGS | number | Activity | (keyof typeof Activity.FLAGS)[] | number[] | Activity[];
+
 /* eslint-disable no-bitwise */
 
 /**
  * Handles Activity BitFields in Project-Blue
  */
-export class Activity extends BitField {
+export class Activity extends BitField<ActivityResolvable> {
 
 	/**
 	 * The Activity flags

@@ -1,11 +1,13 @@
 import { BitField } from './base/BitField';
 
+export type IntentsResolvable = keyof typeof Intents.FLAGS | number | Intents | (keyof typeof Intents.FLAGS)[] | number[] | Intents[];
+
 /* eslint-disable no-bitwise */
 
 /**
  * Handles Gateway Intents in Project-Blue
  */
-export class Intents extends BitField {
+export class Intents extends BitField<IntentsResolvable> {
 
 	/**
 	 * The Intents flags
