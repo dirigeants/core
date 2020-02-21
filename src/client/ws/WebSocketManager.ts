@@ -12,7 +12,8 @@ export interface WSOptions {
 	shards: 'auto' | number | number[];
 	shardTotal: number | null;
 	intents: BitFieldResolvable;
-	additionalOptions: any;
+	additionalOptions: Record<string, unknown>;
+	gatewayVersion: number;
 }
 
 /**
@@ -57,18 +58,19 @@ export class WebSocketManager extends EventEmitter {
 	 */
 	public async spawn(): Promise<void> {
 		// We need a bot token to connect to the websocket
-		if (!this.#token) throw new Error('A token is required for connecting to the websocket.');
+		if (!this.#token) throw new Error('A token is required for connecting to the gateway.');
 
 		const connectionInfo = await this.api.get(Routes.gatewayBot()) as APIGatewayBotData;
 
-		if (Array.isArray(this.options.shards)) {
-			if (!this.options.shardTotal) throw new Error('A shardTotal must be supplied if you are defining shards with an array.');
-			for (const shard of this.options.shards) this.shards.set(shard, new WebSocketShard(this, shard, this.options.shardTotal, connectionInfo.url, this.#token));
-		} else if (this.options.shards === 'auto') {
-			for (let i = 0; i < connectionInfo.shards; i++) this.shards.set(i, new WebSocketShard(this, i, connectionInfo.shards, connectionInfo.url, this.#token));
-		} else {
-			for (let i = 0; i < this.options.shards; i++) this.shards.set(i, new WebSocketShard(this, i, this.options.shards, connectionInfo.url, this.#token));
-		}
+		// if (Array.isArray(this.options.shards)) {
+		// 	if (!this.options.shardTotal) throw new Error('A shardTotal must be supplied if you are defining shards with an array.');
+		// 	for (const shard of this.options.shards) this.shards.set(shard, new WebSocketShard(this, shard, this.options.shardTotal, connectionInfo.url, this.#token));
+		// } else if (this.options.shards === 'auto') {
+		// 	for (let i = 0; i < connectionInfo.shards; i++) this.shards.set(i, new WebSocketShard(this, i, connectionInfo.shards, connectionInfo.url, this.#token));
+		// } else {
+		// 	for (let i = 0; i < this.options.shards; i++) this.shards.set(i, new WebSocketShard(this, i, this.options.shards, connectionInfo.url, this.#token));
+		// }
+		// TODO: handle shards: auto, gateway connect limits, etc
 	}
 
 }
