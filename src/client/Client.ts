@@ -2,6 +2,7 @@ import { BaseClient, BaseClientOptions } from './BaseClient';
 import { WebSocketManager, WSOptions } from './ws/WebSocketManager';
 import { mergeDefault } from '@klasa/utils';
 import { ClientOptionsDefaults } from '../util/Constants';
+import { WebSocketManagerEvents } from '../util/types/InternalWebSocket';
 
 export interface ClientOptions extends BaseClientOptions {
 	ws: WSOptions;
@@ -29,7 +30,8 @@ export class Client extends BaseClient {
 	public constructor(options: Partial<ClientOptions>) {
 		super(options);
 		this.options = mergeDefault(ClientOptionsDefaults, options);
-		this.ws = new WebSocketManager(this.api, this.options.ws);
+		this.ws = new WebSocketManager(this.api, this.options.ws)
+			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, WebSocketManagerEvents.ClientWSDebug));
 	}
 
 	/**
