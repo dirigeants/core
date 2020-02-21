@@ -57,9 +57,7 @@ export class RESTManager {
 	/**
 	 * The sweeper to ensure queues don't memory leak
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-	// @ts-ignore
-	private readonly sweeper: NodeJS.Timeout;
+	protected readonly _sweeper: NodeJS.Timeout;
 
 	/**
 	 * The token to use for the api
@@ -74,7 +72,7 @@ export class RESTManager {
 	public constructor(public rest: REST, options: Partial<RESTOptions>) {
 		this.options = mergeDefault(RestOptionsDefaults, options);
 		// Periodically remove inactive handlers
-		this.sweeper = TimerManager.setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
+		this._sweeper = TimerManager.setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
 	}
 
 	/**
