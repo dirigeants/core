@@ -1,4 +1,6 @@
 import { Worker } from 'worker_threads';
+import { Intents } from '../caching/bitfields/Intents';
+
 import type { WebSocketManager } from './WebSocketManager';
 
 export interface DataPacket {
@@ -19,7 +21,17 @@ export class WebSocketShard {
 	private readonly workerThread: Worker;
 
 	public constructor(public readonly manager: WebSocketManager, public readonly id: number, shardTotal: number, url: string, token: string) {
-		this.workerThread = new Worker('./WebSocketConnection.js', { workerData: { shards: [id, shardTotal], url, token, options: this.manager.options } });
+		this.workerThread = new Worker('./WebSocketConnection.js', {
+			workerData: {
+				url,
+				token,
+				options: {
+					...this.manager.options.additionalOptions,
+					intents: Intents.resolve(this.manager.options.intents),
+					shards: [id, shardTotal]
+				}
+			}
+		});
 		this.workerThread.on('message', this._onMessage.bind(this));
 	}
 

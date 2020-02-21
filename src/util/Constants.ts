@@ -17,7 +17,9 @@ export const RestOptionsDefaults: Required<RESTOptions> = {
 export const WSOptionsDefaults: Required<WSOptions> = {
 	shards: 'auto',
 	shardTotal: null,
-	options: {}
+	// todo: come up with a reasonable default
+	intents: [],
+	additionalOptions: {}
 };
 
 export const BaseClientOptionsDefaults: Required<BaseClientOptions> = {

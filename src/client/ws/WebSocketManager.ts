@@ -1,14 +1,18 @@
 import { EventEmitter } from 'events';
-import { WebSocketShard } from './WebSocketShard';
-import type { REST } from '../rest/REST';
-import { Routes, WSOptionsDefaults } from '../../util/Constants';
-import { APIGatewayBotData } from '../../util/types/DiscordAPI';
 import { mergeDefault } from '@klasa/utils';
+
+import { WebSocketShard } from './WebSocketShard';
+import { Routes, WSOptionsDefaults } from '../../util/Constants';
+
+import type { REST } from '../rest/REST';
+import type { APIGatewayBotData } from '../../util/types/DiscordAPI';
+import type { BitFieldResolvable } from '../caching/bitfields/base/BitField';
 
 export interface WSOptions {
 	shards: 'auto' | number | number[];
 	shardTotal: number | null;
-	options: any;
+	intents: BitFieldResolvable;
+	additionalOptions: any;
 }
 
 /**
