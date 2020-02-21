@@ -1,3 +1,5 @@
+/* eslint-disable no-bitwise */
+
 // #region API Payloads
 // (prefixed with API, suffix is Data for full payloads or Partial)
 
@@ -676,6 +678,31 @@ export interface APIWebhookData {
 
 // #endregion Webhooks
 
+// #region Gateway
+
+/**
+ * https://discordapp.com/developers/docs/topics/gateway#get-gateway
+ */
+export interface APIGatewayData {
+	url: string;
+}
+
+/**
+ * https://discordapp.com/developers/docs/topics/gateway#get-gateway-bot
+ */
+export interface APIGatewayBotData extends APIGatewayData {
+	shards: number;
+	session_start_limit: APISessionStartLimit;
+}
+
+export interface APISessionStartLimit {
+	total: number;
+	remaining: number;
+	reset_after: number;
+}
+
+// #endregion Gateway
+
 // #endregion API Payloads
 
 // #region Enums
@@ -907,3 +934,5 @@ export const enum WebhookType {
 // #region Types
 export type EmbedType = 'link' | 'rich' | 'image' | 'video' | 'gifv' | 'article' | 'application_news';
 // #endregion Types
+
+/* eslint-enable no-bitwise */

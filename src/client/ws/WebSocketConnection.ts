@@ -1,6 +1,8 @@
 import * as WS from 'ws';
 import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
 
+import type { DataPacket } from './WebSocketShard';
+
 function checkMainThread(port: unknown): asserts port is MessagePort {
 	if (!isMainThread || port === null) throw new Error('WebSocketConnection.ts can only be run as a WorkerThread');
 }
@@ -21,41 +23,47 @@ const enum OpCodes {
 	HEARTBEAT_ACK
 }
 
-export interface DataPacket {
-	op: number;
-	d?: unknown;
-	s: string;
-	t?: string;
-}
-
 class WebSocketConnection extends WS {
 
-	public constructor(host: string, private readonly token: string) {
+	/**
+	 * The bot token used to connect to the websocket
+	 */
+	#token: string;
+
+	/**
+	 * @param host The host url to connect to
+	 * @param token The token to connect with
+	 */
+	public constructor(host: string, token: string) {
 		super(host);
+		this.#token = token;
 		this.onopen = this._onopen.bind(this);
 		this.onmessage = this._onmessage.bind(this);
 		this.onerror = this._onerror.bind(this);
 		this.onclose = this._onclose.bind(this);
 	}
 
+	/**
+	 * Gracefully closes the websocket connection
+	 */
 	public destroy(): void {
-		// idk, die instance die
+		// todo: handle destroy logic
 	}
 
-	private _onopen(event: WS.OpenEvent) {
-
+	private _onopen(event: WS.OpenEvent): void {
+		// todo: handle websocket open logic
 	}
 
-	private _onmessage(event: WS.MessageEvent) {
-
+	private _onmessage(event: WS.MessageEvent): void {
+		// todo: handle websocket message logic
 	}
 
-	private _onerror(event: WS.ErrorEvent) {
-
+	private _onerror(event: WS.ErrorEvent): void {
+		// todo: handle websocket error logic
 	}
 
-	private _onclose(event: WS.CloseEvent) {
-
+	private _onclose(event: WS.CloseEvent): void {
+		// todo: handle websocket close logic
 	}
 
 	private onPacket(packet: DataPacket): unknown {
@@ -66,15 +74,16 @@ class WebSocketConnection extends WS {
 			case OpCodes.INVALID_SESSION: return this.heartbeat(packet);
 			case OpCodes.RECONNECT: return this.heartbeat(packet);
 			case OpCodes.DISPATCH: return this.dispatch(packet);
+			default: return null;
 		}
 	}
 
-	private dispatch(packet: DataPacket) {
+	private dispatch(packet: DataPacket): void {
 		(parentPort as MessagePort).postMessage(packet);
 	}
 
-	private heartbeat(packet: DataPacket) {
-		// handle the beating of the heart
+	private heartbeat(packet: DataPacket): void {
+		// todo: handle the beating of the heart
 	}
 
 }

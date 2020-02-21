@@ -193,6 +193,7 @@ export class RequestHandler {
 	 * @param res The node-fetch response
 	 */
 	private static parseResponse(res: Response): any {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		if (res.headers.get('Content-Type')!.startsWith('application/json')) return res.json();
 		return res.buffer();
 	}

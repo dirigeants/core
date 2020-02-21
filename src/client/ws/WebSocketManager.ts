@@ -1,6 +1,13 @@
 import { EventEmitter } from 'events';
-import { Shard } from './Shard';
+import { WebSocketShard } from './WebSocketShard';
 import type { REST } from '../rest/REST';
+import { Routes, WSOptionsDefaults } from '../../util/Constants';
+import { APIGatewayBotData } from '../../util/types/DiscordAPI';
+import { mergeDefault } from '@klasa/utils';
+
+export interface WSOptions {
+	shards: 'auto' | number | number[];
+}
 
 /**
  * The singleton to manage multiple Websocket Connections to the discord api
@@ -10,7 +17,12 @@ export class WebSocketManager extends EventEmitter {
 	/**
 	 * The shards of this WebsocketManager
 	 */
-	public readonly shards: Map<number, Shard> = new Map();
+	public readonly shards: Map<number, WebSocketShard> = new Map();
+
+	/**
+	 * The options for this WebsocketManager
+	 */
+	public readonly options: WSOptions;
 
 	/**
 	 * The token to use for the api
@@ -22,8 +34,9 @@ export class WebSocketManager extends EventEmitter {
 	 * @param api The rest api
 	 * @param shardIDs The shards to spawn
 	 */
-	public constructor(private api: REST, private readonly shardIDs: number | number[]) {
+	public constructor(private api: REST, options: Partial<WSOptions>) {
 		super();
+		this.options = mergeDefault(WSOptionsDefaults, options);
 	}
 
 	/**
@@ -39,10 +52,15 @@ export class WebSocketManager extends EventEmitter {
 	public async spawn(): Promise<void> {
 		// We need a bot token to connect to the websocket
 		if (!this.#token) throw new Error('A token is required for connecting to the websocket.');
-		if (Array.isArray(this.shardIDs)) {
-			for (const shard of this.shardIDs) this.shards.set(shard, Shard.spawn(this, shard, this.#token));
+
+		const connectionInfo = await this.api.get(Routes.gatewayBot()) as APIGatewayBotData;
+
+		if (Array.isArray(this.options.shards)) {
+			for (const shard of this.options.shards) this.shards.set(shard, new WebSocketShard(this, shard, connectionInfo.url, this.#token));
+		} else if (this.options.shards === 'auto') {
+			for (let i = 0; i < connectionInfo.shards; i++) this.shards.set(i, new WebSocketShard(this, i, connectionInfo.url, this.#token));
 		} else {
-			for (let i = 0; i < this.shardIDs; i++) this.shards.set(i, Shard.spawn(this, i, this.#token));
+			for (let i = 0; i < this.options.shards; i++) this.shards.set(i, new WebSocketShard(this, i, connectionInfo.url, this.#token));
 		}
 	}
 

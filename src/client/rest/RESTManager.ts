@@ -57,6 +57,8 @@ export class RESTManager {
 	/**
 	 * The sweeper to ensure queues don't memory leak
 	 */
+	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// @ts-ignore
 	private readonly sweeper: NodeJS.Timeout;
 
 	/**

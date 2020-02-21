@@ -20,5 +20,5 @@ export * from './client/rest/HTTPError';
 export * from './client/rest/RequestHandler';
 export * from './client/rest/RESTManager';
 export * from './client/rest/REST';
-export * from './client/ws/Shard';
+export * from './client/ws/WebSocketShard';
 export * from './client/ws/WebSocketManager';

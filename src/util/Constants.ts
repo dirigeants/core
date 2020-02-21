@@ -1,7 +1,8 @@
 import * as Package from '../../package.json';
-import { ClientOptions } from '../client/Client';
-import { RESTOptions } from '../client/rest/RESTManager';
-import { BaseClientOptions } from '../client/BaseClient';
+import type { ClientOptions } from '../client/Client';
+import type { RESTOptions } from '../client/rest/RESTManager';
+import type { BaseClientOptions } from '../client/BaseClient';
+import type { WSOptions } from '../client/ws/WebSocketManager';
 
 export const UserAgent = `DiscordBot (${Package.homepage.split('#')[0]}, ${Package.version}) Node.js/${process.version}`;
 
@@ -13,13 +14,17 @@ export const RestOptionsDefaults: Required<RESTOptions> = {
 	api: 'https://discordapp.com/api'
 };
 
+export const WSOptionsDefaults: Required<WSOptions> = {
+	shards: 'auto'
+};
+
 export const BaseClientOptionsDefaults: Required<BaseClientOptions> = {
 	rest: RestOptionsDefaults
 };
 
 export const ClientOptionsDefaults: Required<ClientOptions> = {
 	...BaseClientOptionsDefaults,
-	shards: 1
+	ws: WSOptionsDefaults
 };
 
 export const Routes = {

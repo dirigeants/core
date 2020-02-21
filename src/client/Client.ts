@@ -1,10 +1,10 @@
 import { BaseClient, BaseClientOptions } from './BaseClient';
-import { WebSocketManager } from './ws/WebSocketManager';
+import { WebSocketManager, WSOptions } from './ws/WebSocketManager';
 import { mergeDefault } from '@klasa/utils';
 import { ClientOptionsDefaults } from '../util/Constants';
 
 export interface ClientOptions extends BaseClientOptions {
-	shards: number | number[];
+	ws: WSOptions;
 }
 
 /**
@@ -29,7 +29,7 @@ export class Client extends BaseClient {
 	public constructor(options: Partial<ClientOptions>) {
 		super(options);
 		this.options = mergeDefault(ClientOptionsDefaults, options);
-		this.ws = new WebSocketManager(this.api, this.options.shards);
+		this.ws = new WebSocketManager(this.api, this.options.ws);
 	}
 
 	/**
