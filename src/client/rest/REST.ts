@@ -40,6 +40,13 @@ export class REST extends EventEmitter {
 	}
 
 	/**
+	 * Set token for rest requests
+	 */
+	public set token(token: string) {
+		this.manager.token = token;
+	}
+
+	/**
 	 * Gets data from the api
 	 * @param endpoint The endpoint to get from
 	 * @param options The request options

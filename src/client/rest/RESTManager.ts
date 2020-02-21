@@ -60,11 +60,26 @@ export class RESTManager {
 	private readonly sweeper: NodeJS.Timeout;
 
 	/**
+	 * The token to use for the api
+	 */
+	// eslint-disable-next-line no-process-env
+	#token: string | null = process.env.DISCORD_TOKEN || null;
+
+	/**
+	 * @param rest The REST instance this is for
+	 * @param options REST options to use
 	 */
 	public constructor(public rest: REST, options: Partial<RESTOptions>) {
 		this.options = mergeDefault(RestOptionsDefaults, options);
 		// Periodically remove inactive handlers
 		this.sweeper = TimerManager.setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
+	}
+
+	/**
+	 * Set the token for REST requests
+	 */
+	set token(token: string) {
+		this.#token = token;
 	}
 
 	/**
@@ -116,8 +131,12 @@ export class RESTManager {
 		};
 
 		// Provide authorization by default (allow not sending auth for webhooks)
-		// eslint-disable-next-line no-process-env
-		if (request.auth === undefined || request.auth === true) headers.Authorization = `Bot ${process.env.DISCORD_TOKEN}`;
+		if (request.auth === undefined || request.auth === true) {
+			// If a token hasn't been set, throw an error because we need one.
+			if (!this.#token) throw new Error('No bot token has been provided, and is required for the action you are trying to do.');
+			// Provide authorization headers
+			headers.Authorization = `Bot ${this.#token}`;
+		}
 		// Optionally assign an audit log reason
 		if (request.reason) headers['X-Audit-Log-Reason'] = encodeURIComponent(request.reason);
 

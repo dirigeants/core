@@ -11,12 +11,12 @@ export class Shard {
 	 */
 	private readonly workerThread: Worker;
 
-	private constructor(public readonly manager: WebSocketManager, public readonly id: number) {
+	private constructor(public readonly manager: WebSocketManager, public readonly id: number, token: string) {
 		this.workerThread = new Worker('./WebSocketConnection.js', {
 			workerData: {
 				url: 'whateverURL',
 				// eslint-disable-next-line no-process-env
-				token: process.env.DISCORD_TOKEN
+				token
 			}
 		});
 
@@ -33,8 +33,8 @@ export class Shard {
 	 * @param id The id of this shard to spawn
 	 * @param token The bot token
 	 */
-	public static spawn(manager: WebSocketManager, id: number): Shard {
-		return new this(manager, id);
+	public static spawn(manager: WebSocketManager, id: number, token: string): Shard {
+		return new this(manager, id, token);
 	}
 
 }

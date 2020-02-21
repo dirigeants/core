@@ -33,6 +33,14 @@ export class Client extends BaseClient {
 	}
 
 	/**
+	 * Sets the token to use for the api.
+	 */
+	set token(token: string) {
+		super.token = token;
+		this.ws.token = token;
+	}
+
+	/**
 	 * Connects the client to the websocket
 	 */
 	public async connect(): Promise<void> {

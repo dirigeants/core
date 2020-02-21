@@ -38,6 +38,13 @@ export class BaseClient extends EventEmitter {
 	}
 
 	/**
+	 * Sets the token to use for the api.
+	 */
+	set token(token: string) {
+		this.api.token = token;
+	}
+
+	/**
 	 * Destroys all timers
 	 */
 	public async destroy(): Promise<void> {
