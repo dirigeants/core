@@ -6,12 +6,12 @@ import { Routes, WSOptionsDefaults } from '../../util/Constants';
 
 import type { REST } from '../rest/REST';
 import type { APIGatewayBotData } from '../../util/types/DiscordAPI';
-import type { BitFieldResolvable } from '../caching/bitfields/base/BitField';
+import type { IntentsResolvable } from '../caching/bitfields/Intents';
 
 export interface WSOptions {
 	shards: 'auto' | number | number[];
 	shardTotal: number | null;
-	intents: BitFieldResolvable;
+	intents: IntentsResolvable;
 	additionalOptions: Record<string, unknown>;
 	gatewayVersion: number;
 }

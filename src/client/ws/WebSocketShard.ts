@@ -28,7 +28,7 @@ export class WebSocketShard {
 				token,
 				options: {
 					...this.manager.options.additionalOptions,
-					intents: Intents.resolve(this.manager.options.intents),
+					intents: new Intents(this.manager.options.intents),
 					shards: [id, shardTotal]
 				}
 			}
