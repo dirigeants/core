@@ -62,8 +62,7 @@ export class RESTManager {
 	/**
 	 * The token to use for the api
 	 */
-	// eslint-disable-next-line no-process-env
-	#token: string | null = process.env.DISCORD_TOKEN || null;
+	#token: string | null;
 
 	/**
 	 * @param rest The REST instance this is for
@@ -71,6 +70,8 @@ export class RESTManager {
 	 */
 	public constructor(public rest: REST, options: Partial<RESTOptions>) {
 		this.options = mergeDefault(RestOptionsDefaults, options);
+		// eslint-disable-next-line no-process-env
+		this.#token = process.env.DISCORD_TOKEN || null;
 		// Periodically remove inactive handlers
 		this._sweeper = TimerManager.setInterval(() => this.queues.sweep((handler) => handler.inactive), 300000);
 	}

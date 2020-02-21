@@ -21,7 +21,7 @@ export class WebSocketShard {
 	 */
 	private readonly workerThread: Worker;
 
-	public constructor(public readonly manager: WebSocketManager, public readonly id: number, private readonly shardTotal: number, gatewayURL: string, token: string) {
+	public constructor(public readonly manager: WebSocketManager, public readonly id: number, private readonly totalShards: number, gatewayURL: string, token: string) {
 		this.workerThread = new Worker('./WebSocketConnection.js', {
 			workerData: {
 				gatewayURL,
@@ -29,7 +29,7 @@ export class WebSocketShard {
 				options: {
 					...this.manager.options.additionalOptions,
 					intents: new Intents(this.manager.options.intents),
-					shards: [id, shardTotal]
+					shards: [id, totalShards]
 				}
 			}
 		});
@@ -51,7 +51,7 @@ export class WebSocketShard {
 	 * Handles logging when the worker thread is online
 	 */
 	private _onWorkerOnline(): void {
-		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.shardTotal}] Online`);
+		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Online`);
 	}
 
 	/**
@@ -69,7 +69,7 @@ export class WebSocketShard {
 	 * @param error The error that was encountered
 	 */
 	private _onWorkerError(error: Error): void {
-		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.shardTotal}] Error => ${error.name}\n${error.stack}`);
+		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Error => ${error.name}\n${error.stack}`);
 	}
 
 	/**
@@ -77,7 +77,7 @@ export class WebSocketShard {
 	 * @param exitCode The exit code
 	 */
 	private _onWorkerExit(exitCode: number): void {
-		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.shardTotal}] Worker Thread exited with code ${exitCode}`);
+		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Worker Thread exited with code ${exitCode}`);
 		// TODO: If manager is still alive, reconnect in a queue
 	}
 

@@ -5,7 +5,7 @@ import { ClientOptionsDefaults } from '../util/Constants';
 import { WebSocketManagerEvents } from '../util/types/InternalWebSocket';
 
 export interface ClientOptions extends BaseClientOptions {
-	ws: WSOptions;
+	ws: Partial<WSOptions>;
 }
 
 /**
@@ -21,7 +21,7 @@ export class Client extends BaseClient {
 	/**
 	 * The options to use for this client
 	 */
-	public options: ClientOptions;
+	public options: Required<ClientOptions>;
 
 	/**
 	 * @param options All of your preferences on how Project-Blue should work for you
@@ -45,8 +45,12 @@ export class Client extends BaseClient {
 	 * Connects the client to the websocket
 	 */
 	public async connect(): Promise<void> {
-		// todo: Not ready yet
-		// await this.ws.spawn();
+		try {
+			await this.ws.spawn();
+		} catch (err) {
+			await this.destroy();
+			throw err;
+		}
 	}
 
 	/**
@@ -55,7 +59,7 @@ export class Client extends BaseClient {
 	public async destroy(): Promise<void> {
 		await super.destroy();
 		// todo: Not ready yet
-		// await this.ws.despawn();
+		// await this.ws.destroy();
 	}
 
 }

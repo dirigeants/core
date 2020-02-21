@@ -10,7 +10,7 @@ import type { IntentsResolvable } from '../caching/bitfields/Intents';
 
 export interface WSOptions {
 	shards: 'auto' | number | number[];
-	shardTotal: number | null;
+	totalShards: number | null;
 	intents: IntentsResolvable;
 	additionalOptions: Record<string, unknown>;
 	gatewayVersion: number;
@@ -29,13 +29,12 @@ export class WebSocketManager extends EventEmitter {
 	/**
 	 * The options for this WebsocketManager
 	 */
-	public readonly options: WSOptions;
+	public readonly options: Required<WSOptions>;
 
 	/**
 	 * The token to use for the api
 	 */
-	// eslint-disable-next-line no-process-env
-	#token: string | null = process.env.DISCORD_TOKEN || null;
+	#token: string | null;
 
 	/**
 	 * @param api The rest api
@@ -44,6 +43,8 @@ export class WebSocketManager extends EventEmitter {
 	public constructor(private api: REST, options: Partial<WSOptions>) {
 		super();
 		this.options = mergeDefault(WSOptionsDefaults, options);
+		// eslint-disable-next-line no-process-env
+		this.#token = process.env.DISCORD_TOKEN || null;
 	}
 
 	/**
@@ -61,6 +62,7 @@ export class WebSocketManager extends EventEmitter {
 		if (!this.#token) throw new Error('A token is required for connecting to the gateway.');
 
 		const connectionInfo = await this.api.get(Routes.gatewayBot()) as APIGatewayBotData;
+		console.log(connectionInfo);
 
 		// if (Array.isArray(this.options.shards)) {
 		// 	if (!this.options.shardTotal) throw new Error('A shardTotal must be supplied if you are defining shards with an array.');

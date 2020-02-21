@@ -20,7 +20,7 @@ export const RestOptionsDefaults: Required<RESTOptions> = {
 
 export const WSOptionsDefaults: Required<WSOptions> = {
 	shards: 'auto',
-	shardTotal: null,
+	totalShards: null,
 	intents: Intents.DEFAULT,
 	additionalOptions: {
 		// eslint-disable-next-line @typescript-eslint/camelcase
