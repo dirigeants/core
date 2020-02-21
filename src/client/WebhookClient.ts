@@ -10,7 +10,7 @@ export class WebhookClient extends BaseClient {
 	/**
 	 * Cache of all fetched webhooks
 	 */
-	public webhooks: Cache<string, Webhook>= new Cache();
+	public webhooks: Cache<string, Webhook> = new Cache();
 
 	/**
 	 * Fetches a webhook from the api

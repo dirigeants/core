@@ -3,6 +3,7 @@ import { Snowflake } from '../../../util/Snowflake';
 import type { Client } from '../../Client';
 import type { WebhookClient } from '../../WebhookClient';
 import type { APIWebhookData, WebhookType, APIUserData } from '../../../util/types/DiscordAPI';
+import { Routes } from '../../../util/Constants';
 
 export interface WebhookUpdateData {
 	name?: string;
@@ -75,7 +76,7 @@ export class Webhook {
 	 */
 	public async send(data: any): Promise<unknown> {
 		if (!this.token) throw new Error('The token on this webhook is unknown. You cannot send messages.');
-		return this.client.api.post(`/webhooks/${this.id}/${this.token}`, { auth: false, data });
+		return this.client.api.post(Routes.webhookTokened(this.id, this.token), { auth: false, data });
 	}
 
 	/**
@@ -86,9 +87,9 @@ export class Webhook {
 		return channelID || !this.token ?
 			// Requires MANAGE_WEBHOOKS permission to update channelID or to update without the token
 			// eslint-disable-next-line @typescript-eslint/camelcase
-			this.client.api.patch(`/webhooks/${this.id}`, { data: { name, avatar, channel_id: channelID } }) :
+			this.client.api.patch(Routes.webhook(this.id), { data: { name, avatar, channel_id: channelID } }) :
 			// Doesn't require any permissions, but you cannot change the channelID
-			this.client.api.patch(`/webhooks/${this.id}/${this.token}`, { auth: false, data: { name, avatar } });
+			this.client.api.patch(Routes.webhookTokened(this.id, this.token), { auth: false, data: { name, avatar } });
 	}
 
 	/**
@@ -97,9 +98,9 @@ export class Webhook {
 	public delete(): Promise<unknown> {
 		return this.token ?
 			// If we know the webhook token, we can delete it with less permissions
-			this.client.api.delete(`/webhooks/${this.id}/${this.token}`, { auth: false }) :
+			this.client.api.delete(Routes.webhookTokened(this.id, this.token), { auth: false }) :
 			// Requires MANAGE_WEBHOOKS permission
-			this.client.api.delete(`/webhooks/${this.id}`);
+			this.client.api.delete(Routes.webhook(this.id));
 	}
 
 	/**
@@ -110,8 +111,8 @@ export class Webhook {
 	 */
 	public static async fetch(client: Client | WebhookClient, id: string, token?: string): Promise<Webhook> {
 		const webhookData = await (token ?
-			client.api.get(`/webhooks/${id}/${token}`, { auth: false }) :
-			client.api.get(`/webhooks/${id}`));
+			client.api.get(Routes.webhookTokened(id, token), { auth: false }) :
+			client.api.get(Routes.webhook(id)));
 
 		return new this(client, webhookData as APIWebhookData);
 	}
