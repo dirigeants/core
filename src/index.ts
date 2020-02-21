@@ -8,6 +8,7 @@ export * from './client/BaseClient';
 export * from './client/Client';
 export * from './client/WebhookClient';
 export * from './client/caching/bitfields/Activity';
+export * from './client/caching/bitfields/Intents';
 export * from './client/caching/bitfields/Permissions';
 export * from './client/caching/bitfields/Speaking';
 export * from './client/caching/bitfields/base/BitField';

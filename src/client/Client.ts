@@ -45,7 +45,7 @@ export class Client extends BaseClient {
 	 */
 	public async connect(): Promise<void> {
 		// todo: Not ready yet
-		// this.ws.spawn();
+		// await this.ws.spawn();
 	}
 
 	/**

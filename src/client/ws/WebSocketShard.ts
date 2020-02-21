@@ -18,8 +18,8 @@ export class WebSocketShard {
 	 */
 	private readonly workerThread: Worker;
 
-	public constructor(public readonly manager: WebSocketManager, public readonly id: number, url: string, token: string) {
-		this.workerThread = new Worker('./WebSocketConnection.js', { workerData: { url, token } });
+	public constructor(public readonly manager: WebSocketManager, public readonly id: number, shardTotal: number, url: string, token: string) {
+		this.workerThread = new Worker('./WebSocketConnection.js', { workerData: { shards: [id, shardTotal], url, token, options: this.manager.options } });
 		this.workerThread.on('message', this._onMessage.bind(this));
 	}
 
