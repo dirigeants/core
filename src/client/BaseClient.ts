@@ -11,7 +11,7 @@ export interface BaseClientOptions {
 }
 
 /**
- * The Project-Blue Base Client used to wrap the discord api
+ * The Project-Blue Base Client used to wrap the Discord API
  */
 export class BaseClient extends EventEmitter {
 
@@ -24,7 +24,6 @@ export class BaseClient extends EventEmitter {
 	 * The options to use for this client
 	 */
 	public options: BaseClientOptions;
-
 
 	/**
 	 * @param options All of your preferences on how Project-Blue should work for you

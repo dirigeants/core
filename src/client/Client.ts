@@ -23,7 +23,6 @@ export class Client extends BaseClient {
 	 */
 	public options: ClientOptions;
 
-
 	/**
 	 * @param options All of your preferences on how Project-Blue should work for you
 	 */
