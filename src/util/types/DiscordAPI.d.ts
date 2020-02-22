@@ -743,7 +743,10 @@ export const enum MessageType {
 	UserPremiumGuildSubscriptionTier1,
 	UserPremiumGuildSubscriptionTier2,
 	UserPremiumGuildSubscriptionTier3,
-	ChannelFollowAdd
+	ChannelFollowAdd,
+	__UNDOCUMENTED__TYPE__13,
+	GuildDiscoveryDisqualified,
+	GuildDiscoveryRequalified
 }
 
 /**
