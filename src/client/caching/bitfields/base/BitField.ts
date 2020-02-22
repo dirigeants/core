@@ -133,6 +133,11 @@ export class BitField<T extends BitFieldResolvable> implements BitFieldObject {
 	public static FLAGS: Record<string, number> = {} as const;
 
 	/**
+	 * The default flags for the bitfield
+	 */
+	public static DEFAULT = 0;
+
+	/**
 	 * The value of all bits in this bitfield
 	 */
 	public static get ALL(): number {
