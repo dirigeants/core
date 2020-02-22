@@ -13,15 +13,50 @@ export interface WebhookUpdateData {
 
 export class Webhook {
 
+	/**
+	 * The id of the webhook
+	 */
 	public id: string;
+
+	/**
+	 * The type of the webhook
+	 */
 	public type: WebhookType;
+
+	/**
+	 * The guildID this webhook is for
+	 */
 	public guildID?: string;
+
+	/**
+	 * The channelID this webhook is for
+	 */
 	public channelID: string;
+
+	/**
+	 * The "user" of the webhook displayed on the webhook messages
+	 */
 	public user?: APIUserData;
+
+	/**
+	 * The name of the webhook
+	 */
 	public name: string | null = null;
+
+	/**
+	 * The avatar used for this webhook
+	 */
 	public avatar: string | null = null;
+
+	/**
+	 * The token for this webhook
+	 */
 	public token?: string;
 
+	/**
+	 * @param client The client to manage this webhook
+	 * @param data The webhook data
+	 */
 	public constructor(public client: Client | WebhookClient, data: APIWebhookData) {
 		this.id = data.id;
 		this.type = data.type;
