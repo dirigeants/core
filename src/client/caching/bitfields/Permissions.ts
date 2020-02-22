@@ -1,6 +1,14 @@
-import { BitField } from './base/BitField';
+import { BitField, BitFieldObject } from './base/BitField';
 
-export type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | Permissions | (keyof typeof Permissions.FLAGS)[] | number[] | Permissions[];
+export interface PermissionsBitField extends BitFieldObject {
+	constructor: PermissionsConstructor;
+}
+
+export interface PermissionsConstructor {
+	name: 'Permissions';
+}
+
+export type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | PermissionsBitField | ((keyof typeof Permissions.FLAGS) | number | PermissionsBitField)[];
 
 /* eslint-disable no-bitwise */
 
@@ -56,7 +64,7 @@ export class Permissions extends BitField<PermissionsResolvable> {
 		MANAGE_ROLES: 1 << 28,
 		MANAGE_WEBHOOKS: 1 << 29,
 		MANAGE_EMOJIS: 1 << 30
-	};
+	} as const;
 
 	/**
 	 * The default permissions granted

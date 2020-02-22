@@ -1,6 +1,14 @@
-import { BitField } from './base/BitField';
+import { BitField, BitFieldObject } from './base/BitField';
 
-export type SpeakingResolvable = keyof typeof Speaking.FLAGS | number | Speaking | (keyof typeof Speaking.FLAGS)[] | number[] | Speaking[];
+export interface SpeakingBitField extends BitFieldObject {
+	constructor: SpeakingConstructor;
+}
+
+export interface SpeakingConstructor {
+	name: 'Speaking';
+}
+
+export type SpeakingResolvable = keyof typeof Speaking.FLAGS | number | SpeakingBitField | ((keyof typeof Speaking.FLAGS) | number | SpeakingBitField)[];
 
 /* eslint-disable no-bitwise */
 
@@ -15,7 +23,7 @@ export class Speaking extends BitField<SpeakingResolvable> {
 	public static FLAGS = {
 		SPEAKING: 1 << 0,
 		SOUNDSHARE: 1 << 1
-	};
+	} as const;
 
 }
 

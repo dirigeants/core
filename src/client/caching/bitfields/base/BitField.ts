@@ -2,7 +2,7 @@ export interface BitFieldObject {
 	bitfield: number;
 }
 
-export type BitFieldResolvable = keyof typeof BitField.FLAGS | number | BitFieldObject | (keyof typeof BitField.FLAGS)[] | number[] | BitFieldObject[];
+export type BitFieldResolvable = keyof typeof BitField.FLAGS | number | BitFieldObject | ((keyof typeof BitField.FLAGS) | number | BitFieldObject)[];
 
 /* eslint-disable no-bitwise */
 
@@ -130,7 +130,7 @@ export class BitField<T extends BitFieldResolvable> implements BitFieldObject {
 	/**
 	 * Flags for this BitField (Should be implemented in child classes)
 	 */
-	public static FLAGS: Record<string, number> = {};
+	public static FLAGS: Record<string, number> = {} as const;
 
 	/**
 	 * The value of all bits in this bitfield

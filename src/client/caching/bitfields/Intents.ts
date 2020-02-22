@@ -1,6 +1,14 @@
-import { BitField } from './base/BitField';
+import { BitField, BitFieldObject } from './base/BitField';
 
-export type IntentsResolvable = keyof typeof Intents.FLAGS | number | Intents | (keyof typeof Intents.FLAGS)[] | number[] | Intents[];
+export interface IntentsBitField extends BitFieldObject {
+	constructor: IntentsConstructor;
+}
+
+export interface IntentsConstructor extends BitFieldObject {
+	name: 'Intents';
+}
+
+export type IntentsResolvable = keyof typeof Intents.FLAGS | number | IntentsBitField | ((keyof typeof Intents.FLAGS) | number | IntentsBitField)[];
 
 /* eslint-disable no-bitwise */
 
@@ -96,7 +104,7 @@ export class Intents extends BitField<IntentsResolvable> {
 		 * - TYPING_START
 		 */
 		DIRECT_MESSAGE_TYPING: 1 << 14
-	};
+	} as const;
 
 	/**
 	 * Project-Blue default intents, consisting of:
