@@ -1106,9 +1106,9 @@ fast-diff@^1.1.2:
   integrity sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==
 
 fast-glob@^3.0.3, fast-glob@^3.1.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.1.tgz#c5aaea632f92543b744bdcb19f11efd49e56c7b3"
-  integrity sha512-XObtOQLTl4EptWcBbO9O6wd17VlVf9YXYY/zuzuu7nZfTsv4BL3KupMAMUVzH88CUwWkI3uNHBfxtfU8PveVTQ==
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.2.tgz#ade1a9d91148965d4bf7c51f72e1ca662d32e63d"
+  integrity sha512-UDV82o4uQyljznxwMxyVRJgZZt3O5wENYojjzbaGEGZgeOxkLFf+V4cnUD+krzb2F72E18RhamkMZ7AdeggF7A==
   dependencies:
     "@nodelib/fs.stat" "^2.0.2"
     "@nodelib/fs.walk" "^1.2.3"
@@ -2756,10 +2756,10 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@^3.9.0-dev.20200220:
-  version "3.9.0-dev.20200220"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.0-dev.20200220.tgz#80ad47cab62006f4d4471ff5f9b02a4f08eb8f53"
-  integrity sha512-S8U1HnF7yqcyab+ftEQ6Vt6otavsO4HfSLaYGTizmVPAClTToG0jU7aUc9H6X5rQqgJHyJVc2VkxgaVZEZDIMQ==
+typescript@^3.9.0-dev.20200221:
+  version "3.9.0-dev.20200221"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.0-dev.20200221.tgz#81a17712845fd3372fda96c7132bdf05eba96793"
+  integrity sha512-J8MYk210amMLeWZosEJvvB8NAhDhaRzY9QRxmcN4h5ZCI93n6EgjX5918CZhrOjJxUIQAE46CcMbF0e+VDy1EA==
 
 unique-string@^2.0.0:
   version "2.0.0"

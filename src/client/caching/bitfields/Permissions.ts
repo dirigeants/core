@@ -1,13 +1,13 @@
 import { BitField } from './base/BitField';
 
-export type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | Permissions | (keyof typeof Permissions.FLAGS)[] | number[] | Permissions[];
+export type PermissionsResolvable = keyof typeof Permissions.FLAGS | 'ALL' | 'DEFAULT' | number | Permissions | (keyof typeof Permissions.FLAGS | number | Permissions)[];
 
 /* eslint-disable no-bitwise */
 
 /**
  * Handles Permission BitFields in Project-Blue
  */
-export class Permissions extends BitField<PermissionsResolvable> {
+export class Permissions extends BitField<keyof typeof Permissions.FLAGS> {
 
 	/**
 	 * Determines if this Permissions includes a permission or permissions
@@ -56,7 +56,7 @@ export class Permissions extends BitField<PermissionsResolvable> {
 		MANAGE_ROLES: 1 << 28,
 		MANAGE_WEBHOOKS: 1 << 29,
 		MANAGE_EMOJIS: 1 << 30
-	};
+	} as const;
 
 	/**
 	 * The default permissions granted
