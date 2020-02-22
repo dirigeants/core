@@ -4,7 +4,7 @@ export interface IntentsBitField extends BitFieldObject {
 	constructor: IntentsConstructor;
 }
 
-export interface IntentsConstructor extends BitFieldObject {
+export interface IntentsConstructor {
 	name: 'Intents';
 }
 

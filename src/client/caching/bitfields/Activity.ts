@@ -4,7 +4,7 @@ export interface ActivityBitField extends BitFieldObject {
 	constructor: ActivityConstructor;
 }
 
-export interface ActivityConstructor extends BitFieldObject {
+export interface ActivityConstructor {
 	name: 'Activity';
 }
 
