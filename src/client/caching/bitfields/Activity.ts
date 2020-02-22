@@ -1,14 +1,6 @@
 import { BitField, BitFieldObject } from './base/BitField';
 
-export interface ActivityBitField extends BitFieldObject {
-	constructor: ActivityConstructor;
-}
-
-export interface ActivityConstructor {
-	name: 'Activity';
-}
-
-export type ActivityResolvable = keyof typeof Activity.FLAGS | number | ActivityBitField | ((keyof typeof Activity.FLAGS) | number | ActivityBitField)[];
+export type ActivityResolvable = keyof typeof Activity.FLAGS | number | BitFieldObject | ((keyof typeof Activity.FLAGS) | number | BitFieldObject)[];
 
 /* eslint-disable no-bitwise */
 

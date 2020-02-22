@@ -1,14 +1,6 @@
 import { BitField, BitFieldObject } from './base/BitField';
 
-export interface IntentsBitField extends BitFieldObject {
-	constructor: IntentsConstructor;
-}
-
-export interface IntentsConstructor {
-	name: 'Intents';
-}
-
-export type IntentsResolvable = keyof typeof Intents.FLAGS | number | IntentsBitField | ((keyof typeof Intents.FLAGS) | number | IntentsBitField)[];
+export type IntentsResolvable = keyof typeof Intents.FLAGS | number | BitFieldObject | ((keyof typeof Intents.FLAGS) | number | BitFieldObject)[];
 
 /* eslint-disable no-bitwise */
 

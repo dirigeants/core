@@ -1,14 +1,6 @@
 import { BitField, BitFieldObject } from './base/BitField';
 
-export interface PermissionsBitField extends BitFieldObject {
-	constructor: PermissionsConstructor;
-}
-
-export interface PermissionsConstructor {
-	name: 'Permissions';
-}
-
-export type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | PermissionsBitField | ((keyof typeof Permissions.FLAGS) | number | PermissionsBitField)[];
+export type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | BitFieldObject | ((keyof typeof Permissions.FLAGS) | number | BitFieldObject)[];
 
 /* eslint-disable no-bitwise */
 
