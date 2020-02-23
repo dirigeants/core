@@ -5,6 +5,7 @@ import { sleep } from '@klasa/utils';
 import { AsyncQueue } from '../../util/AsyncQueue';
 import { DiscordAPIError } from './DiscordAPIError';
 import { HTTPError } from './HTTPError';
+import { RESTManagerEvents } from '../../util/types/InternalREST';
 
 import type { RESTManager } from './RESTManager';
 import type { RouteIdentifier } from './REST';
@@ -83,7 +84,7 @@ export class RequestHandler {
 			// Check if this request handler is currently ratelimited
 			if (this.limited) {
 				// Let library users know they have hit a ratelimit
-				this.manager.rest.emit('ratelimited', {
+				this.manager.rest.emit(RESTManagerEvents.Ratelimited, {
 					timeToReset: this.timeToReset,
 					limit: this.limit,
 					method: options.method,
@@ -147,7 +148,7 @@ export class RequestHandler {
 			// Handle buckets via the hash header retroactively
 			if (hash && hash !== this.hash) {
 				// Let library users know when ratelimit buckets have been updated
-				this.manager.rest.emit('debug', `bucket hash update: ${this.hash} => ${hash} for ${options.method}-${routeID.route}`);
+				this.manager.rest.emit(RESTManagerEvents.Debug, `bucket hash update: ${this.hash} => ${hash} for ${options.method}-${routeID.route}`);
 				// This queue will eventually be eliminated via attrition
 				this.manager.hashes.set(`${options.method}-${routeID.route}`, hash);
 			}
@@ -166,7 +167,7 @@ export class RequestHandler {
 			return RequestHandler.parseResponse(res);
 		} else if (res.status === 429) {
 			// A ratelimit was hit - this may happen if the route isn't associated with an official bucket hash yet, or when first globally ratelimited
-			this.manager.rest.emit('debug', `429 hit on route: ${routeID.route}`);
+			this.manager.rest.emit(RESTManagerEvents.Debug, `429 hit on route: ${routeID.route}`);
 			// Wait the retryAfter amount of time before retrying the request
 			await sleep(retryAfter);
 			// Since this is not a server side issue, the next request should pass, so we don't bump the retries counter

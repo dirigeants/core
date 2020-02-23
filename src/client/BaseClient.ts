@@ -2,9 +2,10 @@ import { EventEmitter } from 'events';
 import { mergeDefault } from '@klasa/utils';
 import { REST } from './rest/REST';
 import { BaseClientOptionsDefaults } from '../util/Constants';
+import { TimerManager } from '../util/TimerManager';
+import { RESTManagerEvents } from '../util/types/InternalREST';
 
 import type { RESTOptions } from './rest/RESTManager';
-import { TimerManager } from '../util/TimerManager';
 
 export interface BaseClientOptions {
 	rest: RESTOptions;
@@ -32,8 +33,8 @@ export class BaseClient extends EventEmitter {
 		super();
 		this.options = mergeDefault(BaseClientOptionsDefaults, options);
 		this.api = new REST(this.options.rest)
-			.on('debug', this.emit.bind(this, 'debug'))
-			.on('ratelimited', this.emit.bind(this, 'ratelimited'));
+			.on(RESTManagerEvents.Debug, this.emit.bind(this, RESTManagerEvents.ClientRESTDebug))
+			.on(RESTManagerEvents.Ratelimited, this.emit.bind(this, RESTManagerEvents.Ratelimited));
 	}
 
 	/**
