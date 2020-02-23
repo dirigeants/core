@@ -1,6 +1,7 @@
+import { mergeDefault } from '@klasa/utils';
+
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { WebSocketManager, WSOptions } from './ws/WebSocketManager';
-import { mergeDefault } from '@klasa/utils';
 import { ClientOptionsDefaults } from '../util/Constants';
 import { WebSocketManagerEvents } from '../util/types/InternalWebSocket';
 

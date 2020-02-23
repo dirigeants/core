@@ -1,8 +1,8 @@
 import { Worker } from 'worker_threads';
 import { Intents } from '../caching/bitfields/Intents';
+import { WebSocketManagerEvents } from '../../util/types/InternalWebSocket';
 
 import type { WebSocketManager } from './WebSocketManager';
-import { WebSocketManagerEvents } from '../../util/types/InternalWebSocket';
 
 export interface DataPacket {
 	op: number;
