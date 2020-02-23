@@ -48,7 +48,7 @@ export class MessageBuilder implements MessageOptions {
 	 * Sets content of this message
 	 * @param content The content to set
 	 */
-	public setContent(content: string): this {
+	public setContent(content?: string): this {
 		this.data.content = content;
 		return this;
 	}
@@ -57,7 +57,7 @@ export class MessageBuilder implements MessageOptions {
 	 * Sets the embed of this message
 	 * @param embed The embed to set
 	 */
-	public setEmbed(embed: APIEmbedData): this {
+	public setEmbed(embed?: APIEmbedData): this {
 		this.data.embed = embed;
 		return this;
 	}
@@ -66,7 +66,7 @@ export class MessageBuilder implements MessageOptions {
 	 * Sets the nonce of this message
 	 * @param nonce The nonce to set
 	 */
-	public setNonce(nonce: number | string): this {
+	public setNonce(nonce?: number | string): this {
 		this.data.nonce = nonce;
 		return this;
 	}

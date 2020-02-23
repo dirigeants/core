@@ -65,7 +65,7 @@ export class WebhookMessageBuilder extends MessageBuilder implements WebhookMess
 	 * @param deleteCount How many fields to delete
 	 * @param embed The field name to insert
 	 */
-	public spliceEmbed(index: number, deleteCount: number, embed: APIEmbedData): this {
+	public spliceEmbed(index: number, deleteCount: number, embed?: APIEmbedData): this {
 		if (!this.data.embeds) this.data.embeds = [];
 		if (embed) this.data.embeds.splice(index, deleteCount, embed);
 		else this.data.embeds.splice(index, deleteCount);
@@ -76,7 +76,7 @@ export class WebhookMessageBuilder extends MessageBuilder implements WebhookMess
 	 * Sets the username of the webhook message
 	 * @param username The username of the webhook message
 	 */
-	public setUsername(username: string): this {
+	public setUsername(username?: string): this {
 		this.data.username = username;
 		return this;
 	}
@@ -85,7 +85,7 @@ export class WebhookMessageBuilder extends MessageBuilder implements WebhookMess
 	 * Sets the avatar of the webhook message
 	 * @param avatar The avatar for the webhook message
 	 */
-	public setAvatar(avatar: string): this {
+	public setAvatar(avatar?: string): this {
 		// eslint-disable-next-line @typescript-eslint/camelcase
 		this.data.avatar_url = avatar;
 		return this;
