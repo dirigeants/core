@@ -474,7 +474,7 @@ export interface APIMessageData {
 	activity?: APIMessageActivityData;
 	application?: APIMessageApplicationData;
 	message_reference?: APIMessageReferenceData;
-	flags?: MessageFlags;
+	flags?: APIMessageFlags;
 }
 
 /**
@@ -615,7 +615,7 @@ export interface APIUserData {
 	locale?: string;
 	verified?: boolean;
 	email?: string;
-	flags?: UserFlags;
+	flags?: APIUserFlags;
 	premium_type?: PremiumType;
 }
 
@@ -762,7 +762,7 @@ export const enum MessageActivityType {
 /**
  * https://discordapp.com/developers/docs/resources/channel#message-object-message-flags
  */
-export const enum MessageFlags {
+export const enum APIMessageFlags {
 	Crossposted = 1 << 0,
 	IsCrosspost = 1 << 1,
 	SuppressEmbeds = 1 << 2,
@@ -902,7 +902,7 @@ export const enum AuditLogEvent {
 /**
  * https://discordapp.com/developers/docs/resources/user#user-object-user-flags
  */
-export const enum UserFlags {
+export const enum APIUserFlags {
 	Employee = 1 << 0,
 	Partner = 1 << 1,
 	HypeSquadEvents = 1 << 2,
