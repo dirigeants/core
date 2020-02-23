@@ -1,10 +1,10 @@
+import { basename } from 'path';
+import { Readable } from 'stream';
 import fetch from 'node-fetch';
 import { readFile, pathExists } from 'fs-nextra';
-import { basename } from 'path';
 
 import type { File, RequestOptions } from '../../../rest/REST';
 import type { APIEmbedData } from '../../../../util/types/DiscordAPI';
-import { Stream } from 'stream';
 
 export interface MessageData {
 	content?: string;
@@ -138,15 +138,12 @@ export class MessageBuilder implements MessageOptions {
 	 * @param file A stream, url, file location, or text blob to send as an attachment
 	 * @param name The name of the attachment
 	 */
-	public static async resolveFile(file: string | Stream, name?: string): Promise<File> {
+	public static async resolveFile(file: string | Readable, name?: string): Promise<File> {
 		let resolvedFile: Buffer;
 		let resolvedName: string;
 
-		if (file instanceof Stream) {
+		if (file instanceof Readable) {
 			const buffers = [];
-			// Node.js streams do have asyncIterators
-			// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-			// @ts-ignore
 			for await (const buffer of file) buffers.push(buffer);
 			resolvedFile = Buffer.concat(buffers);
 			resolvedName = name || 'file.dat';
