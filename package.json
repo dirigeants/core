@@ -42,6 +42,7 @@
     "@klasa/utils": "^0.0.4",
     "abort-controller": "^3.0.0",
     "form-data": "^3.0.0",
+    "fs-nextra": "^0.4.7",
     "node-fetch": "^2.6.0",
     "ws": "^7.2.1"
   }

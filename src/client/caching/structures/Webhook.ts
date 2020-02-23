@@ -1,9 +1,11 @@
 import { Snowflake } from '../../../util/Snowflake';
+import { Routes } from '../../../util/Constants';
+import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
 
 import type { Client } from '../../Client';
 import type { WebhookClient } from '../../WebhookClient';
 import type { APIWebhookData, WebhookType, APIUserData } from '../../../util/types/DiscordAPI';
-import { Routes } from '../../../util/Constants';
+import type { SplitOptions } from './messages/MessageBuilder';
 
 export interface WebhookUpdateData {
 	name?: string;
@@ -109,9 +111,15 @@ export class Webhook {
 	 * Sends a message over the webhook
 	 * @param data Message data
 	 */
-	public async send(data: any): Promise<unknown> {
+	public send(data: WebhookMessageOptions, splitOptions: SplitOptions = {}): Promise<unknown[]> {
 		if (!this.token) throw new Error('The token on this webhook is unknown. You cannot send messages.');
-		return this.client.api.post(Routes.webhookTokened(this.id, this.token), { auth: false, data });
+
+		const endpoint = Routes.webhookTokened(this.id, this.token);
+		const responses = [];
+
+		for (const message of new WebhookMessageBuilder(data).split(splitOptions)) responses.push(this.client.api.post(endpoint, message));
+
+		return Promise.all(responses);
 	}
 
 	/**

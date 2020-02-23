@@ -144,7 +144,7 @@ export class RESTManager {
 		let body;
 		let additionalHeaders;
 
-		if (request.files) {
+		if (request.files && request.files.length) {
 			body = new FormData();
 			// Add attachments to the multipart form-data
 			for (const file of request.files) if (file && file.file) body.append(file.name, file.file, file.name);

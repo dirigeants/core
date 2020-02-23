@@ -11,9 +11,14 @@ export interface RequestOptions {
 	query?: any;
 	headers?: any;
 	data?: any;
-	files?: any[];
+	files?: File[];
 	reason?: string;
 	auth?: boolean;
+}
+
+export interface File {
+	name: string;
+	file: Buffer;
 }
 
 export interface Request extends RequestOptions {
