@@ -130,7 +130,11 @@ export class MessageBuilder implements MessageOptions {
 		messages.push(msg);
 
 		// Don't send any possible empty messages, and return the array of RequestOptions
-		return messages.filter(mes => mes).map(content => ({ data: { ...this.data, content }, files: this.files }));
+		return messages.filter(mes => mes).map((content, index) => index === 0 ?
+			// first message has embed/s and files
+			{ data: { ...this.data, content }, files: this.files } :
+			// Later messages have neither
+			{ data: { ...this.data, content, embed: undefined, embeds: undefined } });
 	}
 
 	/**
