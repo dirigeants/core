@@ -1,10 +1,11 @@
 import { Snowflake } from '../../../util/Snowflake';
 import { Routes } from '../../../util/Constants';
 import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
+import { Message } from './Message';
 
 import type { Client } from '../../Client';
 import type { WebhookClient } from '../../WebhookClient';
-import type { APIWebhookData, WebhookType, APIUserData } from '../../../util/types/DiscordAPI';
+import type { APIWebhookData, WebhookType, APIUserData, APIMessageData } from '../../../util/types/DiscordAPI';
 import type { SplitOptions } from './messages/MessageBuilder';
 
 export interface WebhookUpdateData {
@@ -33,7 +34,7 @@ export class Webhook {
 	/**
 	 * The channelID this webhook is for
 	 */
-	public channelID: string;
+	public channelID!: string;
 
 	/**
 	 * The "user" of the webhook displayed on the webhook messages
@@ -62,17 +63,21 @@ export class Webhook {
 	public constructor(public client: Client | WebhookClient, data: APIWebhookData) {
 		this.id = data.id;
 		this.type = data.type;
-		this.channelID = data.channel_id;
 		this.guildID = data.guild_id;
-		this.token = data.token;
 
 		this._patch(data);
 	}
 
-	public _patch(data: APIWebhookData): void {
-		this.user = data.user;
-		this.name = data.name;
-		this.avatar = data.avatar;
+	public _patch(data: APIWebhookData): this {
+		this.token = data.token || this.token;
+		this.name = data.name || this.name;
+		this.avatar = data.avatar || this.avatar;
+		this.channelID = data.channel_id || this.channelID;
+
+		// todo: replace with future Structures.extended User
+		this.user = data.user || this.user;
+
+		return this;
 	}
 
 	/**
@@ -111,7 +116,7 @@ export class Webhook {
 	 * Sends a message over the webhook
 	 * @param data Message data
 	 */
-	public send(data: WebhookMessageOptions, splitOptions: SplitOptions = {}): Promise<unknown[]> {
+	public async send(data: WebhookMessageOptions, splitOptions: SplitOptions = {}): Promise<Message[]> {
 		if (!this.token) throw new Error('The token on this webhook is unknown. You cannot send messages.');
 
 		const endpoint = Routes.webhookTokened(this.id, this.token);
@@ -119,31 +124,36 @@ export class Webhook {
 
 		for (const message of new WebhookMessageBuilder(data).split(splitOptions)) responses.push(this.client.api.post(endpoint, message));
 
-		return Promise.all(responses);
+		const rawMessages = await Promise.all(responses);
+
+		// todo: replace with future Structures.extended Message
+		return rawMessages.map(msg => new Message(this.client, msg as APIMessageData));
 	}
 
 	/**
 	 * Updates the webhook properties
-	 * @param param0 Data to update the webhook with
+	 * @param webhookUpdateData Data to update the webhook with
 	 */
-	public update({ name, avatar, channelID }: WebhookUpdateData): Promise<unknown> {
-		return channelID || !this.token ?
+	public async update({ name, avatar, channelID }: WebhookUpdateData): Promise<this> {
+		const updateData = await (channelID || !this.token ?
 			// Requires MANAGE_WEBHOOKS permission to update channelID or to update without the token
 			// eslint-disable-next-line @typescript-eslint/camelcase
 			this.client.api.patch(Routes.webhook(this.id), { data: { name, avatar, channel_id: channelID } }) :
 			// Doesn't require any permissions, but you cannot change the channelID
-			this.client.api.patch(Routes.webhookTokened(this.id, this.token), { auth: false, data: { name, avatar } });
+			this.client.api.patch(Routes.webhookTokened(this.id, this.token), { auth: false, data: { name, avatar } }));
+
+		return this._patch(updateData as APIWebhookData);
 	}
 
 	/**
 	 * Delete this webhook from the api
 	 */
-	public delete(): Promise<unknown> {
-		return this.token ?
+	public async delete(): Promise<void> {
+		await (this.token ?
 			// If we know the webhook token, we can delete it with less permissions
 			this.client.api.delete(Routes.webhookTokened(this.id, this.token), { auth: false }) :
 			// Requires MANAGE_WEBHOOKS permission
-			this.client.api.delete(Routes.webhook(this.id));
+			this.client.api.delete(Routes.webhook(this.id)));
 	}
 
 	/**
