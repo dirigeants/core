@@ -90,7 +90,7 @@ export class BitField<T extends BitFieldResolvable> implements BitFieldObject {
 	 * Returns an object of flags: boolean
 	 * @param hasParams Additional params to pass to child has methods
 	 */
-	public serialize(...hasParams: any[]): any {
+	public serialize(...hasParams: any[]): Record<string, boolean> {
 		const constructor = this.constructor as typeof BitField;
 		const serialized: Record<string, boolean> = {};
 		for (const bit of Object.keys(constructor.FLAGS)) serialized[bit] = this.has(bit as T, ...hasParams);
@@ -154,7 +154,7 @@ export class BitField<T extends BitFieldResolvable> implements BitFieldObject {
 		if (bit instanceof BitField) return bit.bitfield;
 		if (Array.isArray(bit)) return (bit as (string | number | BitFieldObject)[]).map((byte) => this.resolve(byte)).reduce((bytes, byte) => bytes | byte, 0);
 		if (typeof bit === 'string') return this.FLAGS[bit];
-		throw new RangeError('BITFIELD_INVALID');
+		throw new RangeError('An invalid bit was provided.');
 	}
 
 }
