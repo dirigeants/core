@@ -7,6 +7,7 @@ import type { Client } from '../../Client';
 import type { WebhookClient } from '../../WebhookClient';
 import type { APIWebhookData, WebhookType, APIUserData, APIMessageData } from '../../../util/types/DiscordAPI';
 import type { SplitOptions } from './messages/MessageBuilder';
+import { Structure } from './base/Structure';
 
 export interface WebhookUpdateData {
 	name?: string;
@@ -14,7 +15,7 @@ export interface WebhookUpdateData {
 	channelID?: string;
 }
 
-export class Webhook {
+export class Webhook extends Structure {
 
 	/**
 	 * The id of the webhook
@@ -60,7 +61,8 @@ export class Webhook {
 	 * @param client The client to manage this webhook
 	 * @param data The webhook data
 	 */
-	public constructor(public client: Client | WebhookClient, data: APIWebhookData) {
+	public constructor(client: Client | WebhookClient, data: APIWebhookData) {
+		super(client);
 		this.id = data.id;
 		this.type = data.type;
 		this.guildID = data.guild_id;
