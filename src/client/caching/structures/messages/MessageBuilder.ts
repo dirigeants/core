@@ -142,7 +142,7 @@ export class MessageBuilder implements MessageOptions {
 	 * @param file A stream, url, file location, or text blob to send as an attachment
 	 * @param name The name of the attachment
 	 */
-	public static async resolveFile(file: string | Readable, name?: string): Promise<File> {
+	public static async resolveFile(file: string | Readable | Buffer, name?: string): Promise<File> {
 		let resolvedFile: Buffer;
 		let resolvedName: string;
 
@@ -151,6 +151,9 @@ export class MessageBuilder implements MessageOptions {
 			for await (const buffer of file) buffers.push(buffer);
 			resolvedFile = Buffer.concat(buffers);
 			resolvedName = name || 'file.dat';
+		} else if (Buffer.isBuffer(file)) {
+			resolvedFile = file;
+			resolvedName = name || 'file.txt';
 		} else if (/^https?:\/\//.test(file)) {
 			resolvedFile = await (await fetch(file)).buffer();
 			resolvedName = name || basename(file);
