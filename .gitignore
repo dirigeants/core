@@ -11,3 +11,5 @@ test-results.xml
 test.js
 
 config.json
+
+.vscode/
