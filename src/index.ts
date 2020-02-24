@@ -1,6 +1,7 @@
 export * from './util/AsyncQueue';
 export * from './util/Cache';
 export * from './util/Constants';
+export * from './util/Extender';
 export * from './util/Snowflake';
 export * from './util/TimerManager';
 export type * from './util/types/DiscordAPI';
