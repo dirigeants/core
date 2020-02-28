@@ -11,7 +11,8 @@
     "test:coverage": "npx nyc check-coverage --lines 90 --functions 90 --branches 90",
     "coverage": "npx nyc --require ts-node/register --require source-map-support/register npm test",
     "coverage:report": "npx nyc report --reporter=html",
-    "lint": "eslint --fix --ext ts src test"
+    "lint": "eslint --fix --ext ts src test",
+    "docs": "typedoc"
   },
   "repository": {
     "type": "git",
@@ -30,6 +31,7 @@
     "nyc": "^15.0.0",
     "source-map-support": "^0.5.16",
     "ts-node": "^8.6.2",
+    "typedoc": "^0.17.0-3",
     "typescript": "^3.9.0-dev.20200221"
   },
   "author": "dirigeants",

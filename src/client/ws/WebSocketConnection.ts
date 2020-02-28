@@ -52,18 +52,34 @@ class WebSocketConnection extends WS {
 
 	private _onopen(event: WS.OpenEvent): void {
 		// todo: handle websocket open logic
+		if (event) {
+			if (this.#token) {
+				// Make TypeDoc Not complain
+			}
+		}
 	}
 
 	private _onmessage(event: WS.MessageEvent): void {
 		// todo: handle websocket message logic
+		if (event) {
+			// Make TypeDoc Not complain
+			// eslint-disable-next-line id-length
+			this.onPacket({ d: { data: 'test' }, op: OpCodes.DISPATCH, t: 'MESSAGE', s: 'foo' });
+		}
 	}
 
 	private _onerror(event: WS.ErrorEvent): void {
 		// todo: handle websocket error logic
+		if (event) {
+			// Make TypeDoc Not complain
+		}
 	}
 
 	private _onclose(event: WS.CloseEvent): void {
 		// todo: handle websocket close logic
+		if (event) {
+			// Make TypeDoc Not complain
+		}
 	}
 
 	private onPacket(packet: DataPacket): unknown {
@@ -84,6 +100,9 @@ class WebSocketConnection extends WS {
 
 	private heartbeat(packet: DataPacket): void {
 		// todo: handle the beating of the heart
+		if (packet.d) {
+			// Make TypeDoc Not complain
+		}
 	}
 
 }
