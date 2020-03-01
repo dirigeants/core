@@ -1,27 +1,12 @@
 import * as WS from 'ws';
 import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
-
-import type { DataPacket } from './WebSocketShard';
+import { WSPayload, OpCodes, HelloPayload, InvalidSession, WorkerMasterMessages, InternalActions, DispatchPayload } from '../../util/types/InternalWebSocket';
 
 function checkMainThread(port: unknown): asserts port is MessagePort {
 	if (!isMainThread || port === null) throw new Error('WebSocketConnection.ts can only be run as a WorkerThread');
 }
 
 checkMainThread(parentPort);
-
-const enum OpCodes {
-	DISPATCH,
-	HEARTBEAT,
-	IDENTIFY,
-	STATUS_UPDATE,
-	VOICE_STATE_UPDATE,
-	RESUME = 6,
-	RECONNECT,
-	REQUEST_GUILD_MEMBERS,
-	INVALID_SESSION,
-	HELLO,
-	HEARTBEAT_ACK
-}
 
 class WebSocketConnection extends WS {
 
@@ -60,12 +45,7 @@ class WebSocketConnection extends WS {
 	}
 
 	private _onmessage(event: WS.MessageEvent): void {
-		// todo: handle websocket message logic
-		if (event) {
-			// Make TypeDoc Not complain
-			// eslint-disable-next-line id-length
-			this.onPacket({ d: { data: 'test' }, op: OpCodes.DISPATCH, t: 'MESSAGE', s: 'foo' });
-		}
+		const { data } = event;
 	}
 
 	private _onerror(event: WS.ErrorEvent): void {
@@ -82,27 +62,47 @@ class WebSocketConnection extends WS {
 		}
 	}
 
-	private onPacket(packet: DataPacket): unknown {
+	private onPacket(packet: WSPayload): unknown {
 		switch (packet.op) {
-			case OpCodes.HELLO: return this.heartbeat(packet);
-			case OpCodes.HEARTBEAT: return this.heartbeat(packet);
-			case OpCodes.HEARTBEAT_ACK: return this.heartbeat(packet);
-			case OpCodes.INVALID_SESSION: return this.heartbeat(packet);
-			case OpCodes.RECONNECT: return this.heartbeat(packet);
-			case OpCodes.DISPATCH: return this.dispatch(packet);
+			case OpCodes.HELLO: return this.hello(packet);
+			case OpCodes.HEARTBEAT: return this.heartbeatRequest();
+			case OpCodes.HEARTBEAT_ACK: return this.heartbeatAck();
+			case OpCodes.INVALID_SESSION: return this.invalidSession(packet);
+			case OpCodes.RECONNECT: return this.reconnect();
+			case OpCodes.DISPATCH: return this.dispatch({ type: InternalActions.Dispatch, data: packet });
 			default: return null;
 		}
 	}
 
-	private dispatch(packet: DataPacket): void {
-		(parentPort as MessagePort).postMessage(packet);
+	private dispatch(data: WorkerMasterMessages): void {
+		checkMainThread(parentPort);
+		parentPort.postMessage(data);
 	}
 
-	private heartbeat(packet: DataPacket): void {
-		// todo: handle the beating of the heart
+	private hello(packet: HelloPayload): void {
 		if (packet.d) {
-			// Make TypeDoc Not complain
+			// Make code
 		}
+	}
+
+	private heartbeatRequest(): void {
+		// todo: handle the beating of the heart
+	}
+
+	private heartbeatAck(): void {
+		// todo: handle the beating of the heart
+	}
+
+	private invalidSession(packet: InvalidSession): void {
+		if (packet.d) {
+			// resume now
+		} else {
+			// re-queue
+		}
+	}
+
+	private reconnect(): void {
+		// reconnect
 	}
 
 }

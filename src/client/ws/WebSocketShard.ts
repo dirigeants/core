@@ -1,15 +1,8 @@
 import { Worker } from 'worker_threads';
 import { Intents } from '../caching/bitfields/Intents';
-import { WebSocketManagerEvents } from '../../util/types/InternalWebSocket';
+import { WebSocketManagerEvents, WorkerMasterMessages, InternalActions } from '../../util/types/InternalWebSocket';
 
 import type { WebSocketManager } from './WebSocketManager';
-
-export interface DataPacket {
-	op: number;
-	d: any;
-	s: string;
-	t: string;
-}
 
 /**
  * The Structure to manage a Websocket Worker with
@@ -58,10 +51,18 @@ export class WebSocketShard {
 	 * Handles emitting raw websocket messages with the addition of shard_id
 	 * @param packet Raw websocket data packets
 	 */
-	private _onWorkerMessage(packet: DataPacket): void {
-		// eslint-disable-next-line @typescript-eslint/camelcase
-		packet.d.shard_id = this.id;
-		this.manager.emit(packet.t, packet.d);
+	private _onWorkerMessage(packet: WorkerMasterMessages): void {
+		switch (packet.type) {
+			case InternalActions.Debug: {
+				this.manager.emit(WebSocketManagerEvents.Debug, `[WS Shard ${this.id}/${this.totalShards}] ${packet.data}`);
+				break;
+			}
+			case InternalActions.Dispatch: {
+				// eslint-disable-next-line @typescript-eslint/camelcase
+				packet.data.shard_id = this.id;
+				this.manager.emit(packet.data.t, packet.data);
+			}
+		}
 	}
 
 	/**

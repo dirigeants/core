@@ -299,6 +299,11 @@ export interface APIEmojiData extends APIEmojiPartial {
 
 // #region Guilds
 
+export interface APIGuildUnavailable {
+	id: string;
+	unavailable: boolean;
+}
+
 /**
  * Not Documented, but partial only includes id, name, icon, and splash
  */
@@ -307,6 +312,7 @@ export interface APIGuildPartial {
 	name: string;
 	icon: string | null;
 	splash: string | null;
+	unavailable?: boolean;
 }
 
 /**
