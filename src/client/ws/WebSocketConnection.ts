@@ -49,10 +49,8 @@ class WebSocketConnection extends WS {
 	}
 
 	private _onerror(event: WS.ErrorEvent): void {
-		// todo: handle websocket error logic
-		if (event) {
-			// Make TypeDoc Not complain
-		}
+		const { error, message } = event;
+		this.dispatch({ type: InternalActions.Debug, data: `WebSocket encountered an error: ${message}\n${error}` });
 	}
 
 	private _onclose(event: WS.CloseEvent): void {
