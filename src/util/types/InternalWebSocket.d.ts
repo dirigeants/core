@@ -10,6 +10,7 @@ import {
 	APIRoleData,
 	APIUserData,
 	APIVoiceStateData,
+	APIActivityData,
 } from './DiscordAPI';
 
 export const enum WebSocketManagerEvents {
@@ -22,6 +23,25 @@ export const enum WebSocketManagerEvents {
 export const enum InternalActions {
 	Debug = 'DEBUG',
 	Dispatch = 'DISPATCH',
+	QueueIdentify = 'IDENTIFY',
+	UpdatePing = 'UPDATE_PING',
+}
+
+export const enum WSCloseCodes {
+	UnknownError = 4000,
+	UnknownOpCode,
+	DecodeError,
+	NotAuthenticated,
+	AuthenticationFailed,
+	AlreadyAuthenticated,
+	InvalidSeq = 4007,
+	RateLimited,
+	SessionTimeout,
+	InvalidShard,
+	ShardingRequired,
+	InvalidVersion,
+	InvalidIntents,
+	DisallowedIntents,
 }
 
 export const enum OpCodes {
@@ -74,7 +94,8 @@ export const enum WebSocketEvents {
 	WebhooksUpdate           = 'WEBHOOKS_UPDATE',
 }
 
-export type WSPayload = HelloPayload | HeartbeatRequest | HeartbeatAck | InvalidSession | ReconnectRequest | DispatchPayload;
+export type WSPayload = HelloPayload | Heartbeat | HeartbeatAck | InvalidSession | Reconnect | DispatchPayload;
+export type SendPayload = WSHeartbeat | Identify | StatusUpdate | VoiceStateUpdate | Resume | RequestGuildMembers;
 
 // #region Basic payloads
 export interface HelloPayload extends BasePayload {
@@ -85,7 +106,7 @@ export interface HelloPayload extends BasePayload {
 	};
 }
 
-export interface HeartbeatRequest extends BasePayload {
+export interface Heartbeat extends BasePayload {
 	op: OpCodes.HEARTBEAT;
 	t: never;
 	d: never;
@@ -103,7 +124,7 @@ export interface InvalidSession extends BasePayload {
 	d: boolean;
 }
 
-export interface ReconnectRequest extends BasePayload {
+export interface Reconnect extends BasePayload {
 	op: OpCodes.RECONNECT;
 	t: never;
 	d: never;
@@ -206,6 +227,64 @@ type DispatchPayload =
 
 // #endregion Dispatch
 
+// #region Sendables
+interface WSHeartbeat {
+	op: OpCodes.HEARTBEAT;
+	d: number;
+}
+
+interface Identify {
+	op: OpCodes.IDENTIFY;
+	d: {
+		token: string;
+		properties: {
+			$os: string;
+			$browser: string;
+			device: string;
+		};
+		large_threshold?: number;
+		shard?: [number, number];
+		presence?: StatusUpdateData;
+		intents?: number;
+	};
+}
+
+interface Resume {
+	op: OpCodes.RESUME;
+	d: {
+		token: string;
+		session_id: string;
+		seq: number;
+	};
+}
+
+interface RequestGuildMembers {
+	op: OpCodes.REQUEST_GUILD_MEMBERS;
+	d: {
+		guild_id: string | string[];
+		query?: string;
+		limit: number;
+		presences?: boolean;
+		user_ids?: string | string[];
+	};
+}
+
+interface VoiceStateUpdate {
+	op: OpCodes.VOICE_STATE_UPDATE;
+	d: {
+		guild_id: string;
+		channel_id: string | null;
+		self_mute: boolean;
+		self_deaf: boolean;
+	};
+}
+
+interface StatusUpdate {
+	op: OpCodes.STATUS_UPDATE;
+	d: StatusUpdateData;
+}
+// #endregion Sendables
+
 // #region Misc
 interface BasePayload {
 	op: OpCodes;
@@ -230,6 +309,13 @@ type ReactionData<E extends WebSocketEvents> = DataPayload<E, {
 	member?: APIGuildMemberData;
 	emoji: APIEmojiPartial;
 }>
+
+interface StatusUpdateData {
+	since: number | null;
+	game: APIActivityData | null;
+	status: 'online' | 'dnd' | 'idle' | 'invisible' | 'offline';
+	afk: boolean;
+}
 // #endregion Misc
 
 // #region InternalWS
@@ -239,5 +325,10 @@ export type WorkerMasterMessages = {
 } | {
 	type: InternalActions.Dispatch;
 	data: DispatchPayload;
+} | {
+	type: InternalActions.QueueIdentify;
+} | {
+	type: InternalActions.UpdatePing,
+	data: number;
 };
 // #endregion

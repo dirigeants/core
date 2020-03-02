@@ -10,6 +10,11 @@ import type { WebSocketManager } from './WebSocketManager';
 export class WebSocketShard {
 
 	/**
+	 * The shards ping (updated every heartbeat ack)
+	 */
+	public ping = -1;
+
+	/**
 	 * The Websocket Connection worker
 	 */
 	private readonly workerThread: Worker;
@@ -57,6 +62,10 @@ export class WebSocketShard {
 				this.manager.emit(WebSocketManagerEvents.Debug, `[WS Shard ${this.id}/${this.totalShards}] ${packet.data}`);
 				break;
 			}
+			case InternalActions.UpdatePing: {
+				this.ping = packet.data;
+				break;
+			}
 			case InternalActions.Dispatch: {
 				// eslint-disable-next-line @typescript-eslint/camelcase
 				packet.data.shard_id = this.id;
@@ -78,7 +87,7 @@ export class WebSocketShard {
 	 * @param exitCode The exit code
 	 */
 	private _onWorkerExit(exitCode: number): void {
-		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Worker Thread exited with code ${exitCode}`);
+		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Worker Thread Exit[${exitCode}]`);
 		// TODO: If manager is still alive, reconnect in a queue
 	}
 
