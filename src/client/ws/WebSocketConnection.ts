@@ -1,7 +1,21 @@
-/* eslint-disable id-length */
+/* eslint-disable id-length,@typescript-eslint/camelcase */
 import * as WS from 'ws';
 import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
-import { WSPayload, OpCodes, HelloPayload, InvalidSession, WorkerMasterMessages, InternalActions, WSCloseCodes, SendPayload } from '../../util/types/InternalWebSocket';
+import {
+	HelloPayload,
+	InternalActions,
+	InvalidSession,
+	OpCodes,
+	SendPayload,
+	WebSocketEvents,
+	WorkerMasterMessages,
+	WSCloseCodes,
+	WSIdentify,
+	WSPayload,
+	WSWorkerData
+} from '../../util/types/InternalWebSocket';
+
+const typedWorkerData = workerData as WSWorkerData;
 
 let zlib: typeof import('zlib-sync') | undefined;
 try {
@@ -29,18 +43,23 @@ interface WSRatelimit {
 	queue: string[];
 }
 
+interface WSHeartbeat {
+	acked: boolean;
+	interval: NodeJS.Timer | null;
+}
+
+interface WSDestroyOptions {
+	closeCode?: number;
+	resetSession?: boolean;
+}
+
 function checkMainThread(port: unknown): asserts port is MessagePort {
-	if (!isMainThread || port === null) throw new Error('WebSocketConnection.ts can only be run as a WorkerThread');
+	if (!isMainThread || port === null) throw new Error('A WebSocketConnection can only be created as a WorkerThread');
 }
 
 checkMainThread(parentPort);
 
 class WebSocketConnection extends WS {
-
-	/**
-	 * The bot token used to connect to the websocket
-	 */
-	#token: string;
 
 	/**
 	 * The last time we sent a heartbeat
@@ -73,22 +92,16 @@ class WebSocketConnection extends WS {
 	#ratelimitData: WSRatelimit;
 
 	/**
-	 * The heartbeat timer
+	 * Current heartbeat data
 	 */
-	#heartbeatTimer!: NodeJS.Timer;
-
-	/**
-	 * If the last heartbeat was acked
-	*/
-	#heartbeatAcked: boolean;
+	#heartbeat: WSHeartbeat;
 
 	/**
 	 * @param host The host url to connect to
 	 * @param token The token to connect with
 	 */
-	public constructor(host: string, token: string) {
+	public constructor(host: string) {
 		super(host);
-		this.#token = token;
 		this.#lastHeartbeat = -1;
 		this.#sequence = -1;
 		this.#closeSequence = -1;
@@ -97,7 +110,10 @@ class WebSocketConnection extends WS {
 			queue: [],
 			remaining: 120
 		};
-		this.#heartbeatAcked = true;
+		this.#heartbeat = {
+			acked: true,
+			interval: null
+		};
 
 		if (zlib) {
 			this.#zlib = new zlib.Inflate({ chunkSize: 128 * 1024 });
@@ -120,11 +136,16 @@ class WebSocketConnection extends WS {
 	/**
 	 * Gracefully closes the websocket connection
 	 */
-	public destroy(closeCode: number): void {
+	public destroy({ closeCode: code, resetSession }: WSDestroyOptions = { closeCode: 1000, resetSession: false }): void {
 		try {
-			this.close(closeCode);
+			this.close(code);
 		} catch {
 			// No-op
+		}
+
+		if (resetSession) {
+			this.#sessionID = null;
+			this.#sequence = this.#closeSequence = -1;
 		}
 	}
 
@@ -184,28 +205,59 @@ class WebSocketConnection extends WS {
 
 		if (UNRESUMABLE.includes(code)) {
 			this.debug(`Close[${code}] => Cannot resume any further`);
-			this.#sessionID = null;
-			this.#sequence = -1;
+			this.destroy({ resetSession: true });
 		}
 
 		if (UNRECOVERABLE.includes(code)) {
 			this.debug(`Close[${code}] => Cannot connect any further`);
-			this.destroy(code);
+			this.destroy({ closeCode: code, resetSession: true });
 		}
 	}
 
-	private onPacket(packet: WSPayload): unknown {
+	private onPacket(packet: WSPayload): void {
 		if (packet.s > this.#sequence) this.#sequence = packet.s;
 
 		switch (packet.op) {
-			case OpCodes.HELLO: return this.hello(packet);
-			case OpCodes.HEARTBEAT: return this.heartbeatRequest();
-			case OpCodes.HEARTBEAT_ACK: return this.heartbeatAck();
-			case OpCodes.INVALID_SESSION: return this.invalidSession(packet);
-			case OpCodes.RECONNECT: return this.reconnect();
-			case OpCodes.DISPATCH: return this.dispatch({ type: InternalActions.Dispatch, data: packet });
-			default: return null;
+			case OpCodes.HELLO: {
+				this.hello(packet);
+				break;
+			}
+			case OpCodes.HEARTBEAT: {
+				this.heartbeatRequest();
+				break;
+			}
+			case OpCodes.HEARTBEAT_ACK: {
+				this.heartbeatAck();
+				break;
+			}
+			case OpCodes.INVALID_SESSION: {
+				this.invalidSession(packet);
+				break;
+			}
+			case OpCodes.RECONNECT: {
+				this.reconnect();
+				break;
+			}
+			case OpCodes.DISPATCH: {
+				this.dispatch({ type: InternalActions.Dispatch, data: packet });
+				break;
+			}
 		}
+
+		switch (packet.t) {
+			case WebSocketEvents.Ready: {
+				this.debug(`READY[${packet.d.user.id} | ${packet.d.guilds.length} guilds]`);
+				break;
+			}
+			case WebSocketEvents.Resumed: {
+				this.debug(`RESUMED[${this.#sequence - this.#closeSequence} events`);
+				break;
+			}
+		}
+	}
+
+	private debug(info: string): void {
+		this.dispatch({ type: InternalActions.Debug, data: info });
 	}
 
 	// #region Payloads
@@ -215,34 +267,45 @@ class WebSocketConnection extends WS {
 		parentPort.postMessage(data);
 	}
 
-	private debug(info: string): void {
-		this.dispatch({ type: InternalActions.Debug, data: info });
-	}
-
+	/**
+	 * Called when we receive the HELLO payload from Discord
+	 */
 	private hello(packet: HelloPayload): void {
 		this.setHeartbeatTimer(packet.d.heartbeat_interval);
 		this.identify();
 	}
 
+	/**
+	 * Called when Discord asks us to heartbeat
+	 */
 	private heartbeatRequest(): void {
-		this.sendWS({ op: OpCodes.HEARTBEAT, d: this.#sequence });
+		this.sendWS({ op: OpCodes.HEARTBEAT, d: this.#sequence }, true);
 	}
 
+	/**
+	 * Called when we receive an ack for a heartbeat
+	 */
 	private heartbeatAck(): void {
-		this.#heartbeatAcked = true;
+		this.#heartbeat.acked = true;
 		const latency = Date.now() - this.#lastHeartbeat;
 		this.debug(`Heartbeat Acknowledged[${latency}ms]`);
 		this.dispatch({ type: InternalActions.UpdatePing, data: latency });
 	}
 
+	/**
+	 * Called when we receive an invalid session payload from Discord
+	 */
 	private invalidSession(packet: InvalidSession): void {
 		if (packet.d) {
-			this.identifyResume();
+			this.resume();
 		} else {
 			this.scheduleIdentify();
 		}
 	}
 
+	/**
+	 * Called when Discord asks a shard connection to reconnect
+	 */
 	private reconnect(): void {
 		this.close(WSCloseCodes.SessionTimeout);
 	}
@@ -251,26 +314,62 @@ class WebSocketConnection extends WS {
 
 	private setHeartbeatTimer(time: number): void {
 		if (time === -1) {
-			this.debug('Clearing heartbeat timer');
-			clearInterval(this.#heartbeatTimer);
+			this.debug('Heartbeat Timer[RESET]');
+			if (this.#heartbeat.interval) clearInterval(this.#heartbeat.interval);
 		} else {
-			this.debug(`Heartbeat[${time}ms]`);
-			clearInterval(this.#heartbeatTimer);
-			this.#heartbeatTimer = setInterval(this.sendHeartbeat.bind(this, 'Timer'), time);
+			this.debug(`Heartbeat Timer[${time}ms]`);
+			// Sanity check; clear interval
+			if (this.#heartbeat.interval) clearInterval(this.#heartbeat.interval);
+			this.#heartbeat.interval = setInterval(this.sendHeartbeat.bind(this, 'Timer'), time);
 		}
 	}
 
 	private sendHeartbeat(tag = 'Unknown'): void {
-		if (!this.#heartbeatAcked) {
+		if (!this.#heartbeat.acked) {
 			this.debug(`Heartbeat[${tag}] Didn't receive an ack in time; resetting`);
-			this.destroy(WSCloseCodes.SessionTimeout);
+			this.destroy({ closeCode: WSCloseCodes.SessionTimeout });
 			return;
 		}
 
-		this.debug(`Heartbeat[${tag}]`);
-		this.#heartbeatAcked = false;
+		this.debug(`Heartbeat[${tag}] Sending`);
+		this.#heartbeat.acked = false;
 		this.#lastHeartbeat = Date.now();
 		this.sendWS({ op: OpCodes.HEARTBEAT, d: this.#sequence }, true);
+	}
+
+	private identify(): void {
+		if (this.#sessionID) return this.resume();
+		return this.newSession();
+	}
+
+	public newSession(): void {
+		const { options, token } = typedWorkerData;
+
+		this.debug(`IDENTIFY[${(options.shards as number[]).join('/')}]`);
+		this.sendWS({ op: OpCodes.IDENTIFY, d: { ...(options as unknown as WSIdentify), token } }, true);
+	}
+
+	private resume(): void {
+		const session_id = this.#sessionID;
+		const seq = this.#closeSequence;
+		if (!session_id) {
+			this.debug('RESUME[No Session ID] Creating a new session');
+			this.newSession();
+			return;
+		}
+
+		if (seq < 0) {
+			this.debug('RESUME[Invalid Close Sequence] Creating a new session');
+			this.newSession();
+			return;
+		}
+
+		this.debug(`RESUME[${session_id} | Sequence ${seq}]`);
+		this.sendWS({ op: OpCodes.RESUME, d: { seq, session_id, token: typedWorkerData.token } }, true);
+	}
+
+	private scheduleIdentify(): void {
+		this.dispatch({ type: InternalActions.ScheduleIdentify });
 	}
 
 	private processRatelimitQueue(): void {
@@ -298,7 +397,7 @@ class WebSocketConnection extends WS {
 	send(payload: string): void {
 		if (this.readyState !== this.OPEN) {
 			this.debug(`Tried to send payload '${payload}' but WebSocket connection is not open! Reconnecting`);
-			this.destroy(WSCloseCodes.NotAuthenticated);
+			this.destroy({ closeCode: WSCloseCodes.NotAuthenticated });
 			return;
 		}
 
@@ -309,11 +408,14 @@ class WebSocketConnection extends WS {
 
 }
 
-let connection = new WebSocketConnection(workerData.url, workerData.token);
+const connection = new WebSocketConnection(typedWorkerData.gatewayURL);
 
+// TODO: Type this event
 parentPort.on('message', (message) => {
-	if (message.action === 'connect') {
-		if (connection) connection.destroy(1000);
-		connection = new WebSocketConnection(message.url, message.token);
+	switch (message.event) {
+		case 'IDENTIFY': {
+			connection.newSession();
+			break;
+		}
 	}
 });

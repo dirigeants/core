@@ -66,6 +66,10 @@ export class WebSocketShard {
 				this.ping = packet.data;
 				break;
 			}
+			case InternalActions.ScheduleIdentify: {
+				this.manager.scheduleIdentify(this);
+				break;
+			}
 			case InternalActions.Dispatch: {
 				// eslint-disable-next-line @typescript-eslint/camelcase
 				packet.data.shard_id = this.id;
@@ -88,7 +92,7 @@ export class WebSocketShard {
 	 */
 	private _onWorkerExit(exitCode: number): void {
 		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Worker Thread Exit[${exitCode}]`);
-		// TODO: If manager is still alive, reconnect in a queue
+		this.manager.scheduleShardRestart(this);
 	}
 
 }

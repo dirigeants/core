@@ -75,4 +75,15 @@ export class WebSocketManager extends EventEmitter {
 		// TODO: handle shards: auto, gateway connect limits, etc
 	}
 
+	public scheduleIdentify(shard: WebSocketShard): void {
+		// TODO: Add to queue, handle stuff
+		shard.send({ type: 'IDENTIFY' });
+	}
+
+	public scheduleShardRestart(shard: WebSocketShard): void {
+		// TODO: Add to qyeye, to create a new shard
+		console.log(shard.id);
+		this.shards.delete(shard.id);
+	}
+
 }

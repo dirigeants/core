@@ -12,6 +12,7 @@ import {
 	APIVoiceStateData,
 	APIActivityData,
 } from './DiscordAPI';
+import { WSOptions } from '../../client/ws/WebSocketManager';
 
 export const enum WebSocketManagerEvents {
 	Debug = 'debug',
@@ -23,8 +24,9 @@ export const enum WebSocketManagerEvents {
 export const enum InternalActions {
 	Debug = 'DEBUG',
 	Dispatch = 'DISPATCH',
-	QueueIdentify = 'IDENTIFY',
+	Identify = 'IDENTIFY',
 	UpdatePing = 'UPDATE_PING',
+	ScheduleIdentify = 'SCHEDULE_IDENTIFY',
 }
 
 export const enum WSCloseCodes {
@@ -316,19 +318,39 @@ interface StatusUpdateData {
 	status: 'online' | 'dnd' | 'idle' | 'invisible' | 'offline';
 	afk: boolean;
 }
+
+interface WSIdentify {
+	properties: {
+		$os: string,
+		$browser: string,
+		device: string
+	},
+	large_threshold?: number,
+	shard?: [number, number],
+	presence?: StatusUpdateData,
+	intents?: number
+}
 // #endregion Misc
 
 // #region InternalWS
 export type WorkerMasterMessages = {
-	type: InternalActions.Debug,
+	type: InternalActions.Debug;
 	data: string;
 } | {
 	type: InternalActions.Dispatch;
 	data: DispatchPayload;
 } | {
-	type: InternalActions.QueueIdentify;
+	type: InternalActions.Identify;
 } | {
-	type: InternalActions.UpdatePing,
+	type: InternalActions.UpdatePing;
 	data: number;
+} | {
+	type: InternalActions.ScheduleIdentify;
 };
+
+export interface WSWorkerData {
+	gatewayURL: string;
+	token: string;
+	options: Required<WSOptions>;
+}
 // #endregion
