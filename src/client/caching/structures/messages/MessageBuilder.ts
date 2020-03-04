@@ -2,6 +2,7 @@ import { basename } from 'path';
 import { Readable } from 'stream';
 import fetch from 'node-fetch';
 import { readFile, pathExists } from 'fs-nextra';
+import { mergeDefault } from '@klasa/utils';
 
 import type { File, RequestOptions } from '../../../rest/REST';
 import type { APIEmbedData } from '../../../../util/types/DiscordAPI';
@@ -11,6 +12,13 @@ export interface MessageData {
 	embed?: APIEmbedData;
 	nonce?: number | string;
 	tts?: boolean;
+	allowed_mentions?: AllowedMentions;
+}
+
+export interface AllowedMentions {
+	parse?: ('users' | 'roles' | 'everyone')[];
+	roles?: string[];
+	users?: string[];
 }
 
 export interface MessageOptions extends RequestOptions {
@@ -41,6 +49,13 @@ export class MessageBuilder implements MessageOptions {
 	 */
 	public constructor({ data = {}, files = [] }: MessageOptions = {}) {
 		this.data = data;
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		this.data.allowed_mentions = mergeDefault({
+			parse: [] as ('users' | 'roles' | 'everyone')[],
+			roles: [] as string[],
+			users: [] as string[]
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		}, data.allowed_mentions) as Required<AllowedMentions>;
 		this.files = files || [];
 	}
 
@@ -77,6 +92,55 @@ export class MessageBuilder implements MessageOptions {
 	 */
 	public setTTS(tts: boolean): this {
 		this.data.tts = tts;
+		return this;
+	}
+
+	/**
+	 * Allows Everyone and Here mentions to ping
+	 */
+	public parseEveryone(): this {
+		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
+		this.data.allowed_mentions!.parse!.push('everyone');
+		return this;
+	}
+
+	/**
+	 * Allows User mentions to ping
+	 */
+	public parseUsers(): this {
+		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
+		this.data.allowed_mentions!.parse!.push('users');
+		return this;
+	}
+
+	/**
+	 * Allows Role mentions to ping
+	 */
+	public parseRoles(): this {
+		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
+		this.data.allowed_mentions!.parse!.push('roles');
+		return this;
+	}
+
+
+	/**
+	 * Allows a set of users to be mentioned in a message (do not use with parseUsers())
+	 * @param ids user ids you want to mention
+	 */
+	public addUserMentions(...ids: string[]): this {
+		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
+		this.data.allowed_mentions!.users!.push(...ids);
+		return this;
+	}
+
+
+	/**
+	 * Allows a set of roles to be mentioned in a message (do not use with parseRoles())
+	 * @param ids role ids you want to mention
+	 */
+	public addRoleMentions(...ids: string[]): this {
+		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
+		this.data.allowed_mentions!.roles!.push(...ids);
 		return this;
 	}
 
