@@ -1,5 +1,6 @@
-import { Snowflake } from '../../../util/Snowflake';
-import { Routes } from '../../../util/Constants';
+import { Snowflake } from '@klasa/snowflake';
+import { Routes } from '@klasa/rest';
+
 import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
 import { Message } from './Message';
 

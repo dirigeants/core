@@ -148,6 +148,40 @@
   resolved "https://registry.yarnpkg.com/@istanbuljs/schema/-/schema-0.1.2.tgz#26520bf09abe4a5644cd5414e37125a8954241dd"
   integrity sha512-tsAQNx32a8CoFhjhijUIhI4kccIAgmGhy8LZMZgGfmXcpMbPRUqn5LWmgRttILi6yeGmBJd2xsPkFMs0PzgPCw==
 
+"@klasa/async-queue@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@klasa/async-queue/-/async-queue-0.0.1.tgz#0075c504781bae570ab4cd47ae58a12de67cc57d"
+  integrity sha512-k3fPWnnRL4YB5u2w6KypXRL0NPjJSgnvzKsjCjGkfoyGKrGqS1L9VVbsrRpf8LuwLbP7tjmyCK5dxmmn1w4jng==
+
+"@klasa/cache@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.1.tgz#8aa230804d2a54ce219fe6fc43c9683a083a4fe7"
+  integrity sha512-mc/gdOCI3aHta0xdvIdf5BzsrEC4xx1+5MUJjSQS4ufuGc607Luo3BCUuoamXo4bjfaA8Zu8ZYr4CMtllE+cLQ==
+
+"@klasa/rest@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.0.1.tgz#19d4f11673f9124e22d98cb9ff446b02a51e486b"
+  integrity sha512-W4Gpy6UAlyUGAXDHS8e3iB0OD+BaMm3SjoJcA4HI1tbFvjC8knwJoq0m5Qt3eP+OkZBkXpZv1irqFKxLRbYghQ==
+  dependencies:
+    "@klasa/async-queue" "^0.0.1"
+    "@klasa/cache" "^0.0.1"
+    "@klasa/snowflake" "^0.0.1"
+    "@klasa/timer-manager" "^0.0.1"
+    "@klasa/utils" "^0.0.4"
+    abort-controller "^3.0.0"
+    form-data "^3.0.0"
+    node-fetch "^2.6.0"
+
+"@klasa/snowflake@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@klasa/snowflake/-/snowflake-0.0.1.tgz#f64b2f49a5023a4e4e617b12d2fffb601d29992a"
+  integrity sha512-elUPFvucXTle1ZsI4RchlpuiWqBcMoCdaNBzYKKOUElzwKiv+BcKh1a4znYuw2V1cnPg0GVZYkgOiH5AGP5c5g==
+
+"@klasa/timer-manager@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@klasa/timer-manager/-/timer-manager-0.0.1.tgz#977903d92453e9602c1803af15f1713d5ca028b9"
+  integrity sha512-1ElnhLXzqv4Iod/GS7+joZX71rhSxHBVDoTX8gnXF55BKXihv/p5tF3ddfx7Rn0kzUSQwJwJkyMO6QyaXMcB6A==
+
 "@klasa/utils@^0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.4.tgz#4bf010b09d0f93b39245523ed22a09571d56508c"

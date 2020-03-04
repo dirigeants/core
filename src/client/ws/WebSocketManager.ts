@@ -1,10 +1,10 @@
 import { EventEmitter } from 'events';
 import { mergeDefault } from '@klasa/utils';
+import { REST, Routes } from '@klasa/rest';
 
 import { WebSocketShard } from './WebSocketShard';
-import { Routes, WSOptionsDefaults } from '../../util/Constants';
+import { WSOptionsDefaults } from '../../util/Constants';
 
-import type { REST } from '../rest/REST';
 import type { APIGatewayBotData } from '../../util/types/DiscordAPI';
 import type { IntentsResolvable } from '../caching/bitfields/Intents';
 

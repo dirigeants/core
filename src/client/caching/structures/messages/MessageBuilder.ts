@@ -4,7 +4,7 @@ import fetch from 'node-fetch';
 import { readFile, pathExists } from 'fs-nextra';
 import { mergeDefault } from '@klasa/utils';
 
-import type { File, RequestOptions } from '../../../rest/REST';
+import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '../../../../util/types/DiscordAPI';
 
 export interface MessageData {

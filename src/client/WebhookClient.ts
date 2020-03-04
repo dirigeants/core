@@ -1,6 +1,6 @@
 import { BaseClient } from './BaseClient';
 import { Webhook } from './caching/structures/Webhook';
-import { Cache } from '../util/Cache';
+import { Cache } from '@klasa/cache';
 
 /**
  * The Project-Blue Webhook Client used to manipulate webhooks

@@ -1,6 +1,7 @@
+import type { File, RequestOptions } from '@klasa/rest';
+
 import { MessageBuilder } from './MessageBuilder';
 
-import type { File, RequestOptions } from '../../../rest/REST';
 import type { APIEmbedData } from '../../../../util/types/DiscordAPI';
 
 export interface WebhookMessageData {

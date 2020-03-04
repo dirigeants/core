@@ -1,16 +1,20 @@
-import { Structure } from "../base/Structure";
+import { Structure } from '../base/Structure';
 
-import type { APIChannelPartial}  from '../../../../util/types/DiscordAPI';
-import type { Client } from "../../../Client";
+import type { APIChannelPartial } from '../../../../util/types/DiscordAPI';
+import type { Client } from '../../../Client';
 
 export abstract class Channel extends Structure {
-    public id: string;
 
-    public constructor(client: Client, data: APIChannelPartial) {
-        super(client);
+	public id: string;
 
-        this.id = data.id;
-    }
+	public constructor(client: Client, data: APIChannelPartial) {
+		super(client);
+
+		this.id = data.id;
+	}
+
 }
 
-export interface TextBasedChannel {}
+export interface TextBasedChannel {
+	foo: string;
+}

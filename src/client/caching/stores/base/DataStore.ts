@@ -1,4 +1,5 @@
-import { Cache } from '../../../../util/Cache';
+import { Cache } from '@klasa/cache';
+
 import { Client } from '../../../Client';
 import { Structure } from '../../structures/base/Structure';
 

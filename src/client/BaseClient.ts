@@ -1,12 +1,10 @@
 import { EventEmitter } from 'events';
 import { mergeDefault } from '@klasa/utils';
+import { REST, RESTOptions } from '@klasa/rest';
+import { TimerManager } from '@klasa/timer-manager';
 
-import { REST } from './rest/REST';
 import { BaseClientOptionsDefaults } from '../util/Constants';
-import { TimerManager } from '../util/TimerManager';
 import { RESTManagerEvents } from '../util/types/InternalREST';
-
-import type { RESTOptions } from './rest/RESTManager';
 
 export interface BaseClientOptions {
 	rest: RESTOptions;
