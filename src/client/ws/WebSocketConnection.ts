@@ -204,6 +204,7 @@ class WebSocketConnection {
 	private _onclose(event: WS.CloseEvent): void {
 		// Save sequence
 		if (this.#sequence > 0) this.#closeSequence = this.#sequence;
+		this.destroy();
 
 		const { code, reason, wasClean } = event;
 		this.debug(`CLOSE[${code}] ${reason}\n  Clean: ${wasClean}`);
@@ -217,7 +218,7 @@ class WebSocketConnection {
 
 		if (UNRECOVERABLE.includes(code)) {
 			this.debug(`CLOSE[${code}] => Cannot connect any further`);
-			this.destroy({ closeCode: code, resetSession: true });
+			this.destroy({ resetSession: true });
 			this.dispatch({ type: InternalActions.CannotReconnect, data: { code, reason } });
 			return;
 		}
@@ -226,7 +227,8 @@ class WebSocketConnection {
 			this.debug(`Attempting immediate resume after close`);
 			this.newWS();
 		} else {
-			this.scheduleIdentify();
+			this.debug('Cannot reconnect anymore — Exiting!');
+			process.exit(code);
 		}
 	}
 
