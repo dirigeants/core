@@ -27,6 +27,8 @@ export const enum InternalActions {
 	Identify = 'IDENTIFY',
 	UpdatePing = 'UPDATE_PING',
 	ScheduleIdentify = 'SCHEDULE_IDENTIFY',
+	GatewayStatus = 'GATEWAY_STATUS',
+	CannotReconnect = 'CANNOT_RECONNECT',
 }
 
 export const enum WSCloseCodes {
@@ -137,10 +139,13 @@ export interface Reconnect extends BasePayload {
 type DispatchPayload =
 	DataPayload<WebSocketEvents.Ready, {
 		v: number;
+		user_settings: {};
 		user: APIUserData;
-		private_channels: [];
-		guilds: APIGuildUnavailable[];
 		session_id: string;
+		relationships: [],
+		private_channels: [];
+		presences: [];
+		guilds: APIGuildUnavailable[];
 		shard?: [number, number];
 	}>
 	| DataPayload<WebSocketEvents.Resumed, never>
@@ -346,11 +351,30 @@ export type WorkerMasterMessages = {
 	data: number;
 } | {
 	type: InternalActions.ScheduleIdentify;
+} | {
+	type: InternalActions.GatewayStatus;
+	data: GatewayStatus;
+} | {
+	type: InternalActions.CannotReconnect,
+	data: {
+		code: number;
+		reason: string;
+	};
+};
+
+export type MasterWorkerMessages = {
+	type: InternalActions.Identify;
 };
 
 export interface WSWorkerData {
 	gatewayURL: string;
+	gatewayVersion: number;
 	token: string;
 	options: Required<WSOptions>;
+}
+
+export const enum GatewayStatus {
+	Ready,
+	InvalidSession,
 }
 // #endregion

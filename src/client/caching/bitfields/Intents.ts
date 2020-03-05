@@ -101,7 +101,6 @@ export class Intents extends BitField<IntentsResolvable> {
 	/**
 	 * Project-Blue default intents, consisting of:
 	 * - GUILDS
-	 * - GUILD_MEMBERS
 	 * - GUILD_BANS
 	 * - GUILD_EMOJIS
 	 * - GUILD_INTEGRATIONS
@@ -113,7 +112,23 @@ export class Intents extends BitField<IntentsResolvable> {
 	 * - DIRECT_MESSAGES
 	 * - DIRECT_MESSAGE_REACTIONS
 	 */
-	public static DEFAULT = 14079;
+	public static DEFAULT = Intents.FLAGS.GUILDS |
+		Intents.FLAGS.GUILD_BANS |
+		Intents.FLAGS.GUILD_EMOJIS |
+		Intents.FLAGS.GUILD_INTEGRATIONS |
+		Intents.FLAGS.GUILD_WEBHOOKS |
+		Intents.FLAGS.GUILD_INVITES |
+		Intents.FLAGS.GUILD_VOICE_STATES |
+		Intents.FLAGS.GUILD_MESSAGES |
+		Intents.FLAGS.GUILD_MESSAGE_REACTIONS |
+		Intents.FLAGS.DIRECT_MESSAGES |
+		Intents.FLAGS.DIRECT_MESSAGE_REACTIONS;
+
+	/**
+	 * Project-Blue default intents, with the addition of the `GUILD_MEMBERS` flag
+	 * Note: You need to enable support for it in the developer page of your bot
+	 */
+	public static DEFAULT_WITH_MEMBERS = Intents.DEFAULT | Intents.FLAGS.GUILD_MEMBERS;
 
 }
 

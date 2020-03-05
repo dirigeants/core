@@ -1,8 +1,11 @@
 import { Worker } from 'worker_threads';
+import { resolve as pathResolve } from 'path';
 import { Intents } from '../caching/bitfields/Intents';
-import { WebSocketManagerEvents, WorkerMasterMessages, InternalActions } from '../../util/types/InternalWebSocket';
+import { WebSocketManagerEvents, WorkerMasterMessages, InternalActions, GatewayStatus, MasterWorkerMessages } from '../../util/types/InternalWebSocket';
 
 import type { WebSocketManager } from './WebSocketManager';
+
+const WORKER_PATH = pathResolve(__dirname, 'WebSocketConnection.js');
 
 /**
  * The Structure to manage a Websocket Worker with
@@ -17,39 +20,76 @@ export class WebSocketShard {
 	/**
 	 * The Websocket Connection worker
 	 */
-	private readonly workerThread: Worker;
+	private workerThread: Worker | null;
 
-	public constructor(public readonly manager: WebSocketManager, public readonly id: number, private readonly totalShards: number, gatewayURL: string, token: string) {
-		this.workerThread = new Worker('./WebSocketConnection.js', {
-			workerData: {
-				gatewayURL,
-				token,
-				options: {
-					...this.manager.options.additionalOptions,
-					intents: new Intents(this.manager.options.intents),
-					shards: [id, totalShards]
+	/**
+	 * The connect promise to await
+	 */
+	#connectPromise!: Promise<GatewayStatus>;
+
+	public constructor(public readonly manager: WebSocketManager, public readonly id: number, private readonly totalShards: number, private readonly gatewayURL: string) {
+		this.workerThread = null;
+	}
+
+	public connect(token: string): Promise<GatewayStatus> {
+		if (!this.workerThread) {
+			this.workerThread = new Worker(WORKER_PATH, {
+				workerData: {
+					gatewayURL: this.gatewayURL,
+					gatewayVersion: this.manager.options.gatewayVersion,
+					token,
+					options: {
+						...this.manager.options.additionalOptions,
+						intents: new Intents(this.manager.options.intents).bitfield,
+						shards: [this.id, this.totalShards]
+					}
 				}
-			}
+			});
+			this.workerThread.on('online', this._onWorkerOnline.bind(this));
+			this.workerThread.on('message', this._onWorkerMessage.bind(this));
+			this.workerThread.on('error', this._onWorkerError.bind(this));
+			this.workerThread.on('exit', this._onWorkerExit.bind(this));
+		} else {
+			this.send({ type: InternalActions.Identify });
+		}
+
+		this.#connectPromise = new Promise((resolve, reject) => {
+			const listener = (message: WorkerMasterMessages | Error): void => {
+				if (message instanceof Error) {
+					reject(message);
+					return;
+				}
+				if (message.type === InternalActions.GatewayStatus) {
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					this.workerThread!.off('message', listener);
+					resolve(message.data);
+				} else if (message.type === InternalActions.CannotReconnect) {
+					reject(new Error(`WebSocket closed with code ${message.data.code}: ${message.data.reason}`));
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					this.workerThread!.terminate();
+				}
+			};
+
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			this.workerThread!.on('message', listener);
 		});
-		this.workerThread.on('online', this._onWorkerOnline.bind(this));
-		this.workerThread.on('message', this._onWorkerMessage.bind(this));
-		this.workerThread.on('error', this._onWorkerError.bind(this));
-		this.workerThread.on('exit', this._onWorkerExit.bind(this));
+
+		return this.#connectPromise;
 	}
 
 	/**
 	 * Sends a message to the websocket connection thread
 	 * @param data The data to send
 	 */
-	public send(data: any): void {
-		this.workerThread.postMessage(data);
+	public send(data: MasterWorkerMessages): void {
+		if (this.workerThread) this.workerThread.postMessage(data);
 	}
 
 	/**
 	 * Handles logging when the worker thread is online
 	 */
 	private _onWorkerOnline(): void {
-		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Online`);
+		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Worker Thread Online`);
 	}
 
 	/**
@@ -59,7 +99,7 @@ export class WebSocketShard {
 	private _onWorkerMessage(packet: WorkerMasterMessages): void {
 		switch (packet.type) {
 			case InternalActions.Debug: {
-				this.manager.emit(WebSocketManagerEvents.Debug, `[WS Shard ${this.id}/${this.totalShards}] ${packet.data}`);
+				this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] ${packet.data}`);
 				break;
 			}
 			case InternalActions.UpdatePing: {
@@ -83,7 +123,9 @@ export class WebSocketShard {
 	 * @param error The error that was encountered
 	 */
 	private _onWorkerError(error: Error): void {
-		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Error => ${error.name}\n${error.stack}`);
+		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] ${error.stack}`);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		this.workerThread!.emit('message', error);
 	}
 
 	/**
@@ -92,6 +134,7 @@ export class WebSocketShard {
 	 */
 	private _onWorkerExit(exitCode: number): void {
 		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Worker Thread Exit[${exitCode}]`);
+		this.workerThread = null;
 		this.manager.scheduleShardRestart(this);
 	}
 

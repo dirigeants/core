@@ -12,7 +12,7 @@
     "declaration": true,
     "noUnusedLocals": true,
     "removeComments": false,
-    "target": "ESNext",
+    "target": "ES2019",
     "incremental": true,
     "resolveJsonModule": true
   },

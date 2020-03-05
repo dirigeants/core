@@ -2,9 +2,11 @@
 import * as WS from 'ws';
 import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
 import {
+	GatewayStatus,
 	HelloPayload,
 	InternalActions,
 	InvalidSession,
+	MasterWorkerMessages,
 	OpCodes,
 	SendPayload,
 	WebSocketEvents,
@@ -14,6 +16,7 @@ import {
 	WSPayload,
 	WSWorkerData
 } from '../../util/types/InternalWebSocket';
+import { URLSearchParams } from 'url';
 
 const typedWorkerData = workerData as WSWorkerData;
 
@@ -54,12 +57,12 @@ interface WSDestroyOptions {
 }
 
 function checkMainThread(port: unknown): asserts port is MessagePort {
-	if (!isMainThread || port === null) throw new Error('A WebSocketConnection can only be created as a WorkerThread');
+	if (isMainThread || port === null) throw new Error('A WebSocketConnection can only be created as a WorkerThread');
 }
 
 checkMainThread(parentPort);
 
-class WebSocketConnection extends WS {
+class WebSocketConnection {
 
 	/**
 	 * The last time we sent a heartbeat
@@ -69,7 +72,7 @@ class WebSocketConnection extends WS {
 	/**
 	 * The zlib context to use when inflating data
 	 */
-	#zlib: import('zlib-sync').Inflate | null;
+	#zlib!: import('zlib-sync').Inflate | null;
 
 	/**
 	 * The current sequence number
@@ -97,11 +100,15 @@ class WebSocketConnection extends WS {
 	#heartbeat: WSHeartbeat;
 
 	/**
+	 * The actual WebSocket connection
+	 */
+	#connection!: WS | null;
+
+	/**
 	 * @param host The host url to connect to
 	 * @param token The token to connect with
 	 */
-	public constructor(host: string) {
-		super(host);
+	public constructor(private readonly host: string) {
 		this.#lastHeartbeat = -1;
 		this.#sequence = -1;
 		this.#closeSequence = -1;
@@ -115,16 +122,7 @@ class WebSocketConnection extends WS {
 			interval: null
 		};
 
-		if (zlib) {
-			this.#zlib = new zlib.Inflate({ chunkSize: 128 * 1024 });
-		} else {
-			this.#zlib = null;
-		}
-
-		this.onopen = this._onopen.bind(this);
-		this.onmessage = this._onmessage.bind(this);
-		this.onerror = this._onerror.bind(this);
-		this.onclose = this._onclose.bind(this);
+		this.newWS();
 	}
 
 	public sendWS(payload: SendPayload, important = false): void {
@@ -137,8 +135,11 @@ class WebSocketConnection extends WS {
 	 * Gracefully closes the websocket connection
 	 */
 	public destroy({ closeCode: code, resetSession }: WSDestroyOptions = { closeCode: 1000, resetSession: false }): void {
+		this.setHeartbeatTimer(-1);
+
 		try {
-			this.close(code);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			this.#connection!.close(code);
 		} catch {
 			// No-op
 		}
@@ -147,10 +148,14 @@ class WebSocketConnection extends WS {
 			this.#sessionID = null;
 			this.#sequence = this.#closeSequence = -1;
 		}
+
+		this.#ratelimitData.queue.length = 0;
+		this.#ratelimitData.remaining = 120;
 	}
 
 	private _onopen(): void {
-		this.debug(`WebSocket Open[${this.url}]`);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		this.debug(`OPEN[${this.#connection!.url}]`);
 	}
 
 	private _onmessage(event: WS.MessageEvent): void {
@@ -193,7 +198,7 @@ class WebSocketConnection extends WS {
 
 	private _onerror(event: WS.ErrorEvent): void {
 		const { error, message } = event;
-		this.debug(`WebSocket Error[${message}]\n${error}`);
+		this.debug(`ERROR[${message}]\n${error}`);
 	}
 
 	private _onclose(event: WS.CloseEvent): void {
@@ -201,16 +206,27 @@ class WebSocketConnection extends WS {
 		if (this.#sequence > 0) this.#closeSequence = this.#sequence;
 
 		const { code, reason, wasClean } = event;
-		this.debug(`WebSocket Close[${code}] ${reason}\nClean: ${wasClean}`);
+		this.debug(`CLOSE[${code}] ${reason}\n  Clean: ${wasClean}`);
+
+		this.#connection = null;
 
 		if (UNRESUMABLE.includes(code)) {
-			this.debug(`Close[${code}] => Cannot resume any further`);
+			this.debug(`CLOSE[${code}] => Cannot resume any further`);
 			this.destroy({ resetSession: true });
 		}
 
 		if (UNRECOVERABLE.includes(code)) {
-			this.debug(`Close[${code}] => Cannot connect any further`);
+			this.debug(`CLOSE[${code}] => Cannot connect any further`);
 			this.destroy({ closeCode: code, resetSession: true });
+			this.dispatch({ type: InternalActions.CannotReconnect, data: { code, reason } });
+			return;
+		}
+
+		if (this.#sessionID) {
+			this.debug(`Attempting immediate resume after close`);
+			this.newWS();
+		} else {
+			this.scheduleIdentify();
 		}
 	}
 
@@ -247,10 +263,12 @@ class WebSocketConnection extends WS {
 		switch (packet.t) {
 			case WebSocketEvents.Ready: {
 				this.debug(`READY[${packet.d.user.id} | ${packet.d.guilds.length} guilds]`);
+				this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.Ready });
 				break;
 			}
 			case WebSocketEvents.Resumed: {
 				this.debug(`RESUMED[${this.#sequence - this.#closeSequence} events`);
+				this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.Ready });
 				break;
 			}
 		}
@@ -307,7 +325,8 @@ class WebSocketConnection extends WS {
 	 * Called when Discord asks a shard connection to reconnect
 	 */
 	private reconnect(): void {
-		this.close(WSCloseCodes.SessionTimeout);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		this.#connection!.close(WSCloseCodes.SessionTimeout);
 	}
 
 	// #endregion Payloads
@@ -343,6 +362,12 @@ class WebSocketConnection extends WS {
 	}
 
 	public newSession(): void {
+		// If we have no connection, attempt to re-create it
+		if (!this.#connection) {
+			this.newWS();
+			return;
+		}
+
 		const { options, token } = typedWorkerData;
 
 		this.debug(`IDENTIFY[${(options.shards as number[]).join('/')}]`);
@@ -369,7 +394,7 @@ class WebSocketConnection extends WS {
 	}
 
 	private scheduleIdentify(): void {
-		this.dispatch({ type: InternalActions.ScheduleIdentify });
+		this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.InvalidSession });
 	}
 
 	private processRatelimitQueue(): void {
@@ -394,26 +419,44 @@ class WebSocketConnection extends WS {
 		}
 	}
 
-	send(payload: string): void {
-		if (this.readyState !== this.OPEN) {
+	private send(payload: string): void {
+		if (!this.#connection || this.#connection.readyState !== WS.OPEN) {
 			this.debug(`Tried to send payload '${payload}' but WebSocket connection is not open! Reconnecting`);
 			this.destroy({ closeCode: WSCloseCodes.NotAuthenticated });
 			return;
 		}
 
-		super.send(payload, (error) => {
+		this.#connection.send(payload, (error) => {
 			if (error) this.debug(`Error while sending payload: ${error.message}`);
 		});
+	}
+
+	private newWS(): void {
+		const query = new URLSearchParams();
+		query.set('v', typedWorkerData.gatewayVersion.toString());
+
+		if (zlib) {
+			this.#zlib = new zlib.Inflate({ chunkSize: 128 * 1024 });
+			query.set('compress', 'zlib-stream');
+		} else {
+			this.#zlib = null;
+		}
+
+		const ws = this.#connection = new WS(`${this.host}/?${query.toString()}`);
+
+		ws.onopen = this._onopen.bind(this);
+		ws.onmessage = this._onmessage.bind(this);
+		ws.onerror = this._onerror.bind(this);
+		ws.onclose = this._onclose.bind(this);
 	}
 
 }
 
 const connection = new WebSocketConnection(typedWorkerData.gatewayURL);
 
-// TODO: Type this event
-parentPort.on('message', (message) => {
-	switch (message.event) {
-		case 'IDENTIFY': {
+parentPort.on('message', (message: MasterWorkerMessages) => {
+	switch (message.type) {
+		case InternalActions.Identify: {
 			connection.newSession();
 			break;
 		}
