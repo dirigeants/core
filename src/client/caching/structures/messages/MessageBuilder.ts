@@ -6,9 +6,7 @@ import { mergeDefault } from '@klasa/utils';
 
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '../../../../util/types/DiscordAPI';
-
-type RequiredExcept<T, K extends keyof T> = Partial<Pick<T, K>> & Required<Omit<T, K>>;
-type PartialRequired<T, K extends keyof T> = Partial<Omit<T, K>> & Required<Pick<T, K>>;
+import type { RequiredExcept, PartialRequired } from '../../../../util/types/Util';
 
 export interface MessageData {
 	content?: string;
@@ -51,7 +49,7 @@ export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | '
 	 * @param messageOptions The options to create this
 	 */
 	public constructor({ data = {}, files = [] }: MessageOptions = {}) {
-		const defaultedData: PartialRequired<MessageData, 'allowed_mentions'> = mergeDefault({
+		const defaultedData = mergeDefault({
 			// eslint-disable-next-line @typescript-eslint/camelcase
 			allowed_mentions: {
 				parse: [] as ('users' | 'roles' | 'everyone')[],

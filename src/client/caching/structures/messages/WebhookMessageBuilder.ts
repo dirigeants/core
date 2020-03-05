@@ -1,8 +1,12 @@
+import { mergeDefault } from '@klasa/utils';
+
 import type { File, RequestOptions } from '@klasa/rest';
 
-import { MessageBuilder } from './MessageBuilder';
+import { MessageBuilder, AllowedMentions } from './MessageBuilder';
 
 import type { APIEmbedData } from '../../../../util/types/DiscordAPI';
+import type { RequiredExcept, PartialRequired } from '../../../../util/types/Util';
+
 
 export interface WebhookMessageData {
 	content?: string;
@@ -11,18 +15,19 @@ export interface WebhookMessageData {
 	tts?: boolean;
 	username?: string;
 	avatar_url?: string;
+	allowed_mentions?: Required<AllowedMentions>;
 }
 
 export interface WebhookMessageOptions extends RequestOptions {
 	data?: WebhookMessageData;
 }
 
-export class WebhookMessageBuilder extends MessageBuilder implements WebhookMessageOptions {
+export class WebhookMessageBuilder extends MessageBuilder implements RequiredExcept<WebhookMessageOptions, 'auth' | 'query' | 'headers' | 'reason'> {
 
 	/**
 	 * The Webhook Message data to send to the api
 	 */
-	public data: WebhookMessageData;
+	public data: PartialRequired<WebhookMessageData, 'allowed_mentions'>;
 
 	/**
 	 * The files to send to the api
@@ -39,7 +44,16 @@ export class WebhookMessageBuilder extends MessageBuilder implements WebhookMess
 	 */
 	public constructor({ data = {}, files = [] }: WebhookMessageOptions = {}) {
 		super();
-		this.data = data;
+		const defaultedData = mergeDefault({
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			allowed_mentions: {
+				parse: [] as ('users' | 'roles' | 'everyone')[],
+				roles: [] as string[],
+				users: [] as string[]
+			}
+		} as PartialRequired<WebhookMessageData, 'allowed_mentions'>, data);
+
+		this.data = defaultedData;
 		this.files = files;
 	}
 
