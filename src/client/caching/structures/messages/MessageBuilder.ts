@@ -7,12 +7,15 @@ import { mergeDefault } from '@klasa/utils';
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '../../../../util/types/DiscordAPI';
 
+type RequiredExcept<T, K extends keyof T> = Partial<Pick<T, K>> & Required<Omit<T, K>>;
+type PartialRequired<T, K extends keyof T> = Partial<Omit<T, K>> & Required<Pick<T, K>>;
+
 export interface MessageData {
 	content?: string;
 	embed?: APIEmbedData;
 	nonce?: number | string;
 	tts?: boolean;
-	allowed_mentions?: AllowedMentions;
+	allowed_mentions?: Required<AllowedMentions>;
 }
 
 export interface AllowedMentions {
@@ -32,12 +35,12 @@ export interface SplitOptions {
 	append?: string;
 }
 
-export class MessageBuilder implements MessageOptions {
+export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | 'query' | 'headers' | 'reason'> {
 
 	/**
 	 * The Message data to send to the api
 	 */
-	public data: MessageData;
+	public data: PartialRequired<MessageData, 'allowed_mentions'>;
 
 	/**
 	 * The files to send to the api
@@ -48,14 +51,16 @@ export class MessageBuilder implements MessageOptions {
 	 * @param messageOptions The options to create this
 	 */
 	public constructor({ data = {}, files = [] }: MessageOptions = {}) {
-		this.data = data;
-		// eslint-disable-next-line @typescript-eslint/camelcase
-		this.data.allowed_mentions = mergeDefault({
-			parse: [] as ('users' | 'roles' | 'everyone')[],
-			roles: [] as string[],
-			users: [] as string[]
-		// eslint-disable-next-line @typescript-eslint/camelcase
-		}, data.allowed_mentions) as Required<AllowedMentions>;
+		const defaultedData: PartialRequired<MessageData, 'allowed_mentions'> = mergeDefault({
+			// eslint-disable-next-line @typescript-eslint/camelcase
+			allowed_mentions: {
+				parse: [] as ('users' | 'roles' | 'everyone')[],
+				roles: [] as string[],
+				users: [] as string[]
+			}
+		} as PartialRequired<MessageData, 'allowed_mentions'>, data);
+
+		this.data = defaultedData;
 		this.files = files || [];
 	}
 
@@ -99,8 +104,7 @@ export class MessageBuilder implements MessageOptions {
 	 * Allows Everyone and Here mentions to ping
 	 */
 	public parseEveryone(): this {
-		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
-		this.data.allowed_mentions!.parse!.push('everyone');
+		this.data.allowed_mentions.parse.push('everyone');
 		return this;
 	}
 
@@ -108,8 +112,7 @@ export class MessageBuilder implements MessageOptions {
 	 * Allows User mentions to ping
 	 */
 	public parseUsers(): this {
-		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
-		this.data.allowed_mentions!.parse!.push('users');
+		this.data.allowed_mentions.parse.push('users');
 		return this;
 	}
 
@@ -117,8 +120,7 @@ export class MessageBuilder implements MessageOptions {
 	 * Allows Role mentions to ping
 	 */
 	public parseRoles(): this {
-		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
-		this.data.allowed_mentions!.parse!.push('roles');
+		this.data.allowed_mentions.parse.push('roles');
 		return this;
 	}
 
@@ -128,8 +130,7 @@ export class MessageBuilder implements MessageOptions {
 	 * @param ids user ids you want to mention
 	 */
 	public addUserMentions(...ids: string[]): this {
-		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
-		this.data.allowed_mentions!.users!.push(...ids);
+		this.data.allowed_mentions.users.push(...ids);
 		return this;
 	}
 
@@ -139,8 +140,7 @@ export class MessageBuilder implements MessageOptions {
 	 * @param ids role ids you want to mention
 	 */
 	public addRoleMentions(...ids: string[]): this {
-		// eslint-disable-next-line @typescript-eslint/camelcase, @typescript-eslint/no-non-null-assertion
-		this.data.allowed_mentions!.roles!.push(...ids);
+		this.data.allowed_mentions.roles.push(...ids);
 		return this;
 	}
 
