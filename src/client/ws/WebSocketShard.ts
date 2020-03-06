@@ -61,7 +61,7 @@ export class WebSocketShard {
 					options: {
 						...this.manager.options.additionalOptions,
 						intents: new Intents(this.manager.options.intents).bitfield,
-						shards: [this.id, this.totalShards]
+						shard: [this.id, this.totalShards]
 					}
 				}
 			});

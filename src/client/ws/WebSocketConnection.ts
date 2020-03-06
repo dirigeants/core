@@ -379,7 +379,7 @@ class WebSocketConnection {
 
 		const { options, token } = typedWorkerData;
 
-		this.debug(`IDENTIFY[${(options.shards as number[]).join('/')}]`);
+		this.debug(`IDENTIFY[${(options.shard as number[]).join('/')}]`);
 		this.sendWS({ op: OpCodes.IDENTIFY, d: { ...(options as unknown as WSIdentify), token } }, true);
 	}
 

@@ -375,7 +375,7 @@ export interface WSWorkerData {
 	gatewayURL: string;
 	gatewayVersion: number;
 	token: string;
-	options: Required<WSOptions>;
+	options: Required<WSOptions> & { shard: [number, number] };
 }
 
 export const enum GatewayStatus {
