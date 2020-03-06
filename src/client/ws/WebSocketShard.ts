@@ -33,10 +33,11 @@ export class WebSocketShard {
 	/**
 	 * Internal Connection status tracker
 	 */
-	#status = WebSocketShardStatus.Disconnected;
+	#status: WebSocketShardStatus;
 
 	public constructor(public readonly manager: WebSocketManager, public readonly id: number, private readonly totalShards: number, private readonly gatewayURL: string) {
 		this.workerThread = null;
+		this.#status = WebSocketShardStatus.Disconnected;
 	}
 
 	/**
