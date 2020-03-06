@@ -61,7 +61,7 @@ export const enum OpCodes {
 	REQUEST_GUILD_MEMBERS = 8,
 	INVALID_SESSION = 9,
 	HELLO = 10,
-	HEARTBEAT_ACK = 11.0
+	HEARTBEAT_ACK = 11
 }
 
 export const enum WebSocketEvents {
