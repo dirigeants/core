@@ -1,6 +1,8 @@
 /* eslint-disable id-length,@typescript-eslint/camelcase */
 import * as WS from 'ws';
 import { isMainThread, parentPort, workerData, MessagePort } from 'worker_threads';
+import { URLSearchParams } from 'url';
+
 import {
 	GatewayStatus,
 	HelloPayload,
@@ -16,7 +18,7 @@ import {
 	WSPayload,
 	WSWorkerData
 } from '../../util/types/InternalWebSocket';
-import { URLSearchParams } from 'url';
+import { WebSocketShardStatus } from './WebSocketShard';
 
 const typedWorkerData = workerData as WSWorkerData;
 
@@ -154,6 +156,8 @@ class WebSocketConnection {
 	}
 
 	private _onopen(): void {
+		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connected });
+
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		this.debug(`OPEN[${this.#connection!.url}]`);
 	}
@@ -202,6 +206,8 @@ class WebSocketConnection {
 	}
 
 	private _onclose(event: WS.CloseEvent): void {
+		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Disconnected });
+
 		// Save sequence
 		if (this.#sequence > 0) this.#closeSequence = this.#sequence;
 		this.destroy();
@@ -327,6 +333,7 @@ class WebSocketConnection {
 	 * Called when Discord asks a shard connection to reconnect
 	 */
 	private reconnect(): void {
+		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Reconnecting });
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		this.#connection!.close(WSCloseCodes.SessionTimeout);
 	}
@@ -377,6 +384,8 @@ class WebSocketConnection {
 	}
 
 	private resume(): void {
+		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Resuming });
+
 		const session_id = this.#sessionID;
 		const seq = this.#closeSequence;
 		if (!session_id) {
@@ -434,6 +443,8 @@ class WebSocketConnection {
 	}
 
 	private newWS(): void {
+		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connecting });
+
 		const query = new URLSearchParams();
 		query.set('v', typedWorkerData.gatewayVersion.toString());
 

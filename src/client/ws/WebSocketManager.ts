@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import { mergeDefault, sleep } from '@klasa/utils';
 import { REST, Routes } from '@klasa/rest';
+import { Cache } from '@klasa/cache';
 
 import { WebSocketShard } from './WebSocketShard';
 import { WSOptionsDefaults } from '../../util/Constants';
@@ -25,7 +26,7 @@ export class WebSocketManager extends EventEmitter {
 	/**
 	 * The shards of this WebsocketManager
 	 */
-	public readonly shards: Map<number, WebSocketShard> = new Map();
+	public readonly shards: Cache<number, WebSocketShard> = new Cache();
 
 	/**
 	 * The options for this WebsocketManager

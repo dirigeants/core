@@ -7,6 +7,14 @@ import type { WebSocketManager } from './WebSocketManager';
 
 const WORKER_PATH = pathResolve(__dirname, 'WebSocketConnection.js');
 
+export enum WebSocketShardStatus {
+	Disconnected,
+	Connecting,
+	Connected,
+	Resuming,
+	Reconnecting
+}
+
 /**
  * The Structure to manage a Websocket Worker with
  */
@@ -23,14 +31,25 @@ export class WebSocketShard {
 	private workerThread: Worker | null;
 
 	/**
-	 * The connect promise to await
+	 * Internal Connection status tracker
 	 */
-	#connectPromise!: Promise<GatewayStatus>;
+	#status = WebSocketShardStatus.Disconnected;
 
 	public constructor(public readonly manager: WebSocketManager, public readonly id: number, private readonly totalShards: number, private readonly gatewayURL: string) {
 		this.workerThread = null;
 	}
 
+	/**
+	 * The status of the underlying websocket connection
+	 */
+	public get status(): string {
+		return WebSocketShardStatus[this.#status];
+	}
+
+	/**
+	 * Connects the shard to the api
+	 * @param token The token for connecting to the websocket
+	 */
 	public connect(token: string): Promise<GatewayStatus> {
 		if (!this.workerThread) {
 			this.workerThread = new Worker(WORKER_PATH, {
@@ -49,16 +68,14 @@ export class WebSocketShard {
 			this.workerThread.on('message', this._onWorkerMessage.bind(this));
 			this.workerThread.on('error', this._onWorkerError.bind(this));
 			this.workerThread.on('exit', this._onWorkerExit.bind(this));
+		} else if (this.#status === WebSocketShardStatus.Connecting) {
+			return Promise.reject(new Error('The shard is already connecting'));
 		} else {
 			this.send({ type: InternalActions.Identify });
 		}
 
-		this.#connectPromise = new Promise((resolve, reject) => {
-			const listener = (message: WorkerMasterMessages | Error): void => {
-				if (message instanceof Error) {
-					reject(message);
-					return;
-				}
+		return new Promise((resolve, reject) => {
+			const listener = (message: WorkerMasterMessages): void => {
 				if (message.type === InternalActions.GatewayStatus) {
 					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					this.workerThread!.off('message', listener);
@@ -73,8 +90,6 @@ export class WebSocketShard {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			this.workerThread!.on('message', listener);
 		});
-
-		return this.#connectPromise;
 	}
 
 	/**
@@ -114,6 +129,11 @@ export class WebSocketShard {
 				// eslint-disable-next-line @typescript-eslint/camelcase
 				packet.data.shard_id = this.id;
 				this.manager.emit(packet.data.t, packet.data);
+				break;
+			}
+			case InternalActions.ConnectionStatusUpdate: {
+				this.#status = packet.data;
+				break;
 			}
 		}
 	}
@@ -125,7 +145,7 @@ export class WebSocketShard {
 	private _onWorkerError(error: Error): void {
 		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] ${error.stack}`);
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		this.workerThread!.emit('message', error);
+		this.manager.emit(WebSocketManagerEvents.Error, error);
 	}
 
 	/**
