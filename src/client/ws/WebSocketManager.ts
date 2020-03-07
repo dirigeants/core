@@ -120,14 +120,6 @@ export class WebSocketManager extends EventEmitter {
 	}
 
 	/**
-	 * A shard has disconnected and needs to identify again
-	 * @param shard The Shard to identify again
-	 */
-	public scheduleIdentify(shard: WebSocketShard): void {
-		this.queueShard(shard.id);
-	}
-
-	/**
 	 * A shard cannot be resumed and must be connected from scratch
 	 * @param shard The shard to reconnect from scratch
 	 */
@@ -150,7 +142,7 @@ export class WebSocketManager extends EventEmitter {
 			if (shard.status === WebSocketShardStatus.Connected) return;
 
 			// Check if we can identify
-			await this.handleSessionLimit(true);
+			await this.handleSessionLimit();
 
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const status = await shard.connect(this.#token!);
@@ -183,11 +175,9 @@ export class WebSocketManager extends EventEmitter {
 
 	/**
 	 * Checks if we can try to connect another shard, waits if needed
-	 * @param fetch Whether to fetch fresh data from the api, or rely on cache
 	 */
-	private async handleSessionLimit(fetch = false): Promise<void> {
-		// todo: Why is this always true? When would we use it when it's not forced to fetch?
-		if (fetch) this.#gatewayInfo = await this.api.get(Routes.gatewayBot()) as APIGatewayBotData;
+	private async handleSessionLimit(): Promise<void> {
+		this.#gatewayInfo = await this.api.get(Routes.gatewayBot()) as APIGatewayBotData;
 
 		const { session_start_limit: { reset_after: resetAfter, remaining } } = this.#gatewayInfo;
 

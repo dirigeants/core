@@ -28,10 +28,9 @@ export const enum InternalActions {
 	Destroy = 'DESTROY',
 	Identify = 'IDENTIFY',
 	UpdatePing = 'UPDATE_PING',
-	ScheduleIdentify = 'SCHEDULE_IDENTIFY',
 	GatewayStatus = 'GATEWAY_STATUS',
 	CannotReconnect = 'CANNOT_RECONNECT',
-	ConnectionStatusUpdate = 'CONNECTION_STATUS_UPDATE'
+	ConnectionStatusUpdate = 'CONNECTION_STATUS_UPDATE',
 }
 
 export const enum WSCloseCodes {
@@ -352,8 +351,6 @@ export type WorkerMasterMessages = {
 } | {
 	type: InternalActions.UpdatePing,
 	data: number
-} | {
-	type: InternalActions.ScheduleIdentify
 } | {
 	type: InternalActions.GatewayStatus,
 	data: GatewayStatus

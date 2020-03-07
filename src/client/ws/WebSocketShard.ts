@@ -1,7 +1,7 @@
 import { Worker } from 'worker_threads';
 import { resolve as pathResolve } from 'path';
 import { Intents } from '../caching/bitfields/Intents';
-import { WebSocketManagerEvents, WorkerMasterMessages, InternalActions, GatewayStatus, MasterWorkerMessages } from '../../util/types/InternalWebSocket';
+import { WebSocketManagerEvents, WorkerMasterMessages, InternalActions, GatewayStatus, MasterWorkerMessages, WSCloseCodes } from '../../util/types/InternalWebSocket';
 
 import type { WebSocketManager } from './WebSocketManager';
 
@@ -35,9 +35,15 @@ export class WebSocketShard {
 	 */
 	#status: WebSocketShardStatus;
 
+	/**
+	 * If this shard is destroyed and should not attempt to reconnect
+	*/
+	#destroyed: boolean;
+
 	public constructor(public readonly manager: WebSocketManager, public readonly id: number, private readonly totalShards: number, private readonly gatewayURL: string) {
 		this.workerThread = null;
 		this.#status = WebSocketShardStatus.Disconnected;
+		this.#destroyed = false;
 	}
 
 	/**
@@ -95,6 +101,7 @@ export class WebSocketShard {
 	 * Gracefully destroys the websocket connection of the underlying thread
 	 */
 	public destroy(): void {
+		this.#destroyed = true;
 		this.send({ type: InternalActions.Destroy });
 	}
 
@@ -125,10 +132,6 @@ export class WebSocketShard {
 			}
 			case InternalActions.UpdatePing: {
 				this.ping = packet.data;
-				break;
-			}
-			case InternalActions.ScheduleIdentify: {
-				this.manager.scheduleIdentify(this);
 				break;
 			}
 			case InternalActions.Dispatch: {
@@ -162,7 +165,7 @@ export class WebSocketShard {
 	private _onWorkerExit(exitCode: number): void {
 		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Worker Thread Exit[${exitCode}]`);
 		this.workerThread = null;
-		if (exitCode !== 42069) this.manager.scheduleShardRestart(this);
+		if (!this.#destroyed) this.manager.scheduleShardRestart(this);
 	}
 
 }

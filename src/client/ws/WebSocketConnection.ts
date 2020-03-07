@@ -372,13 +372,16 @@ class WebSocketConnection {
 	 * Called when we receive an invalid session payload from Discord
 	 * @param packet The invalid session packet
 	 */
-	private invalidSession(packet: InvalidSession): void {
-		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connecting });
 
+	private invalidSession(packet: InvalidSession): void {
+		// If we can resume
 		if (packet.d) {
+			this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connecting });
 			this.resume();
 		} else {
-			this.scheduleIdentify();
+			// We cannot resume anymore, reset the Worker
+			this.destroy({ resetSession: true });
+			this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Reconnecting });
 		}
 	}
 
@@ -475,13 +478,6 @@ class WebSocketConnection {
 	}
 
 	/**
-	 * Queues an identify via the main thread, so shared ratelimits aren't exceeded
-	 */
-	private scheduleIdentify(): void {
-		this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.InvalidSession });
-	}
-
-	/**
 	 * Sends messages to the websocket until ratelimited and starts again when possible
 	 */
 	private processRatelimitQueue(): void {
@@ -549,9 +545,7 @@ parentPort.on('message', (message: MasterWorkerMessages) => {
 			break;
 		}
 		case InternalActions.Destroy: {
-			connection.destroy();
-			// todo: Come up with nice exit signal to alert the manager not to try to reconnect
-			process.exit(42069);
+			connection.destroy({ resetSession: true });
 			break;
 		}
 	}
