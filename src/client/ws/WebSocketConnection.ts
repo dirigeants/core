@@ -156,8 +156,6 @@ class WebSocketConnection {
 	}
 
 	private _onopen(): void {
-		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connected });
-
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		this.debug(`OPEN[${this.#connection!.url}]`);
 	}
@@ -270,11 +268,13 @@ class WebSocketConnection {
 
 		switch (packet.t) {
 			case WebSocketEvents.Ready: {
+				this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connected });
 				this.debug(`READY[${packet.d.user.id} | ${packet.d.guilds.length} guilds]`);
 				this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.Ready });
 				break;
 			}
 			case WebSocketEvents.Resumed: {
+				this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connected });
 				this.debug(`RESUMED[${this.#sequence - this.#closeSequence} events`);
 				this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.Ready });
 				break;
@@ -322,6 +322,8 @@ class WebSocketConnection {
 	 * Called when we receive an invalid session payload from Discord
 	 */
 	private invalidSession(packet: InvalidSession): void {
+		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connecting });
+
 		if (packet.d) {
 			this.resume();
 		} else {

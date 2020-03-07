@@ -7,12 +7,12 @@ import type { WebSocketManager } from './WebSocketManager';
 
 const WORKER_PATH = pathResolve(__dirname, 'WebSocketConnection.js');
 
-export enum WebSocketShardStatus {
-	Disconnected,
-	Connecting,
-	Connected,
-	Resuming,
-	Reconnecting
+export const enum WebSocketShardStatus {
+	Disconnected = 'disconnected',
+	Connecting = 'connecting',
+	Connected = 'connected',
+	Resuming = 'resuming',
+	Reconnecting = 'reconnecting'
 }
 
 /**
@@ -43,8 +43,8 @@ export class WebSocketShard {
 	/**
 	 * The status of the underlying websocket connection
 	 */
-	public get status(): string {
-		return WebSocketShardStatus[this.#status];
+	public get status(): WebSocketShardStatus {
+		return this.#status;
 	}
 
 	/**
@@ -64,13 +64,11 @@ export class WebSocketShard {
 						shard: [this.id, this.totalShards]
 					}
 				}
-			});
-			this.workerThread.on('online', this._onWorkerOnline.bind(this));
-			this.workerThread.on('message', this._onWorkerMessage.bind(this));
-			this.workerThread.on('error', this._onWorkerError.bind(this));
-			this.workerThread.on('exit', this._onWorkerExit.bind(this));
-		} else if (this.#status === WebSocketShardStatus.Connecting) {
-			return Promise.reject(new Error('The shard is already connecting'));
+			})
+				.on('online', this._onWorkerOnline.bind(this))
+				.on('message', this._onWorkerMessage.bind(this))
+				.on('error', this._onWorkerError.bind(this))
+				.on('exit', this._onWorkerExit.bind(this));
 		} else {
 			this.send({ type: InternalActions.Identify });
 		}
@@ -134,6 +132,7 @@ export class WebSocketShard {
 			}
 			case InternalActions.ConnectionStatusUpdate: {
 				this.#status = packet.data;
+				this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Shard Status Update: ${packet.data}`);
 				break;
 			}
 		}

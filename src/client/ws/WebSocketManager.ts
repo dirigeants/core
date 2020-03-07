@@ -2,13 +2,14 @@ import { EventEmitter } from 'events';
 import { mergeDefault, sleep } from '@klasa/utils';
 import { REST, Routes } from '@klasa/rest';
 import { Cache } from '@klasa/cache';
+import { AsyncQueue } from '@klasa/async-queue';
 
-import { WebSocketShard } from './WebSocketShard';
+import { WebSocketShard, WebSocketShardStatus } from './WebSocketShard';
 import { WSOptionsDefaults } from '../../util/Constants';
+import { WebSocketManagerEvents, GatewayStatus } from '../../util/types/InternalWebSocket';
 
 import type { APIGatewayBotData } from '../../util/types/DiscordAPI';
 import type { IntentsResolvable } from '../caching/bitfields/Intents';
-import { WebSocketManagerEvents, GatewayStatus } from '../../util/types/InternalWebSocket';
 
 export interface WSOptions {
 	shards: 'auto' | number | number[];
@@ -42,19 +43,13 @@ export class WebSocketManager extends EventEmitter {
 	 * The shard queue that handles spawning or reconnecting shards
 	 * @private
 	 */
-	#shardQueue: Set<number | WebSocketShard>;
+	#queue: AsyncQueue;
 
 	/**
 	 * Data related to the gateway (like session limit)
 	 * @private
 	 */
 	#gatewayInfo!: APIGatewayBotData;
-
-	/**
-	 * If we're currently handling a shard connection or reconnection
-	 * @private
-	 */
-	#handling: boolean;
 
 	/**
 	 * @param api The rest api
@@ -65,9 +60,7 @@ export class WebSocketManager extends EventEmitter {
 		this.options = mergeDefault(WSOptionsDefaults, options);
 		// eslint-disable-next-line no-process-env
 		this.#token = process.env.DISCORD_TOKEN || null;
-
-		this.#shardQueue = new Set();
-		this.#handling = false;
+		this.#queue = new AsyncQueue();
 	}
 
 	/**
@@ -84,81 +77,110 @@ export class WebSocketManager extends EventEmitter {
 		// We need a bot token to connect to the websocket
 		if (!this.#token) throw new Error('A token is required for connecting to the gateway.');
 
+		// Get gateway info from the api and cache it
 		this.#gatewayInfo = await this.api.get(Routes.gatewayBot()) as APIGatewayBotData;
 
-		this.debug(`
-Session Limit [
-  Total      : ${this.#gatewayInfo.session_start_limit.total}
-  Remaining  : ${this.#gatewayInfo.session_start_limit.remaining}
-  Reset After: ${this.#gatewayInfo.session_start_limit.reset_after}ms
-]`);
+		// Debug what the api says we can spawn
+		this.debug([
+			`Session Limit [`,
+			`  Total      : ${this.#gatewayInfo.session_start_limit.total}`,
+			`  Remaining  : ${this.#gatewayInfo.session_start_limit.remaining}`,
+			`  Reset After: ${this.#gatewayInfo.session_start_limit.reset_after}ms`,
+			`]`
+		].join('\n'));
+
+		// Make a list of shards to spawn
+		const shards = [];
 
 		if (Array.isArray(this.options.shards)) {
+			// Starting a list of specified shards
 			if (!this.options.totalShards) throw new Error('totalShards must be supplied if you are defining shards with an array.');
-			for (const item of this.options.shards) {
-				if (typeof item === 'number' && !Number.isNaN(item)) this.#shardQueue.add(item);
-			}
+			shards.push(...this.options.shards.filter(item => typeof item === 'number' && !Number.isNaN(item)));
 		} else if (this.options.shards === 'auto') {
+			// Starting a list of automatically recommended shards
 			this.options.totalShards = this.#gatewayInfo.shards;
-			for (let i = 0; i < this.#gatewayInfo.shards; i++) this.#shardQueue.add(i);
+			for (let i = 0; i < this.#gatewayInfo.shards; i++) shards.push(i);
 		} else {
-			for (let i = 0; i < this.options.shards; i++) this.#shardQueue.add(i);
+			// Starting a specified number of shards
+			for (let i = 0; i < this.options.shards; i++) shards.push(i);
 		}
 
-		this.debug(`Shard Queue: ${[...this.#shardQueue].map(item => typeof item === 'number' ? item : item.id).join(', ')}`);
+		// Debug what shards we are starting
+		this.debug(`Shard Queue: ${shards.join(', ')}`);
 
-		await this.handleQueue();
+		// Wait for all the shards to connect
+		await Promise.all(shards.map(id => this.queueShard(id)));
 	}
 
-	public async handleQueue(): Promise<void> {
-		// if we're currently handling a shard, exit out
-		if (this.#handling || !this.#shardQueue.size) return;
-		this.#handling = true;
-
-		// Fetch the next shard, and delete it from the queue
-		const [nextItem] = this.#shardQueue;
-		this.#shardQueue.delete(nextItem);
-
-		// Get the shard object
-		let shard: WebSocketShard;
-		if (typeof nextItem === 'number') shard = new WebSocketShard(this, nextItem, this.options.totalShards ?? this.options.shards as number, this.#gatewayInfo.url);
-		else shard = nextItem;
-
-		this.shards.set(shard.id, shard);
-
-		// Check if we can identify
-		await this.handleSessionLimit(true);
-
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const status = await shard.connect(this.#token!);
-
-		if (status === GatewayStatus.InvalidSession) {
-			this.debug(`Invalid Session[${shard.id}] Requeued for identify later`);
-			this.#shardQueue.add(shard);
-		}
-
-		if (this.#shardQueue.size) {
-			this.debug(`Queue Size: ${this.#shardQueue.size} — waiting 5s`);
-			await sleep(5000);
-		}
-
-		this.#handling = false;
-		this.handleQueue();
-	}
-
+	/**
+	 * A shard has disconnected and needs to identify again
+	 * @param shard The Shard to identify again
+	 */
 	public scheduleIdentify(shard: WebSocketShard): void {
-		this.#shardQueue.add(shard);
-		this.handleQueue();
+		this.queueShard(shard.id);
 	}
 
+	/**
+	 * A shard cannot be resumed and must be connected from scratch
+	 * @param shard The shard to reconnect from scratch
+	 */
 	public scheduleShardRestart(shard: WebSocketShard): void {
 		this.shards.delete(shard.id);
-		this.#shardQueue.add(shard.id);
-		this.handleQueue();
+		this.queueShard(shard.id);
 	}
 
+	/**
+	 * Queues a shard to be connect
+	 * @param id The shard id
+	 */
+	private async queueShard(id: number): Promise<void> {
+		await this.#queue.wait();
+		try {
+			// Get or create a new WebSocketShard
+			const shard = this.getShard(id);
+
+			// Don't try to connect if the shard is already connected
+			if (shard.status === WebSocketShardStatus.Connected) return;
+
+			// Check if we can identify
+			await this.handleSessionLimit(true);
+
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const status = await shard.connect(this.#token!);
+
+			// If we get an invalid session, to the back of the line you go
+			if (status === GatewayStatus.InvalidSession) {
+				this.debug(`Invalid Session[${id}] Requeued for identify later`);
+				this.queueShard(id);
+			}
+
+			// Alert how many shards are remaining in the queue and wait for 5 seconds before the next one
+			if (this.#queue.remaining > 1) {
+				this.debug(`Queue Size: ${this.#queue.remaining - 1} — waiting 5s`);
+				await sleep(5000);
+			}
+		} finally {
+			this.#queue.shift();
+		}
+	}
+
+	/**
+	 * Gets or Creates a shard by id
+	 * @param id The id to get/create a shard
+	 */
+	private getShard(id: number): WebSocketShard {
+		const shard = this.shards.get(id) || new WebSocketShard(this, id, this.options.totalShards ?? this.options.shards as number, this.#gatewayInfo.url);
+		this.shards.set(id, shard);
+		return shard;
+	}
+
+	/**
+	 * Checks if we can try to connect another shard, waits if needed
+	 * @param fetch Whether to fetch fresh data from the api, or rely on cache
+	 */
 	private async handleSessionLimit(fetch = false): Promise<void> {
 		if (fetch) this.#gatewayInfo = await this.api.get(Routes.gatewayBot()) as APIGatewayBotData;
+
 		const { session_start_limit: { reset_after: resetAfter, remaining } } = this.#gatewayInfo;
 
 		if (remaining === 0) {
@@ -167,6 +189,10 @@ Session Limit [
 		}
 	}
 
+	/**
+	 * Emits a ws debug message
+	 * @param message The message to emit
+	 */
 	private debug(message: string): void {
 		this.emit(WebSocketManagerEvents.Debug, `[Manager(${this.options.totalShards ?? this.options.shards})] ${message}`);
 	}
