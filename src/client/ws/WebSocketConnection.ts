@@ -107,10 +107,15 @@ class WebSocketConnection {
 	#connection!: WS | null;
 
 	/**
-	 * @param host The host url to connect to
-	 * @param token The token to connect with
+	 * The full host url to connect to
 	 */
-	public constructor(private readonly host: string) {
+	#host: string;
+
+	/**
+	 * @param host The host url to connect to
+	 */
+	public constructor(host: string) {
+		this.#host = this.resolveHost(host);
 		this.#lastHeartbeat = -1;
 		this.#sequence = -1;
 		this.#closeSequence = -1;
@@ -123,11 +128,17 @@ class WebSocketConnection {
 			acked: true,
 			interval: null
 		};
+		this.#zlib = null;
 
 		this.newWS();
 	}
 
-	public sendWS(payload: SendPayload, important = false): void {
+	/**
+	 * Adds a message to send to the websocket to the ratelimit queue
+	 * @param payload The message to send
+	 * @param important If the message should jump to the front of the line
+	 */
+	public queueWSPayload(payload: SendPayload, important = false): void {
 		const jsonString = JSON.stringify(payload);
 		this.#ratelimitData.queue[important ? 'unshift' : 'push'](jsonString);
 		this.processRatelimitQueue();
@@ -155,11 +166,29 @@ class WebSocketConnection {
 		this.#ratelimitData.remaining = 120;
 	}
 
+	/**
+	 * Resolves the full host with query options
+	 * @param host The base host url
+	 */
+	private resolveHost(host: string): string {
+		const query = new URLSearchParams();
+		query.set('v', typedWorkerData.gatewayVersion.toString());
+		if (zlib) query.set('compress', 'zlib-stream');
+		return `${host}/?${query.toString()}`;
+	}
+
+	/**
+	 * Handles the open behavior of the websocket connection
+	 */
 	private _onopen(): void {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		this.debug(`OPEN[${this.#connection!.url}]`);
 	}
 
+	/**
+	 * Handles packets from the websocket, rehydrates them into usable data
+	 * @param event The packet data
+	 */
 	private _onmessage(event: WS.MessageEvent): void {
 		let { data } = event;
 		// Convert data to a buffer
@@ -198,11 +227,19 @@ class WebSocketConnection {
 		}
 	}
 
+	/**
+	 * Handles when the websocket encounters an error
+	 * @param event The error event data
+	 */
 	private _onerror(event: WS.ErrorEvent): void {
 		const { error, message } = event;
 		this.debug(`ERROR[${message}]\n${error}`);
 	}
 
+	/**
+	 * Handles when the websocket is closed
+	 * @param event The close event data
+	 */
 	private _onclose(event: WS.CloseEvent): void {
 		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Disconnected });
 
@@ -236,6 +273,10 @@ class WebSocketConnection {
 		}
 	}
 
+	/**
+	 * Distributes incoming packets to their proper destination
+	 * @param packet The packet received from the websocket
+	 */
 	private onPacket(packet: WSPayload): void {
 		if (packet.s > this.#sequence) this.#sequence = packet.s;
 
@@ -282,19 +323,28 @@ class WebSocketConnection {
 		}
 	}
 
-	private debug(info: string): void {
-		this.dispatch({ type: InternalActions.Debug, data: info });
+	/**
+	 * Emits a ws debug message on the main thread
+	 * @param message The message to emit
+	 */
+	private debug(message: string): void {
+		this.dispatch({ type: InternalActions.Debug, data: message });
 	}
 
 	// #region Payloads
 
+	/**
+	 * Sends a packet to the main thread
+	 * @param data Data package to send
+	 */
 	private dispatch(data: WorkerMasterMessages): void {
-		checkMainThread(parentPort);
-		parentPort.postMessage(data);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		parentPort!.postMessage(data);
 	}
 
 	/**
 	 * Called when we receive the HELLO payload from Discord
+	 * @param packet The hello payload packet
 	 */
 	private hello(packet: HelloPayload): void {
 		this.setHeartbeatTimer(packet.d.heartbeat_interval);
@@ -305,7 +355,7 @@ class WebSocketConnection {
 	 * Called when Discord asks us to heartbeat
 	 */
 	private heartbeatRequest(): void {
-		this.sendWS({ op: OpCodes.HEARTBEAT, d: this.#sequence }, true);
+		this.queueWSPayload({ op: OpCodes.HEARTBEAT, d: this.#sequence }, true);
 	}
 
 	/**
@@ -320,6 +370,7 @@ class WebSocketConnection {
 
 	/**
 	 * Called when we receive an invalid session payload from Discord
+	 * @param packet The invalid session packet
 	 */
 	private invalidSession(packet: InvalidSession): void {
 		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connecting });
@@ -342,6 +393,10 @@ class WebSocketConnection {
 
 	// #endregion Payloads
 
+	/**
+	 * Sets a heartbeat interval to let discord know we are still alive
+	 * @param time The time between heartbeats
+	 */
 	private setHeartbeatTimer(time: number): void {
 		if (time === -1) {
 			this.debug('Heartbeat Timer[RESET]');
@@ -354,6 +409,10 @@ class WebSocketConnection {
 		}
 	}
 
+	/**
+	 * Sends a heartbeat to the websocket
+	 * @param tag The tag for the heartbeat when responding to a heartbeat request
+	 */
 	private sendHeartbeat(tag = 'Unknown'): void {
 		if (!this.#heartbeat.acked) {
 			this.debug(`Heartbeat[${tag}] Didn't receive an ack in time; resetting`);
@@ -364,14 +423,20 @@ class WebSocketConnection {
 		this.debug(`Heartbeat[${tag}] Sending`);
 		this.#heartbeat.acked = false;
 		this.#lastHeartbeat = Date.now();
-		this.sendWS({ op: OpCodes.HEARTBEAT, d: this.#sequence }, true);
+		this.queueWSPayload({ op: OpCodes.HEARTBEAT, d: this.#sequence }, true);
 	}
 
+	/**
+	 * Resumes a session or starts a new one
+	 */
 	private identify(): void {
 		if (this.#sessionID) return this.resume();
 		return this.newSession();
 	}
 
+	/**
+	 * Makes a new session for the websocket connection
+	 */
 	public newSession(): void {
 		// If we have no connection, attempt to re-create it
 		if (!this.#connection) {
@@ -382,9 +447,12 @@ class WebSocketConnection {
 		const { options, token } = typedWorkerData;
 
 		this.debug(`IDENTIFY[${(options.shard as number[]).join('/')}]`);
-		this.sendWS({ op: OpCodes.IDENTIFY, d: { ...(options as unknown as WSIdentify), token } }, true);
+		this.queueWSPayload({ op: OpCodes.IDENTIFY, d: { ...(options as unknown as WSIdentify), token } }, true);
 	}
 
+	/**
+	 * Resumes a connection to the websocket
+	 */
 	private resume(): void {
 		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Resuming });
 
@@ -403,13 +471,19 @@ class WebSocketConnection {
 		}
 
 		this.debug(`RESUME[${session_id} | Sequence ${seq}]`);
-		this.sendWS({ op: OpCodes.RESUME, d: { seq, session_id, token: typedWorkerData.token } }, true);
+		this.queueWSPayload({ op: OpCodes.RESUME, d: { seq, session_id, token: typedWorkerData.token } }, true);
 	}
 
+	/**
+	 * Queues an identify via the main thread, so shared ratelimits aren't exceeded
+	 */
 	private scheduleIdentify(): void {
 		this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.InvalidSession });
 	}
 
+	/**
+	 * Sends messages to the websocket until ratelimited and starts again when possible
+	 */
 	private processRatelimitQueue(): void {
 		// If we have no remaining sends, return
 		if (this.#ratelimitData.remaining === 0) return;
@@ -432,6 +506,10 @@ class WebSocketConnection {
 		}
 	}
 
+	/**
+	 * Sends a payload across the websocket
+	 * @param payload The payload data to send
+	 */
 	private send(payload: string): void {
 		if (!this.#connection || this.#connection.readyState !== WS.OPEN) {
 			this.debug(`Tried to send payload '${payload}' but WebSocket connection is not open! Reconnecting`);
@@ -444,20 +522,15 @@ class WebSocketConnection {
 		});
 	}
 
+	/**
+	 * Creates a new ws to send and receive events from
+	 */
 	private newWS(): void {
 		this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connecting });
 
-		const query = new URLSearchParams();
-		query.set('v', typedWorkerData.gatewayVersion.toString());
+		if (zlib) this.#zlib = new zlib.Inflate({ chunkSize: 128 * 1024 });
 
-		if (zlib) {
-			this.#zlib = new zlib.Inflate({ chunkSize: 128 * 1024 });
-			query.set('compress', 'zlib-stream');
-		} else {
-			this.#zlib = null;
-		}
-
-		const ws = this.#connection = new WS(`${this.host}/?${query.toString()}`);
+		const ws = this.#connection = new WS(this.#host);
 
 		ws.onopen = this._onopen.bind(this);
 		ws.onmessage = this._onmessage.bind(this);
@@ -473,6 +546,12 @@ parentPort.on('message', (message: MasterWorkerMessages) => {
 	switch (message.type) {
 		case InternalActions.Identify: {
 			connection.newSession();
+			break;
+		}
+		case InternalActions.Destroy: {
+			connection.destroy();
+			// todo: Come up with nice exit signal to alert the manager not to try to reconnect
+			process.exit(42069);
 			break;
 		}
 	}

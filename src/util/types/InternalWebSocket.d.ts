@@ -25,6 +25,7 @@ export const enum WebSocketManagerEvents {
 export const enum InternalActions {
 	Debug = 'DEBUG',
 	Dispatch = 'DISPATCH',
+	Destroy = 'DESTROY',
 	Identify = 'IDENTIFY',
 	UpdatePing = 'UPDATE_PING',
 	ScheduleIdentify = 'SCHEDULE_IDENTIFY',
@@ -77,7 +78,7 @@ export const enum WebSocketEvents {
 	GuildBanAdd = 'GUILD_BAN_ADD',
 	GuildBanRemove = 'GUILD_BAN_REMOVE',
 	GuildEmojisUpdate = 'GUILD_EMOJIS_UPDATE',
-	GuildIntegrationsUpdate = 'GUILD_INTEGRATION_SUPDATE',
+	GuildIntegrationsUpdate = 'GUILD_INTEGRATIONS_UPDATE',
 	GuildMemberAdd = 'GUILD_MEMBER_ADD',
 	GuildMemberRemove = 'GUILD_MEMBER_REMOVE',
 	GuildMemberUpdate = 'GUILD_MEMBER_UPDATE',
@@ -368,7 +369,7 @@ export type WorkerMasterMessages = {
 };
 
 export type MasterWorkerMessages = {
-	type: InternalActions.Identify
+	type: InternalActions.Identify | InternalActions.Destroy
 };
 
 export interface WSWorkerData {

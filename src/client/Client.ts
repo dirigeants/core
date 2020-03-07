@@ -59,8 +59,7 @@ export class Client extends BaseClient {
 	 */
 	public async destroy(): Promise<void> {
 		await super.destroy();
-		// todo: Not ready yet
-		// await this.ws.destroy();
+		this.ws.destroy();
 	}
 
 }

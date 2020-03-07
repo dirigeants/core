@@ -92,6 +92,13 @@ export class WebSocketShard {
 	}
 
 	/**
+	 * Gracefully destroys the websocket connection of the underlying thread
+	 */
+	public destroy(): void {
+		this.send({ type: InternalActions.Destroy });
+	}
+
+	/**
 	 * Sends a message to the websocket connection thread
 	 * @param data The data to send
 	 */
@@ -155,7 +162,7 @@ export class WebSocketShard {
 	private _onWorkerExit(exitCode: number): void {
 		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] Worker Thread Exit[${exitCode}]`);
 		this.workerThread = null;
-		this.manager.scheduleShardRestart(this);
+		if (exitCode !== 42069) this.manager.scheduleShardRestart(this);
 	}
 
 }
