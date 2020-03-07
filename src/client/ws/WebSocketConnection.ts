@@ -51,6 +51,7 @@ interface WSRatelimit {
 interface WSHeartbeat {
 	acked: boolean;
 	interval: NodeJS.Timer | null;
+	last: number;
 }
 
 interface WSDestroyOptions {
@@ -65,11 +66,6 @@ function checkMainThread(port: unknown): asserts port is MessagePort {
 checkMainThread(parentPort);
 
 class WebSocketConnection {
-
-	/**
-	 * The last time we sent a heartbeat
-	 */
-	#lastHeartbeat: number;
 
 	/**
 	 * The zlib context to use when inflating data
@@ -116,7 +112,6 @@ class WebSocketConnection {
 	 */
 	public constructor(host: string) {
 		this.#host = this.resolveHost(host);
-		this.#lastHeartbeat = -1;
 		this.#sequence = -1;
 		this.#closeSequence = -1;
 		this.#sessionID = null;
@@ -126,7 +121,8 @@ class WebSocketConnection {
 		};
 		this.#heartbeat = {
 			acked: true,
-			interval: null
+			interval: null,
+			last: -1
 		};
 		this.#zlib = null;
 
@@ -313,12 +309,16 @@ class WebSocketConnection {
 				this.#sessionID = packet.d.session_id;
 				this.debug(`READY[${packet.d.user.id} | ${packet.d.session_id} | ${packet.d.guilds.length} guilds]`);
 				this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.Ready });
+				this.#heartbeat.acked = true;
+				this.sendHeartbeat('READY');
 				break;
 			}
 			case WebSocketEvents.Resumed: {
 				this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connected });
 				this.debug(`RESUMED[${this.#sequence - this.#closeSequence} events]`);
 				this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.Ready });
+				this.#heartbeat.acked = true;
+				this.sendHeartbeat('RESUMED');
 				break;
 			}
 		}
@@ -364,7 +364,7 @@ class WebSocketConnection {
 	 */
 	private heartbeatAck(): void {
 		this.#heartbeat.acked = true;
-		const latency = Date.now() - this.#lastHeartbeat;
+		const latency = Date.now() - this.#heartbeat.last;
 		this.debug(`Heartbeat Acknowledged[${latency}ms]`);
 		this.dispatch({ type: InternalActions.UpdatePing, data: latency });
 	}
@@ -432,7 +432,7 @@ class WebSocketConnection {
 
 		this.debug(`Heartbeat[${tag}] Sending`);
 		this.#heartbeat.acked = false;
-		this.#lastHeartbeat = Date.now();
+		this.#heartbeat.last = Date.now();
 		this.queueWSPayload({ op: OpCodes.HEARTBEAT, d: this.#sequence }, true);
 	}
 
