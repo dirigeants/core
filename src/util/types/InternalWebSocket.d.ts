@@ -28,9 +28,12 @@ export const enum InternalActions {
 	Destroy = 'DESTROY',
 	Identify = 'IDENTIFY',
 	UpdatePing = 'UPDATE_PING',
+	ScheduleIdentify = 'SCHEDULE_IDENTIFY',
 	GatewayStatus = 'GATEWAY_STATUS',
 	CannotReconnect = 'CANNOT_RECONNECT',
 	ConnectionStatusUpdate = 'CONNECTION_STATUS_UPDATE',
+	PayloadDispatch = 'PAYLOAD_DISPATCH',
+	Reconnect = 'RECONNECT',
 }
 
 export const enum WSCloseCodes {
@@ -347,7 +350,7 @@ export type WorkerMasterMessages = {
 	type: InternalActions.Dispatch,
 	data: DispatchPayload
 } | {
-	type: InternalActions.Identify
+	type: InternalActions.Identify | InternalActions.ScheduleIdentify
 } | {
 	type: InternalActions.UpdatePing,
 	data: number
@@ -363,10 +366,16 @@ export type WorkerMasterMessages = {
 } | {
 	type: InternalActions.ConnectionStatusUpdate,
 	data: WebSocketShardStatus
+} | {
+	type: InternalActions.PayloadDispatch,
+	data: SendPayload
 };
 
 export type MasterWorkerMessages = {
-	type: InternalActions.Identify | InternalActions.Destroy
+	type: InternalActions.Identify | InternalActions.Destroy | InternalActions.Reconnect
+} | {
+	type: InternalActions.PayloadDispatch,
+	data: SendPayload
 };
 
 export interface WSWorkerData {

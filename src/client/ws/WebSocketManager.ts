@@ -113,6 +113,14 @@ export class WebSocketManager extends EventEmitter {
 	}
 
 	/**
+	 * A shard has disconnected and needs to identify again
+	 * @param shard The Shard to identify again
+	 */
+	public scheduleIdentify(shard: WebSocketShard): void {
+		this.queueShard(shard.id);
+	}
+
+	/**
 	 * Destroys all the shards
 	 */
 	public destroy(): void {

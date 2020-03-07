@@ -310,13 +310,14 @@ class WebSocketConnection {
 		switch (packet.t) {
 			case WebSocketEvents.Ready: {
 				this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connected });
-				this.debug(`READY[${packet.d.user.id} | ${packet.d.guilds.length} guilds]`);
+				this.#sessionID = packet.d.session_id;
+				this.debug(`READY[${packet.d.user.id} | ${packet.d.session_id} | ${packet.d.guilds.length} guilds]`);
 				this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.Ready });
 				break;
 			}
 			case WebSocketEvents.Resumed: {
 				this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connected });
-				this.debug(`RESUMED[${this.#sequence - this.#closeSequence} events`);
+				this.debug(`RESUMED[${this.#sequence - this.#closeSequence} events]`);
 				this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.Ready });
 				break;
 			}
@@ -376,12 +377,15 @@ class WebSocketConnection {
 	private invalidSession(packet: InvalidSession): void {
 		// If we can resume
 		if (packet.d) {
+			this.debug(`Invalid Session — Attempting to resume`);
 			this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Connecting });
 			this.resume();
 		} else {
-			// We cannot resume anymore, reset the Worker
-			this.destroy({ resetSession: true });
+			// We cannot resume anymore, schedule an identify
+			this.debug(`Invalid Session — Cannot resume; scheduling identify`);
 			this.dispatch({ type: InternalActions.ConnectionStatusUpdate, data: WebSocketShardStatus.Reconnecting });
+			this.dispatch({ type: InternalActions.GatewayStatus, data: GatewayStatus.InvalidSession });
+			this.dispatch({ type: InternalActions.ScheduleIdentify });
 		}
 	}
 
@@ -402,8 +406,11 @@ class WebSocketConnection {
 	 */
 	private setHeartbeatTimer(time: number): void {
 		if (time === -1) {
-			this.debug('Heartbeat Timer[RESET]');
-			if (this.#heartbeat.interval) clearInterval(this.#heartbeat.interval);
+			if (this.#heartbeat.interval) {
+				this.debug('Heartbeat Timer[RESET]');
+				clearInterval(this.#heartbeat.interval);
+				this.#heartbeat.interval = null;
+			}
 		} else {
 			this.debug(`Heartbeat Timer[${time}ms]`);
 			// Sanity check; clear interval
@@ -546,6 +553,14 @@ parentPort.on('message', (message: MasterWorkerMessages) => {
 		}
 		case InternalActions.Destroy: {
 			connection.destroy({ resetSession: true });
+			break;
+		}
+		case InternalActions.Reconnect: {
+			connection.destroy();
+			break;
+		}
+		case InternalActions.PayloadDispatch: {
+			connection.queueWSPayload(message.data);
 			break;
 		}
 	}

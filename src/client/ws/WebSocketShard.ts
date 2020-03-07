@@ -1,7 +1,7 @@
 import { Worker } from 'worker_threads';
 import { resolve as pathResolve } from 'path';
 import { Intents } from '../caching/bitfields/Intents';
-import { WebSocketManagerEvents, WorkerMasterMessages, InternalActions, GatewayStatus, MasterWorkerMessages, WSCloseCodes } from '../../util/types/InternalWebSocket';
+import { WebSocketManagerEvents, WorkerMasterMessages, InternalActions, GatewayStatus, MasterWorkerMessages, SendPayload } from '../../util/types/InternalWebSocket';
 
 import type { WebSocketManager } from './WebSocketManager';
 
@@ -87,8 +87,12 @@ export class WebSocketShard {
 					resolve(message.data);
 				} else if (message.type === InternalActions.CannotReconnect) {
 					reject(new Error(`WebSocket closed with code ${message.data.code}: ${message.data.reason}`));
+					// Destroy the shard
+					this.destroy();
+					// Close the worker thread manually
 					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 					this.workerThread!.terminate();
+					this.workerThread = null;
 				}
 			};
 
@@ -106,10 +110,26 @@ export class WebSocketShard {
 	}
 
 	/**
+	 * Sends a Discord payload to the shard.
+	 * @param payload The Discord payload to send to this shard
+	 */
+	public sendWSPayload(payload: SendPayload): void {
+		this.send({ type: InternalActions.PayloadDispatch, data: payload });
+	}
+
+	/**
+	 * Asks the shard to attempt a reconnect
+	 */
+	public restart(): void {
+		if (this.workerThread) this.send({ type: InternalActions.Reconnect });
+		else this.manager.scheduleShardRestart(this);
+	}
+
+	/**
 	 * Sends a message to the websocket connection thread
 	 * @param data The data to send
 	 */
-	public send(data: MasterWorkerMessages): void {
+	private send(data: MasterWorkerMessages): void {
 		if (this.workerThread) this.workerThread.postMessage(data);
 	}
 
@@ -134,6 +154,10 @@ export class WebSocketShard {
 				this.ping = packet.data;
 				break;
 			}
+			case InternalActions.ScheduleIdentify: {
+				this.manager.scheduleIdentify(this);
+				break;
+			}
 			case InternalActions.Dispatch: {
 				// eslint-disable-next-line @typescript-eslint/camelcase
 				packet.data.shard_id = this.id;
@@ -154,7 +178,6 @@ export class WebSocketShard {
 	 */
 	private _onWorkerError(error: Error): void {
 		this.manager.emit(WebSocketManagerEvents.Debug, `[Shard ${this.id}/${this.totalShards}] ${error.stack}`);
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		this.manager.emit(WebSocketManagerEvents.Error, error);
 	}
 
