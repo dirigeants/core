@@ -8,11 +8,11 @@ import type { WebSocketManager } from './WebSocketManager';
 const WORKER_PATH = pathResolve(__dirname, 'WebSocketConnection.js');
 
 export const enum WebSocketShardStatus {
-	Disconnected = 'disconnected',
-	Connecting = 'connecting',
-	Connected = 'connected',
-	Resuming = 'resuming',
-	Reconnecting = 'reconnecting'
+	Disconnected = 'DISCONNECTED',
+	Connecting = 'CONNECTING',
+	Connected = 'CONNECTED',
+	Resuming = 'RESUMING',
+	Reconnecting = 'RECONNECTING'
 }
 
 /**
