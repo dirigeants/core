@@ -76,7 +76,7 @@ export class WebSocketShard {
 				.on('error', this._onWorkerError.bind(this))
 				.on('exit', this._onWorkerExit.bind(this));
 		} else {
-			this.send({ type: InternalActions.Identify });
+			this.dispatch({ type: InternalActions.Identify });
 		}
 
 		return new Promise((resolve, reject) => {
@@ -106,22 +106,22 @@ export class WebSocketShard {
 	 */
 	public destroy(): void {
 		this.#destroyed = true;
-		this.send({ type: InternalActions.Destroy });
+		this.dispatch({ type: InternalActions.Destroy });
 	}
 
 	/**
 	 * Sends a Discord payload to the shard.
 	 * @param payload The Discord payload to send to this shard
 	 */
-	public sendWSPayload(payload: SendPayload): void {
-		this.send({ type: InternalActions.PayloadDispatch, data: payload });
+	public send(payload: SendPayload): void {
+		this.dispatch({ type: InternalActions.PayloadDispatch, data: payload });
 	}
 
 	/**
 	 * Asks the shard to attempt a reconnect
 	 */
 	public restart(): void {
-		if (this.workerThread) this.send({ type: InternalActions.Reconnect });
+		if (this.workerThread) this.dispatch({ type: InternalActions.Reconnect });
 		else this.manager.scheduleShardRestart(this);
 	}
 
@@ -129,7 +129,7 @@ export class WebSocketShard {
 	 * Sends a message to the websocket connection thread
 	 * @param data The data to send
 	 */
-	private send(data: MasterWorkerMessages): void {
+	private dispatch(data: MasterWorkerMessages): void {
 		if (this.workerThread) this.workerThread.postMessage(data);
 	}
 
