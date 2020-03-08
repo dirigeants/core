@@ -1,14 +1,15 @@
 import { Snowflake } from '@klasa/snowflake';
 import { Routes } from '@klasa/rest';
 
+import type { APIWebhookData, WebhookType, APIUserData, APIMessageData } from '@klasa/dapi-types';
+
 import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
+import { Structure } from './base/Structure';
 import { Message } from './Message';
 
 import type { Client } from '../../Client';
 import type { WebhookClient } from '../../WebhookClient';
-import type { APIWebhookData, WebhookType, APIUserData, APIMessageData } from '../../../util/types/DiscordAPI';
 import type { SplitOptions } from './messages/MessageBuilder';
-import { Structure } from './base/Structure';
 
 export interface WebhookUpdateData {
 	name?: string;

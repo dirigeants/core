@@ -2,7 +2,7 @@ import { Structure } from './base/Structure';
 
 import type { Client } from '../../Client';
 import type { WebhookClient } from '../../WebhookClient';
-import type { APIMessageData } from '../../../util/types/DiscordAPI';
+import type { APIMessageData } from '@klasa/dapi-types';
 
 export class Message extends Structure {
 

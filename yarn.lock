@@ -158,10 +158,20 @@
   resolved "https://registry.yarnpkg.com/@klasa/bitfield/-/bitfield-0.0.1.tgz#6bcbc75c79777aca0be7e72cd7d33aa611cfe907"
   integrity sha512-qnxUNDzeppPRCWI7vlC15yMBOGYZNjT3/RVVRUZ0KsOe5FLPx/Y7Ssi12KIwJs1wgnGiQEJPfZYphGZoRiHKEA==
 
+"@klasa/bitfield@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@klasa/bitfield/-/bitfield-0.0.2.tgz#688a89e1464db3f2ffc1ea03b37c0efc6b604964"
+  integrity sha512-/uJVd4t9WREqYgAvdWudTpGd+VFsa33dXh0MjQx1caWh3WknNPZfmbLZ9y+Jxg0DgorKvIgUzjhF9BGi+BlMyw==
+
 "@klasa/cache@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.1.tgz#8aa230804d2a54ce219fe6fc43c9683a083a4fe7"
   integrity sha512-mc/gdOCI3aHta0xdvIdf5BzsrEC4xx1+5MUJjSQS4ufuGc607Luo3BCUuoamXo4bjfaA8Zu8ZYr4CMtllE+cLQ==
+
+"@klasa/dapi-types@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@klasa/dapi-types/-/dapi-types-0.0.1.tgz#a8783c8b2d32ac6241546dcae8d64e7a3872ab85"
+  integrity sha512-oJMRXmxveTjqJLscjgMy/NSUJ/oDfCguZ1YF4hl/plzdUYgSJk90Ygkb8++/3nV/M8cJoXGI3xqmE8u+LH0LQg==
 
 "@klasa/rest@^0.0.2":
   version "0.0.2"
@@ -191,6 +201,22 @@
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.4.tgz#4bf010b09d0f93b39245523ed22a09571d56508c"
   integrity sha512-9gZSGN/As3sxZumZ9ZwyQ+KcNSenzY8tR1orRakv8HKK0WH0gG7QrsP/1O2TD4uHxUyr8dysCjt73RYPfzuDWQ==
+
+"@klasa/ws@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.1.tgz#417abed3169bb80d9972be27fcc7751aec4a3ed1"
+  integrity sha512-jVHU4Ep0xeItPHcpZN2ACT+gDk+EEM+k8EvvrhKv3XwrE7sog0W2SQQbMoYMGF82/NQTmZyTB3aNy5i7TKTfhQ==
+  dependencies:
+    "@klasa/async-queue" "^0.0.1"
+    "@klasa/bitfield" "^0.0.2"
+    "@klasa/cache" "^0.0.1"
+    "@klasa/rest" "^0.0.2"
+    "@klasa/utils" "^0.0.4"
+    ws "^7.2.1"
+  optionalDependencies:
+    bufferutil "^4.0.1"
+    utf-8-validate "^5.0.2"
+    zlib-sync "^0.1.6"
 
 "@nodelib/fs.scandir@2.1.3":
   version "2.1.3"
@@ -591,6 +617,13 @@ buffer-from@^1.0.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/buffer-from/-/buffer-from-1.1.1.tgz#32713bc028f75c02fdb710d7c7bcec1f2c6070ef"
   integrity sha512-MQcXEUbCKtEo7bhqEs6560Hyd4XaovZlO/k9V3hjVUF/zwW7KBVdSK4gIt/bzwS9MbR5qob+F5jusZsb0YQK2A==
+
+bufferutil@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/bufferutil/-/bufferutil-4.0.1.tgz#3a177e8e5819a1243fe16b63a199951a7ad8d4a7"
+  integrity sha512-xowrxvpxojqkagPcWRQVXZl0YXhRhAtBEIq3VoER1NH5Mw1n1o0ojdspp+GS2J//2gCVyrzQDApQ4unGF+QOoA==
+  dependencies:
+    node-gyp-build "~3.7.0"
 
 cacheable-request@^6.0.0:
   version "6.1.0"
@@ -2059,6 +2092,11 @@ node-fetch@^2.6.0:
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
   integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
 
+node-gyp-build@~3.7.0:
+  version "3.7.0"
+  resolved "https://registry.yarnpkg.com/node-gyp-build/-/node-gyp-build-3.7.0.tgz#daa77a4f547b9aed3e2aac779eaf151afd60ec8d"
+  integrity sha512-L/Eg02Epx6Si2NXmedx+Okg+4UHqmaf3TNcxd50SF9NQGcJaON3AtU++kax69XV7YWz4tUspqZSAsVofhFKG2w==
+
 node-preload@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/node-preload/-/node-preload-0.2.1.tgz#c03043bb327f417a18fee7ab7ee57b408a144301"
@@ -2997,6 +3035,13 @@ url-parse-lax@^3.0.0:
   integrity sha1-FrXK/Afb42dsGxmZF3gj1lA6yww=
   dependencies:
     prepend-http "^2.0.0"
+
+utf-8-validate@^5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/utf-8-validate/-/utf-8-validate-5.0.2.tgz#63cfbccd85dc1f2b66cf7a1d0eebc08ed056bfb3"
+  integrity sha512-SwV++i2gTD5qh2XqaPzBnNX88N6HdyhQrNNRykvcS0QKvItV9u3vPEJr+X5Hhfb1JC0r0e1alL0iB09rY8+nmw==
+  dependencies:
+    node-gyp-build "~3.7.0"
 
 uuid@^3.3.3:
   version "3.4.0"

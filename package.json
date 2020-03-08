@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
+    "@klasa/dapi-types": "^0.0.1",
     "@types/node": "13",
     "@types/node-fetch": "^2.5.5",
     "@types/ws": "^7.2.2",
@@ -47,10 +48,7 @@
     "@klasa/snowflake": "^0.0.1",
     "@klasa/timer-manager": "^0.0.1",
     "@klasa/utils": "^0.0.4",
-    "fs-nextra": "^0.4.7",
-    "ws": "^7.2.1"
-  },
-  "optionalDependencies": {
-    "zlib-sync": "^0.1.6"
+    "@klasa/ws": "^0.0.1",
+    "fs-nextra": "^0.4.7"
   }
 }

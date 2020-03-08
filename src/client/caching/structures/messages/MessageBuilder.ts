@@ -5,7 +5,8 @@ import { readFile, pathExists } from 'fs-nextra';
 import { mergeDefault } from '@klasa/utils';
 
 import type { File, RequestOptions } from '@klasa/rest';
-import type { APIEmbedData } from '../../../../util/types/DiscordAPI';
+import type { APIEmbedData } from '@klasa/dapi-types';
+
 import type { RequiredExcept, PartialRequired } from '../../../../util/types/Util';
 
 export interface MessageData {

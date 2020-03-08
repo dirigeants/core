@@ -1,9 +1,8 @@
 import { mergeDefault } from '@klasa/utils';
+import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 
 import { BaseClient, BaseClientOptions } from './BaseClient';
-import { WebSocketManager, WSOptions } from './ws/WebSocketManager';
 import { ClientOptionsDefaults } from '../util/Constants';
-import { WebSocketManagerEvents } from '../util/types/InternalWebSocket';
 
 export interface ClientOptions extends BaseClientOptions {
 	ws: Partial<WSOptions>;

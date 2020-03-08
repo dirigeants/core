@@ -1,6 +1,7 @@
+import type { APIChannelPartial } from '@klasa/dapi-types';
+
 import { Structure } from '../base/Structure';
 
-import type { APIChannelPartial } from '../../../../util/types/DiscordAPI';
 import type { Client } from '../../../Client';
 
 export abstract class Channel extends Structure {
