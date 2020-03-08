@@ -153,6 +153,11 @@
   resolved "https://registry.yarnpkg.com/@klasa/async-queue/-/async-queue-0.0.1.tgz#0075c504781bae570ab4cd47ae58a12de67cc57d"
   integrity sha512-k3fPWnnRL4YB5u2w6KypXRL0NPjJSgnvzKsjCjGkfoyGKrGqS1L9VVbsrRpf8LuwLbP7tjmyCK5dxmmn1w4jng==
 
+"@klasa/bitfield@^0.0.1":
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/@klasa/bitfield/-/bitfield-0.0.1.tgz#6bcbc75c79777aca0be7e72cd7d33aa611cfe907"
+  integrity sha512-qnxUNDzeppPRCWI7vlC15yMBOGYZNjT3/RVVRUZ0KsOe5FLPx/Y7Ssi12KIwJs1wgnGiQEJPfZYphGZoRiHKEA==
+
 "@klasa/cache@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.1.tgz#8aa230804d2a54ce219fe6fc43c9683a083a4fe7"

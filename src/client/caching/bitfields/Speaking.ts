@@ -1,4 +1,4 @@
-import { BitField, BitFieldObject } from './base/BitField';
+import { BitField, BitFieldObject } from '@klasa/bitfield';
 
 export type SpeakingResolvable = keyof typeof Speaking.FLAGS | number | BitFieldObject | ((keyof typeof Speaking.FLAGS) | number | BitFieldObject)[];
 

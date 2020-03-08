@@ -1,4 +1,4 @@
-import { BitField, BitFieldObject } from './base/BitField';
+import { BitField, BitFieldObject } from '@klasa/bitfield';
 
 export type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | BitFieldObject | ((keyof typeof Permissions.FLAGS) | number | BitFieldObject)[];
 

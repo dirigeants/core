@@ -1,4 +1,4 @@
-import { BitField, BitFieldObject } from './base/BitField';
+import { BitField, BitFieldObject } from '@klasa/bitfield';
 
 export type ActivityResolvable = keyof typeof Activity.FLAGS | number | BitFieldObject | ((keyof typeof Activity.FLAGS) | number | BitFieldObject)[];
 

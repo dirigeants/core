@@ -1,4 +1,4 @@
-import { BitField, BitFieldObject } from './base/BitField';
+import { BitField, BitFieldObject } from '@klasa/bitfield';
 
 export type IntentsResolvable = keyof typeof Intents.FLAGS | number | BitFieldObject | ((keyof typeof Intents.FLAGS) | number | BitFieldObject)[];
 
