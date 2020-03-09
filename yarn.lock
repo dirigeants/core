@@ -216,10 +216,10 @@
   resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.4.tgz#4bf010b09d0f93b39245523ed22a09571d56508c"
   integrity sha512-9gZSGN/As3sxZumZ9ZwyQ+KcNSenzY8tR1orRakv8HKK0WH0gG7QrsP/1O2TD4uHxUyr8dysCjt73RYPfzuDWQ==
 
-"@klasa/ws@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.1.tgz#417abed3169bb80d9972be27fcc7751aec4a3ed1"
-  integrity sha512-jVHU4Ep0xeItPHcpZN2ACT+gDk+EEM+k8EvvrhKv3XwrE7sog0W2SQQbMoYMGF82/NQTmZyTB3aNy5i7TKTfhQ==
+"@klasa/ws@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.2.tgz#f7d898782e799749c171b3f3f92c44ef2375a74f"
+  integrity sha512-82hTFX4Ltqiqlbusn9901YFUsxnwCTkLt66G6E698PLlvdTKCyUbu4wbefHZhfXeeBTkdqZyz0Ay8qP2QY0CFQ==
   dependencies:
     "@klasa/async-queue" "^0.0.1"
     "@klasa/bitfield" "^0.0.2"
