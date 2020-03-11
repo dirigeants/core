@@ -43,6 +43,7 @@ export class Permissions extends BitField<PermissionsResolvable> {
 		READ_MESSAGE_HISTORY: 1 << 16,
 		MENTION_EVERYONE: 1 << 17,
 		USE_EXTERNAL_EMOJIS: 1 << 18,
+		VIEW_GUILD_INSIGHTS: 1 << 19,
 
 		CONNECT: 1 << 20,
 		SPEAK: 1 << 21,
