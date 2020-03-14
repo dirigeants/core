@@ -33,7 +33,7 @@
     "source-map-support": "^0.5.16",
     "ts-node": "^8.6.2",
     "typedoc": "^0.17.0-3",
-    "typescript": "^3.9.0-dev.20200313"
+    "typescript": "^3.9.0-dev.20200314"
   },
   "author": "dirigeants",
   "license": "MIT",
