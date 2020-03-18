@@ -23,7 +23,7 @@
     "@klasa/dapi-types": "^0.0.1",
     "@types/node": "13",
     "@types/node-fetch": "^2.5.5",
-    "@types/ws": "^7.2.2",
+    "@types/ws": "^7.2.3",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
     "ava": "^3.5.0",
