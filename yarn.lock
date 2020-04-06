@@ -168,20 +168,6 @@
   resolved "https://registry.yarnpkg.com/@klasa/dapi-types/-/dapi-types-0.0.1.tgz#a8783c8b2d32ac6241546dcae8d64e7a3872ab85"
   integrity sha512-oJMRXmxveTjqJLscjgMy/NSUJ/oDfCguZ1YF4hl/plzdUYgSJk90Ygkb8++/3nV/M8cJoXGI3xqmE8u+LH0LQg==
 
-"@klasa/rest@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.0.2.tgz#1329790d46f3a60915085a128bee56be0132893c"
-  integrity sha512-KpNVw9pKYLLDBCvXly+8mkPPvDsB5qUv9DU6S9U8pTA/glU7GS/LwKizvbewHk8g95ZRH0Zt7IaHT61Mez8Rfw==
-  dependencies:
-    "@klasa/async-queue" "^0.0.1"
-    "@klasa/cache" "^0.0.1"
-    "@klasa/snowflake" "^0.0.1"
-    "@klasa/timer-manager" "^0.0.1"
-    "@klasa/utils" "^0.0.4"
-    abort-controller "^3.0.0"
-    form-data "^3.0.0"
-    node-fetch "^2.6.0"
-
 "@klasa/rest@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.0.3.tgz#5ca26516543ed9d12376b943f586fa7a03d2be69"
@@ -211,17 +197,17 @@
   resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.4.tgz#4bf010b09d0f93b39245523ed22a09571d56508c"
   integrity sha512-9gZSGN/As3sxZumZ9ZwyQ+KcNSenzY8tR1orRakv8HKK0WH0gG7QrsP/1O2TD4uHxUyr8dysCjt73RYPfzuDWQ==
 
-"@klasa/ws@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.2.tgz#f7d898782e799749c171b3f3f92c44ef2375a74f"
-  integrity sha512-82hTFX4Ltqiqlbusn9901YFUsxnwCTkLt66G6E698PLlvdTKCyUbu4wbefHZhfXeeBTkdqZyz0Ay8qP2QY0CFQ==
+"@klasa/ws@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.3.tgz#4e10009eb6f32b28983bf2873a11f6fea5622bc1"
+  integrity sha512-1Db1ddYuBT8Q812KGdgNihgVHvOUOjmA9yzKmIreCamlHAQ0w/R1nvdR+aadGAHU4KhSBmS+kwYNtlK7cr8pfQ==
   dependencies:
     "@klasa/async-queue" "^0.0.1"
     "@klasa/bitfield" "^0.0.2"
     "@klasa/cache" "^0.0.1"
-    "@klasa/rest" "^0.0.2"
+    "@klasa/rest" "^0.0.3"
     "@klasa/utils" "^0.0.4"
-    ws "^7.2.1"
+    ws "^7.2.3"
   optionalDependencies:
     bufferutil "^4.0.1"
     utf-8-validate "^5.0.2"
@@ -3142,10 +3128,10 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-ws@^7.2.1:
-  version "7.2.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.2.1.tgz#03ed52423cd744084b2cf42ed197c8b65a936b8e"
-  integrity sha512-sucePNSafamSKoOqoNfBd8V0StlkzJKL2ZAhGQinCfNQ+oacw+Pk7lcdAElecBF2VkLNZRiIb5Oi1Q5lVUVt2A==
+ws@^7.2.3:
+  version "7.2.3"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.2.3.tgz#a5411e1fb04d5ed0efee76d26d5c46d830c39b46"
+  integrity sha512-HTDl9G9hbkNDk98naoR/cHDws7+EyYMOdL1BmjsZXRUjf7d+MficC4B7HLUPlSiho0vg+CWKrGIt/VJBd1xunQ==
 
 xdg-basedir@^4.0.0:
   version "4.0.0"
