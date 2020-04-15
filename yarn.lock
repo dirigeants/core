@@ -182,6 +182,20 @@
     form-data "^3.0.0"
     node-fetch "^2.6.0"
 
+"@klasa/rest@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.0.4.tgz#8c0b5dd326774458ca85c714a1f9abc8a42ac7c8"
+  integrity sha512-mKmLXs4g3vfHY1iNXEwsQ2OF7TyHnyV2oUCa+Uuf+hzrW9uddFkztwfIXrvifskK79b8oCEJ1CZktLZA9md0Uw==
+  dependencies:
+    "@klasa/async-queue" "^0.0.1"
+    "@klasa/cache" "^0.0.1"
+    "@klasa/snowflake" "^0.0.1"
+    "@klasa/timer-manager" "^0.0.1"
+    "@klasa/utils" "^0.0.4"
+    abort-controller "^3.0.0"
+    form-data "^3.0.0"
+    node-fetch "^2.6.0"
+
 "@klasa/snowflake@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@klasa/snowflake/-/snowflake-0.0.1.tgz#f64b2f49a5023a4e4e617b12d2fffb601d29992a"
