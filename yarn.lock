@@ -2991,10 +2991,10 @@ typedoc@^0.17.4:
     shelljs "^0.8.3"
     typedoc-default-themes "^0.10.0"
 
-typescript@^3.9.0-dev.20200422:
-  version "3.9.0-dev.20200422"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.0-dev.20200422.tgz#e94b42f5bf1a29ea0df52ad38faf91c278252c84"
-  integrity sha512-zfFmKSi+oqoPl/wYc12gGFHw5KtZ8hhMNTHrspoTPUJ9iFvienUQWyWUua0tgwsmIfR4yytLnrkzKdxs/NLwGw==
+typescript@^3.9.0-dev.20200423:
+  version "3.9.0-dev.20200423"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.9.0-dev.20200423.tgz#3569bd92d57ccf0b389a08a5beed1e35c193ab16"
+  integrity sha512-BZuOaEN9L3glTWfvzDhRm5ElSGhK4+OEC9Fr9aZTcWbNfCAYkvEqq6q6B65riIzputiBqeynheuX4HAjFMqw8w==
 
 uglify-js@^3.1.4:
   version "3.8.0"
