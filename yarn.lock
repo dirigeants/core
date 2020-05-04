@@ -163,10 +163,10 @@
   resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.1.tgz#8aa230804d2a54ce219fe6fc43c9683a083a4fe7"
   integrity sha512-mc/gdOCI3aHta0xdvIdf5BzsrEC4xx1+5MUJjSQS4ufuGc607Luo3BCUuoamXo4bjfaA8Zu8ZYr4CMtllE+cLQ==
 
-"@klasa/dapi-types@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@klasa/dapi-types/-/dapi-types-0.0.3.tgz#08836577b8308412ffb870348a0b07c431cd8255"
-  integrity sha512-B8ar2UIakOlWfINAv6UUmh140QQ5kVm53Vix2shnzno8IffJW5ZqXlEs1qysrMjsBJbygxYr0mkNrbgO3tw7Bg==
+"@klasa/dapi-types@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@klasa/dapi-types/-/dapi-types-0.0.4.tgz#f3e7cb2b807e98d83ee0c12fbe79ac3a5efc6f40"
+  integrity sha512-eoJCM6ILvQ22nqH/g4YliLfqhVE22mKL3veBe63zXLQOtewQ3WouSEF0M+FUFU48ptrRiI0HEOCwyKcPCtYlaw==
 
 "@klasa/rest@^0.0.4":
   version "0.0.4"
@@ -288,9 +288,9 @@
     form-data "^3.0.0"
 
 "@types/node@*", "@types/node@13":
-  version "13.13.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.4.tgz#1581d6c16e3d4803eb079c87d4ac893ee7501c2c"
-  integrity sha512-x26ur3dSXgv5AwKS0lNfbjpCakGIduWU1DU91Zz58ONRWrIKGunmZBNv4P7N+e27sJkiGDsw/3fT4AtsqQBrBA==
+  version "13.13.5"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-13.13.5.tgz#96ec3b0afafd64a4ccea9107b75bf8489f0e5765"
+  integrity sha512-3ySmiBYJPqgjiHA7oEaIo2Rzz0HrOZ7yrNO5HWyaE5q0lQ3BppDZ3N53Miz8bw2I7gh1/zir2MGVZBvpb1zq9g==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -3008,10 +3008,10 @@ typedoc@^0.17.6:
     shelljs "^0.8.4"
     typedoc-default-themes "^0.10.1"
 
-typescript@^4.0.0-dev.20200503:
-  version "4.0.0-dev.20200503"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.0.0-dev.20200503.tgz#9bae63a18294b9ea88d9cf63dd4b0c52e7ae7077"
-  integrity sha512-wqfrGY1YU6Zzyy8BVFNuD7LoBlXfPgrDbgmGzSpOWLIe4qHSWNKh5mLs/CCurW/VHTNc683UjWhjU7Pfbguhvg==
+typescript@^4.0.0-dev.20200506:
+  version "4.0.0-dev.20200506"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.0.0-dev.20200506.tgz#eebbc59c84a7e8aba657cfee31472db893de6e6a"
+  integrity sha512-eH1FsgFdVMGD3fkwlkmcbLTf6a2pQRgaiZEW9652U7PnRhJnhynhdgjV90yiATd/stAcUPPCeXiNc87fobxI0A==
 
 uglify-js@^3.1.4:
   version "3.8.0"
