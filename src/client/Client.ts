@@ -3,6 +3,7 @@ import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
+import { UserStore } from './caching/stores/UserStore';
 
 export interface ClientOptions extends BaseClientOptions {
 	ws: Partial<WSOptions>;
@@ -23,6 +24,8 @@ export class Client extends BaseClient {
 	 */
 	public options: Required<ClientOptions>;
 
+	public users: UserStore;
+
 	/**
 	 * @param options All of your preferences on how Project-Blue should work for you
 	 */
@@ -31,6 +34,8 @@ export class Client extends BaseClient {
 		this.options = mergeDefault(ClientOptionsDefaults, options);
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, WebSocketManagerEvents.ClientWSDebug));
+
+		this.users = new UserStore(this);
 	}
 
 	/**
