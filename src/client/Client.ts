@@ -4,6 +4,7 @@ import { Cache } from '@klasa/cache';
 import { dirname, join } from 'path';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
+import { UserStore } from './caching/stores/UserStore';
 
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
@@ -33,6 +34,8 @@ export class Client extends BaseClient {
 	 */
 	public options: Required<ClientOptions>;
 
+	public users: UserStore;
+
 	/**
 	 * The directory where the user files are at.
 	 */
@@ -51,6 +54,8 @@ export class Client extends BaseClient {
 		this.options = mergeDefault(ClientOptionsDefaults, options);
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, WebSocketManagerEvents.ClientWSDebug));
+
+		this.users = new UserStore(this);
 
 		const coreDirectory = join(__dirname, '../');
 		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);
