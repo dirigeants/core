@@ -19,6 +19,6 @@ export * from './util/bitfields/UserFlags';
 export * from './client/caching/stores/base/DataStore';
 export * from './client/caching/structures/Message';
 export * from './client/caching/structures/messages/MessageBuilder';
-export * from './client/caching/structures/messages/MessageEmbed';
+export * from './client/caching/structures/Embed';
 export * from './client/caching/structures/messages/WebhookMessageBuilder';
 export * from './client/caching/structures/base/Structure';

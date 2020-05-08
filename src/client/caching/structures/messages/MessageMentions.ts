@@ -1,8 +1,8 @@
-import { Message } from './Message';
+import { Message } from '../Message';
 import { APIMessageMentionChannelData, APIUserData, APIGuildMemberData, APIChannelData } from '@klasa/dapi-types';
 import { Cache } from '@klasa/cache';
-import { Client } from '../../Client';
-import { User } from './User';
+import { Client } from '../../../Client';
+import { User } from '../User';
 
 export class MessageMentions {
 

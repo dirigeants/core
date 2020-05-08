@@ -7,9 +7,9 @@ export interface StringResolvable {
 }
 
 /**
- * Handles Message Embed creation and received embeds
+ * Handles Embed creation and received embeds
  */
-export class MessageEmbed implements APIEmbedData {
+export class Embed implements APIEmbedData {
 
 	/**
 	 * Embed Fields
@@ -85,7 +85,7 @@ export class MessageEmbed implements APIEmbedData {
 
 		this.url = data.url;
 
-		this.color = Number(data.color);
+		this.color = data.color;
 
 		this.timestamp = data.timestamp ? new Date(data.timestamp).toISOString() : undefined;
 
@@ -154,7 +154,7 @@ export class MessageEmbed implements APIEmbedData {
 	 * @param inline If the field should be inline with other fields
 	 */
 	public addField(name: StringResolvable, value: StringResolvable, inline?: boolean): this {
-		this.fields.push(MessageEmbed.checkField(name, value, inline));
+		this.fields.push(Embed.checkField(name, value, inline));
 		return this;
 	}
 
@@ -175,7 +175,7 @@ export class MessageEmbed implements APIEmbedData {
 	 * @param inline If the inserted field is inline
 	 */
 	public spliceField(index: number, deleteCount: number, name?: StringResolvable, value?: StringResolvable, inline?: boolean): this {
-		if (name && value) this.fields.splice(index, deleteCount, MessageEmbed.checkField(name, value, inline));
+		if (name && value) this.fields.splice(index, deleteCount, Embed.checkField(name, value, inline));
 		else this.fields.splice(index, deleteCount);
 		return this;
 	}
