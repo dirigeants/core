@@ -5,6 +5,8 @@ import { dirname, join } from 'path';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
 import { UserStore } from './caching/stores/UserStore';
+import { ChannelStore } from './caching/stores/ChannelStore';
+import { GuildStore } from './caching/stores/GuildStore';
 
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
@@ -34,7 +36,9 @@ export class Client extends BaseClient {
 	 */
 	public options: Required<ClientOptions>;
 
+	public guilds: GuildStore;
 	public users: UserStore;
+	public channels: ChannelStore;
 
 	/**
 	 * The directory where the user files are at.
@@ -55,7 +59,10 @@ export class Client extends BaseClient {
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, WebSocketManagerEvents.ClientWSDebug));
 
+		this.guilds = new GuildStore(this);
+
 		this.users = new UserStore(this);
+		this.channels = new ChannelStore(this);
 
 		const coreDirectory = join(__dirname, '../');
 		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);

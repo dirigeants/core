@@ -1,5 +1,11 @@
 import { DataStore } from './base/DataStore';
 import { Message } from '../structures/Message';
+import { Client } from '../../Client';
 
-// TODO: Implement MessageStore related functions like fetch
-export class MessageStore extends DataStore<Message, typeof Message> {}
+export class MessageStore extends DataStore<Message, typeof Message> {
+
+	public constructor(client: Client) {
+		super(client, Message);
+	}
+
+}
