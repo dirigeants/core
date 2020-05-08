@@ -1,5 +1,11 @@
 import { DataStore } from './base/DataStore';
-import { Message } from '../structures/Message';
+import { Client } from '../../Client';
+import { GuildChannel } from '../structures/channels/GuildChannel';
 
-// TODO: Implement ChannelStore related functions
-export class MessageStore extends DataStore<Message, typeof Message> {}
+export class ChannelStore extends DataStore<GuildChannel, typeof GuildChannel> {
+
+	public constructor(client: Client) {
+		super(client, GuildChannel);
+	}
+
+}
