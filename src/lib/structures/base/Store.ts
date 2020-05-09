@@ -174,11 +174,16 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * @param directory The directory to walk in
 	 */
 	private static async walk<T extends Piece>(store: Store<T>, directory: string = store.userDirectory): Promise<T[]> {
-		const files = await scan(directory, { filter: (stats, path) => stats.isFile() && extname(path) === '.js' })
-			.catch(() => { if (store.client.options.createPiecesFolders) ensureDir(directory).catch(err => store.client.emit('error', err)); });
-		if (!files) return [];
+		try {
+			const files = await scan(directory, { filter: (stats, path) => stats.isFile() && extname(path) === '.js' });
+			return Promise.all([...files.keys()].map(file => store.load(directory, relative(directory, file).split(sep)) as Promise<T>));
+		} catch {
+			if (store.client.options.createPiecesFolders) {
+				ensureDir(directory).catch(err => store.client.emit('error', err));
+			}
 
-		return Promise.all([...files.keys()].map(file => store.load(directory, relative(directory, file).split(sep)) as Promise<T>));
+			return [];
+		}
 	}
 
 	public static get [Symbol.species](): typeof Cache {
