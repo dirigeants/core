@@ -25,6 +25,14 @@ class Extender<T extends ExtenderStructures> extends Cache<keyof T, T[keyof T]> 
 	}
 
 	/**
+	 * The overriden delete method, this will always throw.
+	 * @internal
+	 */
+	public delete(): never {
+		throw new Error('Cannot delete keys from this extender.');
+	}
+
+	/**
 	 * The overriden get method, this extension makes it type-safe.
 	 * @param key The structure to get from its name
 	 */
