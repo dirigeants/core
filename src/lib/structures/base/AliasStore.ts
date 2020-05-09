@@ -1,6 +1,6 @@
+import { Cache } from '@klasa/cache';
 import type { AliasPiece } from './AliasPiece';
 import { Store } from './Store';
-import { Cache } from '@klasa/cache';
 
 /**
  * @since 0.0.1

@@ -1,6 +1,6 @@
-import type { Store } from './Store';
-import type { Client } from '../../../client/Client';
 import { join } from 'path';
+import type { Client } from '../../../client/Client';
+import type { Store } from './Store';
 
 /**
  * The common class for all pieces.
@@ -122,7 +122,7 @@ export class Piece {
 
 
 	/**
-	 * The init method to be optionally overwritten in actual commands
+	 * The init method to be optionally overwritten in actual pieces
 	 * @since 0.0.1
 	 */
 	init(): unknown {

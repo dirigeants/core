@@ -1,9 +1,9 @@
-import type { Piece } from './Piece';
-import type { Client } from '../../../client/Client';
-import { Cache } from '@klasa/cache';
 import { join, extname, relative, sep } from 'path';
-import { isClass } from '@klasa/utils';
 import { scan, ensureDir } from 'fs-nextra';
+import { isClass } from '@klasa/utils';
+import { Cache } from '@klasa/cache';
+import type { Client } from '../../../client/Client';
+import type { Piece } from './Piece';
 
 type Constructor<T> = new (...args: readonly unknown[]) => T;
 
