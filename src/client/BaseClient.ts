@@ -5,6 +5,12 @@ import { TimerManager } from '@klasa/timer-manager';
 
 import { BaseClientOptionsDefaults } from '../util/Constants';
 
+const plugins: Set<Function> = new Set();
+
+export interface Plugin {
+	[BaseClient.plugin]: Function;
+}
+
 export interface BaseClientOptions {
 	rest: RESTOptions;
 }
@@ -33,6 +39,8 @@ export class BaseClient extends EventEmitter {
 		this.api = new REST(this.options.rest)
 			.on(RESTManagerEvents.Debug, this.emit.bind(this, RESTManagerEvents.ClientRESTDebug))
 			.on(RESTManagerEvents.Ratelimited, this.emit.bind(this, RESTManagerEvents.Ratelimited));
+
+		for (const plugin of plugins) plugin.call(this);
 	}
 
 	/**
@@ -47,6 +55,22 @@ export class BaseClient extends EventEmitter {
 	 */
 	public async destroy(): Promise<void> {
 		TimerManager.destroy();
+	}
+
+	/**
+	 * The plugin symbol to be used in external packages
+	 */
+	public static readonly plugin: unique symbol = Symbol('ProjectBluePlugin');
+
+	/**
+	 * Caches a plugin module to be used when creating a BaseClient instance
+	 * @param mod The module of the plugin to use
+	 */
+	public static use(mod: Plugin): typeof BaseClient {
+		const plugin = mod[BaseClient.plugin];
+		if (typeof plugin !== 'function') throw new TypeError('The provided module does not include a plugin function');
+		plugins.add(plugin);
+		return BaseClient;
 	}
 
 }
