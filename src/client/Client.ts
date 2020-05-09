@@ -63,8 +63,7 @@ export class Client extends BaseClient {
 	/**
 	 * Registers a custom store to the client
 	 * @since 0.0.1
-	 * @param {Store} store The store that pieces will be stored in
-	 * @returns {this}
+	 * @param store The store that pieces will be stored in
 	 * @chainable
 	 */
 	public registerStore<V extends Piece>(store: Store<V>): this {
@@ -75,8 +74,7 @@ export class Client extends BaseClient {
 	/**
 	 * Un-registers a custom store from the client
 	 * @since 0.0.1
-	 * @param {Store} storeName The store that pieces will be stored in
-	 * @returns {this}
+	 * @param store The store that pieces will be stored in
 	 * @chainable
 	 */
 	public unregisterStore<V extends Piece>(store: Store<V>): this {

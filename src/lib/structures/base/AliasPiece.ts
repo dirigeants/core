@@ -12,6 +12,13 @@ export class AliasPiece extends Piece {
 	 */
 	public aliases: readonly string[];
 
+	/**
+	 * @since 0.0.1
+	 * @param store The store this piece is for
+	 * @param file The path from the pieces folder to the piece file
+	 * @param directory The base directory to the pieces folder
+	 * @param options The options for this piece
+	 */
 	public constructor(store: Store<Piece>, file: readonly string[], directory: string, options: AliasPieceOptions = {}) {
 		super(store, file, directory, options);
 		this.aliases = options.aliases?.slice() ?? [];
@@ -30,6 +37,9 @@ export class AliasPiece extends Piece {
 
 }
 
+/**
+ * The base piece options for all {@link AliasPiece} instances.
+ */
 export interface AliasPieceOptions extends PieceOptions {
 	/**
 	 * The aliases for this piece.

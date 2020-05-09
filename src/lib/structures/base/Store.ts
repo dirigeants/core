@@ -7,6 +7,10 @@ import { scan, ensureDir } from 'fs-nextra';
 
 type Constructor<T> = new (...args: readonly unknown[]) => T;
 
+/**
+ * @since 0.0.1
+ * The common base for all stores.
+ */
 export class Store<V extends Piece> extends Cache<string, V> {
 
 	/**
@@ -16,7 +20,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	public readonly client: Client;
 
 	/**
-	 * The name of what this holds.
+	 * The name of this store.
 	 * @since 0.0.1
 	 */
 	public readonly name: string;
@@ -33,6 +37,12 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 */
 	private readonly coreDirectories: Set<string>;
 
+	/**
+	 * @since 0.0.1
+	 * @param client The client this Store was created with
+	 * @param name The name of this store
+	 * @param holds The type of structure this store holds
+	 */
 	public constructor(client: Client, name: string, holds: Constructor<V>) {
 		super();
 

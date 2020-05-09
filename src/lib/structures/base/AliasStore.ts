@@ -2,8 +2,16 @@ import type { AliasPiece } from './AliasPiece';
 import { Store } from './Store';
 import { Cache } from '@klasa/cache';
 
+/**
+ * @since 0.0.1
+ * The common base for all alias stores.
+ */
 export class AliasStore<V extends AliasPiece> extends Store<V> {
 
+	/**
+	 * The different aliases that represent the arguments in this store.
+	 * @since 0.0.1
+	 */
 	public readonly aliases = new Cache<string, V>();
 
 	/**
