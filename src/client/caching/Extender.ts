@@ -3,17 +3,17 @@ import { Cache } from '@klasa/cache';
 /**
  * The extender class that allows the extension of built-in structures from Project-Blue and plugins.
  */
-class Extender<T extends ExtenderStructures> extends Cache<keyof T, T[keyof T]> {
+class Extender extends Cache<keyof ExtenderStructures, ExtenderStructures[keyof ExtenderStructures]> {
 
 	/**
 	 * Adds a new entry to this instance so it can be extended. Throws if a structure with the same name was already set.
 	 * @param key The name of the structure to be set
 	 * @param fn The class to be added to the registry
 	 */
-	public add<K extends string, V>(key: K, fn: V): Extender<Added<T, K, V>> {
-		if (super.has(key as keyof T)) throw new Error(`The structure ${key} already exists.`);
-		super.set(key as keyof T, fn as unknown as T[keyof T]);
-		return this as Extender<Added<T, K, V>>;
+	public add<K extends keyof ExtenderStructures, V>(key: K, fn: V): this {
+		if (super.has(key)) throw new Error(`The structure ${key} already exists.`);
+		super.set(key, fn as unknown as ExtenderStructures[keyof ExtenderStructures]);
+		return this;
 	}
 
 	/**
@@ -36,7 +36,7 @@ class Extender<T extends ExtenderStructures> extends Cache<keyof T, T[keyof T]> 
 	 * The overriden get method, this extension makes it type-safe.
 	 * @param key The structure to get from its name
 	 */
-	public get<K extends keyof T>(key: K): T[K] | undefined {
+	public get<K extends keyof ExtenderStructures>(key: K): ExtenderStructures[K] | undefined {
 		return super.get(key);
 	}
 
@@ -57,42 +57,24 @@ class Extender<T extends ExtenderStructures> extends Cache<keyof T, T[keyof T]> 
 	 *
 	 * });
 	 */
-	public extend<K extends keyof T, R extends T[K]>(key: K, fn: ExtenderCallback<T[K], R>): Extender<Extended<T, K, R>> {
+	public extend<K extends keyof ExtenderStructures, R extends ExtenderStructures[K]>(key: K, fn: (structure: ExtenderStructures[K]) => R): this {
 		const structure = this.get(key);
 		if (typeof structure === 'undefined') throw new TypeError(`The structure ${key} does not exist.`);
 		super.set(key, fn(structure));
-		return this as unknown as Extender<Extended<T, K, R>>;
+		return this;
 	}
 
+}
+
+/**
+ * The context data for Extender.
+ */
+export interface ExtenderStructures {
+	// TODO(): add actual structures and remove this line. It is only there so `keyof T` does not error.
+	[K: string]: never;
 }
 
 /**
  * The exported singleton instance of the {@link Extender} class.
  */
 export const extender = new Extender();
-
-/**
- * The context data for Extender.
- */
-export interface ExtenderStructures {
-	[K: string]: never;
-}
-
-/**
- * The callback definition.
- */
-export interface ExtenderCallback<T, R extends T> {
-	(structure: T): R;
-}
-
-/**
- * An utility to add new properties into a type.
- * @private
- */
-type Added<T, K extends string, V> = T & { [P in K]: V };
-
-/**
- * An utility to change a property's value type.
- * @private
- */
-type Extended<T, K extends keyof T, V extends T[K]> = { [P in keyof T]: K extends P ? V : T[P] };
