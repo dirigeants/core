@@ -1,5 +1,6 @@
-import type { Store } from './Store';
 import { Piece, PieceOptions } from './Piece';
+
+import type { Store } from './Store';
 
 /**
  * The common class for all pieces with aliases.

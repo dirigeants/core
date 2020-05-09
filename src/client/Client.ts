@@ -2,12 +2,11 @@ import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 import { mergeDefault } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
 import { dirname, join } from 'path';
-
-import type { Store } from '../lib/structures/base/Store';
-import type { Piece } from '../lib/structures/base/Piece';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
 
+import type { Store } from '../lib/structures/base/Store';
+import type { Piece } from '../lib/structures/base/Piece';
 
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;

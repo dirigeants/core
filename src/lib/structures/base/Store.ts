@@ -2,6 +2,7 @@ import { join, extname, relative, sep } from 'path';
 import { scan, ensureDir } from 'fs-nextra';
 import { isClass } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
+
 import type { Client } from '../../../client/Client';
 import type { Piece } from './Piece';
 
@@ -126,9 +127,10 @@ export class Store<V extends Piece> extends Cache<string, V> {
 			return null;
 		}
 
-		const existing = this.get(piece.name);
-		if (existing) this.delete(existing);
+		// Remove any previous piece named the same
+		this.delete(piece.name);
 
+		// Emit pieceLoaded event, set to the cache, and return it
 		this.client.emit('pieceLoaded', piece);
 		super.set(piece.name, piece);
 		return piece;
