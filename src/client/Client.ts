@@ -3,7 +3,10 @@ import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
-import { dirname } from 'path';
+import { dirname, join } from 'path';
+import { Store } from '../lib/structures/base/Store';
+import { Piece } from '../lib/structures/base/Piece';
+import { Cache } from '@klasa/cache';
 
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
@@ -29,7 +32,12 @@ export class Client extends BaseClient {
 	/**
 	 * The directory where the user files are at.
 	 */
-	public userBaseDirectory: string;
+	public userBaseDirectory = dirname((require.main as NodeJS.Module).filename);
+
+	/**
+	 * The story registry.
+	 */
+	public pieceStores = new Cache<string, Store<Piece>>();
 
 	/**
 	 * @param options All of your preferences on how Project-Blue should work for you
@@ -37,9 +45,11 @@ export class Client extends BaseClient {
 	public constructor(options: Partial<ClientOptions>) {
 		super(options);
 		this.options = mergeDefault(ClientOptionsDefaults, options);
-		this.userBaseDirectory = dirname((require.main as NodeJS.Module).filename);
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, WebSocketManagerEvents.ClientWSDebug));
+
+		const coreDirectory = join(__dirname, '../');
+		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);
 	}
 
 	/**
@@ -48,6 +58,30 @@ export class Client extends BaseClient {
 	set token(token: string) {
 		super.token = token;
 		this.ws.token = token;
+	}
+
+	/**
+	 * Registers a custom store to the client
+	 * @since 0.0.1
+	 * @param {Store} store The store that pieces will be stored in
+	 * @returns {this}
+	 * @chainable
+	 */
+	public registerStore<V extends Piece>(store: Store<V>): this {
+		this.pieceStores.set(store.name, store);
+		return this;
+	}
+
+	/**
+	 * Un-registers a custom store from the client
+	 * @since 0.0.1
+	 * @param {Store} storeName The store that pieces will be stored in
+	 * @returns {this}
+	 * @chainable
+	 */
+	public unregisterStore<V extends Piece>(store: Store<V>): this {
+		this.pieceStores.delete(store.name);
+		return this;
 	}
 
 	/**

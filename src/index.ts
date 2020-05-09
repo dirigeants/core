@@ -5,6 +5,8 @@ export * from './client/Client';
 export * from './client/WebhookClient';
 export * from './lib/structures/base/Piece';
 export * from './lib/structures/base/Store';
+export * from './lib/structures/base/AliasPiece';
+export * from './lib/structures/base/AliasStore';
 export * from './util/bitfields/Activity';
 export * from './util/bitfields/MessageFlags';
 export * from './util/bitfields/Permissions';

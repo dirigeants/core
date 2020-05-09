@@ -55,7 +55,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * @since 0.0.1
 	 * @param directory The directory to check for core pieces
 	 */
-	protected registerCoreDirectory(directory: string): this {
+	public registerCoreDirectory(directory: string): this {
 		this.coreDirectories.add(join(directory, this.name));
 		return this;
 	}
