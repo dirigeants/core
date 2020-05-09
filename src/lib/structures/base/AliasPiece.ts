@@ -31,7 +31,7 @@ export class AliasPiece extends Piece {
 	public toJSON(): object {
 		return {
 			...super.toJSON(),
-			aliases: this.aliases.slice(0)
+			aliases: this.aliases.slice()
 		};
 	}
 
