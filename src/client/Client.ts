@@ -1,11 +1,11 @@
 import { mergeDefault } from '@klasa/utils';
 import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 
+import type { Store } from '../lib/structures/base/Store';
+import type { Piece } from '../lib/structures/base/Piece';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
 import { dirname, join } from 'path';
-import { Store } from '../lib/structures/base/Store';
-import { Piece } from '../lib/structures/base/Piece';
 import { Cache } from '@klasa/cache';
 
 export interface ClientOptions extends BaseClientOptions {
