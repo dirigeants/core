@@ -5,7 +5,7 @@ import { Cache } from '@klasa/cache';
 import type { Client } from '../../../client/Client';
 import type { Piece } from './Piece';
 
-type Constructor<T> = new (...args: readonly unknown[]) => T;
+type PieceConstructor<T> = new (...args: ConstructorParameters<typeof Piece>) => T;
 
 /**
  * @since 0.0.1
@@ -29,7 +29,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * The type of structure this store holds.
 	 * @since 0.0.1
 	 */
-	public readonly holds: Constructor<V>;
+	public readonly holds: PieceConstructor<V>;
 
 	/**
 	 * The core directories pieces of this store can hold.
@@ -43,7 +43,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * @param name The name of this store
 	 * @param holds The type of structure this store holds
 	 */
-	public constructor(client: Client, name: string, holds: Constructor<V>) {
+	public constructor(client: Client, name: string, holds: PieceConstructor<V>) {
 		super();
 
 		this.client = client;
@@ -87,10 +87,10 @@ export class Store<V extends Piece> extends Cache<string, V> {
 		const loc = join(directory, ...file);
 		let piece = null;
 		try {
-			const loaded = await import(loc) as { default: Constructor<V> } | Constructor<V>;
+			const loaded = await import(loc) as { default: PieceConstructor<V> } | PieceConstructor<V>;
 			const LoadedPiece = 'default' in loaded ? loaded.default : loaded;
 			if (!isClass(LoadedPiece)) throw new TypeError('The exported structure is not a class.');
-			piece = this.set(new LoadedPiece(this, file, directory));
+			piece = this.set(new LoadedPiece(this, directory, file));
 		} catch (error) {
 			this.client.emit('wtf', `Failed to load file '${loc}'. Error:\n${error.stack || error}`);
 		}
