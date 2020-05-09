@@ -3,6 +3,8 @@ export * from './util/Extender';
 export * from './client/BaseClient';
 export * from './client/Client';
 export * from './client/WebhookClient';
+export * from './lib/structures/base/Piece';
+export * from './lib/structures/base/Store';
 export * from './util/bitfields/Activity';
 export * from './util/bitfields/MessageFlags';
 export * from './util/bitfields/Permissions';
