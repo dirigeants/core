@@ -14,3 +14,4 @@ export * from './client/caching/structures/messages/MessageBuilder';
 export * from './client/caching/structures/messages/MessageEmbed';
 export * from './client/caching/structures/messages/WebhookMessageBuilder';
 export * from './client/caching/structures/base/Structure';
+export * from './client/caching/Extender';
