@@ -8,6 +8,10 @@ import { ClientOptionsDefaults } from '../util/Constants';
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
 
+export interface Plugin {
+	[Client.plugin]: Function;
+}
+
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
 	createPiecesFolders?: boolean;
@@ -50,6 +54,8 @@ export class Client extends BaseClient {
 
 		const coreDirectory = join(__dirname, '../');
 		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);
+
+		for (const plugin of Client.plugins) plugin.call(this);
 	}
 
 	/**
@@ -100,6 +106,27 @@ export class Client extends BaseClient {
 	public async destroy(): Promise<void> {
 		await super.destroy();
 		this.ws.destroy();
+	}
+
+	/**
+	 * The plugin symbol to be used in external packages
+	 */
+	public static readonly plugin: unique symbol = Symbol('ProjectBluePlugin');
+
+	/**
+	 * The plugins to be used when creating a Client instance
+	 */
+	private static readonly plugins = new Set<Function>();
+
+	/**
+	 * Caches a plugin module to be used when creating a Client instance
+	 * @param mod The module of the plugin to use
+	 */
+	public static use(mod: Plugin): typeof Client {
+		const plugin = mod[Client.plugin];
+		if (typeof plugin !== 'function') throw new TypeError('The provided module does not include a plugin function');
+		Client.plugins.add(plugin);
+		return Client;
 	}
 
 }
