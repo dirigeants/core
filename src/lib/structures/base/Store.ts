@@ -35,7 +35,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * The core directories pieces of this store can hold.
 	 * @since 0.0.1
 	 */
-	private readonly coreDirectories: Set<string>;
+	private readonly coreDirectories = new Set<string>();
 
 	/**
 	 * @since 0.0.1
@@ -49,7 +49,6 @@ export class Store<V extends Piece> extends Cache<string, V> {
 		this.client = client;
 		this.name = name;
 		this.holds = holds;
-		this.coreDirectories = new Set();
 	}
 
 	/**
@@ -136,9 +135,9 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	}
 
 	/**
-	 * Deletes a command from the store.
+	 * Deletes a piece from the store.
 	 * @since 0.0.1
-	 * @param name A command object or a string representing a command or alias name
+	 * @param name A piece instance or a string representing a piece or alias name
 	 * @returns Whether or not the delete was successful.
 	 */
 	public delete(name: V | string): boolean {

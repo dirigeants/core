@@ -60,7 +60,7 @@ export class Piece {
 	}
 
 	/**
-	 * The type of Klasa piece this is
+	 * The type of piece this is
 	 * @since 0.0.1
 	 */
 	get type(): string {

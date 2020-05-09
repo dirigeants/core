@@ -26,7 +26,7 @@ export class AliasStore<V extends AliasPiece> extends Store<V> {
 	/**
 	 * Returns a boolean if the AliasPiece or alias is found within the store.
 	 * @since 0.0.1
-	 * @param name A command or alias name
+	 * @param name A piece or alias name
 	 */
 	public has(name: string): boolean {
 		return super.has(name) || this.aliases.has(name);
@@ -35,7 +35,7 @@ export class AliasStore<V extends AliasPiece> extends Store<V> {
 	/**
 	 * Sets up an AliasPiece in our store.
 	 * @since 0.0.1
-	 * @param piece The command piece we are setting up
+	 * @param piece The piece we are setting up
 	 */
 	public set(piece: V): V | null {
 		const aliasPiece = super.set(piece);
