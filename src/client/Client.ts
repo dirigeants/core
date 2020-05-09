@@ -3,9 +3,12 @@ import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
+import { dirname } from 'path';
 
 export interface ClientOptions extends BaseClientOptions {
-	ws: Partial<WSOptions>;
+	ws?: Partial<WSOptions>;
+	createPiecesFolders?: boolean;
+	disabledCorePieces?: string[];
 }
 
 /**
@@ -24,11 +27,17 @@ export class Client extends BaseClient {
 	public options: Required<ClientOptions>;
 
 	/**
+	 * The directory where the user files are at.
+	 */
+	public userBaseDirectory: string;
+
+	/**
 	 * @param options All of your preferences on how Project-Blue should work for you
 	 */
 	public constructor(options: Partial<ClientOptions>) {
 		super(options);
 		this.options = mergeDefault(ClientOptionsDefaults, options);
+		this.userBaseDirectory = dirname((require.main as NodeJS.Module).filename);
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, WebSocketManagerEvents.ClientWSDebug));
 	}
