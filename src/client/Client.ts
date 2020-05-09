@@ -7,10 +7,8 @@ import { ClientOptionsDefaults } from '../util/Constants';
 
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
-
-export interface Plugin {
-	[Client.plugin]: Function;
-}
+import { EventStore } from '../lib/structures/EventStore';
+import { ActionStore } from '../lib/structures/ActionStore';
 
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
@@ -41,7 +39,17 @@ export class Client extends BaseClient {
 	/**
 	 * The Store registry.
 	 */
-	public pieceStores = new Cache<string, Store<Piece>>();
+	public readonly pieceStores: Cache<string, Store<Piece>>;
+
+	/**
+	 * The event store.
+	 */
+	public readonly events: EventStore;
+
+	/**
+	 * The action store.
+	 */
+	public readonly actions: ActionStore;
 
 	/**
 	 * @param options All of your preferences on how Project-Blue should work for you
@@ -51,6 +59,13 @@ export class Client extends BaseClient {
 		this.options = mergeDefault(ClientOptionsDefaults, options);
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, WebSocketManagerEvents.ClientWSDebug));
+
+		this.pieceStores = new Cache();
+		this.events = new EventStore(this);
+		this.actions = new ActionStore(this);
+
+		this.registerStore(this.events)
+			.registerStore(this.actions);
 
 		const coreDirectory = join(__dirname, '../');
 		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);
@@ -129,4 +144,8 @@ export class Client extends BaseClient {
 		return Client;
 	}
 
+}
+
+export interface Plugin {
+	[Client.plugin]: Function;
 }

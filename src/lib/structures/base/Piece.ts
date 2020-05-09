@@ -18,7 +18,7 @@ export class Piece {
 	 * The store this Piece is from.
 	 * @since 0.0.1
 	 */
-	public readonly store: Store<this>;
+	public readonly store: Store<Piece>;
 
 	/**
 	 * The file location where this Piece is stored.
@@ -64,7 +64,7 @@ export class Piece {
 	 * The type of piece this is
 	 * @since 0.0.1
 	 */
-	get type(): string {
+	public get type(): string {
 		return this.store.name.slice(0, -1);
 	}
 
@@ -72,7 +72,7 @@ export class Piece {
 	 * The absolute path to this piece
 	 * @since 0.0.1
 	 */
-	get path(): string {
+	public get path(): string {
 		return join(this.directory, ...this.file);
 	}
 
@@ -81,7 +81,7 @@ export class Piece {
 	 * @since 0.0.1
 	 * @returns The newly loaded piece
 	 */
-	async reload(): Promise<Piece | null> {
+	public async reload(): Promise<Piece | null> {
 		const piece = await this.store.load(this.directory, this.file);
 		if (piece) {
 			await piece.init();
@@ -94,7 +94,7 @@ export class Piece {
 	 * Unloads this piece
 	 * @since 0.0.1
 	 */
-	unload(): boolean {
+	public unload(): boolean {
 		this.client.emit('pieceUnloaded', this);
 		return this.store.delete(this);
 	}
@@ -104,7 +104,7 @@ export class Piece {
 	 * @since 0.0.1
 	 * @chainable
 	 */
-	disable(): this {
+	public disable(): this {
 		this.client.emit('pieceDisabled', this);
 		this.enabled = false;
 		return this;
@@ -115,7 +115,7 @@ export class Piece {
 	 * @since 0.0.1
 	 * @chainable
 	 */
-	enable(): this {
+	public enable(): this {
 		this.client.emit('pieceEnabled', this);
 		this.enabled = true;
 		return this;
@@ -126,7 +126,7 @@ export class Piece {
 	 * The init method to be optionally overwritten in actual pieces
 	 * @since 0.0.1
 	 */
-	init(): unknown {
+	public init(): unknown {
 		// Optionally defined in extension Classes
 		return null;
 	}
@@ -136,14 +136,14 @@ export class Piece {
 	 * @since 0.0.1
 	 * @returns This piece name
 	 */
-	toString(): string {
+	public toString(): string {
 		return this.name;
 	}
 
 	/**
 	 * Defines the JSON.stringify behavior of this piece.
 	 */
-	toJSON(): object {
+	public toJSON(): object {
 		return {
 			directory: this.directory,
 			file: this.file,
