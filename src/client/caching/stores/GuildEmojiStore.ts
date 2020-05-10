@@ -1,13 +1,13 @@
-import { DataStore } from './base/DataStore';
+import { DataStore, Constructor } from './base/DataStore';
 import { GuildEmoji } from '../structures/guilds/GuildEmoji';
 
 import type { Client } from '../../Client';
 import type { APIEmojiData } from '@klasa/dapi-types';
 
-export class GuildEmojiStore extends DataStore<GuildEmoji, typeof GuildEmoji> {
+export class GuildEmojiStore extends DataStore<GuildEmoji> {
 
 	public constructor(client: Client) {
-		super(client, GuildEmoji);
+		super(client, GuildEmoji as Constructor<GuildEmoji>);
 	}
 
 	/**

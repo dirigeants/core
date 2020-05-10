@@ -1,13 +1,13 @@
-import { DataStore } from './base/DataStore';
+import { DataStore, Constructor } from './base/DataStore';
 import { GuildMember } from '../structures/guilds/GuildMember';
 
 import type { Client } from '../../Client';
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
 
-export class GuildMemberStore extends DataStore<GuildMember, typeof GuildMember> {
+export class GuildMemberStore extends DataStore<GuildMember> {
 
 	public constructor(client: Client) {
-		super(client, GuildMember);
+		super(client, GuildMember as Constructor<GuildMember>);
 	}
 
 	/**

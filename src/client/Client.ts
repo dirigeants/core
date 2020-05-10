@@ -59,9 +59,8 @@ export class Client extends BaseClient {
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, WebSocketManagerEvents.ClientWSDebug));
 
-		this.guilds = new GuildStore(this);
-
 		this.users = new UserStore(this);
+		this.guilds = new GuildStore(this);
 		this.channels = new ChannelStore(this);
 
 		const coreDirectory = join(__dirname, '../');
