@@ -1,1 +1,5 @@
-console.log('Tests soon.');
+import ava from 'ava';
+
+ava('sample test', (test): void => {
+	test.pass();
+});
