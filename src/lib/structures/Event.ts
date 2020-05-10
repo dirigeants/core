@@ -1,7 +1,8 @@
 import { Piece, PieceOptions } from './base/Piece';
 
-import type { EventStore } from './EventStore';
 import type { EventEmitter } from 'events';
+
+import type { EventStore } from './EventStore';
 import type { Client } from '../../client/Client';
 
 /**

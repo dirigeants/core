@@ -12,7 +12,7 @@ import type { Structure } from '../../client/caching/structures/base/Structure';
 export abstract class Action<T extends DispatchPayload = DispatchPayload, S extends Structure = Structure> extends Event {
 
 	/**
-	 * The name of the event from {@link Client} to be fired.
+	 * The name of the event that the {@link Client} will fire.
 	 * @since 0.0.1
 	 */
 	public readonly clientEvent: string;
@@ -56,7 +56,7 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 	}
 
 	/**
-	 * Checks whether or not the data structure was already cached, returning it when it does.
+	 * Checks whether or not the data structure was already cached, returning it if it was.
 	 * @since 0.0.1
 	 * @param data The raw data from {@link Client#ws}
 	 */
