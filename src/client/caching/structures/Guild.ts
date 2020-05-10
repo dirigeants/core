@@ -11,170 +11,170 @@ export class Guild extends Structure {
 	/**
 	 * The guild ID
 	 */
-	public id: string
+	public id: string;
 
 	/**
 	 * Whether this guild is available
 	 */
-	public available: boolean
+	public available: boolean;
 
 	/**
 	 * The guild's name
 	 */
-	public name?: string | null
+	public name?: string | null;
 
 	/**
 	 * The guild's owner
 	 */
-	public owner?: string | null
+	public owner?: string | null;
 
 	/**
 	 * The guild's region
 	 */
-	public region?: string | null
+	public region?: string | null;
 
 	/**
 	 * The guild's icon hash
 	 */
-	public icon?: string | null
+	public icon?: string | null;
 
 	/**
 	 * The guild's splash hash
 	 */
-	public splash?: string | null
+	public splash?: string | null;
 
 	/**
 	 * The guild's discovery splash hash
 	 */
-	public discoverySplash?: string | null
+	public discoverySplash?: string | null;
 
 	/**
 	 * The AFK channel of the guild
 	 */
-	public afkChannel?: string | null
+	public afkChannel?: string | null;
 
 	/**
 	 * The guild's verification level
 	 */
-	public verificationLevel?: GuildVerificationLevel | null
+	public verificationLevel?: GuildVerificationLevel | null;
 
 	/**
 	 * The default message notification setting for the guild
 	 */
-	public defaultMessageNotification?: GuildDefaultMessageNotifications | null
+	public defaultMessageNotification?: GuildDefaultMessageNotifications | null;
 
 	/**
 	 * The explicit content filter setting for the guild
 	 */
-	public explicitContentFilter?: GuildExplicitContentFilterLevel | null
+	public explicitContentFilter?: GuildExplicitContentFilterLevel | null;
 
 	// TODO: Storeify the following 3 properties (enkiel)
 	/**
 	 * A store of the roles that belong in this guild
 	 */
-	public roles?: APIRoleData[] | null
+	public roles?: APIRoleData[] | null;
 
 	/**
 	 * A store of the emojis that belong in this guild
 	 */
-	public emojis?: APIEmojiData[] | null
+	public emojis?: APIEmojiData[] | null;
 
 	/**
 	 * A store of members that belong in this guild
 	 */
-	public members?: APIGuildMemberData[] | null
+	public members?: APIGuildMemberData[] | null;
 
 	/**
 	 * A store of channels that belong in this guild
 	 */
-	public channels?: ChannelStore | null
+	public channels?: ChannelStore | null;
 
 	/**
 	 * An array of guild features
 	 * @see https://discord.com/developers/docs/resources/guild#guild-object-guild-features
 	*/
-	public features?: string[] | null
+	public features?: string[] | null;
 
 	/**
 	 * The Multi-Factor Authentication level for this guild
 	 */
-	public mfaLevel?: GuildMFALevel | null
+	public mfaLevel?: GuildMFALevel | null;
 
 	/**
 	 * Whether the guild's widget is enabled
 	 */
-	public widgetEnabled?: boolean | null
+	public widgetEnabled?: boolean | null;
 
 	/**
 	 * The channel ID the widget's invite leads to
 	 */
-	public widgetChannelId?: string | null
+	public widgetChannelId?: string | null;
 
 	/**
 	 * The system channel
 	 */
-	public systemChannel?: string | null
+	public systemChannel?: string | null;
 
 	/**
 	 * The system channel flags
 	 * @see https://discord.com/developers/docs/resources/guild#guild-object-system-channel-flags
 	 */
-	public systemChannelFlags?: string | null
+	public systemChannelFlags?: string | null;
 
 	/**
 	 * The rules channel. Only available to guild with the `PUBLIC`flag.
 	 */
-	public rulesChannel?: string | null
+	public rulesChannel?: string | null;
 
 	/**
 	 * The time the client user joined the guild
 	 */
-	public joinedAt?: string | null
+	public joinedAt?: string | null;
 
 	/**
 	 * Whether this guild is considered large by the Discord API
 	 */
-	public large?: boolean | null
+	public large?: boolean | null;
 
 	/**
 	 * The vanity invite code for the guild
 	 */
-	public vanityUrlCode?: string | null
+	public vanityUrlCode?: string | null;
 
 	/**
 	 * The guild's description
 	 */
-	public description?: string | null
+	public description?: string | null;
 
 	/**
 	 * The guild's banner hash
 	 */
-	public banner?: string | null
+	public banner?: string | null;
 
 	/**
 	 * The guild's Server Boosting tier
 	 */
-	public premiumTier?: number | null
+	public premiumTier?: number | null;
 
 	/**
 	 * The amount of server boosts a guild has
 	 */
-	public premiumSubscriptionCount?: number | null
+	public premiumSubscriptionCount?: number | null;
 
 	/**
 	 * The preferred locale of a `PUBLIC` guild used in server discovery and notices from Discord; defaults to "en-US"
 	 */
-	public preferredLocale?: string | null
+	public preferredLocale?: string | null;
 
 	/**
 	 * The preferred locale of a `PUBLIC` guild used in server discovery and notices from Discord; defaults to "en-US"
 	 */
-	public publicUpdatesChannel?: string | null
+	public publicUpdatesChannel?: string | null;
 
 	/**
 	 * The approximate number of members in this guild
 	 */
-	public approxMemberCount?: number | null
+	public approxMemberCount?: number | null;
 
 	constructor(client: Client, data: APIGuildData) {
 		super(client);
@@ -241,7 +241,7 @@ export class Guild extends Structure {
 		this.description = data.description;
 		this.publicUpdatesChannel = data.public_updates_channel_id ? data.public_updates_channel_id : null;
 		// TODO(enkiel): When dapi-types is updated, uncomment below
-		// this.approxMemberCount = data.approximate_member_count ? data.approximate_member_count : null;
+		// this.approxMemberCount = data.approximate_member_count ? data.approximate_member_count : null;;
 
 		return this;
 	}
