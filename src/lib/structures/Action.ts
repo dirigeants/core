@@ -36,8 +36,14 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 	public run(data: T): void {
 		const struct = this.check(data);
 		if (struct) {
+			const previous = struct.clone();
 			// eslint-disable-next-line dot-notation
-			struct['_patch'](data.d);
+			const updated = struct['_patch'](data.d);
+
+			// We emit the updated then the previous data so created events, which
+			// will always fail in this check, consistently emit the new data as
+			// first argument.
+			this.client.emit(this.publicEvent, updated, previous);
 			return;
 		}
 
