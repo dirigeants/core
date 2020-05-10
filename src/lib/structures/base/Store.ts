@@ -6,7 +6,7 @@ import { Cache } from '@klasa/cache';
 import type { Client } from '../../../client/Client';
 import type { Piece } from './Piece';
 
-type PieceConstructor<T> = new (...args: ConstructorParameters<typeof Piece>) => T;
+export type PieceConstructor<T> = new (...args: ConstructorParameters<typeof Piece>) => T;
 
 /**
  * @since 0.0.1

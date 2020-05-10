@@ -1,4 +1,4 @@
-import { Store } from './base/Store';
+import { Store, PieceConstructor } from './base/Store';
 import { Action } from './Action';
 
 import type { Client } from '../../client/Client';
@@ -14,9 +14,7 @@ export class ActionStore extends Store<Action> {
 	 * @param client The client this Store was created with
 	 */
 	public constructor(client: Client) {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-		// @ts-ignore
-		super(client, 'actions', Action);
+		super(client, 'actions', Action as PieceConstructor<Action>);
 	}
 
 	/**

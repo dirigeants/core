@@ -1,4 +1,4 @@
-import { Store } from './base/Store';
+import { Store, PieceConstructor } from './base/Store';
 import { Event } from './Event';
 
 import type { Client } from '../../client/Client';
@@ -20,9 +20,7 @@ export class EventStore extends Store<Event> {
 	 * @param client The client this Store was created with
 	 */
 	public constructor(client: Client) {
-		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-		// @ts-ignore
-		super(client, 'events', Event);
+		super(client, 'events', Event as PieceConstructor<Event>);
 	}
 
 	/**
