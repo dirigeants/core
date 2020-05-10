@@ -168,10 +168,10 @@
   resolved "https://registry.yarnpkg.com/@klasa/dapi-types/-/dapi-types-0.0.9.tgz#471fd45fe8635e6eb086b88e6026cefb6b1f286d"
   integrity sha512-a/VhTaMZg/ngzZjwleGgElnTEeZQkYPliYnlwVhRrl60EOtyNR03ceEU7cz8031ZlqpYkWIFzfyAwB6bQ5YRyg==
 
-"@klasa/rest@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.0.4.tgz#8c0b5dd326774458ca85c714a1f9abc8a42ac7c8"
-  integrity sha512-mKmLXs4g3vfHY1iNXEwsQ2OF7TyHnyV2oUCa+Uuf+hzrW9uddFkztwfIXrvifskK79b8oCEJ1CZktLZA9md0Uw==
+"@klasa/rest@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.2.0.tgz#148015651e6a7d8d791137114bce4934b0aefba2"
+  integrity sha512-ylH2SkKLwmBDKdE5eODcazYRouT3ElCdUgBrNcC1cwoVBk5ufKGr+2h6FaOvfXCt70bLgzrVW8kedVqEDQ6CnA==
   dependencies:
     "@klasa/async-queue" "^0.0.1"
     "@klasa/cache" "^0.0.1"

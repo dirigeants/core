@@ -61,10 +61,7 @@ export class GuildEmoji extends Structure {
 		this.requireColons = data.require_colons ?? null;
 		this.roleIDs = data.roles ?? [];
 		this.userID = data.user?.id ?? null;
-
-		// TODO(VladFrangu): Swap lines as soon as `APIEmojiData.available` is set.
-		this.available = true;
-		// this.available = data.available;
+		this.available = data.available ?? true;
 		return this;
 	}
 
