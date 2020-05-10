@@ -221,27 +221,27 @@ export class Guild extends Structure {
 		this.explicitContentFilter = data.explicit_content_filter;
 		this.roles = data.roles;
 		this.emojis = data.emojis;
-		this.members = data.members ? data.members : null;
-		this.channels = data.channels ? new ChannelStore(this.client as Client) : null;
-		this.features = data.features ? data.features : null;
+		this.members = data.members;
+		this.channels = typeof data.channels !== 'undefined' ? new ChannelStore(this.client as Client) : undefined;
+		this.features = data.features;
 		this.mfaLevel = data.mfa_level;
-		this.widgetEnabled = data.widget_enabled ? data.widget_enabled : null;
+		this.widgetEnabled = data.widget_enabled;
 		// TODO(enkiel): When dapi-types is updated, uncomment below
 		// this.widgetChannelId = data.widget_channel_id;
 		this.systemChannel = data.system_channel_id;
-		this.systemChannelFlags = data.system_channel_id ? data.system_channel_id : null;
+		this.systemChannelFlags = data.system_channel_id;
 		this.rulesChannel = data.rules_channel_id;
-		this.joinedAt = data.joined_at ? data.joined_at : null;
+		this.joinedAt = data.joined_at;
 		this.large = Boolean('large' in data ? data.large : this.large);
 		this.vanityUrlCode = data.vanity_url_code;
 		this.banner = data.banner;
 		this.premiumTier = data.premium_tier;
-		this.premiumSubscriptionCount = data.premium_subscription_count ? data.premium_subscription_count : null;
-		this.preferredLocale = data.preferred_locale ? data.preferred_locale : null;
+		this.premiumSubscriptionCount = data.premium_subscription_count;
+		this.preferredLocale = data.preferred_locale;
 		this.description = data.description;
-		this.publicUpdatesChannel = data.public_updates_channel_id ? data.public_updates_channel_id : null;
+		this.publicUpdatesChannel = data.public_updates_channel_id;
 		// TODO(enkiel): When dapi-types is updated, uncomment below
-		// this.approxMemberCount = data.approximate_member_count ? data.approximate_member_count : null;;
+		// this.approxMemberCount = data.approximate_member_count ? data.approximate_member_count : null;
 
 		return this;
 	}
