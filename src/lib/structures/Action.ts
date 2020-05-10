@@ -1,4 +1,5 @@
 import { Event, EventOptions } from './Event';
+import { snakeToCamel } from '../../util/Util';
 
 import type { ActionStore } from './ActionStore';
 import type { EventStore } from './EventStore';
@@ -14,7 +15,7 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 	 * The name of the event from {@link Client} to be fired.
 	 * @since 0.0.1
 	 */
-	public readonly publicEvent: string;
+	public readonly clientEvent: string;
 
 	/**
 	 * @since 0.0.1
@@ -25,7 +26,7 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 	 */
 	public constructor(store: ActionStore, directory: string, file: readonly string[], options: ActionOptions = {}) {
 		super(store as unknown as EventStore, directory, file, { ...options, once: false, emitter: 'ws' });
-		this.publicEvent = options.publicEvent ?? '';
+		this.clientEvent = options.clientEvent ?? snakeToCamel(this.event);
 	}
 
 	/**
@@ -43,14 +44,14 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 			// We emit the patched then the previous data so created events, which
 			// will always fail in this check, consistently emit the new data as
 			// first argument.
-			this.client.emit(this.publicEvent, struct, previous);
+			this.client.emit(this.clientEvent, struct, previous);
 			return;
 		}
 
 		const built = this.build(data);
 		if (built) {
 			this.cache(built);
-			this.client.emit(this.publicEvent, built);
+			this.client.emit(this.clientEvent, built);
 		}
 	}
 
@@ -82,7 +83,7 @@ export interface ActionOptions extends EventOptions {
 	/**
 	 * The name of the event from {@link Client} to be fired.
 	 */
-	publicEvent?: string;
+	clientEvent?: string;
 
 	/**
 	 * @internal
