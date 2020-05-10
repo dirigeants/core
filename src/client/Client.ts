@@ -107,12 +107,14 @@ export class Client extends BaseClient {
 	 * Connects the client to the websocket
 	 */
 	public async connect(): Promise<void> {
+		await Promise.all(this.pieceStores.map(store => store.loadAll()));
 		try {
 			await this.ws.spawn();
 		} catch (err) {
 			await this.destroy();
 			throw err;
 		}
+		await Promise.all(this.pieceStores.map(store => store.init()));
 	}
 
 	/**
