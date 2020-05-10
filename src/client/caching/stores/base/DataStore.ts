@@ -8,7 +8,7 @@ import { Structure } from '../../structures/base/Structure';
  */
 export class DataStore<S extends Structure, VConstructor extends new (...args: any[]) => S> extends Cache<string, S> {
 
-	public constructor(public readonly client: Client, private readonly Holds: VConstructor, iterable?: Iterable<S>) {
+	public constructor(public readonly client: Client, protected readonly Holds: VConstructor, iterable?: Iterable<S>) {
 		super();
 		if (iterable) for (const item of iterable) this.add(item);
 	}
@@ -18,7 +18,6 @@ export class DataStore<S extends Structure, VConstructor extends new (...args: a
 	 * @param data The data packet to add
 	 * @param cache If the data should be cached
 	 */
-	// tslint:disable-next-line no-any
 	public add(data: { id: string, [k: string]: any }, cache = true): S {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation

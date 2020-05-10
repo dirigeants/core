@@ -4,7 +4,7 @@ import { Structure } from '../base/Structure';
 
 import type { Client } from '../../../Client';
 
-export abstract class Channel extends Structure {
+export class Channel extends Structure {
 
 	public id: string;
 
@@ -12,6 +12,10 @@ export abstract class Channel extends Structure {
 		super(client);
 
 		this.id = data.id;
+	}
+
+	public _patch(): this {
+		return this;
 	}
 
 }
