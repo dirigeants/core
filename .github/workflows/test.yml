@@ -13,7 +13,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        node_version: [12, 13]
+        node_version: [12, 13, 14]
         os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
@@ -69,6 +69,11 @@ jobs:
         name: Windows-13
         path: .nyc_output
     - uses: actions/download-artifact@v1
+      name: Download Windows-14 Coverage Data
+      with:
+        name: Windows-14
+        path: .nyc_output
+    - uses: actions/download-artifact@v1
       name: Download macOS-12 Coverage Data
       with:
         name: macOS-12
@@ -79,6 +84,11 @@ jobs:
         name: macOS-13
         path: .nyc_output
     - uses: actions/download-artifact@v1
+      name: Download macOS-14 Coverage Data
+      with:
+        name: macOS-14
+        path: .nyc_output
+    - uses: actions/download-artifact@v1
       name: Download Linux-12 Coverage Data
       with:
         name: Linux-12
@@ -87,6 +97,11 @@ jobs:
       name: Download Linux-13 Coverage Data
       with:
         name: Linux-13
+        path: .nyc_output
+    - uses: actions/download-artifact@v1
+      name: Download Linux-14 Coverage Data
+      with:
+        name: Linux-14
         path: .nyc_output
     - name: Report
       run: yarn coverage:report
