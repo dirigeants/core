@@ -4,11 +4,11 @@ import { Cache } from '@klasa/cache';
 import { dirname, join } from 'path';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
+import { EventStore } from '../lib/structures/EventStore';
+import { ActionStore } from '../lib/structures/ActionStore';
 
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
-import { EventStore } from '../lib/structures/EventStore';
-import { ActionStore } from '../lib/structures/ActionStore';
 
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
