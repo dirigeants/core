@@ -1,5 +1,4 @@
 import { Structure } from '../base/Structure';
-import { ChannelStore } from '../../stores/ChannelStore';
 import { Routes } from '@klasa/rest';
 import { Permissions } from '../../../../util/bitfields/Permissions';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
@@ -299,7 +298,7 @@ export class Guild extends Structure {
 		this.emojis = new GuildEmojiStore(client);
 		this.voiceStates = new VoiceStateStore(client);
 		this.members = new GuildMemberStore(client);
-		this.channels = new ChannelStore(client);
+		this.channels = new GuildChannelStore(client);
 		this.presences = new PresenceStore(client);
 
 		if (data.unavailable) {

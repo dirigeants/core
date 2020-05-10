@@ -3,12 +3,14 @@ import { Cache } from '@klasa/cache';
 import { Client } from '../../../Client';
 import { Structure } from '../../structures/base/Structure';
 
+export type Constructor<T> = new (...args: unknown[]) => T;
+
 /**
  * The data caches with extra methods unique to each data store
  */
-export class DataStore<S extends Structure, VConstructor extends new (...args: any[]) => S> extends Cache<string, S> {
+export class DataStore<S extends Structure> extends Cache<string, S> {
 
-	public constructor(public readonly client: Client, protected readonly Holds: VConstructor, iterable?: Iterable<S>) {
+	public constructor(public readonly client: Client, protected readonly Holds: Constructor<S>, iterable?: Iterable<S>) {
 		super();
 		if (iterable) for (const item of iterable) this.add(item);
 	}

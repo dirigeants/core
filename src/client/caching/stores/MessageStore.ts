@@ -1,11 +1,12 @@
-import { DataStore } from './base/DataStore';
+import { DataStore, Constructor } from './base/DataStore';
 import { Message } from '../structures/Message';
-import { Client } from '../../Client';
 
-export class MessageStore extends DataStore<Message, typeof Message> {
+import type { Client } from '../../Client';
+
+export class MessageStore extends DataStore<Message> {
 
 	public constructor(client: Client) {
-		super(client, Message);
+		super(client, Message as Constructor<Message>);
 	}
 
 }
