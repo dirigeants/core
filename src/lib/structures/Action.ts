@@ -42,8 +42,10 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 		}
 
 		const built = this.build(data);
-		this.cache(built);
-		this.client.emit(this.publicEvent, built);
+		if (built) {
+			this.cache(built);
+			this.client.emit(this.publicEvent, built);
+		}
 	}
 
 	/**
@@ -57,7 +59,7 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 	 * Builds the structure from raw data.
 	 * @param data The raw data from {@link Client#ws}
 	 */
-	public abstract build(data: T): S;
+	public abstract build(data: T): S | null;
 
 	/**
 	 * Stores the data into the cache.
