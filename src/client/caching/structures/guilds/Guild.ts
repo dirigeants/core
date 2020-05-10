@@ -20,13 +20,16 @@ import type {
 	GuildVerificationLevel
 } from '@klasa/dapi-types';
 
+/**
+ * @see https://discord.com/developers/docs/resources/guild#guild-object
+ */
 export class Guild extends Structure {
 
 	/**
 	 * The guild ID.
 	 * @since 0.0.1
 	 */
-	public id: string;
+	public readonly id: string;
 
 	/**
 	 * The guild's name (2-100 characters).
@@ -315,12 +318,12 @@ export class Guild extends Structure {
 		return this.joinedTimestamp === null ? null : new Date(this.joinedTimestamp);
 	}
 
-	public async modify(data: GuildModifyOptions): Promise<unknown> {
-		return this.client.api.patch(`${Routes.guild(this.id)}/modify`, { data });
+	public async edit(data: GuildEditOptions): Promise<unknown> {
+		return this.client.api.patch(Routes.guild(this.id), { data });
 	}
 
 	public async delete(): Promise<unknown> {
-		return this.client.api.delete(`${Routes.guild(this.id)}`);
+		return this.client.api.delete(Routes.guild(this.id));
 	}
 
 	public async prune(options: GuildPruneOptions): Promise<unknown> {
@@ -330,7 +333,7 @@ export class Guild extends Structure {
 	}
 
 	public async leave(): Promise<unknown> {
-		return this.client.api.delete(`${Routes.leaveGuild(this.id)}`);
+		return this.client.api.delete(Routes.leaveGuild(this.id));
 	}
 
 	protected _patch(data: APIGuildData): this {
@@ -389,7 +392,7 @@ export class Guild extends Structure {
 
 }
 
-interface GuildModifyOptions {
+interface GuildEditOptions {
 	name: string;
 	region: string;
 	verification_level: string;
