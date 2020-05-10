@@ -1,77 +1,180 @@
 import { Structure } from './base/Structure';
 import { APIGuildData, GuildVerificationLevel,
 	GuildDefaultMessageNotifications, GuildExplicitContentFilterLevel,
-	APIGuildMemberData, APIEmojiData, APIRoleData, GuildMFALevel, GuildFeatures } from '@klasa/dapi-types';
+	APIGuildMemberData, APIEmojiData, APIRoleData, GuildMFALevel } from '@klasa/dapi-types';
 import { Client } from '../../Client';
 import { ChannelStore } from '../stores/ChannelStore';
 import { Routes } from '@klasa/rest';
 
 export class Guild extends Structure {
 
+	/**
+	 * The guild ID
+	 */
 	public id: string
 
+	/**
+	 * Whether this guild is available
+	 */
 	public available: boolean
 
-	public name!: string | null
+	/**
+	 * The guild's name
+	 */
+	public name?: string | null
 
-	public owner!: string | null
+	/**
+	 * The guild's owner
+	 */
+	public owner?: string | null
 
-	public region!: string | null
+	/**
+	 * The guild's region
+	 */
+	public region?: string | null
 
-	public icon!: string | null
+	/**
+	 * The guild's icon hash
+	 */
+	public icon?: string | null
 
-	public splash!: string | null
+	/**
+	 * The guild's splash hash
+	 */
+	public splash?: string | null
 
-	public discoverySplash!: string | null
+	/**
+	 * The guild's discovery splash hash
+	 */
+	public discoverySplash?: string | null
 
-	public afkChannel!: string | null
+	/**
+	 * The AFK channel of the guild
+	 */
+	public afkChannel?: string | null
 
-	public verificationLevel!: GuildVerificationLevel | null
+	/**
+	 * The guild's verification level
+	 */
+	public verificationLevel?: GuildVerificationLevel | null
 
-	public defaultMessageNotification!: GuildDefaultMessageNotifications | null
+	/**
+	 * The default message notification setting for the guild
+	 */
+	public defaultMessageNotification?: GuildDefaultMessageNotifications | null
 
-	public explicitContentFilter!: GuildExplicitContentFilterLevel | null
+	/**
+	 * The explicit content filter setting for the guild
+	 */
+	public explicitContentFilter?: GuildExplicitContentFilterLevel | null
 
 	// TODO: Storeify the following 3 properties (enkiel)
-	public roles!: APIRoleData[] | null
+	/**
+	 * A store of the roles that belong in this guild
+	 */
+	public roles?: APIRoleData[] | null
 
-	public emojis!: APIEmojiData[] | null
+	/**
+	 * A store of the emojis that belong in this guild
+	 */
+	public emojis?: APIEmojiData[] | null
 
-	public members!: APIGuildMemberData[] | null
+	/**
+	 * A store of members that belong in this guild
+	 */
+	public members?: APIGuildMemberData[] | null
 
-	public channels!: ChannelStore | null
+	/**
+	 * A store of channels that belong in this guild
+	 */
+	public channels?: ChannelStore | null
 
-	public features!: GuildFeatures[] | null
+	/**
+	 * An array of guild features
+	 * @see https://discord.com/developers/docs/resources/guild#guild-object-guild-features
+	*/
+	public features?: string[] | null
 
-	public mfaLevel!: GuildMFALevel | null
+	/**
+	 * The Multi-Factor Authentication level for this guild
+	 */
+	public mfaLevel?: GuildMFALevel | null
 
-	public widgetEnabled!: boolean | null
+	/**
+	 * Whether the guild's widget is enabled
+	 */
+	public widgetEnabled?: boolean | null
 
-	public widgetChannelId!: string | null
+	/**
+	 * The channel ID the widget's invite leads to
+	 */
+	public widgetChannelId?: string | null
 
-	public systemChannel!: string | null
+	/**
+	 * The system channel
+	 */
+	public systemChannel?: string | null
 
-	public systemFlags!: string | null
+	/**
+	 * The system channel flags
+	 * @see https://discord.com/developers/docs/resources/guild#guild-object-system-channel-flags
+	 */
+	public systemChannelFlags?: string | null
 
-	public rulesChannel!: string | null
+	/**
+	 * The rules channel. Only available to guild with the `PUBLIC`flag.
+	 */
+	public rulesChannel?: string | null
 
-	public joinedAt!: string | null
+	/**
+	 * The time the client user joined the guild
+	 */
+	public joinedAt?: string | null
 
-	public large!: boolean | null
+	/**
+	 * Whether this guild is considered large by the Discord API
+	 */
+	public large?: boolean | null
 
-	public vanityUrlCode!: string | null
+	/**
+	 * The vanity invite code for the guild
+	 */
+	public vanityUrlCode?: string | null
 
-	public banner!: string | null
+	/**
+	 * The guild's description
+	 */
+	public description?: string | null
 
-	public premiumTier!: number | null
+	/**
+	 * The guild's banner hash
+	 */
+	public banner?: string | null
 
-	public premiumSubscriptionCount!: number | null
+	/**
+	 * The guild's Server Boosting tier
+	 */
+	public premiumTier?: number | null
 
-	public preferredLocale!: string | null
+	/**
+	 * The amount of server boosts a guild has
+	 */
+	public premiumSubscriptionCount?: number | null
 
-	public publicUpdatesChannel!: string | null
+	/**
+	 * The preferred locale of a `PUBLIC` guild used in server discovery and notices from Discord; defaults to "en-US"
+	 */
+	public preferredLocale?: string | null
 
-	public approxMemberCount!: number | null
+	/**
+	 * The preferred locale of a `PUBLIC` guild used in server discovery and notices from Discord; defaults to "en-US"
+	 */
+	public publicUpdatesChannel?: string | null
+
+	/**
+	 * The approximate number of members in this guild
+	 */
+	public approxMemberCount?: number | null
 
 	constructor(client: Client, data: APIGuildData) {
 		super(client);
@@ -123,9 +226,10 @@ export class Guild extends Structure {
 		this.features = data.features ? data.features : null;
 		this.mfaLevel = data.mfa_level;
 		this.widgetEnabled = data.widget_enabled ? data.widget_enabled : null;
-		this.widgetChannelId = data.widget_channel_id ? data.widget_channel_id : null;
+		// TODO(enkiel): When dapi-types is updated, uncomment below
+		// this.widgetChannelId = data.widget_channel_id;
 		this.systemChannel = data.system_channel_id;
-		this.systemFlags = data.system_channel_id ? data.system_channel_id : null;
+		this.systemChannelFlags = data.system_channel_id ? data.system_channel_id : null;
 		this.rulesChannel = data.rules_channel_id;
 		this.joinedAt = data.joined_at ? data.joined_at : null;
 		this.large = Boolean('large' in data ? data.large : this.large);
@@ -134,8 +238,10 @@ export class Guild extends Structure {
 		this.premiumTier = data.premium_tier;
 		this.premiumSubscriptionCount = data.premium_subscription_count ? data.premium_subscription_count : null;
 		this.preferredLocale = data.preferred_locale ? data.preferred_locale : null;
+		this.description = data.description;
 		this.publicUpdatesChannel = data.public_updates_channel_id ? data.public_updates_channel_id : null;
-		this.approxMemberCount = data.approximate_member_count ? data.approximate_member_count : null;
+		// TODO(enkiel): When dapi-types is updated, uncomment below
+		// this.approxMemberCount = data.approximate_member_count ? data.approximate_member_count : null;
 
 		return this;
 	}
