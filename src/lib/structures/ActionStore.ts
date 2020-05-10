@@ -9,6 +9,10 @@ import type { Client } from '../../client/Client';
  */
 export class ActionStore extends Store<Action> {
 
+	/**
+	 * @since 0.0.1
+	 * @param client The client this Store was created with
+	 */
 	public constructor(client: Client) {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 		// @ts-ignore

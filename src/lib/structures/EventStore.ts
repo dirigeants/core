@@ -15,6 +15,10 @@ export class EventStore extends Store<Event> {
 	 */
 	private readonly _onceEvents = new Set<string>();
 
+	/**
+	 * @since 0.0.1
+	 * @param client The client this Store was created with
+	 */
 	public constructor(client: Client) {
 		// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 		// @ts-ignore
