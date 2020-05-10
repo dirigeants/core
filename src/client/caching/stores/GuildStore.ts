@@ -1,6 +1,7 @@
 import { DataStore } from './base/DataStore';
-import { Client } from '../../Client';
-import { Guild } from '../structures/Guild';
+import { Guild } from '../structures/guilds/Guild';
+
+import type { Client } from '../../Client';
 
 export class GuildStore extends DataStore<Guild, typeof Guild> {
 

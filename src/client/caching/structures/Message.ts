@@ -8,7 +8,7 @@ import { Embed } from './Embed';
 import { MessageFlags } from '../../../util/bitfields/MessageFlags';
 import { GuildChannel } from './channels/GuildChannel';
 import { User } from './User';
-import { Guild } from './Guild';
+import { Guild } from './guilds/Guild';
 import { Attachment } from './Attachment';
 import { Cache } from '@klasa/cache';
 import { MessageTypes } from '../../../util/Constants';

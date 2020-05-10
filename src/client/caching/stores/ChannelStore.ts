@@ -1,11 +1,11 @@
 import { DataStore } from './base/DataStore';
 import { Client } from '../../Client';
-import { GuildChannel } from '../structures/channels/GuildChannel';
+import { Channel } from '../structures/channels/Channel';
 
-export class ChannelStore extends DataStore<GuildChannel, typeof GuildChannel> {
+export class ChannelStore extends DataStore<Channel, typeof Channel> {
 
 	public constructor(client: Client) {
-		super(client, GuildChannel);
+		super(client, Channel);
 	}
 
 }
