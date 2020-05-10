@@ -1,34 +1,80 @@
-import { isClass } from '@klasa/utils';
+import { Cache } from '@klasa/cache';
 
-export class Extender<K, V, VConstructor extends Class<V>> extends Map<K, VConstructor> {
+/**
+ * The extender class that allows the extension of built-in structures from Project-Blue and plugins.
+ */
+class Extender extends Cache<keyof ExtenderStructures, ExtenderStructures[keyof ExtenderStructures]> {
 
-	public set(key: K, value: VConstructor): this {
-		if (this.has(key)) throw new Error(`The structure ${key} is already present in this Extender.`);
-		return super.set(key, value);
+	/**
+	 * Adds a new entry to this instance so it can be extended. Throws if a structure with the same name was already set.
+	 * @param key The name of the structure to be set
+	 * @param fn The class to be added to the registry
+	 */
+	public add<K extends keyof ExtenderStructures, V>(key: K, fn: V): this {
+		if (super.has(key)) throw new Error(`The structure ${key} already exists.`);
+		super.set(key, fn as unknown as ExtenderStructures[keyof ExtenderStructures]);
+		return this;
 	}
 
-	public extend<S extends VConstructor>(name: K, extender: S): S;
-	public extend<S extends VConstructor>(name: K, extender: (value: VConstructor) => S): S;
-	public extend<S extends VConstructor>(name: K, extender: ((value: VConstructor) => S) | S): S {
-		const structure: VConstructor | undefined = this.get(name);
-		if (typeof structure === 'undefined') throw new RangeError(`"${name}" is not a valid extensible structure.`);
-		const extensionFunction: (value: VConstructor) => S = isClass(extender) ? () => (extender as S) : (extender as (value: VConstructor) => S);
+	/**
+	 * The overriden set method, this will always throw. Use {@link Extender#add} for adding new structures, or {@link Extender#extend} to extend an existing one.
+	 * @internal
+	 */
+	public set(): never {
+		throw new Error('Cannot set keys to this extender.');
+	}
 
-		const extended = extensionFunction(structure);
+	/**
+	 * The overriden delete method, this will always throw.
+	 * @internal
+	 */
+	public delete(): never {
+		throw new Error('Cannot delete keys from this extender.');
+	}
 
-		if (typeof extended !== 'function') throw new TypeError(`The extender function must return the extended structure class/prototype`);
+	/**
+	 * The overriden get method, this extension makes it type-safe.
+	 * @param key The structure to get from its name
+	 */
+	public get<K extends keyof ExtenderStructures>(key: K): ExtenderStructures[K] | undefined {
+		return super.get(key);
+	}
 
-		if (!(extended.prototype instanceof structure)) {
-			throw new TypeError(`The extender function must return the prototype of the class that was extended.`);
-		}
-
-		super.set(name, extended);
-		return extended;
+	/**
+	 * Extends a structure by its registered name.
+	 * @param key The name of the structure to be extended
+	 * @param fn A callback returning the extended class
+	 * @example
+	 * const { extender } = require('@klasa/project-blue');
+	 * const { Settings } = require('@klasa/project-red');
+	 *
+	 * extender.extend('TextChannel', (TextChannel) => class extends TextChannel {
+	 *
+	 *   constructor(...args) {
+	 *     super(...args);
+	 *     this.settings = new Settings(this.client, 'textChannels', this.id);
+	 *   }
+	 *
+	 * });
+	 */
+	public extend<K extends keyof ExtenderStructures, R extends ExtenderStructures[K]>(key: K, fn: (structure: ExtenderStructures[K]) => R): this {
+		const structure = this.get(key);
+		if (typeof structure === 'undefined') throw new TypeError(`The structure ${key} does not exist.`);
+		super.set(key, fn(structure));
+		return this;
 	}
 
 }
 
-export interface Class<C> {
-	new(...args: unknown[]): C;
-	readonly prototype: C;
+/**
+ * The context data for Extender.
+ */
+export interface ExtenderStructures {
+	// TODO(): add actual structures and remove this line. It is only there so `keyof T` does not error.
+	[K: string]: never;
 }
+
+/**
+ * The exported singleton instance of the {@link Extender} class.
+ */
+export const extender = new Extender();
