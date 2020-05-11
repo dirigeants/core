@@ -1,5 +1,5 @@
-import { Structure } from '../base/Structure';
 import { Routes } from '@klasa/rest';
+import { Structure } from '../base/Structure';
 import { Permissions } from '../../../../util/bitfields/Permissions';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
 import { GuildMemberStore } from '../../stores/GuildMemberStore';
@@ -7,6 +7,8 @@ import { PresenceStore } from '../../stores/PresenceStore';
 import { VoiceStateStore } from '../../stores/VoiceStateStore';
 import { RoleStore } from '../../stores/RoleStore';
 import { GuildEmojiStore } from '../../stores/GuildEmojiStore';
+import { BanStore } from '../../stores/BanStore';
+
 import type { Client } from '../../../Client';
 import type {
 	APIGuildData,
@@ -18,7 +20,6 @@ import type {
 	GuildSystemChannelFlags,
 	GuildVerificationLevel
 } from '@klasa/dapi-types';
-import { BanStore } from '../../stores/BanStore';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-object

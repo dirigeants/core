@@ -2,7 +2,7 @@ import { Structure } from '../base/Structure';
 
 import type { APIBanData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
-import { User } from '../User';
+import type { User } from '../User';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#ban-object
