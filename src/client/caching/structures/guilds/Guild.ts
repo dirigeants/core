@@ -192,10 +192,10 @@ export class Guild extends Structure {
 	public large!: boolean | null;
 
 	/**
-	 * Whether or not this guild is available.
+	 * Whether or not this guild is unavailable.
 	 * @since 0.0.1
 	 */
-	public available: boolean;
+	public unavailable: boolean;
 
 	/**
 	 * Total number of members in this guild.
@@ -310,10 +310,8 @@ export class Guild extends Structure {
 		this.channels = new GuildChannelStore(client);
 		this.presences = new PresenceStore(client);
 
-		if (data.unavailable) {
-			this.available = false;
-		} else {
-			this.available = true;
+		this.unavailable = data.unavailable ?? false;
+		if (!this.unavailable) {
 			this._patch(data);
 		}
 	}

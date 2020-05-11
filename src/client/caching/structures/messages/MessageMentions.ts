@@ -11,34 +11,37 @@ export class MessageMentions {
 	 * The {@link Message} this entry belongs to.
 	 * @since 0.0.1
 	 */
-	public message: Message;
+	public readonly message: Message;
 
 	/**
 	 * Users specifically mentioned in the message.
 	 * @since 0.0.1
 	 */
-	public users: Cache<string, User> = new Cache();
+	public readonly users: Cache<string, User>;
 
 	/**
 	 * Roles specifically mentioned in this message.
 	 * @since 0.0.1
 	 */
-	public roles: Cache<string, string> = new Cache();
+	public readonly roles: Cache<string, string>;
 
 	/**
 	 * Channels specifically mentioned in this message.
 	 * @since 0.0.1
 	 */
-	public channels: Cache<string, APIChannelData> = new Cache();
+	public readonly channels: Cache<string, APIChannelData>;
 
 	/**
 	 * Whether this message mentions everyone.
 	 * @since 0.0.1
 	 */
-	public everyone: boolean;
+	public readonly everyone: boolean;
 
 	public constructor(message: Message, users: APIMessageMentionData[], roles: string[], channels: APIMessageMentionChannelData[], everyone: boolean) {
 		this.message = message;
+		this.users = new Cache();
+		this.roles = new Cache();
+		this.channels = new Cache();
 
 		if (users) {
 			for (const mention of users) {
