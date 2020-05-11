@@ -1,9 +1,9 @@
 import { Cache } from '@klasa/cache';
 
 import type { Message } from '../Message';
-import type { APIMessageMentionChannelData, APIUserData, APIGuildMemberData, APIChannelData } from '@klasa/dapi-types';
+import type { APIMessageMentionChannelData, APIChannelData, APIMessageMentionData } from '@klasa/dapi-types';
 import type { User } from '../User';
-import { Guild } from '../guilds/Guild';
+import type { Guild } from '../guilds/Guild';
 
 export class MessageMentions {
 
@@ -37,7 +37,7 @@ export class MessageMentions {
 	 */
 	public everyone: boolean;
 
-	public constructor(message: Message, users: (APIUserData & { member?: APIGuildMemberData })[], roles: string[], channels: APIMessageMentionChannelData[], everyone: boolean) {
+	public constructor(message: Message, users: APIMessageMentionData[], roles: string[], channels: APIMessageMentionChannelData[], everyone: boolean) {
 		this.message = message;
 
 		if (users) {

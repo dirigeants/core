@@ -1,4 +1,5 @@
 import { UserStore } from '../../stores/UserStore';
+import { Routes } from '@klasa/rest';
 
 import type { Client } from '../../../Client';
 import type { APIEmojiPartial, APIUserData } from '@klasa/dapi-types';
@@ -83,8 +84,7 @@ export class MessageReactionEmoji implements APIEmojiPartial {
 	 * @param options The options for the fetch
 	 */
 	public async fetch(options?: MessageReactionEmojiFetchOptions): Promise<this> {
-		// TODO(kyranet): Change this to `Routes.messageReaction` once https://github.com/dirigeants/rest/pull/71 lands.
-		const endpoint = `/channels/${this.reaction.message.channel.id}/messages/${this.reaction.message.id}/reactions/${this.identifier}`;
+		const endpoint = Routes.messageReaction(this.reaction.message.channel.id, this.reaction.message.id, this.identifier);
 		const users = await this.client.api.get(endpoint, { query: options }) as APIUserData[];
 		for (const user of users) this.users.add(user);
 		return this;
