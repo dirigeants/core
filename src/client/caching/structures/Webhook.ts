@@ -131,7 +131,7 @@ export class Webhook extends Structure {
 		const rawMessages = await Promise.all(responses);
 
 		// todo: replace with future Structures.extended Message
-		return rawMessages.map(msg => new Message(this.client, msg as APIMessageData));
+		return rawMessages.map(msg => new Message(this.client as Client, msg as APIMessageData));
 	}
 
 	/**
