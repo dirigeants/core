@@ -1,6 +1,15 @@
 import { deepClone } from '@klasa/utils';
 
-import type { APIEmbedData, APIEmbedFieldData, APIEmbedProviderData, EmbedType, APIEmbedAuthorData, APIEmbedFooterData, APIEmbedImageData, APIEmbedVideoData } from '@klasa/dapi-types';
+import type {
+	APIEmbedAuthorData,
+	APIEmbedData,
+	APIEmbedFieldData,
+	APIEmbedFooterData,
+	APIEmbedImageData,
+	APIEmbedProviderData,
+	APIEmbedVideoData,
+	EmbedType
+} from '@klasa/dapi-types';
 
 export interface StringResolvable {
 	toString(): string;
@@ -12,67 +21,80 @@ export interface StringResolvable {
 export class Embed implements APIEmbedData {
 
 	/**
-	 * Embed Fields
+	 * Embed Fields.
+	 * @since 0.0.1
 	 */
 	public fields!: APIEmbedFieldData[];
 
 	/**
-	 * The type of embed
+	 * The type of embed.
+	 * @since 0.0.1
 	 */
 	public type?: EmbedType;
 
 	/**
-	 * The embed title
+	 * The embed title.
+	 * @since 0.0.1
 	 */
 	public title?: string;
 
 	/**
-	 * The embed description
+	 * The embed description.
+	 * @since 0.0.1
 	 */
 	public description?: string;
 
 	/**
-	 * The embed url
+	 * The embed url.
+	 * @since 0.0.1
 	 */
 	public url?: string;
 
 	/**
-	 * The embed bar color
+	 * The embed bar color.
+	 * @since 0.0.1
 	 */
 	public color?: number;
 
 	/**
-	 * The timestamp of the embed
+	 * The timestamp of the embed.
+	 * @since 0.0.1
 	 */
 	public timestamp?: string;
 
 	/**
-	 * The embed thumbnail data
+	 * The embed thumbnail data.
+	 * @since 0.0.1
 	 */
 	public thumbnail?: APIEmbedImageData;
 
 	/**
-	 * The embed image data
+	 * The embed image data.
+	 * @since 0.0.1
 	 */
 	public image?: APIEmbedImageData;
 
 	/**
-	 * Received video data
+	 * Received video data.
+	 * @since 0.0.1
 	 */
 	public video?: APIEmbedVideoData;
 
 	/**
-	 * The embed author data
+	 * The embed author data.
+	 * @since 0.0.1
 	 */
 	public author?: APIEmbedAuthorData;
 
 	/**
-	 * Received data about the embed provider
+	 * Received data about the embed provider.
+	 * @since 0.0.1
 	 */
 	public provider?: APIEmbedProviderData;
 
 	/**
-	 * The embed footer data
+	 * The embed footer data.
+	 * @since 0.0.1
 	 */
 	public footer?: APIEmbedFooterData;
 

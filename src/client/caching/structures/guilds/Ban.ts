@@ -2,6 +2,7 @@ import { Structure } from '../base/Structure';
 
 import type { APIBanData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
+import { User } from '../User';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#ban-object
@@ -22,12 +23,24 @@ export class Ban extends Structure {
 
 	public constructor(client: Client, data: APIBanData) {
 		super(client);
-		this.id = data.user.id;
+		this.id = this.client.users.add(data.user).id;
 		this.reason = data.reason;
+	}
+
+	/**
+	 * The user.
+	 * @since 0.0.1
+	 */
+	public get user(): User | null {
+		return this.client.users.get(this.id) ?? null;
 	}
 
 	protected _patch(): this {
 		return this;
 	}
 
+}
+
+export interface Ban {
+	client: Client;
 }

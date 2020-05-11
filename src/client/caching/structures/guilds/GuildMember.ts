@@ -2,6 +2,7 @@ import { Structure } from '../base/Structure';
 
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
+import type { Guild } from './Guild';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
@@ -13,6 +14,12 @@ export class GuildMember extends Structure {
 	 * @since 0.0.1
 	 */
 	public readonly id: string;
+
+	/**
+	 * The {@link Guild} this member belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly guild: Guild;
 
 	/**
 	 * Whether or not the user is deafened in voice channels.
@@ -51,11 +58,20 @@ export class GuildMember extends Structure {
 	 */
 	public roleIDs!: string[];
 
-	public constructor(client: Client, data: APIGuildMemberData) {
+	public constructor(client: Client, data: APIGuildMemberData, guild: Guild) {
 		super(client);
 
 		this.id = (data.user as APIUserData).id;
+		this.guild = guild;
 		this._patch(data);
+	}
+
+	/**
+	 * Defines toString behavior for members.
+	 * @since 0.0.1
+	 */
+	public toString(): string {
+		return this.nick ? `<@!${this.id}>` : `<@${this.id}>`;
 	}
 
 	protected _patch(data: APIGuildMemberData): this {

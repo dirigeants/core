@@ -18,6 +18,7 @@ import type {
 	GuildSystemChannelFlags,
 	GuildVerificationLevel
 } from '@klasa/dapi-types';
+import { BanStore } from '../../stores/BanStore';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-object
@@ -108,6 +109,12 @@ export class Guild extends Structure {
 	 * @see https://discord.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level
 	 */
 	public explicitContentFilter!: GuildExplicitContentFilterLevel;
+
+	/**
+	 * The guild's bans.
+	 * @since 0.0.1
+	 */
+	public readonly bans: BanStore;
 
 	/**
 	 * The guild's store of roles.
@@ -294,10 +301,11 @@ export class Guild extends Structure {
 		super(client);
 
 		this.id = data.id;
+		this.bans = new BanStore(client, this);
 		this.roles = new RoleStore(client);
 		this.emojis = new GuildEmojiStore(client);
 		this.voiceStates = new VoiceStateStore(client);
-		this.members = new GuildMemberStore(client);
+		this.members = new GuildMemberStore(client, this);
 		this.channels = new GuildChannelStore(client);
 		this.presences = new PresenceStore(client);
 

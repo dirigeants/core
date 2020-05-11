@@ -3,11 +3,15 @@ import { GuildMember } from '../structures/guilds/GuildMember';
 
 import type { Client } from '../../Client';
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
+import type { Guild } from '../structures/guilds/Guild';
 
 export class GuildMemberStore extends DataStore<GuildMember> {
 
-	public constructor(client: Client) {
+	public readonly guild: Guild;
+
+	public constructor(client: Client, guild: Guild) {
 		super(client, GuildMember as Constructor<GuildMember>);
+		this.guild = guild;
 	}
 
 	/**
@@ -22,7 +26,7 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
-		const entry = new this.Holds(this.client, data);
+		const entry = new this.Holds(this.client, data, this.guild);
 		if (cache) this.set(entry.id, entry);
 		return entry;
 	}
