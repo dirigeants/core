@@ -328,7 +328,7 @@ export class Guild extends Structure {
 	public async prune(options: GuildPruneOptions): Promise<unknown> {
 		// eslint-disable-next-line @typescript-eslint/camelcase
 		const data = { ...options, compute_prune_count: this.large };
-		return this.client.api.post(Routes.prune(this.id), { data });
+		return this.client.api.post(Routes.guildPrune(this.id), { data });
 	}
 
 	public async leave(): Promise<unknown> {
