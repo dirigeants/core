@@ -1,8 +1,9 @@
-import { DataStore, Constructor } from './base/DataStore';
-import { GuildMember } from '../structures/guilds/GuildMember';
+import { DataStore } from './base/DataStore';
+import { extender } from '../../../util/Extender';
 
-import type { Client } from '../../Client';
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
+import type { Client } from '../../Client';
+import type { GuildMember } from '../structures/guilds/GuildMember';
 import type { Guild } from '../structures/guilds/Guild';
 
 export class GuildMemberStore extends DataStore<GuildMember> {
@@ -10,7 +11,7 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, GuildMember as Constructor<GuildMember>);
+		super(client, extender.get('GuildMember'));
 		this.guild = guild;
 	}
 

@@ -1,12 +1,13 @@
-import { DataStore, Constructor } from './base/DataStore';
-import { VoiceState } from '../structures/guilds/VoiceState';
+import { DataStore } from './base/DataStore';
+import { extender } from '../../../util/Extender';
 
 import type { Client } from '../../Client';
+import type { VoiceState } from '../structures/guilds/VoiceState';
 
 export class VoiceStateStore extends DataStore<VoiceState> {
 
 	public constructor(client: Client) {
-		super(client, VoiceState as Constructor<VoiceState>);
+		super(client, extender.get('VoiceState'));
 	}
 
 }

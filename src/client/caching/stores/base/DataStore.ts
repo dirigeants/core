@@ -1,9 +1,8 @@
 import { Cache } from '@klasa/cache';
 
-import { Client } from '../../../Client';
-import { Structure } from '../../structures/base/Structure';
-
-export type Constructor<T> = new (...args: unknown[]) => T;
+import type { Client } from '../../../Client';
+import type { Structure } from '../../structures/base/Structure';
+import type { Constructor } from '../../../../util/Extender';
 
 /**
  * The data caches with extra methods unique to each data store

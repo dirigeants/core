@@ -1,12 +1,13 @@
-import { DataStore, Constructor } from './base/DataStore';
-import { Guild } from '../structures/guilds/Guild';
+import { DataStore } from './base/DataStore';
+import { extender } from '../../../util/Extender';
 
+import type { Guild } from '../structures/guilds/Guild';
 import type { Client } from '../../Client';
 
 export class GuildStore extends DataStore<Guild> {
 
 	public constructor(client: Client) {
-		super(client, Guild as Constructor<Guild>);
+		super(client, extender.get('Guild'));
 	}
 
 }

@@ -1,12 +1,13 @@
-import { DataStore, Constructor } from './base/DataStore';
-import { MessageReaction } from '../structures/messages/MessageReaction';
+import { DataStore } from './base/DataStore';
+import { extender } from '../../../util/Extender';
 
 import type { Client } from '../../Client';
+import type { MessageReaction } from '../structures/messages/MessageReaction';
 
 export class MessageReactionStore extends DataStore<MessageReaction> {
 
 	public constructor(client: Client) {
-		super(client, MessageReaction as Constructor<MessageReaction>);
+		super(client, extender.get('MessageReaction'));
 	}
 
 }

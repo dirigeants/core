@@ -1,9 +1,10 @@
 /* eslint-disable no-dupe-class-members */
-import { DataStore, Constructor } from './base/DataStore';
-import { Ban } from '../structures/guilds/Ban';
+import { DataStore } from './base/DataStore';
 import { Cache } from '@klasa/cache';
 import { Routes } from '@klasa/rest';
+import { extender } from '../../../util/Extender';
 
+import type { Ban } from '../structures/guilds/Ban';
 import type { Client } from '../../Client';
 import type { Guild } from '../structures/guilds/Guild';
 import type { APIBanData } from '@klasa/dapi-types';
@@ -20,7 +21,7 @@ export class BanStore extends DataStore<Ban> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, Ban as Constructor<Ban>);
+		super(client, extender.get('Ban'));
 		this.guild = guild;
 	}
 
@@ -66,7 +67,7 @@ export class BanStore extends DataStore<Ban> {
 			if (cached) return cached;
 
 			const banData = await this.client.api.get(Routes.guildBan(this.guild.id, id)) as APIBanData;
-			const ban = new Ban(this.client, banData);
+			const ban = new this.Holds(this.client, banData);
 			if (cache) this.set(ban.id, ban);
 			return ban;
 		}
@@ -74,7 +75,7 @@ export class BanStore extends DataStore<Ban> {
 		const bansData = await this.client.api.get(Routes.guildBans(this.guild.id)) as APIBanData[];
 		const output = cache ? this : new Cache<string, Ban>();
 		for (const banData of bansData) {
-			const ban = new Ban(this.client, banData);
+			const ban = new this.Holds(this.client, banData);
 			output.set(ban.id, ban);
 		}
 
