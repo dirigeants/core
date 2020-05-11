@@ -29,11 +29,11 @@ export abstract class Channel extends Structure {
 	}
 
 	public static create(client: Client, data: APIChannelData): Channel {
-		const name = Channel.keys.get(data.type) ?? 'Channel';
+		const name = Channel.types.get(data.type) ?? 'Channel';
 		return new (extender.get(name))(client, data) as Channel;
 	}
 
-	private static readonly keys = new Map<ChannelType, keyof ExtenderStructures>([
+	private static readonly types = new Map<ChannelType, keyof ExtenderStructures>([
 		[ChannelType.GuildText, 'TextChannel'],
 		[ChannelType.DM, 'DMChannel'],
 		[ChannelType.GuildVoice, 'VoiceChannel'],
