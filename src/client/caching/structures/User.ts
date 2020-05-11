@@ -97,6 +97,14 @@ export class User extends Structure {
 		this._patch(data);
 	}
 
+	/**
+	 * Defines toString behavior for members.
+	 * @since 0.0.1
+	 */
+	public toString(): string {
+		return `<@${this.id}>`;
+	}
+
 	protected _patch(data: APIUserData): this {
 		this.username = data.username;
 		this.discriminator = data.discriminator;
