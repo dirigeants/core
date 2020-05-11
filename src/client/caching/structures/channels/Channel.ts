@@ -1,9 +1,9 @@
 import { Structure } from '../base/Structure';
 import { APIChannelPartial, ChannelType, APIChannelData } from '@klasa/dapi-types';
 import { extender, ExtenderStructures } from '../../../../util/Extender';
+import { ClientEvents } from '../../../../util/types/Util';
 
 import type { Client } from '../../../Client';
-import { ClientEvents } from '../../../../util/types/Util';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
