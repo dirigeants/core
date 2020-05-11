@@ -3,6 +3,7 @@ import { APIChannelPartial, ChannelType, APIChannelData } from '@klasa/dapi-type
 import { extender, ExtenderStructures } from '../../../../util/Extender';
 
 import type { Client } from '../../../Client';
+import { ClientEvents } from '../../../../util/types/Util';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -30,7 +31,10 @@ export abstract class Channel extends Structure {
 
 	public static create(client: Client, data: APIChannelData): Channel | null {
 		const name = Channel.types.get(data.type);
-		return name ? new (extender.get(name))(client, data) as Channel : null;
+		if (name) return new (extender.get(name))(client, data) as Channel;
+
+		client.emit(ClientEvents.Debug, `[Channels] Received data with unknown type '${data.type}'.\n\tPayload: ${JSON.stringify(data)}`);
+		return null;
 	}
 
 	private static readonly types = new Map<ChannelType, keyof ExtenderStructures>([
