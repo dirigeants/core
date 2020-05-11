@@ -1,5 +1,5 @@
-import { GuildTextChannel } from './GuildTextChannel';
 import { ChannelType } from '@klasa/dapi-types';
+import { GuildTextChannel } from './GuildTextChannel';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object

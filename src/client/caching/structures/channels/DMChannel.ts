@@ -1,6 +1,5 @@
-import { Channel } from './Channel';
-
 import { APIChannelData, ChannelType, APIUserData } from '@klasa/dapi-types';
+import { Channel } from './Channel';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object

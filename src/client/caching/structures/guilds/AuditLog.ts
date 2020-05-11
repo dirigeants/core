@@ -1,5 +1,5 @@
-import type { Client } from '../../../Client';
 import type { APIAuditLogData, APIWebhookData, APIUserData, APIAuditLogEntryData, APIIntegrationData } from '@klasa/dapi-types';
+import type { Client } from '../../../Client';
 
 /**
  * @see https://discord.com/developers/docs/resources/audit-log#audit-log-object

@@ -1,7 +1,7 @@
 import { Structure } from '../base/Structure';
 
-import type { Client } from '../../../Client';
 import type { APIAuditLogEntryData, APIAuditLogChangeData, AuditLogEvent, APIAuditLogOptionsData } from '@klasa/dapi-types';
+import type { Client } from '../../../Client';
 
 /**
  * @see https://discord.com/developers/docs/resources/audit-log#audit-log-entry-object

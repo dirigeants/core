@@ -1,5 +1,5 @@
-import { Channel } from './Channel';
 import { Cache } from '@klasa/cache';
+import { Channel } from './Channel';
 import { PermissionOverwrites } from '../PermissionOverwrites';
 
 import type { APIChannelData } from '@klasa/dapi-types';

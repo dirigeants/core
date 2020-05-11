@@ -1,8 +1,8 @@
-import { UserStore } from '../../stores/UserStore';
 import { Routes } from '@klasa/rest';
+import { UserStore } from '../../stores/UserStore';
 
-import type { Client } from '../../../Client';
 import type { APIEmojiPartial, APIUserData } from '@klasa/dapi-types';
+import type { Client } from '../../../Client';
 import type { MessageReaction } from './MessageReaction';
 
 /**

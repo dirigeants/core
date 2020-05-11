@@ -1,8 +1,8 @@
-import { TeamMember } from './TeamMember';
 import { Cache } from '@klasa/cache';
+import { TeamMember } from './TeamMember';
 
-import type { Client } from '../../../Client';
 import type { APITeamData } from '@klasa/dapi-types';
+import type { Client } from '../../../Client';
 
 /**
  * @see https://discord.com/developers/docs/topics/teams#data-models-team-object

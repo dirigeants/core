@@ -1,13 +1,13 @@
 /* eslint-disable no-dupe-class-members */
-import { DataStore } from './base/DataStore';
 import { Cache } from '@klasa/cache';
 import { Routes } from '@klasa/rest';
+import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 
+import type { APIBanData } from '@klasa/dapi-types';
 import type { Ban } from '../structures/guilds/Ban';
 import type { Client } from '../../Client';
 import type { Guild } from '../structures/guilds/Guild';
-import type { APIBanData } from '@klasa/dapi-types';
 
 /**
  * The store for {@link Ban bans}.

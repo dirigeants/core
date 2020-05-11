@@ -1,7 +1,7 @@
 import { Team } from './Team';
 
-import type { Client } from '../../../Client';
 import type { APIOauthData, APIUserData } from '@klasa/dapi-types';
+import type { Client } from '../../../Client';
 
 /**
  * @see https://discord.com/developers/docs/topics/oauth2#get-current-application-information-response-structure

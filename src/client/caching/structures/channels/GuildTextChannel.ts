@@ -1,5 +1,5 @@
-import { GuildChannel } from './GuildChannel';
 import { APIChannelData } from '@klasa/dapi-types';
+import { GuildChannel } from './GuildChannel';
 import { Client } from '../../../Client';
 import { MessageStore } from '../../../caching/stores/MessageStore';
 
@@ -41,7 +41,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	public constructor(client: Client, data: APIChannelData) {
 		super(client, data);
 		this.messages = new MessageStore(client);
-		super._patch(data);
+		this._patch(data);
 	}
 
 	protected _patch(data: APIChannelData): this {

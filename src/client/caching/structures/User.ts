@@ -1,8 +1,8 @@
 import { Structure } from './base/Structure';
 
+import type { APIUserData, APIUserFlags, PremiumType } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
 import type { WebhookClient } from '../../WebhookClient';
-import type { APIUserData, APIUserFlags, PremiumType } from '@klasa/dapi-types';
 
 /**
  * @see https://discord.com/developers/docs/resources/user#user-object

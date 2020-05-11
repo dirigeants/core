@@ -1,5 +1,5 @@
-import { GuildChannel } from './GuildChannel';
 import { ChannelType, APIChannelData } from '@klasa/dapi-types';
+import { GuildChannel } from './GuildChannel';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -28,7 +28,7 @@ export class VoiceChannel extends GuildChannel {
 	protected _patch(data: APIChannelData): this {
 		this.bitrate = data.bitrate as number;
 		this.userLimit = data.user_limit as number;
-		return this._patch(data);
+		return super._patch(data);
 	}
 
 }
