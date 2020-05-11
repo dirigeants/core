@@ -1,8 +1,8 @@
 import { Structure } from '../base/Structure';
+import { Permissions } from '../../../../util/bitfields/Permissions';
 
 import type { APIRoleData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
-import { Permissions } from '../../../../util/bitfields/Permissions';
 
 /**
  * @see https://discord.com/developers/docs/topics/permissions#role-object

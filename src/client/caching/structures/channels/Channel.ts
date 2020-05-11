@@ -1,5 +1,5 @@
-import { Structure } from '../base/Structure';
 import { APIChannelPartial, ChannelType, APIChannelData } from '@klasa/dapi-types';
+import { Structure } from '../base/Structure';
 import { extender, ExtenderStructures } from '../../../../util/Extender';
 import { ClientEvents } from '../../../../util/types/Util';
 
