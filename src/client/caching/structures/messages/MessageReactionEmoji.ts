@@ -86,7 +86,7 @@ export class MessageReactionEmoji implements APIEmojiPartial {
 	public async fetch(options?: MessageReactionEmojiFetchOptions): Promise<this> {
 		const endpoint = Routes.messageReaction(this.reaction.message.channel.id, this.reaction.message.id, this.identifier);
 		const users = await this.client.api.get(endpoint, { query: options }) as APIUserData[];
-		for (const user of users) this.users.add(user);
+		for (const user of users) this.users._add(user);
 		return this;
 	}
 

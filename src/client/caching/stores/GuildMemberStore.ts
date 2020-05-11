@@ -22,7 +22,7 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	public add(data: APIGuildMemberData, cache = true): GuildMember {
+	public _add(data: APIGuildMemberData, cache = true): GuildMember {
 		const existing = this.get((data.user as APIUserData).id);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);

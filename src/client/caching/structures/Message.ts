@@ -153,8 +153,8 @@ export class Message extends Structure {
 		this.reactions = new MessageReactionStore(client);
 		this.channel = this.client.channels.get(data.channel_id) as DMChannel | TextChannel | NewsChannel;
 		this.guild = data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null;
-		this.author = this.client.users.add(data.author);
-		this.member = data.member && this.guild ? this.guild.members.add(data.member) : null;
+		this.author = this.client.users._add(data.author);
+		this.member = data.member && this.guild ? this.guild.members._add(data.member) : null;
 		this.createdTimestamp = new Date(data.timestamp).getTime();
 		this.mentions = new MessageMentions(this, data.mentions, data.mention_roles, data.mention_channels, data.mention_everyone);
 		this.type = data.type;

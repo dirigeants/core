@@ -68,7 +68,7 @@ export class VoiceState extends Structure {
 		this._patch(data);
 	}
 
-	_patch(data: APIVoiceStatePartial): this {
+	protected _patch(data: APIVoiceStatePartial): this {
 		this.channelID = data.channel_id;
 		this.sessionID = data.session_id;
 		this.deaf = data.deaf;

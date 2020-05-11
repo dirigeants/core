@@ -23,7 +23,7 @@ export class Ban extends Structure {
 
 	public constructor(client: Client, data: APIBanData) {
 		super(client);
-		this.id = this.client.users.add(data.user).id;
+		this.id = this.client.users._add(data.user).id;
 		this.reason = data.reason;
 	}
 
