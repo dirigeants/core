@@ -357,22 +357,26 @@ export class Guild extends Structure {
 
 		if (data.roles) {
 			this.roles.clear();
-			for (const role of data.roles) this.roles._add(role);
+			// eslint-disable-next-line dot-notation
+			for (const role of data.roles) this.roles['_add'](role);
 		}
 
 		if (data.emojis) {
 			this.emojis.clear();
-			for (const emoji of data.emojis) this.emojis._add(emoji);
+			// eslint-disable-next-line dot-notation
+			for (const emoji of data.emojis) this.emojis['_add'](emoji);
 		}
 
 		if (data.members) {
 			this.members.clear();
-			for (const member of data.members) this.members._add(member);
+			// eslint-disable-next-line dot-notation
+			for (const member of data.members) this.members['_add'](member);
 		}
 
 		if (data.channels) {
 			this.channels.clear();
-			for (const channel of data.channels) this.channels._add(channel);
+			// eslint-disable-next-line dot-notation
+			for (const channel of data.channels) this.channels['_add'](channel);
 		}
 
 		this.features = data.features;

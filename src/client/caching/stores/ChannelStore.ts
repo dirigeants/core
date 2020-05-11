@@ -18,7 +18,7 @@ export class ChannelStore extends DataStore<Channel> {
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	public _add(data: APIChannelData, cache = true): Channel | null {
+	protected _add(data: APIChannelData, cache = true): Channel | null {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation
 		if (existing && existing.type === data.type) return existing['_patch'](data);

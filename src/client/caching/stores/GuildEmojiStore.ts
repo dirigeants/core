@@ -18,7 +18,7 @@ export class GuildEmojiStore extends DataStore<GuildEmoji> {
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	public _add(data: APIEmojiData, cache = true): GuildEmoji {
+	protected _add(data: APIEmojiData, cache = true): GuildEmoji {
 		const existing = this.get(data.id as string);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);

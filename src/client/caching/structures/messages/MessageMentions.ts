@@ -42,11 +42,13 @@ export class MessageMentions {
 
 		if (users) {
 			for (const mention of users) {
-				const user = this.message.client.users._add(mention);
+				// eslint-disable-next-line dot-notation
+				const user = this.message.client.users['_add'](mention);
 				this.users.set(user.id, user);
 
 				if (mention.member) {
-					(this.message.guild as Guild).members._add(mention.member);
+					// eslint-disable-next-line dot-notation
+					(this.message.guild as Guild).members['_add'](mention.member);
 				}
 			}
 		}
