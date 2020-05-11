@@ -25,7 +25,7 @@ export abstract class Structure {
 	 * The method of patching this instance defined in Structures
 	 * @param data The data packet
 	 */
-	protected abstract _patch(data: any): this;
+	protected abstract _patch(data: unknown): this;
 
 	/**
 	 * The basic value of this Structure

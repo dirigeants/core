@@ -6,7 +6,7 @@ import { Cache } from '@klasa/cache';
 import type { Client } from '../../../client/Client';
 import type { Piece } from './Piece';
 
-type PieceConstructor<T> = new (...args: ConstructorParameters<typeof Piece>) => T;
+export type PieceConstructor<T> = new (...args: ConstructorParameters<typeof Piece>) => T;
 
 /**
  * @since 0.0.1
@@ -154,7 +154,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * @since 0.0.1
 	 * @param name The piece object or a string representing a piece's name
 	 */
-	public resolve(name: V | string): Piece | null {
+	public resolve(name: V | string): V | null {
 		if (name instanceof this.holds) return name;
 		return this.get(name as string) || null;
 	}
