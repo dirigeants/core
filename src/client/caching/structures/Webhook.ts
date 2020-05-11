@@ -2,6 +2,7 @@ import { Snowflake } from '@klasa/snowflake';
 import { Routes } from '@klasa/rest';
 import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
 import { Structure } from './base/Structure';
+import { extender } from '../../../util/Extender';
 
 import type { APIWebhookData, WebhookType, APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
@@ -9,7 +10,8 @@ import type { WebhookClient } from '../../WebhookClient';
 import type { SplitOptions } from './messages/MessageBuilder';
 import type { Message } from './Message';
 import type { User } from './User';
-import { extender } from '../../../util/Extender';
+import type { Guild } from './guilds/Guild';
+import type { Channel } from './channels/Channel';
 
 export interface WebhookUpdateData {
 	name?: string;
@@ -90,20 +92,16 @@ export class Webhook extends Structure {
 	/**
 	 * The guild that this webhook is in
 	 */
-	/*
-	get guild(): Guild {
-		return this.client.guilds.get(this.guildID) || null;
+	get guild(): Guild | null {
+		return (this.guildID && (this.client as Client).guilds.get(this.guildID)) || null;
 	}
-	*/
 
 	/**
 	 * The channel of this webhook
 	 */
-	/*
-	get channel(): Channel {
-		return this.client.channels.get(this.channelID) || null;
+	get channel(): Channel | null {
+		return (this.client as Client).channels.get(this.channelID) || null;
 	}
-	*/
 
 	/**
 	 * The timestamp the webhook was created at
@@ -133,8 +131,8 @@ export class Webhook extends Structure {
 
 		const rawMessages = await Promise.all(responses);
 
-		const MessageCtor = extender.get('Message');
-		return rawMessages.map(msg => new MessageCtor(this.client, msg as APIMessageData));
+		const MessageConstructor = extender.get('Message');
+		return rawMessages.map(msg => new MessageConstructor(this.client, msg as APIMessageData));
 	}
 
 	/**
