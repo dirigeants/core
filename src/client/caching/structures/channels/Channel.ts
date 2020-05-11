@@ -28,9 +28,9 @@ export abstract class Channel extends Structure {
 		this._patch(data);
 	}
 
-	public static create(client: Client, data: APIChannelData): Channel {
-		const name = Channel.types.get(data.type) ?? 'Channel';
-		return new (extender.get(name))(client, data) as Channel;
+	public static create(client: Client, data: APIChannelData): Channel | null {
+		const name = Channel.types.get(data.type);
+		return name ? new (extender.get(name))(client, data) as Channel : null;
 	}
 
 	private static readonly types = new Map<ChannelType, keyof ExtenderStructures>([

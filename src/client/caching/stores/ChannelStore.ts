@@ -16,13 +16,15 @@ export class ChannelStore extends DataStore<Channel> {
 	 * @param data The data packet to add
 	 * @param cache If the data should be cached
 	 */
-	public add(data: APIChannelData, cache = true): Channel {
+	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// @ts-ignore
+	public add(data: APIChannelData, cache = true): Channel | null {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation
-		if (existing) return existing['_patch'](data);
+		if (existing && existing.type === data.type) return existing['_patch'](data);
 
 		const entry = Channel.create(this.client, data);
-		if (cache) this.set(entry.id, entry);
+		if (entry && cache) this.set(entry.id, entry);
 		return entry;
 	}
 
