@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
-    "@klasa/dapi-types": "^0.0.8",
+    "@klasa/dapi-types": "^0.0.9",
     "@types/node": "13",
     "@types/node-fetch": "^2.5.7",
     "@types/ws": "^7.2.4",
