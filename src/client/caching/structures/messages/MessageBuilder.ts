@@ -1,7 +1,8 @@
 import { basename } from 'path';
 import { Readable } from 'stream';
+import { promises as fsp } from 'fs';
 import fetch from 'node-fetch';
-import { readFile, pathExists } from 'fs-nextra';
+import { pathExists } from 'fs-nextra';
 import { mergeDefault } from '@klasa/utils';
 
 import type { File, RequestOptions } from '@klasa/rest';
@@ -221,7 +222,7 @@ export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | '
 			resolvedFile = await (await fetch(file)).buffer();
 			resolvedName = name || basename(file);
 		} else if (await pathExists(file)) {
-			resolvedFile = await readFile(file);
+			resolvedFile = await fsp.readFile(file);
 			resolvedName = name || basename(file);
 		} else {
 			resolvedFile = Buffer.from(file);
