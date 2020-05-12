@@ -1,16 +1,17 @@
 import { Cache } from '@klasa/cache';
 
-import { Client } from '../../../Client';
-import { Structure } from '../../structures/base/Structure';
+import type { Client } from '../../../Client';
+import type { Structure } from '../../structures/base/Structure';
+import type { Constructor } from '../../../../util/Extender';
 
 /**
  * The data caches with extra methods unique to each data store
  */
-export class DataStore<S extends Structure, VConstructor extends new (...args: any[]) => S> extends Cache<string, S> {
+export class DataStore<S extends Structure> extends Cache<string, S> {
 
-	public constructor(public readonly client: Client, private readonly Holds: VConstructor, iterable?: Iterable<S>) {
+	public constructor(public readonly client: Client, protected readonly Holds: Constructor<S>, iterable?: Iterable<S>) {
 		super();
-		if (iterable) for (const item of iterable) this.add(item);
+		if (iterable) for (const item of iterable) this._add(item);
 	}
 
 	/**
@@ -18,8 +19,7 @@ export class DataStore<S extends Structure, VConstructor extends new (...args: a
 	 * @param data The data packet to add
 	 * @param cache If the data should be cached
 	 */
-	// tslint:disable-next-line no-any
-	public add(data: { id: string, [k: string]: any }, cache = true): S {
+	protected _add(data: { id: string, [k: string]: any }, cache = true): S {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);

@@ -1,15 +1,17 @@
 import { Snowflake } from '@klasa/snowflake';
 import { Routes } from '@klasa/rest';
-
-import type { APIWebhookData, WebhookType, APIUserData, APIMessageData } from '@klasa/dapi-types';
-
 import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
 import { Structure } from './base/Structure';
-import { Message } from './Message';
+import { extender } from '../../../util/Extender';
 
+import type { APIWebhookData, WebhookType, APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
 import type { WebhookClient } from '../../WebhookClient';
 import type { SplitOptions } from './messages/MessageBuilder';
+import type { Message } from './Message';
+import type { User } from './User';
+import type { Guild } from './guilds/Guild';
+import type { Channel } from './channels/Channel';
 
 export interface WebhookUpdateData {
 	name?: string;
@@ -42,7 +44,7 @@ export class Webhook extends Structure {
 	/**
 	 * The "user" of the webhook displayed on the webhook messages
 	 */
-	public user?: APIUserData;
+	public user?: User;
 
 	/**
 	 * The name of the webhook
@@ -78,8 +80,11 @@ export class Webhook extends Structure {
 		this.avatar = data.avatar || this.avatar;
 		this.channelID = data.channel_id || this.channelID;
 
-		// todo: replace with future Structures.extended User
-		this.user = data.user || this.user;
+		if (data.user) {
+			// eslint-disable-next-line dot-notation
+			if (this.user) this.user['_patch'](data.user);
+			else this.user = new (extender.get('User'))(this.client, data.user);
+		}
 
 		return this;
 	}
@@ -87,20 +92,16 @@ export class Webhook extends Structure {
 	/**
 	 * The guild that this webhook is in
 	 */
-	/*
-	get guild(): Guild {
-		return this.client.guilds.get(this.guildID) || null;
+	get guild(): Guild | null {
+		return (this.guildID && (this.client as Client).guilds.get(this.guildID)) || null;
 	}
-	*/
 
 	/**
 	 * The channel of this webhook
 	 */
-	/*
-	get channel(): Channel {
-		return this.client.channels.get(this.channelID) || null;
+	get channel(): Channel | null {
+		return (this.client as Client).channels.get(this.channelID) || null;
 	}
-	*/
 
 	/**
 	 * The timestamp the webhook was created at
@@ -130,8 +131,8 @@ export class Webhook extends Structure {
 
 		const rawMessages = await Promise.all(responses);
 
-		// todo: replace with future Structures.extended Message
-		return rawMessages.map(msg => new Message(this.client, msg as APIMessageData));
+		const MessageConstructor = extender.get('Message');
+		return rawMessages.map(msg => new MessageConstructor(this.client, msg as APIMessageData));
 	}
 
 	/**

@@ -1,78 +1,100 @@
 import { deepClone } from '@klasa/utils';
 
-import type { APIEmbedData, APIEmbedFieldData, APIEmbedProviderData, EmbedType, APIEmbedAuthorData, APIEmbedFooterData, APIEmbedImageData, APIEmbedVideoData } from '@klasa/dapi-types';
+import type {
+	APIEmbedAuthorData,
+	APIEmbedData,
+	APIEmbedFieldData,
+	APIEmbedFooterData,
+	APIEmbedImageData,
+	APIEmbedProviderData,
+	APIEmbedVideoData,
+	EmbedType
+} from '@klasa/dapi-types';
 
 export interface StringResolvable {
 	toString(): string;
 }
 
 /**
- * Handles Message Embed creation and received embeds
+ * Handles Embed creation and received embeds
  */
-export class MessageEmbed implements APIEmbedData {
+export class Embed implements APIEmbedData {
 
 	/**
-	 * Embed Fields
+	 * Embed Fields.
+	 * @since 0.0.1
 	 */
 	public fields!: APIEmbedFieldData[];
 
 	/**
-	 * The type of embed
+	 * The type of embed.
+	 * @since 0.0.1
 	 */
 	public type?: EmbedType;
 
 	/**
-	 * The embed title
+	 * The embed title.
+	 * @since 0.0.1
 	 */
 	public title?: string;
 
 	/**
-	 * The embed description
+	 * The embed description.
+	 * @since 0.0.1
 	 */
 	public description?: string;
 
 	/**
-	 * The embed url
+	 * The embed url.
+	 * @since 0.0.1
 	 */
 	public url?: string;
 
 	/**
-	 * The embed bar color
+	 * The embed bar color.
+	 * @since 0.0.1
 	 */
 	public color?: number;
 
 	/**
-	 * The timestamp of the embed
+	 * The timestamp of the embed.
+	 * @since 0.0.1
 	 */
 	public timestamp?: string;
 
 	/**
-	 * The embed thumbnail data
+	 * The embed thumbnail data.
+	 * @since 0.0.1
 	 */
 	public thumbnail?: APIEmbedImageData;
 
 	/**
-	 * The embed image data
+	 * The embed image data.
+	 * @since 0.0.1
 	 */
 	public image?: APIEmbedImageData;
 
 	/**
-	 * Received video data
+	 * Received video data.
+	 * @since 0.0.1
 	 */
 	public video?: APIEmbedVideoData;
 
 	/**
-	 * The embed author data
+	 * The embed author data.
+	 * @since 0.0.1
 	 */
 	public author?: APIEmbedAuthorData;
 
 	/**
-	 * Received data about the embed provider
+	 * Received data about the embed provider.
+	 * @since 0.0.1
 	 */
 	public provider?: APIEmbedProviderData;
 
 	/**
-	 * The embed footer data
+	 * The embed footer data.
+	 * @since 0.0.1
 	 */
 	public footer?: APIEmbedFooterData;
 
@@ -85,7 +107,7 @@ export class MessageEmbed implements APIEmbedData {
 
 		this.url = data.url;
 
-		this.color = Number(data.color);
+		this.color = data.color;
 
 		this.timestamp = data.timestamp ? new Date(data.timestamp).toISOString() : undefined;
 
@@ -154,7 +176,7 @@ export class MessageEmbed implements APIEmbedData {
 	 * @param inline If the field should be inline with other fields
 	 */
 	public addField(name: StringResolvable, value: StringResolvable, inline?: boolean): this {
-		this.fields.push(MessageEmbed.checkField(name, value, inline));
+		this.fields.push(Embed.checkField(name, value, inline));
 		return this;
 	}
 
@@ -175,7 +197,7 @@ export class MessageEmbed implements APIEmbedData {
 	 * @param inline If the inserted field is inline
 	 */
 	public spliceField(index: number, deleteCount: number, name?: StringResolvable, value?: StringResolvable, inline?: boolean): this {
-		if (name && value) this.fields.splice(index, deleteCount, MessageEmbed.checkField(name, value, inline));
+		if (name && value) this.fields.splice(index, deleteCount, Embed.checkField(name, value, inline));
 		else this.fields.splice(index, deleteCount);
 		return this;
 	}

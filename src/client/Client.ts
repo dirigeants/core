@@ -4,8 +4,12 @@ import { Cache } from '@klasa/cache';
 import { dirname, join } from 'path';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
+import { UserStore } from './caching/stores/UserStore';
+import { ChannelStore } from './caching/stores/ChannelStore';
+import { GuildStore } from './caching/stores/GuildStore';
 import { EventStore } from '../lib/structures/EventStore';
 import { ActionStore } from '../lib/structures/ActionStore';
+import { ClientEvents } from '../util/types/Util';
 
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
@@ -30,6 +34,10 @@ export class Client extends BaseClient {
 	 * The options to use for this client
 	 */
 	public options: Required<ClientOptions>;
+
+	public guilds: GuildStore;
+	public users: UserStore;
+	public channels: ChannelStore;
 
 	/**
 	 * The directory where the user files are at.
@@ -58,7 +66,10 @@ export class Client extends BaseClient {
 		super(options);
 		this.options = mergeDefault(ClientOptionsDefaults, options);
 		this.ws = new WebSocketManager(this.api, this.options.ws)
-			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, WebSocketManagerEvents.ClientWSDebug));
+			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, ClientEvents.WSDebug));
+		this.users = new UserStore(this);
+		this.guilds = new GuildStore(this);
+		this.channels = new ChannelStore(this);
 
 		this.pieceStores = new Cache();
 		this.events = new EventStore(this);
