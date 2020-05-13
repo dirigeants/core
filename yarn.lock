@@ -197,16 +197,16 @@
   resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.4.tgz#4bf010b09d0f93b39245523ed22a09571d56508c"
   integrity sha512-9gZSGN/As3sxZumZ9ZwyQ+KcNSenzY8tR1orRakv8HKK0WH0gG7QrsP/1O2TD4uHxUyr8dysCjt73RYPfzuDWQ==
 
-"@klasa/ws@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.6.tgz#c885caf8cedebe575a7e6ca39b3f86b3704a4987"
-  integrity sha512-5NZNz8akik8Gc0AuP5skzUT2wRWq/ZAzzNosa/HJ1ex+Iqi/9ap/X/E1LEtIyLrlzj89WDgfKV8gyZ+VDsq2bw==
+"@klasa/ws@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.7.tgz#6c069a7af0c46b98f0d99afc5c3636aa9f38ef79"
+  integrity sha512-YXTrJ5KApSn8PD05KFfLVGUg14spiKoiUVD0Gff8E5RWKJOlUd7CFDAJfiPFrdJ5kWH5s2YIP2noPH9E01j8lg==
   dependencies:
     "@klasa/async-queue" "^0.0.1"
     "@klasa/bitfield" "^0.0.2"
     "@klasa/cache" "^0.0.1"
     "@klasa/utils" "^0.0.4"
-    ws "^7.2.3"
+    ws "^7.3.0"
   optionalDependencies:
     bufferutil "^4.0.1"
     utf-8-validate "^5.0.2"
@@ -3175,10 +3175,10 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
-ws@^7.2.3:
-  version "7.2.3"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.2.3.tgz#a5411e1fb04d5ed0efee76d26d5c46d830c39b46"
-  integrity sha512-HTDl9G9hbkNDk98naoR/cHDws7+EyYMOdL1BmjsZXRUjf7d+MficC4B7HLUPlSiho0vg+CWKrGIt/VJBd1xunQ==
+ws@^7.3.0:
+  version "7.3.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.3.0.tgz#4b2f7f219b3d3737bc1a2fbf145d825b94d38ffd"
+  integrity sha512-iFtXzngZVXPGgpTlP1rBqsUK82p9tKqsWRPg5L56egiljujJT3vGAYnHANvFxBieXrTFavhzhxW52jnaWV+w2w==
 
 xdg-basedir@^4.0.0:
   version "4.0.0"
