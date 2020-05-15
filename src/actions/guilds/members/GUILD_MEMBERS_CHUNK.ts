@@ -1,4 +1,5 @@
 import { Action } from '../../../lib/structures/Action';
+import { ClientEvents } from '../../../util/types/Util';
 
 import type { GuildMembersChunkDispatch } from '@klasa/ws';
 
@@ -11,7 +12,10 @@ export default class CoreAction extends Action {
 	 */
 	public run(data: GuildMembersChunkDispatch): void {
 		const guild = this.client.guilds.get(data.d.guild_id);
-		if (!guild) return;
+		if (!guild) {
+			this.client.emit(ClientEvents.Debug, `[GUILD_MEMBERS_CHUNK] An event with ${data.d.guild_id} has been received but none was cached.`);
+			return;
+		}
 
 		// eslint-disable-next-line dot-notation
 		const members = data.d.members.map(member => guild.members['_add'](member));
