@@ -8,7 +8,7 @@ export default class CoreAction extends Action {
 
 	public check(data: ChannelCreateDispatch): Channel | null {
 		const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : undefined;
-		return (guild ? guild.channels.get(data.d.id) : this.client.channels.get(data.d.id)) ?? null;
+		return (guild ? guild.channels.get(data.d.id) : this.client.dms.get(data.d.id)) ?? null;
 	}
 
 	public build(): Channel | null {
@@ -17,7 +17,7 @@ export default class CoreAction extends Action {
 
 	public cache(data: Channel): void {
 		if (isGuildChannel(data)) data.guild.channels.delete(data.id);
-		else this.client.channels.delete(data.id);
+		else this.client.dms.delete(data.id);
 	}
 
 }

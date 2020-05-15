@@ -12,7 +12,7 @@ export default class CoreAction extends Action {
 
 	public build(data: InviteDeleteDispatch): Invite | null {
 		const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : null;
-		const channel = (guild ? guild.channels.get(data.d.channel_id) : this.client.channels.get(data.d.channel_id)) ?? { id: data.d.channel_id };
+		const channel = (guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id)) ?? { id: data.d.channel_id };
 		return new (extender.get('Invite'))(this.client, { ...data, guild, channel });
 	}
 

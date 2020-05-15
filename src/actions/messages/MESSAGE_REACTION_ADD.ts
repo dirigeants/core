@@ -13,7 +13,7 @@ export default class CoreAction extends Action {
 	 */
 	public run(data: MessageReactionAddDispatch): void {
 		const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : undefined;
-		const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.channels.get(data.d.channel_id);
+		const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id);
 		if (!channel || !isTextBasedChannel(channel)) return;
 
 		const message = channel.messages.get(data.d.message_id);

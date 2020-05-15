@@ -9,7 +9,7 @@ export default class CoreAction extends Action {
 
 	public check(data: MessageUpdateDispatch): Message | null {
 		const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : undefined;
-		const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.channels.get(data.d.channel_id);
+		const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id);
 		if (!channel || !isTextBasedChannel(channel)) return null;
 		return channel.messages.get(data.d.id) ?? null;
 	}
