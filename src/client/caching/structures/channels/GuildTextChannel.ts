@@ -1,7 +1,9 @@
-import { APIChannelData } from '@klasa/dapi-types';
 import { GuildChannel } from './GuildChannel';
-import { Client } from '../../../Client';
 import { MessageStore } from '../../../caching/stores/MessageStore';
+
+import type { APIChannelData } from '@klasa/dapi-types';
+import type { Client } from '../../../Client';
+import type { Guild } from '../guilds/Guild';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -38,10 +40,9 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 */
 	public lastPinTimestamp!: string | null;
 
-	public constructor(client: Client, data: APIChannelData) {
-		super(client, data);
+	public constructor(client: Client, data: APIChannelData, guild: Guild | null) {
+		super(client, data, guild);
 		this.messages = new MessageStore(client);
-		this._patch(data);
 	}
 
 	protected _patch(data: APIChannelData): this {

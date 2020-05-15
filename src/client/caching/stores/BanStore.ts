@@ -8,6 +8,7 @@ import type { APIBanData } from '@klasa/dapi-types';
 import type { Ban } from '../structures/guilds/Ban';
 import type { Client } from '../../Client';
 import type { Guild } from '../structures/guilds/Guild';
+import type { GuildBanAddDispatch } from '@klasa/ws';
 
 /**
  * The store for {@link Ban bans}.
@@ -23,6 +24,23 @@ export class BanStore extends DataStore<Ban> {
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('Ban'));
 		this.guild = guild;
+	}
+
+	/**
+	 * Adds a new structure to this DataStore
+	 * @param data The data packet to add
+	 * @param cache If the data should be cached
+	 */
+	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// @ts-ignore
+	protected _add(data: GuildBanAddDispatch['d'], cache = true): Ban {
+		const existing = this.get(data.user.id);
+		// eslint-disable-next-line dot-notation
+		if (existing) return existing['_patch']();
+
+		const entry = new this.Holds(this.client, data, this.guild);
+		if (cache) this.set(entry.id, entry);
+		return entry;
 	}
 
 	/**
@@ -67,7 +85,7 @@ export class BanStore extends DataStore<Ban> {
 			if (cached) return cached;
 
 			const banData = await this.client.api.get(Routes.guildBan(this.guild.id, id)) as APIBanData;
-			const ban = new this.Holds(this.client, banData);
+			const ban = new this.Holds(this.client, banData, this.guild);
 			if (cache) this.set(ban.id, ban);
 			return ban;
 		}
@@ -75,7 +93,7 @@ export class BanStore extends DataStore<Ban> {
 		const bansData = await this.client.api.get(Routes.guildBans(this.guild.id)) as APIBanData[];
 		const output = cache ? this : new Cache<string, Ban>();
 		for (const banData of bansData) {
-			const ban = new this.Holds(this.client, banData);
+			const ban = new this.Holds(this.client, banData, this.guild);
 			output.set(ban.id, ban);
 		}
 

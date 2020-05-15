@@ -25,7 +25,7 @@ export class GuildMember extends Structure {
 	 * Whether or not the user is deafened in voice channels.
 	 * @since 0.0.1
 	 */
-	public deaf!: boolean;
+	public deaf!: boolean | null;
 
 	/**
 	 * When the user joined the guild.
@@ -37,7 +37,7 @@ export class GuildMember extends Structure {
 	 * Whether or not the user is muted in voice channels.
 	 * @since 0.0.1
 	 */
-	public mute!: boolean;
+	public mute!: boolean | null;
 
 	/**
 	 * This user's guild nickname.
@@ -58,7 +58,7 @@ export class GuildMember extends Structure {
 	 */
 	public roleIDs!: string[];
 
-	public constructor(client: Client, data: APIGuildMemberData, guild: Guild) {
+	public constructor(client: Client, data: MemberData, guild: Guild) {
 		super(client);
 
 		this.id = (data.user as APIUserData).id;
@@ -74,14 +74,16 @@ export class GuildMember extends Structure {
 		return this.nick ? `<@!${this.id}>` : `<@${this.id}>`;
 	}
 
-	protected _patch(data: APIGuildMemberData): this {
-		this.deaf = data.deaf;
-		this.joinedTimestamp = new Date(data.joined_at).getTime();
-		this.mute = data.mute;
-		this.nick = data.nick;
+	protected _patch(data: MemberData): this {
+		this.deaf = 'deaf' in data ? data.deaf : null;
+		this.joinedTimestamp = 'joined_at' in data ? new Date(data.joined_at).getTime() : null;
+		this.mute = 'mute' in data ? data.mute : null;
+		this.nick = 'nick' in data ? data.nick : null;
 		this.premiumSince = data.premium_since ? new Date(data.premium_since).getTime() : null;
 		this.roleIDs = data.roles;
 		return this;
 	}
 
 }
+
+export type MemberData = APIGuildMemberData | Omit<APIGuildMemberData, 'deaf' | 'mute' | 'nick' | 'joined_at'>;

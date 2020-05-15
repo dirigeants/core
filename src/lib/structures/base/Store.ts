@@ -176,7 +176,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 */
 	private static async walk<T extends Piece>(store: Store<T>, directory: string = store.userDirectory): Promise<T[]> {
 		try {
-			const files = await scan(directory, { filter: (stats, path) => stats.isFile() && extname(path) === '.js' });
+			const files = await scan(directory, { filter: (stats) => stats.isFile() && extname(stats.name) === '.js' });
 			return Promise.all([...files.keys()].map(file => store.load(directory, relative(directory, file).split(sep)) as Promise<T>));
 		} catch {
 			if (store.client.options.createPiecesFolders) {

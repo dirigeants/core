@@ -151,12 +151,12 @@ export class Message extends Structure {
 		this.id = data.id;
 		this.attachments = new Cache();
 		this.reactions = new MessageReactionStore(client);
-		this.channel = this.client.channels.get(data.channel_id) as DMChannel | TextChannel | NewsChannel;
 		this.guild = data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null;
+		this.channel = this.guild ? this.guild.channels.get(data.channel_id) as TextChannel | NewsChannel : this.client.channels.get(data.channel_id) as DMChannel;
 		// eslint-disable-next-line dot-notation
 		this.author = this.client.users['_add'](data.author);
 		// eslint-disable-next-line dot-notation
-		this.member = data.member && this.guild ? this.guild.members['_add'](data.member) : null;
+		this.member = data.member && this.guild ? this.guild.members['_add']({ ...data.member, user: data.author }) : null;
 		this.createdTimestamp = new Date(data.timestamp).getTime();
 		this.mentions = new MessageMentions(this, data.mentions, data.mention_roles, data.mention_channels, data.mention_everyone);
 		this.type = data.type;

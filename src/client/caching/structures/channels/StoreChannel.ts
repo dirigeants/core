@@ -21,7 +21,7 @@ export class StoreChannel extends GuildChannel {
 
 	protected _patch(data: APIChannelData): this {
 		this.nsfw = data.nsfw as boolean;
-		return this._patch(data);
+		return super._patch(data);
 	}
 
 }

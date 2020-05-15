@@ -13,6 +13,7 @@ import { ClientEvents } from '../util/types/Util';
 
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
+import type { ClientUser } from './caching/structures/ClientUser';
 
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
@@ -34,6 +35,11 @@ export class Client extends BaseClient {
 	 * The options to use for this client
 	 */
 	public options: Required<ClientOptions>;
+
+	/**
+	 * The client user
+	 */
+	public user: ClientUser | null;
 
 	public guilds: GuildStore;
 	public users: UserStore;
@@ -62,11 +68,12 @@ export class Client extends BaseClient {
 	/**
 	 * @param options All of your preferences on how Project-Blue should work for you
 	 */
-	public constructor(options: Partial<ClientOptions>) {
+	public constructor(options: Partial<ClientOptions> = {}) {
 		super(options);
 		this.options = mergeDefault(ClientOptionsDefaults, options);
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, ClientEvents.WSDebug));
+		this.user = null;
 		this.users = new UserStore(this);
 		this.guilds = new GuildStore(this);
 		this.channels = new ChannelStore(this);

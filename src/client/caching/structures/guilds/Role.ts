@@ -3,6 +3,7 @@ import { Permissions } from '../../../../util/bitfields/Permissions';
 
 import type { APIRoleData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
+import type { Guild } from './Guild';
 
 /**
  * @see https://discord.com/developers/docs/topics/permissions#role-object
@@ -57,10 +58,13 @@ export class Role extends Structure {
 	 */
 	public mentionable!: boolean;
 
-	public constructor(client: Client, data: APIRoleData) {
+	public readonly guild: Guild;
+
+	public constructor(client: Client, data: APIRoleData, guild: Guild) {
 		super(client);
 		this.id = data.id;
 		this.managed = data.managed;
+		this.guild = guild;
 		this._patch(data);
 	}
 
