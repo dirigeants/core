@@ -163,6 +163,11 @@
   resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.1.tgz#8aa230804d2a54ce219fe6fc43c9683a083a4fe7"
   integrity sha512-mc/gdOCI3aHta0xdvIdf5BzsrEC4xx1+5MUJjSQS4ufuGc607Luo3BCUuoamXo4bjfaA8Zu8ZYr4CMtllE+cLQ==
 
+"@klasa/cache@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.2.tgz#8e23691762f3a547370507f0617c69e7d18039a0"
+  integrity sha512-HmXjFOq1gSHxByBEKEIo7j5V63p12eYTSTAs6v0/qWKCUjemwSBadBg/nO0A8qZbP0sVyihk2BAsszPl+qhBDg==
+
 "@klasa/dapi-types@^0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@klasa/dapi-types/-/dapi-types-0.0.9.tgz#471fd45fe8635e6eb086b88e6026cefb6b1f286d"
