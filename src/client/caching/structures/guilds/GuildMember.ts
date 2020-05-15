@@ -1,8 +1,10 @@
 import { Structure } from '../base/Structure';
+import { ProxyCache } from '@klasa/cache';
 
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
 import type { Guild } from './Guild';
+import type { Role } from './Role';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
@@ -53,10 +55,10 @@ export class GuildMember extends Structure {
 	public premiumSince!: number | null;
 
 	/**
-	 * Array of role object ids.
+	 * The roles this member has.
 	 * @since 0.0.1
 	 */
-	public roleIDs!: string[];
+	public roles!: ProxyCache<string, Role>;
 
 	public constructor(client: Client, data: MemberData, guild: Guild) {
 		super(client);
@@ -80,7 +82,7 @@ export class GuildMember extends Structure {
 		this.mute = 'mute' in data ? data.mute : null;
 		this.nick = 'nick' in data ? data.nick : null;
 		this.premiumSince = data.premium_since ? new Date(data.premium_since).getTime() : null;
-		this.roleIDs = data.roles;
+		this.roles = new ProxyCache(this.guild.roles, data.roles);
 		return this;
 	}
 
