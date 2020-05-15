@@ -12,7 +12,7 @@ export default class CoreAction extends Action {
 	 * @param data The raw data from {@link Client#ws}
 	 */
 	public run(data: PresenceUpdateDispatch): void {
-		const user = this.getUser(data);
+		const user = this.acquireUser(data);
 		if (!user) return;
 
 		const guild = this.getGuild(data);
@@ -39,7 +39,7 @@ export default class CoreAction extends Action {
 		// noop
 	}
 
-	private getUser(data: PresenceUpdateDispatch): User | null {
+	private acquireUser(data: PresenceUpdateDispatch): User | null {
 		const user = this.client.users.get(data.d.user.id);
 		if (user) return user;
 		// eslint-disable-next-line dot-notation
