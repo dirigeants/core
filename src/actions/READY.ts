@@ -1,8 +1,8 @@
 import { Action } from '../lib/structures/Action';
 import { ClientUser } from '../client/caching/structures/ClientUser';
+import { ClientEvents } from '../util/types/Util';
 
 import type { ReadyDispatch } from '@klasa/ws';
-import { ClientEvents } from '../util/types/Util';
 
 export default class CoreAction extends Action {
 

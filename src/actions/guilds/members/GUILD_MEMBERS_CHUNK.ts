@@ -21,11 +21,13 @@ export default class CoreAction extends Action {
 			this.client.users['_add'](presence.user);
 			// eslint-disable-next-line dot-notation
 			guild.presences['_add'](presence);
-			// eslint-disable-next-line dot-notation
-			guild.members['_add'](presence);
 		}
 
-		this.client.emit(this.clientEvent, members, guild);
+		this.client.emit(this.clientEvent, members, guild, {
+			chunkCount: data.d.chunk_count,
+			chunkIndex: data.d.chunk_index,
+			nonce: data.d.nonce
+		});
 	}
 
 	public check(): null {

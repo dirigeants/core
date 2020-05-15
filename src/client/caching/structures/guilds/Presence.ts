@@ -19,13 +19,13 @@ export class Presence extends Structure {
 	 * The member's status.
 	 * @since 0.0.1
 	 */
-	public status!: PresenceUpdateStatus;
+	public status!: PresenceUpdateStatus | null;
 
 	/**
 	 * The member's platform-dependent status.
 	 * @since 0.0.1
 	 */
-	public clientStatus!: APIClientStatusData;
+	public clientStatus!: APIClientStatusData | null;
 
 	/**
 	 * The member's current activities.
@@ -47,9 +47,9 @@ export class Presence extends Structure {
 	}
 
 	protected _patch(data: APIPresenceUpdateData): this {
-		this.status = data.status;
-		this.clientStatus = data.client_status;
-		this.activities = data.activities;
+		this.status = data.status ?? null;
+		this.clientStatus = data.client_status ?? null;
+		this.activities = data.activities ?? [];
 		return this;
 	}
 
