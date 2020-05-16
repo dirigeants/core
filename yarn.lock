@@ -202,14 +202,14 @@
   resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.4.tgz#4bf010b09d0f93b39245523ed22a09571d56508c"
   integrity sha512-9gZSGN/As3sxZumZ9ZwyQ+KcNSenzY8tR1orRakv8HKK0WH0gG7QrsP/1O2TD4uHxUyr8dysCjt73RYPfzuDWQ==
 
-"@klasa/ws@^0.0.8":
-  version "0.0.8"
-  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.8.tgz#efed843363fd5dcd2d13026e5ce067c3680b6a53"
-  integrity sha512-wUljHAR6yZmiFU/FADTKUGTDxcsaCJn3Ty/NAYnEqdktDlzgUYiB13XH6Q20OyFzX4FTitV1PTLxgWkSzSz5fA==
+"@klasa/ws@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.9.tgz#cc1dc9be398a72eb200e0fdf28d6931d0ffa3392"
+  integrity sha512-VKjBJcFTG+GQD8fO8yQx2HQQEwz1up/ETLZLqBqlKnRERPYoywE/MSgHSo/4vs8koLIs9l6t4N6nfln3mb5A0Q==
   dependencies:
     "@klasa/async-queue" "^0.0.1"
     "@klasa/bitfield" "^0.0.2"
-    "@klasa/cache" "^0.0.1"
+    "@klasa/cache" "^0.0.2"
     "@klasa/utils" "^0.0.4"
     ws "^7.3.0"
   optionalDependencies:

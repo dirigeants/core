@@ -1,7 +1,7 @@
 import { Action } from '../../lib/structures/Action';
 import { isTextBasedChannel } from '../../util/Util';
 
-import type { MessageReactionRemoveDispatch } from '@klasa/ws';
+import type { MessageReactionRemoveEmojiDispatch } from '@klasa/ws';
 
 export default class CoreAction extends Action {
 
@@ -10,10 +10,8 @@ export default class CoreAction extends Action {
 	 * @since 0.0.1
 	 * @param data The raw data from {@link Client#ws}
 	 */
-	public run(data: MessageReactionRemoveDispatch): void {
+	public run(data: MessageReactionRemoveEmojiDispatch): void {
 		const guild = (data.d.guild_id && this.client.guilds.get(data.d.guild_id)) ?? null;
-		const user = this.client.users.get(data.d.user_id);
-		if (!user) return;
 
 		const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id);
 		if (!channel || !isTextBasedChannel(channel)) return;
@@ -25,15 +23,8 @@ export default class CoreAction extends Action {
 		const reaction = message.reactions.get(reactionID);
 		if (!reaction) return;
 
-		if (reaction.emoji.users.delete(data.d.user_id) && --reaction.count === 0) {
-			message.reactions.delete(reactionID);
-		}
-
-		if (user.id === this.client.user?.id) {
-			reaction.me = false;
-		}
-
-		this.client.emit(this.clientEvent, reaction, user);
+		message.reactions.delete(reaction.id);
+		this.client.emit(this.clientEvent, reaction);
 	}
 
 	public check(): null {

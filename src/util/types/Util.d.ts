@@ -33,6 +33,7 @@ export const enum ClientEvents {
 	MessageReactionAdd = 'messageReactionAdd',
 	MessageReactionRemove = 'messageReactionRemove',
 	MessageReactionRemoveAll = 'messageReactionRemoveAll',
+	MessageReactionRemoveEmoji = 'messageReactionRemoveEmoji',
 	MessageUpdate = 'messageUpdate',
 	PresenceUpdate = 'presenceUpdate',
 	Ready = 'ready',
