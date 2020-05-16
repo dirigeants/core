@@ -3,6 +3,8 @@ import { isTextBasedChannel } from '../../util/Util';
 import { extender } from '../../util/Extender';
 
 import type { MessageReactionAddDispatch } from '@klasa/ws';
+import type { Message } from '../../client/caching/structures/Message';
+import type { MessageReaction } from '../../client/caching/structures/messages/MessageReaction';
 
 export default class CoreAction extends Action {
 
@@ -13,15 +15,26 @@ export default class CoreAction extends Action {
 	 */
 	public run(data: MessageReactionAddDispatch): void {
 		const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : undefined;
+		if (data.d.member && guild) {
+			// eslint-disable-next-line dot-notation
+			guild.members['_add'](data.d.member);
+		}
+
+		const user = this.client.users.get(data.d.user_id);
+		if (!user) return;
+
 		const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id);
 		if (!channel || !isTextBasedChannel(channel)) return;
 
 		const message = channel.messages.get(data.d.message_id);
 		if (!message) return;
 
-		const reaction = new (extender.get('MessageReaction'))(this.client, data.d, message);
-		message.reactions.set(reaction.id, reaction);
-		this.client.emit(this.clientEvent, reaction);
+		const reaction = this.ensureReaction(message, data);
+		if (user.id === this.client.user?.id) reaction.me = true;
+		reaction.emoji.users.set(user.id, user);
+		++reaction.count;
+
+		this.client.emit(this.clientEvent, reaction, user);
 	}
 
 	public check(): null {
@@ -34,6 +47,15 @@ export default class CoreAction extends Action {
 
 	public cache(): void {
 		// noop
+	}
+
+	private ensureReaction(message: Message, data: MessageReactionAddDispatch): MessageReaction {
+		const reaction = message.reactions.get(data.d.emoji.id || data.d.emoji.name as string);
+		if (reaction) return reaction;
+
+		const built = new (extender.get('MessageReaction'))(this.client, data.d, message);
+		message.reactions.set(built.id, built);
+		return built;
 	}
 
 }

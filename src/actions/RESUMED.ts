@@ -1,7 +1,7 @@
 import { Action } from '../lib/structures/Action';
+import { ClientEvents } from '../util/types/Util';
 
 import type { ResumedDispatch } from '@klasa/ws';
-import { ClientEvents } from '../util/types/Util';
 
 export default class CoreAction extends Action {
 
@@ -12,7 +12,7 @@ export default class CoreAction extends Action {
 	 */
 	public run(data: ResumedDispatch): void {
 		const shard = this.client.ws.shards.get(data.shard_id);
-		if (shard) this.client.emit(ClientEvents.ShardResumed, shard);
+		this.client.emit(ClientEvents.ShardResumed, shard);
 	}
 
 	public check(): null {

@@ -13,7 +13,7 @@ export default class CoreAction extends Action {
 	public run(data: GuildMembersChunkDispatch): void {
 		const guild = this.client.guilds.get(data.d.guild_id);
 		if (!guild) {
-			this.client.emit(ClientEvents.Debug, `[GUILD_MEMBERS_CHUNK] An event with ${data.d.guild_id} has been received but none was cached.`);
+			this.client.emit(ClientEvents.Debug, `[GUILD_MEMBERS_CHUNK] Received unknown guild ${data.d.guild_id}.`);
 			return;
 		}
 
