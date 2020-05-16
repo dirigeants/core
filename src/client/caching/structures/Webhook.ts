@@ -100,7 +100,7 @@ export class Webhook extends Structure {
 	 * The channel of this webhook
 	 */
 	get channel(): Channel | null {
-		return (this.client as Client).channels.get(this.channelID) || null;
+		return (this.client as Client).dms.get(this.channelID) || null;
 	}
 
 	/**

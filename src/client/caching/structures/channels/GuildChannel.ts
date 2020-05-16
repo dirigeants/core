@@ -3,6 +3,8 @@ import { Channel } from './Channel';
 import { PermissionOverwrites } from '../PermissionOverwrites';
 
 import type { APIChannelData } from '@klasa/dapi-types';
+import type { Client } from '../../../Client';
+import type { Guild } from '../guilds/Guild';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -33,6 +35,17 @@ export abstract class GuildChannel extends Channel {
 	 * @see https://discord.com/developers/docs/resources/channel#overwrite-object
 	 */
 	public permissionsOverwrites!: Cache<string, PermissionOverwrites>;
+
+	/**
+	 * The {@link Guild guild} this channel belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly guild: Guild;
+
+	public constructor(client: Client, data: APIChannelData, guild: Guild | null = null) {
+		super(client, data);
+		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
+	}
 
 	protected _patch(data: APIChannelData): this {
 		this.name = data.name as string;

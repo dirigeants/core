@@ -303,12 +303,12 @@ export class Guild extends Structure {
 
 		this.id = data.id;
 		this.bans = new BanStore(client, this);
-		this.roles = new RoleStore(client);
+		this.roles = new RoleStore(client, this);
 		this.emojis = new GuildEmojiStore(client);
-		this.voiceStates = new VoiceStateStore(client);
+		this.voiceStates = new VoiceStateStore(client, this);
 		this.members = new GuildMemberStore(client, this);
-		this.channels = new GuildChannelStore(client);
-		this.presences = new PresenceStore(client);
+		this.channels = new GuildChannelStore(client, this);
+		this.presences = new PresenceStore(client, this);
 
 		this.unavailable = data.unavailable ?? false;
 		if (!this.unavailable) {

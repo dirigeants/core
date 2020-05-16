@@ -29,9 +29,17 @@ export abstract class Channel extends Structure {
 		this._patch(data);
 	}
 
-	public static create(client: Client, data: APIChannelData): Channel | null {
+	/**
+	 * Defines toString behavior for members.
+	 * @since 0.0.1
+	 */
+	public toString(): string {
+		return `<#${this.id}>`;
+	}
+
+	public static create(client: Client, data: APIChannelData, ...extra: readonly unknown[]): Channel | null {
 		const name = Channel.types.get(data.type);
-		if (name) return new (extender.get(name))(client, data) as Channel;
+		if (name) return new (extender.get(name))(client, data, ...extra) as Channel;
 
 		client.emit(ClientEvents.Debug, `[Channels] Received data with unknown type '${data.type}'.\n\tPayload: ${JSON.stringify(data)}`);
 		return null;

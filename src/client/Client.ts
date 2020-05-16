@@ -5,7 +5,7 @@ import { dirname, join } from 'path';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
 import { UserStore } from './caching/stores/UserStore';
-import { ChannelStore } from './caching/stores/ChannelStore';
+import { DMChannelStore } from './caching/stores/DMChannelStore';
 import { GuildStore } from './caching/stores/GuildStore';
 import { EventStore } from '../lib/structures/EventStore';
 import { ActionStore } from '../lib/structures/ActionStore';
@@ -13,6 +13,7 @@ import { ClientEvents } from '../util/types/Util';
 
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
+import type { ClientUser } from './caching/structures/ClientUser';
 
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
@@ -35,9 +36,25 @@ export class Client extends BaseClient {
 	 */
 	public options: Required<ClientOptions>;
 
-	public guilds: GuildStore;
-	public users: UserStore;
-	public channels: ChannelStore;
+	/**
+	 * The client user
+	 */
+	public user: ClientUser | null;
+
+	/**
+	 * The collection of {@link Guild guilds} the client is currently handling, mapped by their {@link Guild#id IDs}
+	 */
+	public readonly guilds: GuildStore;
+
+	/**
+	 * The {@link User users} that have been cached, mapped by their {@link User#id IDs}.
+	 */
+	public readonly users: UserStore;
+
+	/**
+	 * The {@link DMChannel DM channels} that have bee ncached, mapped by their {@link Channel#id IDs}.
+	 */
+	public readonly dms: DMChannelStore;
 
 	/**
 	 * The directory where the user files are at.
@@ -62,14 +79,15 @@ export class Client extends BaseClient {
 	/**
 	 * @param options All of your preferences on how Project-Blue should work for you
 	 */
-	public constructor(options: Partial<ClientOptions>) {
+	public constructor(options: Partial<ClientOptions> = {}) {
 		super(options);
 		this.options = mergeDefault(ClientOptionsDefaults, options);
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, ClientEvents.WSDebug));
+		this.user = null;
 		this.users = new UserStore(this);
 		this.guilds = new GuildStore(this);
-		this.channels = new ChannelStore(this);
+		this.dms = new DMChannelStore(this);
 
 		this.pieceStores = new Cache();
 		this.events = new EventStore(this);

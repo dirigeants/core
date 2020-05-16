@@ -1,9 +1,11 @@
-import { Structure } from '../base/Structure';
+import { Routes } from '@klasa/rest';
 import { MessageReactionEmoji } from './MessageReactionEmoji';
+import { Structure } from '../base/Structure';
+import { UserStore } from '../../stores/UserStore';
 
-import type { APIReactionData } from '@klasa/dapi-types';
-import type { Client } from '../../../Client';
+import type { APIReactionData, APIUserData } from '@klasa/dapi-types';
 import type { Message } from '../Message';
+import type { Client } from '../../../Client';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#reaction-object
@@ -35,6 +37,12 @@ export class MessageReaction extends Structure {
 	public readonly emoji: MessageReactionEmoji;
 
 	/**
+	 * The users that reacted to this emoji.
+	 * @since 0.0.1
+	 */
+	public readonly users: UserStore;
+
+	/**
 	 * The {@link Message message} instance this is tied to.
 	 * @since 0.0.1
 	 */
@@ -44,13 +52,23 @@ export class MessageReaction extends Structure {
 		super(client);
 		this.id = data.emoji.id ?? data.emoji.name as string;
 		this.message = message;
-		this.emoji = new MessageReactionEmoji(client, data.emoji, this);
+		this.emoji = new MessageReactionEmoji(client, data.emoji);
+		this.users = new UserStore(client);
 		this._patch(data);
 	}
 
-	protected _patch(data: APIReactionData): this {
-		this.me = data.me;
-		this.count = data.count;
+	/**
+	 * Fetches all the users, populating {@link MessageReactionEmoji#users}.
+	 * @since 0.0.1
+	 * @param options The options for the fetch
+	 */
+	public async fetch(options?: MessageReactionFetchOptions): Promise<this> {
+		const endpoint = Routes.messageReaction(this.message.channel.id, this.message.id, this.emoji.identifier);
+		const users = await this.client.api.get(endpoint, { query: options }) as APIUserData[];
+		for (const user of users) {
+			// eslint-disable-next-line dot-notation
+			this.users.set(user.id, this.client.users['_add'](user));
+		}
 		return this;
 	}
 
@@ -74,4 +92,37 @@ export class MessageReaction extends Structure {
 		};
 	}
 
+	protected _patch(data: APIReactionData): this {
+		this.me = data.me;
+		this.count = data.count;
+		return this;
+	}
+
+}
+
+export interface MessageReaction {
+	client: Client;
+}
+
+/**
+ * @see https://discord.com/developers/docs/resources/channel#get-reactions-query-string-params
+ */
+export interface MessageReactionFetchOptions {
+	/**
+	 * Get users before this user ID.
+	 * @since 0.0.1
+	 */
+	before?: string;
+
+	/**
+	 * Get users after this user ID.
+	 * @since 0.0.1
+	 */
+	after?: string;
+
+	/**
+	 * Max number of users to return (1-100).
+	 * @since 0.0.1
+	 */
+	limit?: number;
 }

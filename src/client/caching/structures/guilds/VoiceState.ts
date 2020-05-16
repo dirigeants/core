@@ -2,6 +2,7 @@ import { Structure } from '../base/Structure';
 
 import type { APIVoiceStatePartial } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
+import type { Guild } from './Guild';
 
 /**
  * @see https://discord.com/developers/docs/resources/voice#voice-state-object
@@ -62,9 +63,12 @@ export class VoiceState extends Structure {
 	 */
 	public suppress!: boolean;
 
-	public constructor(client: Client, data: APIVoiceStatePartial) {
+	public readonly guild: Guild;
+
+	public constructor(client: Client, data: APIVoiceStatePartial, guild: Guild) {
 		super(client);
 		this.id = data.user_id;
+		this.guild = guild;
 		this._patch(data);
 	}
 

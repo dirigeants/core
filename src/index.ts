@@ -23,7 +23,7 @@ export * from './client/caching/structures/messages/WebhookMessageBuilder';
 export * from './client/caching/structures/base/Structure';
 export * from './client/caching/stores/base/DataStore';
 export * from './client/caching/stores/BanStore';
-export * from './client/caching/stores/ChannelStore';
+export * from './client/caching/stores/DMChannelStore';
 export * from './client/caching/stores/GuildChannelStore';
 export * from './client/caching/stores/GuildEmojiStore';
 export * from './client/caching/stores/GuildMemberStore';

@@ -5,10 +5,10 @@ import { extender } from '../../../util/Extender';
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
 
-export class ChannelStore extends DataStore<Channel> {
+export class DMChannelStore extends DataStore<Channel> {
 
 	public constructor(client: Client) {
-		super(client, extender.get('Channel'));
+		super(client, extender.get('DMChannel'));
 	}
 
 	/**

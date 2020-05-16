@@ -151,12 +151,12 @@ export class Message extends Structure {
 		this.id = data.id;
 		this.attachments = new Cache();
 		this.reactions = new MessageReactionStore(client);
-		this.channel = this.client.channels.get(data.channel_id) as DMChannel | TextChannel | NewsChannel;
 		this.guild = data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null;
+		this.channel = this.guild ? this.guild.channels.get(data.channel_id) as TextChannel | NewsChannel : this.client.dms.get(data.channel_id) as DMChannel;
 		// eslint-disable-next-line dot-notation
 		this.author = this.client.users['_add'](data.author);
 		// eslint-disable-next-line dot-notation
-		this.member = data.member && this.guild ? this.guild.members['_add'](data.member) : null;
+		this.member = data.member && this.guild ? this.guild.members['_add']({ ...data.member, user: data.author }) : null;
 		this.createdTimestamp = new Date(data.timestamp).getTime();
 		this.mentions = new MessageMentions(this, data.mentions, data.mention_roles, data.mention_channels, data.mention_everyone);
 		this.type = data.type;
@@ -186,10 +186,10 @@ export class Message extends Structure {
 		return this.editedTimestamp ? new Date(this.editedTimestamp) : null;
 	}
 
-	protected _patch(data: APIMessageData): this {
-		this.content = data.content;
-		this.editedTimestamp = data.edited_timestamp ? new Date(data.edited_timestamp).getTime() : null;
-		this.tts = data.tts;
+	protected _patch(data: Partial<APIMessageData>): this {
+		if (Reflect.has(data, 'content')) this.content = data.content as string;
+		if (Reflect.has(data, 'edited_timestamp')) this.editedTimestamp = data.edited_timestamp ? new Date(data.edited_timestamp).getTime() : null;
+		if (Reflect.has(data, 'tts')) this.tts = data.tts as boolean;
 
 		if (data.reactions) {
 			this.reactions.clear();
@@ -202,8 +202,8 @@ export class Message extends Structure {
 		if (data.attachments) for (const attachment of data.attachments) this.attachments.set(attachment.id, new Attachment(attachment));
 		if (data.embeds) for (const embed of data.embeds) this.embeds.push(new Embed(embed));
 
-		this.pinned = data.pinned;
-		this.flags = new MessageFlags(data.flags);
+		if (Reflect.has(data, 'pinned')) this.pinned = data.pinned as boolean;
+		if (Reflect.has(data, 'flags')) this.flags = new MessageFlags(data.flags);
 		return this;
 	}
 

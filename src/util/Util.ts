@@ -1,3 +1,10 @@
+import type { Channel } from '../client/caching/structures/channels/Channel';
+import type { DMChannel } from '../client/caching/structures/channels/DMChannel';
+import type { TextChannel } from '../client/caching/structures/channels/TextChannel';
+import type { NewsChannel } from '../client/caching/structures/channels/NewsChannel';
+import type { CategoryChannel } from '../client/caching/structures/channels/CategoryChannel';
+import type { VoiceChannel } from '../client/caching/structures/channels/VoiceChannel';
+
 export function snakeToCamel(input: string): string {
 	const [first, ...parts] = input.split('_');
 
@@ -7,4 +14,12 @@ export function snakeToCamel(input: string): string {
 	}
 
 	return output;
+}
+
+export function isTextBasedChannel(channel: Channel): channel is DMChannel | TextChannel | NewsChannel {
+	return Reflect.has(channel, 'messages');
+}
+
+export function isGuildChannel(channel: Channel): channel is TextChannel | NewsChannel | VoiceChannel | CategoryChannel {
+	return Reflect.has(channel, 'guild');
 }
