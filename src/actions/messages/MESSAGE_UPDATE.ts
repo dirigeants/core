@@ -1,25 +1,40 @@
 import { Action } from '../../lib/structures/Action';
 import { isTextBasedChannel } from '../../util/Util';
-import { extender } from '../../util/Extender';
 
 import type { MessageUpdateDispatch } from '@klasa/ws';
-import type { Message } from '../../client/caching/structures/Message';
 
 export default class CoreAction extends Action {
 
-	public check(data: MessageUpdateDispatch): Message | null {
+	/**
+	 * Processes the event data from the websocket.
+	 * @since 0.0.1
+	 * @param data The raw data from {@link Client#ws}
+	 */
+	public run(data: MessageUpdateDispatch): void {
 		const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : undefined;
 		const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id);
-		if (!channel || !isTextBasedChannel(channel)) return null;
-		return channel.messages.get(data.d.id) ?? null;
+		if (!channel || !isTextBasedChannel(channel)) return;
+
+		const message = channel.messages.get(data.d.id);
+		if (!message) return;
+
+		const clone = message.clone();
+		// eslint-disable-next-line dot-notation
+		message['_patch'](data.d);
+
+		this.client.emit(this.clientEvent, message, clone);
 	}
 
-	public build(data: MessageUpdateDispatch): Message | null {
-		return new (extender.get('Message'))(this.client, data.d);
+	public check(): null {
+		return null;
 	}
 
-	public cache(data: Message): void {
-		data.channel.messages.set(data.id, data);
+	public build(): null {
+		return null;
+	}
+
+	public cache(): void {
+		// noop
 	}
 
 }

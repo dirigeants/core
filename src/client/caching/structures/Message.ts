@@ -186,10 +186,10 @@ export class Message extends Structure {
 		return this.editedTimestamp ? new Date(this.editedTimestamp) : null;
 	}
 
-	protected _patch(data: APIMessageData): this {
-		this.content = data.content;
-		this.editedTimestamp = data.edited_timestamp ? new Date(data.edited_timestamp).getTime() : null;
-		this.tts = data.tts;
+	protected _patch(data: Partial<APIMessageData>): this {
+		if (Reflect.has(data, 'content')) this.content = data.content as string;
+		if (Reflect.has(data, 'edited_timestamp')) this.editedTimestamp = data.edited_timestamp ? new Date(data.edited_timestamp).getTime() : null;
+		if (Reflect.has(data, 'tts')) this.tts = data.tts as boolean;
 
 		if (data.reactions) {
 			this.reactions.clear();
@@ -202,8 +202,8 @@ export class Message extends Structure {
 		if (data.attachments) for (const attachment of data.attachments) this.attachments.set(attachment.id, new Attachment(attachment));
 		if (data.embeds) for (const embed of data.embeds) this.embeds.push(new Embed(embed));
 
-		this.pinned = data.pinned;
-		this.flags = new MessageFlags(data.flags);
+		if (Reflect.has(data, 'pinned')) this.pinned = data.pinned as boolean;
+		if (Reflect.has(data, 'flags')) this.flags = new MessageFlags(data.flags);
 		return this;
 	}
 
