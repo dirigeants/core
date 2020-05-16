@@ -31,7 +31,7 @@ export default class CoreAction extends Action {
 
 		const reaction = this.ensureReaction(message, data);
 		if (user.id === this.client.user?.id) reaction.me = true;
-		reaction.emoji.users.set(user.id, user);
+		reaction.users.set(user.id, user);
 		++reaction.count;
 
 		this.client.emit(this.clientEvent, reaction, user);

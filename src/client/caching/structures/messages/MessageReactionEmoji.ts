@@ -1,9 +1,5 @@
-import { Routes } from '@klasa/rest';
-import { UserStore } from '../../stores/UserStore';
-
-import type { APIEmojiPartial, APIUserData } from '@klasa/dapi-types';
+import type { APIEmojiPartial } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
-import type { MessageReaction } from './MessageReaction';
 
 /**
  * @see https://discord.com/developers/docs/resources/emoji#emoji-object
@@ -29,24 +25,10 @@ export class MessageReactionEmoji implements APIEmojiPartial {
 	 */
 	public readonly animated: boolean;
 
-	/**
-	 * The reaction this entry belongs to.
-	 * @since 0.0.1
-	 */
-	public readonly reaction: MessageReaction;
-
-	/**
-	 * The users that reacted to this emoji.
-	 * @since 0.0.1
-	 */
-	public readonly users: UserStore;
-
-	public constructor(public readonly client: Client, data: APIEmojiPartial, reaction: MessageReaction) {
+	public constructor(public readonly client: Client, data: APIEmojiPartial) {
 		this.id = data.id;
 		this.name = data.name;
 		this.animated = data.animated ?? false;
-		this.reaction = reaction;
-		this.users = new UserStore(client);
 	}
 
 	/**
@@ -73,45 +55,8 @@ export class MessageReactionEmoji implements APIEmojiPartial {
 		return {
 			id: this.id,
 			name: this.name,
-			animated: this.animated,
-			users: [...this.users.keys()]
+			animated: this.animated
 		};
 	}
 
-	/**
-	 * Fetches all the users, populating {@link MessageReactionEmoji#users}.
-	 * @since 0.0.1
-	 * @param options The options for the fetch
-	 */
-	public async fetch(options?: MessageReactionEmojiFetchOptions): Promise<this> {
-		const endpoint = Routes.messageReaction(this.reaction.message.channel.id, this.reaction.message.id, this.identifier);
-		const users = await this.client.api.get(endpoint, { query: options }) as APIUserData[];
-		// eslint-disable-next-line dot-notation
-		for (const user of users) this.users['_add'](user);
-		return this;
-	}
-
-}
-
-/**
- * @see https://discord.com/developers/docs/resources/channel#get-reactions-query-string-params
- */
-export interface MessageReactionEmojiFetchOptions {
-	/**
-	 * Get users before this user ID.
-	 * @since 0.0.1
-	 */
-	before?: string;
-
-	/**
-	 * Get users after this user ID.
-	 * @since 0.0.1
-	 */
-	after?: string;
-
-	/**
-	 * Max number of users to return (1-100).
-	 * @since 0.0.1
-	 */
-	limit?: number;
 }

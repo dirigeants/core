@@ -26,7 +26,7 @@ export default class CoreAction extends Action {
 		const reaction = message.reactions.get(reactionID);
 		if (!reaction) return;
 
-		if (reaction.emoji.users.delete(data.d.user_id) && --reaction.count === 0) {
+		if (reaction.users.delete(data.d.user_id) && --reaction.count === 0) {
 			message.reactions.delete(reactionID);
 		}
 
