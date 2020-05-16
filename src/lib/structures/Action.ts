@@ -25,7 +25,7 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 	 * @param options The options for this piece
 	 */
 	public constructor(store: ActionStore, directory: string, file: readonly string[], options: ActionOptions = {}) {
-		super(store as unknown as EventStore, directory, file, { event: file[file.length - 1], ...options, once: false, emitter: 'ws' });
+		super(store as unknown as EventStore, directory, file, { event: file[file.length - 1].slice(0, -3), ...options, once: false, emitter: 'ws' });
 		this.clientEvent = options.clientEvent ?? snakeToCamel(this.event);
 	}
 

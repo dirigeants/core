@@ -1,7 +1,9 @@
 import { APIChannelData, ChannelType, APIUserData } from '@klasa/dapi-types';
+import { Routes } from '@klasa/rest';
 import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 
+import type { MessageBuilder } from '../messages/MessageBuilder';
 import type { Client } from '../../../Client';
 
 /**
@@ -39,10 +41,25 @@ export class DMChannel extends Channel {
 		this.messages = new MessageStore(client);
 	}
 
+	/**
+	 * Sends a message to the channel.
+	 * @param content The {@link MessageBuilder builder} to send.
+	 * @since 0.0.1
+	 */
+	public async send(content: MessageBuilder): Promise<this> {
+		const data = await this.client.api.post(Routes.channelMessages(this.id), content);
+		// eslint-disable-next-line dot-notation
+		return new this.client.dms['Holds'](this.client, data) as this;
+	}
+
 	protected _patch(data: APIChannelData): this {
 		this.lastMessageID = data.last_message_id as string | null;
 		this.recipients = data.recipients as APIUserData[];
 		return this;
 	}
 
+}
+
+export interface DMChannel {
+	client: Client;
 }
