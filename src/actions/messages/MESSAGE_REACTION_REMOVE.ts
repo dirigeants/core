@@ -11,6 +11,7 @@ export default class CoreAction extends Action {
 	 * @param data The raw data from {@link Client#ws}
 	 */
 	public run(data: MessageReactionRemoveDispatch): void {
+		// TODO(VladFrangu): refactor this to remove code dupe from other actions
 		const guild = (data.d.guild_id && this.client.guilds.get(data.d.guild_id)) ?? null;
 		const user = this.client.users.get(data.d.user_id);
 		if (!user) return;

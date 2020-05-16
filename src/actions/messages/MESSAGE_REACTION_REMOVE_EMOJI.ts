@@ -11,8 +11,8 @@ export default class CoreAction extends Action {
 	 * @param data The raw data from {@link Client#ws}
 	 */
 	public run(data: MessageReactionRemoveEmojiDispatch): void {
+		// TODO(VladFrangu): refactor this to remove code dupe from other actions
 		const guild = (data.d.guild_id && this.client.guilds.get(data.d.guild_id)) ?? null;
-
 		const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id);
 		if (!channel || !isTextBasedChannel(channel)) return;
 
