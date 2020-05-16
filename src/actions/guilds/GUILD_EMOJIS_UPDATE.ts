@@ -39,8 +39,6 @@ export default class CoreAction extends Action {
 				this.client.emit(ClientEvents.GuildEmojiDelete, emoji, guild);
 			}
 		}
-
-		this.client.emit(this.clientEvent, data.d);
 	}
 
 	public check(): null {
