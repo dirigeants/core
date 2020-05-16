@@ -4,6 +4,7 @@ import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 
 import type { MessageBuilder } from '../messages/MessageBuilder';
+import type { User } from '../User';
 import type { Client } from '../../../Client';
 
 /**
@@ -28,7 +29,7 @@ export class DMChannel extends Channel {
 	 * The recipients of the DM.
 	 * @since 0.0.1
 	 */
-	public recipients!: APIUserData[];
+	public recipients!: User[];
 
 	/**
 	 * The message store for this channel.
@@ -53,8 +54,9 @@ export class DMChannel extends Channel {
 	}
 
 	protected _patch(data: APIChannelData): this {
+		// eslint-disable-next-line dot-notation
+		this.recipients = (data.recipients as APIUserData[]).map(user => this.client.users['_add'](user));
 		this.lastMessageID = data.last_message_id as string | null;
-		this.recipients = data.recipients as APIUserData[];
 		return this;
 	}
 
