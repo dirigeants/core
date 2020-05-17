@@ -3,7 +3,7 @@ import { Structure } from './base/Structure';
 import { MessageMentions } from './messages/MessageMentions';
 import { Embed } from './Embed';
 import { MessageFlags } from '../../../util/bitfields/MessageFlags';
-import { Attachment } from './Attachment';
+import { MessageAttachment } from './messages/MessageAttachment';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { MessageReaction } from './messages/MessageReaction';
 
@@ -64,7 +64,7 @@ export class Message extends Structure {
 	 * The attached files.
 	 * @since 0.0.1
 	 */
-	public readonly attachments: Cache<string, Attachment>;
+	public readonly attachments: Cache<string, MessageAttachment>;
 
 	/**
 	 * Contents of the message.
@@ -199,7 +199,7 @@ export class Message extends Structure {
 			}
 		}
 
-		if (data.attachments) for (const attachment of data.attachments) this.attachments.set(attachment.id, new Attachment(attachment));
+		if (data.attachments) for (const attachment of data.attachments) this.attachments.set(attachment.id, new MessageAttachment(attachment));
 		if (data.embeds) for (const embed of data.embeds) this.embeds.push(new Embed(embed));
 
 		if (Reflect.has(data, 'pinned')) this.pinned = data.pinned as boolean;

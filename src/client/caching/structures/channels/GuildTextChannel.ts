@@ -1,9 +1,11 @@
+/* eslint-disable no-dupe-class-members */
 import { Routes } from '@klasa/rest';
 import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../../caching/stores/MessageStore';
+import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
+import { Message } from '../Message';
 
-import type { APIChannelData } from '@klasa/dapi-types';
-import type { MessageBuilder } from '../messages/MessageBuilder';
+import type { APIChannelData, APIMessageData } from '@klasa/dapi-types';
 import type { Guild } from '../guilds/Guild';
 import type { Client } from '../../../Client';
 
@@ -49,13 +51,23 @@ export abstract class GuildTextChannel extends GuildChannel {
 
 	/**
 	 * Sends a message to the channel.
-	 * @param content The {@link MessageBuilder builder} to send.
+	 * @param data The {@link MessageBuilder builder} to send.
 	 * @since 0.0.1
 	 */
-	public async send(content: MessageBuilder): Promise<this> {
-		const data = await this.client.api.post(Routes.channelMessages(this.id), content);
+	public async send(data: MessageOptions, splitOptions: SplitOptions): Promise<Message[]>
+	public async send(data: (message: MessageBuilder) => MessageBuilder, splitOptions: SplitOptions): Promise<Message[]>
+	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), splitOptions: SplitOptions): Promise<Message[]> {
+		const split = new MessageBuilder(typeof data === 'function' ? data(new MessageBuilder()) : data).split(splitOptions);
+
+		const endpoint = Routes.channelMessages(this.id);
+		const responses = [];
+
+		for (const message of split) responses.push(this.client.api.post(endpoint, message));
+
+		const rawMessages = await Promise.all(responses);
+
 		// eslint-disable-next-line dot-notation
-		return new this.guild.channels['Holds'](this.client, data, this.guild) as this;
+		return rawMessages.map(msg => this.messages['_add'](msg as APIMessageData));
 	}
 
 	protected _patch(data: APIChannelData): this {

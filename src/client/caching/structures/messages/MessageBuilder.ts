@@ -1,14 +1,11 @@
-import { basename } from 'path';
-import { Readable } from 'stream';
-import { promises as fsp } from 'fs';
-import fetch from 'node-fetch';
-import { pathExists } from 'fs-nextra';
+/* eslint-disable no-dupe-class-members */
 import { mergeDefault } from '@klasa/utils';
 
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
 
 import type { RequiredExcept, PartialRequired } from '../../../../util/types/Util';
+import { Embed } from '../Embed';
 
 export interface MessageData {
 	content?: string;
@@ -77,8 +74,10 @@ export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | '
 	 * Sets the embed of this message
 	 * @param embed The embed to set
 	 */
-	public setEmbed(embed?: APIEmbedData): this {
-		this.data.embed = embed;
+	public setEmbed(embed?: APIEmbedData): this
+	public setEmbed(embed?: (embed: Embed) => Embed): this
+	public setEmbed(embed?: APIEmbedData | ((embed: Embed) => Embed)): this {
+		this.data.embed = typeof embed === 'function' ? embed(new Embed()) : embed;
 		return this;
 	}
 
@@ -199,37 +198,6 @@ export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | '
 			{ data: { ...this.data, content }, files: this.files } :
 			// Later messages have neither
 			{ data: { ...this.data, content, embed: undefined, embeds: undefined } });
-	}
-
-	/**
-	 * Resolves a stream, url, file location, or text into a buffer we can send to the api
-	 * @param file A stream, url, file location, or text blob to send as an attachment
-	 * @param name The name of the attachment
-	 */
-	public static async resolveFile(file: string | Readable | Buffer, name?: string): Promise<File> {
-		let resolvedFile: Buffer;
-		let resolvedName: string;
-
-		if (file instanceof Readable) {
-			const buffers = [];
-			for await (const buffer of file) buffers.push(buffer);
-			resolvedFile = Buffer.concat(buffers);
-			resolvedName = name || 'file.dat';
-		} else if (Buffer.isBuffer(file)) {
-			resolvedFile = file;
-			resolvedName = name || 'file.txt';
-		} else if (/^https?:\/\//.test(file)) {
-			resolvedFile = await (await fetch(file)).buffer();
-			resolvedName = name || basename(file);
-		} else if (await pathExists(file)) {
-			resolvedFile = await fsp.readFile(file);
-			resolvedName = name || basename(file);
-		} else {
-			resolvedFile = Buffer.from(file);
-			resolvedName = name || 'file.txt';
-		}
-
-		return { file: resolvedFile, name: resolvedName };
 	}
 
 }

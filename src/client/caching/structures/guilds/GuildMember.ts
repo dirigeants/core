@@ -50,7 +50,7 @@ export class GuildMember extends Structure {
 	/**
 	 * When the user started boosting the guild.
 	 * @since 0.0.1
-	 * @see https://support.discordapp.com/hc/en-us/articles/360028038352-Server-Boosting-
+	 * @see https://support.discord.com/hc/en-us/articles/360028038352-Server-Boosting-
 	 */
 	public premiumSince!: number | null;
 

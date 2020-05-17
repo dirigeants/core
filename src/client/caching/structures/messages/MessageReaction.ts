@@ -63,8 +63,7 @@ export class MessageReaction extends Structure {
 	 * @param options The options for the fetch
 	 */
 	public async fetch(options?: MessageReactionFetchOptions): Promise<this> {
-		const endpoint = Routes.messageReaction(this.message.channel.id, this.message.id, this.emoji.identifier);
-		const users = await this.client.api.get(endpoint, { query: options }) as APIUserData[];
+		const users = await this.client.api.get(Routes.messageReaction(this.message.channel.id, this.message.id, this.emoji.identifier), { query: options }) as APIUserData[];
 		for (const user of users) {
 			// eslint-disable-next-line dot-notation
 			this.users.set(user.id, this.client.users['_add'](user));
