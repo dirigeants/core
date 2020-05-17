@@ -11,6 +11,9 @@ export const BaseClientOptionsDefaults: Required<BaseClientOptions> = {
 export const ClientOptionsDefaults: Required<ClientOptions> = {
 	...BaseClientOptionsDefaults,
 	ws: WSOptionsDefaults,
-	createPiecesFolders: true,
-	disabledCorePieces: []
+	pieces: {
+		createFolders: false,
+		disabledCoreTypes: []
+	},
+	caching: true
 };

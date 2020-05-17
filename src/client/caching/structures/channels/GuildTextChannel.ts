@@ -59,10 +59,10 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 * @param data The {@link MessageBuilder builder} to send.
 	 * @since 0.0.1
 	 */
-	public async send(data: MessageOptions, options: SendOptions): Promise<Message[]>
-	public async send(data: (message: MessageBuilder) => MessageBuilder, options: SendOptions): Promise<Message[]>
-	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SendOptions = {}): Promise<Message[]> {
-		const split = (typeof data === 'function' ? data(new MessageBuilder()) : new MessageBuilder(data)).split(options.split);
+	public async send(data: MessageOptions, options: SplitOptions): Promise<Message[]>
+	public async send(data: (message: MessageBuilder) => MessageBuilder, options: SplitOptions): Promise<Message[]>
+	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
+		const split = (typeof data === 'function' ? data(new MessageBuilder()) : new MessageBuilder(data)).split(options);
 
 		const endpoint = Routes.channelMessages(this.id);
 		const responses = [];
@@ -72,7 +72,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 		const rawMessages = await Promise.all(responses);
 
 		// eslint-disable-next-line dot-notation
-		return rawMessages.map(msg => this.messages['_add'](msg as APIMessageData, options.cache));
+		return rawMessages.map(msg => this.messages['_add'](msg as APIMessageData));
 	}
 
 	protected _patch(data: APIChannelData): this {

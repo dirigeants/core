@@ -15,10 +15,15 @@ import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
 import type { ClientUser } from './caching/structures/ClientUser';
 
+export interface PieceOptions {
+	createFolders: boolean;
+	disabledCoreTypes: string[];
+}
+
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
-	createPiecesFolders?: boolean;
-	disabledCorePieces?: string[];
+	pieces?: PieceOptions;
+	caching?: boolean;
 }
 
 /**
