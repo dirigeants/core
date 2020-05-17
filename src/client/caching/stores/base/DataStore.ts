@@ -25,7 +25,7 @@ export class DataStore<S extends Structure> extends Cache<string, S> {
 		if (existing) return existing['_patch'](data);
 
 		const entry = new this.Holds(this.client, data);
-		if (this.client.options.caching) this.set(entry.id, entry);
+		if (this.client.options.cache.caching) this.set(entry.id, entry);
 		return entry;
 	}
 

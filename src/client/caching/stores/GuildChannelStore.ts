@@ -26,7 +26,7 @@ export class GuildChannelStore extends DataStore<GuildChannel> {
 		if (existing) return existing['_patch'](data);
 
 		const entry = Channel.create(this.client, data, this.guild) as GuildChannel;
-		if (this.client.options.caching) this.set(entry.id, entry);
+		if (this.client.options.cache.caching) this.set(entry.id, entry);
 		return entry;
 	}
 

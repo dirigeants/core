@@ -38,7 +38,7 @@ export class BanStore extends DataStore<Ban> {
 		if (existing) return existing['_patch']();
 
 		const entry = new this.Holds(this.client, data, this.guild);
-		if (this.client.options.caching) this.set(entry.id, entry);
+		if (this.client.options.cache.caching) this.set(entry.id, entry);
 		return entry;
 	}
 

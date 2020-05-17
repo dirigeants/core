@@ -23,7 +23,7 @@ export class DMChannelStore extends DataStore<Channel> {
 		if (existing && existing.type === data.type) return existing['_patch'](data);
 
 		const entry = Channel.create(this.client, data);
-		if (entry && this.client.options.caching) this.set(entry.id, entry);
+		if (entry && this.client.options.cache.caching) this.set(entry.id, entry);
 		return entry;
 	}
 

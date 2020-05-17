@@ -15,5 +15,22 @@ export const ClientOptionsDefaults: Required<ClientOptions> = {
 		createFolders: false,
 		disabledCoreTypes: []
 	},
-	caching: true
+	cache: {
+		caching: true,
+		limits: {
+			bans: Infinity,
+			dms: Infinity,
+			channels: Infinity,
+			emojis: Infinity,
+			members: Infinity,
+			guilds: Infinity,
+			invites: Infinity,
+			reactions: Infinity,
+			messages: 100,
+			presences: Infinity,
+			roles: Infinity,
+			users: Infinity,
+			voiceStates: Infinity
+		}
+	}
 };

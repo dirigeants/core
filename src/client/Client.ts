@@ -20,10 +20,31 @@ export interface PieceOptions {
 	disabledCoreTypes: string[];
 }
 
+export interface CacheLimits {
+	bans: number;
+	dms: number;
+	channels: number;
+	emojis: number;
+	members: number;
+	guilds: number;
+	invites: number;
+	reactions: number;
+	messages: number;
+	presences: number;
+	roles: number;
+	users: number;
+	voiceStates: number;
+}
+
+export interface CacheOptions {
+	caching: boolean;
+	limits: CacheLimits;
+}
+
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
 	pieces?: PieceOptions;
-	caching?: boolean;
+	cache?: CacheOptions;
 }
 
 /**
