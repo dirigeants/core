@@ -32,7 +32,9 @@ export abstract class Collector<K, V> implements AsyncIterable<[K, V]> {
     public async *[Symbol.asyncIterator](): AsyncIterableIterator<[K, V]> {
         while (this.#queue.length || !this.ended) {
             if (this.#queue.length) {
-                yield this.queue.shift() as [K, V];
+                const value = this.#queue.shift() as [K, V];
+                const passed = await this.filter(value[1], value[0], this);
+                if (passed) yield value;
             } else {
                 // Using TimerManager so we can skip to the next tick in the event loop.
                 await new Promise((resolve): NodeJS.Timeout => TimerManager.setTimeout(resolve, 0));
