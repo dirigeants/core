@@ -5,9 +5,9 @@ import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
 
 import { MessageBuilder, AllowedMentions } from './MessageBuilder';
+import { Embed } from '../Embed';
 
 import type { RequiredExcept, PartialRequired } from '../../../../util/types/Util';
-import { Embed } from '../Embed';
 
 
 export interface WebhookMessageData {
