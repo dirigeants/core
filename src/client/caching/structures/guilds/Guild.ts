@@ -4,9 +4,10 @@ import { Routes } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
 import { GuildEmojiStore } from '../../stores/GuildEmojiStore';
-import { GuildMemberStore } from '../../stores/GuildMemberStore';
-import { IntegrationStore } from '../../stores/IntegrationStore';
 import { GuildInviteStore } from '../../stores/GuildInviteStore';
+import { GuildMemberStore } from '../../stores/GuildMemberStore';
+import { GuildWidget } from './GuildWidget';
+import { IntegrationStore } from '../../stores/IntegrationStore';
 import { Permissions } from '../../../../util/bitfields/Permissions';
 import { PresenceStore } from '../../stores/PresenceStore';
 import { RoleStore } from '../../stores/RoleStore';
@@ -27,7 +28,6 @@ import type {
 	APIGuildWidgetData,
 	APIGuildPreviewData
 } from '@klasa/dapi-types';
-import { GuildWidget } from './GuildWidget';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-object

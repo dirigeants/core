@@ -1,4 +1,5 @@
 import { Cache } from '@klasa/cache';
+import { Routes } from '@klasa/rest';
 import { Structure } from './base/Structure';
 import { MessageMentions } from './messages/MessageMentions';
 import { Embed } from './Embed';
@@ -6,7 +7,6 @@ import { MessageFlags } from '../../../util/bitfields/MessageFlags';
 import { MessageAttachment } from './messages/MessageAttachment';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { MessageReaction } from './messages/reactions/MessageReaction';
-import { Routes } from '@klasa/rest';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import type { User } from './User';

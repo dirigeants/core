@@ -7,7 +7,7 @@ import type { APIChannelData, APIOverwriteData, ChannelType } from '@klasa/dapi-
 import type { Client } from '../../Client';
 import type { Guild } from '../structures/guilds/Guild';
 import type { GuildBasedChannel } from '../../../util/Util';
-import type { GuildTextChannel } from '../structures/channels/GuildTextChannel';
+import { Structure } from '../structures/base/Structure';
 
 export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 
@@ -58,9 +58,11 @@ export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 	 * @param data The data packet to add
 	 */
 	protected _add(data: APIChannelData): GuildBasedChannel {
-		const existing = this.get(data.id);
+		// You might ask... Why?!? Well, turns out that despite of ALL channels that make part of the GuildBasedChannel
+		// union having a _patch method, TypeScript is just unable to retrieve their properties. So yeah, we need this.
+		const existing = this.get(data.id) as Structure | undefined;
 		// eslint-disable-next-line dot-notation
-		if (existing) return (existing as GuildTextChannel)['_patch'](data) as GuildBasedChannel;
+		if (existing) return existing['_patch'](data) as GuildBasedChannel;
 
 		const entry = Channel.create(this.client, data, this.guild) as GuildBasedChannel;
 		if (this.client.options.cache.enabled) this.set(entry.id, entry);

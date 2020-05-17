@@ -1,10 +1,10 @@
+import { Routes } from '@klasa/rest';
 import { Structure } from '../base/Structure';
 import { Permissions } from '../../../../util/bitfields/Permissions';
 
 import type { APIRoleData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
 import type { Guild } from './Guild';
-import { Routes } from '@klasa/rest';
 
 /**
  * @see https://discord.com/developers/docs/topics/permissions#role-object

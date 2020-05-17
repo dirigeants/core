@@ -37,13 +37,13 @@ export class MessageStore extends DataStore<Message> {
 		if (typeof idOrOptions === 'string') {
 			const endpoint = Routes.channelMessage(this.channel.id, idOrOptions);
 			const entry = await this.client.api.get(endpoint) as APIMessageData;
-			return new this.Holds(this.client, entry);
+			return this._add(entry);
 		}
 
 		const endpoint = Routes.channelMessages(this.channel.id);
 		const entries = await this.client.api.get(endpoint, { query: idOrOptions }) as APIMessageData[];
 		const cache = new Cache<string, Message>();
-		for (const entry of entries) cache.set(entry.id, new this.Holds(this.client, entry));
+		for (const entry of entries) cache.set(entry.id, this._add(entry));
 		return cache;
 	}
 

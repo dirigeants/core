@@ -4,7 +4,7 @@ import { extender } from '../../../util/Extender';
 
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
-import { DMChannel } from '../structures/channels/DMChannel';
+import type { DMChannel } from '../structures/channels/DMChannel';
 
 export class DMChannelStore extends DataStore<DMChannel> {
 

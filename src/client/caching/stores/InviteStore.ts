@@ -21,8 +21,7 @@ export class InviteStore extends DataStore<Invite> {
 	public async fetch(code: string, options: InviteStoreFetchOptions = {}): Promise<Invite> {
 		const endpoint = Routes.invite(code);
 
-		// eslint-disable-next-line @typescript-eslint/camelcase
-		const entry = await this.client.api.get(endpoint, { query: { with_counts: true, ...options } }) as APIInviteData;
+		const entry = await this.client.api.get(endpoint, { query: options }) as APIInviteData;
 		return this._add(entry);
 	}
 
@@ -34,7 +33,7 @@ export class InviteStore extends DataStore<Invite> {
 	 */
 	public async remove(code: string): Promise<Invite> {
 		const endpoint = Routes.invite(code);
-		const entry = await this.client.api.get(endpoint) as APIInviteData;
+		const entry = await this.client.api.delete(endpoint) as APIInviteData;
 		return new this.Holds(this.client, entry);
 	}
 
@@ -66,7 +65,7 @@ export interface InviteStoreFetchOptions {
 	/**
 	 * Whether the invite should contain approximate member counts.
 	 * @since 0.0.1
-	 * @default true
+	 * @default false
 	 */
 	with_counts?: boolean;
 }

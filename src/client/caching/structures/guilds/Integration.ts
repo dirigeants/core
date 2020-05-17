@@ -149,7 +149,7 @@ export class Integration extends Structure {
 		if (Reflect.has(data, 'expire_grace_period')) this.expireGracePeriod = data.expire_grace_period;
 		if (Reflect.has(data, 'enable_emoticons')) this.enableEmoticons = data.enable_emoticons ?? null;
 		this.syncedTimestamp = new Date(data.synced_at).getTime();
-		throw new Error('Method not implemented.');
+		return this;
 	}
 
 }
