@@ -7,7 +7,7 @@ export interface CollectorOptions<K, V> {
     filter?: CollectorFilter<K, V>;
 }
 
-export abstract class Collector<K, V> implements AsyncIterator<[K, V]>{
+export abstract class Collector<K, V> implements AsyncIterableIterator<[K, V]> {
     public ended = false;
 
     public filter: CollectorFilter<K, V>;
@@ -19,7 +19,7 @@ export abstract class Collector<K, V> implements AsyncIterator<[K, V]>{
     #collected: number = 0;
 
     public constructor(public readonly emitter: EventEmitter, options: CollectorOptions<K, V>) {
-        this.filter = typeof options.filter === 'undefined' ? (): boolean => true : options.filter;
+        this.filter = options.filter ?? ((): boolean => true);
 
         this.event = options.event;
     }
@@ -36,13 +36,23 @@ export abstract class Collector<K, V> implements AsyncIterator<[K, V]>{
         this.#queue.push([key, value]);
     }
 
-    public next(): Promise<IteratorResult<[K, V]>> {
-        if (this.#queue.length) return Promise.resolve({ value: this.#queue.shift() as [K, V], done: false });
-        if (!this.ended) return Promise.resolve({ done: true, value: undefined as never });
+    public async next(): Promise<IteratorResult<[K, V]>> {
+        if (this.#queue.length) {
+            const value = this.#queue.shift() as [K, V];
+            if (await this.filter(value[1], value[0], this.queue)) {
+                this.#collected++;
+                return { done: false, value };
+            }
+        }
+        if (this.ended) return { done: true, value: undefined as never };
         return new Promise((resolve): void => {
             this.emitter.once((this.event), (...args: [K, V]): void => {
                 resolve({ done: false, value: args });
-            })
-        })
+            });
+        });
+    }
+
+    public [Symbol.asyncIterator](): AsyncIterableIterator<[K, V]> {
+        return this;
     }
 }
