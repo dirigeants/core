@@ -15,7 +15,7 @@ import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
 import type { ClientUser } from './caching/structures/ClientUser';
 
-export interface PieceOptions {
+export interface ClientPieceOptions {
 	createFolders: boolean;
 	disabledCoreTypes: string[];
 }
@@ -36,15 +36,15 @@ export interface CacheLimits {
 	voiceStates: number;
 }
 
-export interface CacheOptions {
+export interface ClientCacheOptions {
 	caching: boolean;
 	limits: CacheLimits;
 }
 
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
-	pieces?: PieceOptions;
-	cache?: CacheOptions;
+	pieces?: ClientPieceOptions;
+	cache?: ClientCacheOptions;
 }
 
 /**
