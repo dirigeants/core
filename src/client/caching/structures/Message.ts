@@ -201,9 +201,8 @@ export class Message extends Structure {
 	 * @see https://discord.com/developers/docs/resources/channel#edit-message
 	 */
 	public async edit(content: MessageBuilder): Promise<Message> {
-		const data = await this.client.api.patch(Routes.channelMessage(this.channel.id, this.id), content);
-		// eslint-disable-next-line dot-notation
-		return this.clone()['_patch'](data) as Message;
+		const data = await this.client.api.patch(Routes.channelMessage(this.channel.id, this.id), content) as APIMessageData;
+		return this._patch(data) as Message;
 	}
 
 	/**
