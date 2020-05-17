@@ -1,16 +1,28 @@
-import { TimerManager } from '@klasa/timer-manager';
-import type { Client } from '../../../client/Client';
+import type { EventEmitter } from 'events';
 
-export type CollectorFilter<K, V> = (value: V, key: K, collector: Collector<K, V>) => boolean | Promise<boolean>;
+export type CollectorFilter<K, V> = (value: V, key: K, collected: [K, V][]) => boolean | Promise<boolean>;
 
-export abstract class Collector<K, V> implements AsyncIterable<[K, V]> {
+export interface CollectorOptions<K, V> {
+    event: string;
+    filter?: CollectorFilter<K, V>;
+}
+
+export abstract class Collector<K, V> implements AsyncIterator<[K, V]>{
     public ended = false;
 
-    #collected: number = 0;
+    public filter: CollectorFilter<K, V>;
+
+    public event: string;
 
     #queue: [K, V][] = [];
 
-    public constructor(public readonly client: Client, public filter: CollectorFilter<K, V> = (): boolean => true) { }
+    #collected: number = 0;
+
+    public constructor(public readonly emitter: EventEmitter, options: CollectorOptions<K, V>) {
+        this.filter = typeof options.filter === 'undefined' ? (): boolean => true : options.filter;
+
+        this.event = options.event;
+    }
 
     public get collected(): number {
         return this.#collected;
@@ -20,25 +32,17 @@ export abstract class Collector<K, V> implements AsyncIterable<[K, V]> {
         return this.#queue.slice();
     }
 
-    public end(): void {
-        this.ended = true;
-    }
-
     public push(key: K, value: V): void {
         this.#queue.push([key, value]);
-        this.#collected++;
     }
 
-    public async *[Symbol.asyncIterator](): AsyncIterableIterator<[K, V]> {
-        while (this.#queue.length || !this.ended) {
-            if (this.#queue.length) {
-                const value = this.#queue.shift() as [K, V];
-                const passed = await this.filter(value[1], value[0], this);
-                if (passed) yield value;
-            } else {
-                // Using TimerManager so we can skip to the next tick in the event loop.
-                await new Promise((resolve): NodeJS.Timeout => TimerManager.setTimeout(resolve, 0));
-            }
-        }
+    public next(): Promise<IteratorResult<[K, V]>> {
+        if (this.#queue.length) return Promise.resolve({ value: this.#queue.shift() as [K, V], done: false });
+        if (!this.ended) return Promise.resolve({ done: true, value: undefined as never });
+        return new Promise((resolve): void => {
+            this.emitter.once((this.event), (...args: [K, V]): void => {
+                resolve({ done: false, value: args });
+            })
+        })
     }
 }
