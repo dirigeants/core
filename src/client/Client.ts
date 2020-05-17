@@ -14,6 +14,7 @@ import { ClientEvents } from '../util/types/Util';
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
 import type { ClientUser } from './caching/structures/ClientUser';
+import { InviteStore } from './caching/stores/InviteStore';
 
 export interface ClientPieceOptions {
 	createFolders: boolean;
@@ -78,9 +79,14 @@ export class Client extends BaseClient {
 	public readonly users: UserStore;
 
 	/**
-	 * The {@link DMChannel DM channels} that have bee ncached, mapped by their {@link Channel#id IDs}.
+	 * The {@link DMChannel DM channels} that have been cached, mapped by their {@link Channel#id IDs}.
 	 */
 	public readonly dms: DMChannelStore;
+
+	/**
+	 * The {@link Invite invites} that have been cached, mapped by their codes.
+	 */
+	public readonly invites: InviteStore;
 
 	/**
 	 * The directory where the user files are at.
@@ -114,6 +120,7 @@ export class Client extends BaseClient {
 		this.users = new UserStore(this);
 		this.guilds = new GuildStore(this);
 		this.dms = new DMChannelStore(this);
+		this.invites = new InviteStore(this);
 
 		this.pieceStores = new Cache();
 		this.events = new EventStore(this);

@@ -4,8 +4,9 @@ import { extender } from '../../../util/Extender';
 
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
+import { DMChannel } from '../structures/channels/DMChannel';
 
-export class DMChannelStore extends DataStore<Channel> {
+export class DMChannelStore extends DataStore<DMChannel> {
 
 	public constructor(client: Client) {
 		super(client, extender.get('DMChannel'), client.options.cache.limits.dms);
@@ -17,12 +18,12 @@ export class DMChannelStore extends DataStore<Channel> {
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	protected _add(data: APIChannelData): Channel | null {
+	protected _add(data: APIChannelData): DMChannel | null {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation
 		if (existing && existing.type === data.type) return existing['_patch'](data);
 
-		const entry = Channel.create(this.client, data);
+		const entry = Channel.create(this.client, data) as DMChannel;
 		if (entry && this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}

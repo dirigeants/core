@@ -5,7 +5,8 @@ import { Embed } from './Embed';
 import { MessageFlags } from '../../../util/bitfields/MessageFlags';
 import { MessageAttachment } from './messages/MessageAttachment';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
-import { MessageReaction } from './messages/MessageReaction';
+import { MessageReaction } from './messages/reactions/MessageReaction';
+import { Routes } from '@klasa/rest';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import type { User } from './User';
@@ -15,6 +16,7 @@ import type { DMChannel } from './channels/DMChannel';
 import type { TextChannel } from './channels/TextChannel';
 import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
+import type { MessageBuilder } from './messages/MessageBuilder';
 
 export class Message extends Structure {
 
@@ -152,12 +154,12 @@ export class Message extends Structure {
 	 */
 	public deleted = false;
 
-	public constructor(client: Client, data: APIMessageData) {
+	public constructor(client: Client, data: APIMessageData, guild?: Guild) {
 		super(client);
 		this.id = data.id;
 		this.attachments = new Cache();
-		this.reactions = new MessageReactionStore(client);
-		this.guild = data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null;
+		this.reactions = new MessageReactionStore(client, this);
+		this.guild = guild || (data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null);
 		this.channel = this.guild ? this.guild.channels.get(data.channel_id) as TextChannel | NewsChannel : this.client.dms.get(data.channel_id) as DMChannel;
 		// eslint-disable-next-line dot-notation
 		this.author = this.client.users['_add'](data.author);
@@ -190,6 +192,29 @@ export class Message extends Structure {
 	 */
 	public get editedAt(): Date | null {
 		return this.editedTimestamp ? new Date(this.editedTimestamp) : null;
+	}
+
+	/**
+	 * Edits the message.
+	 * @param content The {@link MessageBuilder builder} to send.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#edit-message
+	 */
+	public async edit(content: MessageBuilder): Promise<Message> {
+		const data = await this.client.api.patch(Routes.channelMessage(this.channel.id, this.id), content);
+		// eslint-disable-next-line dot-notation
+		return this.clone()['_patch'](data) as Message;
+	}
+
+	/**
+	 * Deletes the message.
+	 * @param reason The reason to write in the audit logs.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#delete-message
+	 */
+	public async delete(reason: string): Promise<this> {
+		await this.client.api.delete(Routes.channelMessage(this.channel.id, this.id), { reason });
+		return this;
 	}
 
 	protected _patch(data: Partial<APIMessageData>): this {

@@ -1,25 +1,33 @@
+/* eslint-disable no-dupe-class-members */
+import { URL } from 'url';
 import { Routes } from '@klasa/rest';
-import { Structure } from '../base/Structure';
-import { Permissions } from '../../../../util/bitfields/Permissions';
-import { GuildChannelStore } from '../../stores/GuildChannelStore';
-import { GuildMemberStore } from '../../stores/GuildMemberStore';
-import { PresenceStore } from '../../stores/PresenceStore';
-import { VoiceStateStore } from '../../stores/VoiceStateStore';
-import { RoleStore } from '../../stores/RoleStore';
-import { GuildEmojiStore } from '../../stores/GuildEmojiStore';
 import { BanStore } from '../../stores/BanStore';
+import { GuildChannelStore } from '../../stores/GuildChannelStore';
+import { GuildEmojiStore } from '../../stores/GuildEmojiStore';
+import { GuildMemberStore } from '../../stores/GuildMemberStore';
+import { IntegrationStore } from '../../stores/IntegrationStore';
+import { GuildInviteStore } from '../../stores/GuildInviteStore';
+import { Permissions } from '../../../../util/bitfields/Permissions';
+import { PresenceStore } from '../../stores/PresenceStore';
+import { RoleStore } from '../../stores/RoleStore';
+import { Structure } from '../base/Structure';
+import { VoiceStateStore } from '../../stores/VoiceStateStore';
 
 import type { Client } from '../../../Client';
 import type {
 	APIGuildData,
+	APIVoiceRegionData,
 	GuildDefaultMessageNotifications,
 	GuildExplicitContentFilterLevel,
 	GuildFeatures,
 	GuildMFALevel,
 	GuildPremiumTier,
 	GuildSystemChannelFlags,
-	GuildVerificationLevel
+	GuildVerificationLevel,
+	APIGuildWidgetData,
+	APIGuildPreviewData
 } from '@klasa/dapi-types';
+import { GuildWidget } from './GuildWidget';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-object
@@ -130,6 +138,18 @@ export class Guild extends Structure {
 	public readonly emojis: GuildEmojiStore;
 
 	/**
+	 * The guild's store of invites.
+	 * @since 0.0.1
+	 */
+	public readonly invites: GuildInviteStore;
+
+	/**
+	 * The guild's store of integrations.
+	 * @since 0.0.1
+	 */
+	public readonly integrations: IntegrationStore;
+
+	/**
 	 * The guild's enabled features.
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#guild-object-guild-features
@@ -149,13 +169,13 @@ export class Guild extends Structure {
 	public applicationID!: string | null;
 
 	/**
-	 * Whether or not the server widget is enabled.
+	 * Whether or not the guild widget is enabled.
 	 * @since 0.0.1
 	 */
 	public widgetEnabled!: boolean;
 
 	/**
-	 * The channel id for the server widget.
+	 * The channel id for the guild widget.
 	 * @since 0.0.1
 	 */
 	public widgetChannelID!: string | null;
@@ -263,7 +283,7 @@ export class Guild extends Structure {
 	public banner!: string | null;
 
 	/**
-	 * The guild's Server Boosting tier
+	 * The guild's guild Boosting tier
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#guild-object-premium-tier
 	 */
@@ -276,7 +296,7 @@ export class Guild extends Structure {
 	public premiumSubscriptionCount!: number | null;
 
 	/**
-	 * The preferred locale of a `PUBLIC` guild used in server discovery and notices from Discord; defaults to "en-US".
+	 * The preferred locale of a `PUBLIC` guild used in guild discovery and notices from Discord; defaults to "en-US".
 	 * @since 0.0.1
 	 */
 	public preferredLocale!: string;
@@ -305,6 +325,8 @@ export class Guild extends Structure {
 		this.bans = new BanStore(client, this);
 		this.roles = new RoleStore(client, this);
 		this.emojis = new GuildEmojiStore(client);
+		this.invites = new GuildInviteStore(client, this);
+		this.integrations = new IntegrationStore(client, this);
 		this.voiceStates = new VoiceStateStore(client, this);
 		this.members = new GuildMemberStore(client, this);
 		this.channels = new GuildChannelStore(client, this);
@@ -324,22 +346,121 @@ export class Guild extends Structure {
 		return this.joinedTimestamp === null ? null : new Date(this.joinedTimestamp);
 	}
 
-	public async edit(data: GuildEditOptions): Promise<unknown> {
-		return this.client.api.patch(Routes.guild(this.id), { data });
+	/**
+	 * Returns a PNG image URL representing the image widget of the guild.
+	 * @since 0.0.1
+	 * @param options The options for the widget image.
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-widget-image
+	 */
+	public getWidgetImageURL(options?: WidgetImageOptions): string {
+		const path = Routes.guildWidgetImage(this.id);
+		// TODO(VladFrangu): I think we should move this to @klasa/rest
+		const url = new URL(`https://discord.com/api${path}`);
+		if (options) for (const [key, value] of Object.entries(options)) url.searchParams.append(key, value);
+		return url.toString();
 	}
 
+	/**
+	 * Returns the guild preview.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-preview
+	 */
+	public fetchPreview(): Promise<APIGuildPreviewData> {
+		const endpoint = Routes.guildPreview(this.id);
+		return this.client.api.get(endpoint) as Promise<APIGuildPreviewData>;
+	}
+
+	/**
+	 * Edit's a guild's settings.
+	 * @since 0.0.1
+	 * @param data The settings to be applied to the guild.
+	 * @see https://discord.com/developers/docs/resources/guild#modify-guild
+	 */
+	public async edit(data: GuildEditOptions): Promise<unknown> {
+		const endpoint = Routes.guild(this.id);
+		const result = await this.client.api.patch(endpoint, { data }) as APIGuildData;
+		return this.clone<this>()._patch(result);
+	}
+
+	/**
+	 * Delete the guild permanently.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#delete-guild
+	 */
 	public async delete(): Promise<unknown> {
 		return this.client.api.delete(Routes.guild(this.id));
 	}
 
-	public async prune(options: GuildPruneOptions): Promise<unknown> {
+	/**
+	 * Returns a number indicating the number of members that would be removed in a prune operation.
+	 * @since 0.0.1
+	 * @param options The number of days to count prune and the included roles.
+	 * @param dry When set to `true`, a calculation of how many members would be pruned.
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-prune-count
+	 */
+	public prune(options: GuildPruneDryOptions, dry: true): Promise<number>;
+
+	/**
+	 * Begins a prune operation.
+	 * @since 0.0.1
+	 * @param options The number of days to count prune and the included roles.
+	 * @param dry When set to `false` or left undefined, this operation will kick users.
+	 * @see https://discord.com/developers/docs/resources/guild#begin-guild-prune
+	 */
+	public prune(options: GuildPruneOptions, dry?: false): Promise<number | null>
+	public async prune(options: GuildPruneDryOptions, dry?: boolean): Promise<number | null> {
+		const endpoint = Routes.guildPrune(this.id);
+		if (dry) {
+			const result = await this.client.api.get(endpoint, { query: options }) as { pruned: number };
+			return result.pruned;
+		}
+
 		// eslint-disable-next-line @typescript-eslint/camelcase
-		const data = { ...options, compute_prune_count: this.large };
-		return this.client.api.post(Routes.guildPrune(this.id), { data });
+		const result = await this.client.api.post(endpoint, { query: { compute_prune_count: this.large, ...options } }) as { pruned: number | null };
+		return result.pruned;
 	}
 
-	public async leave(): Promise<unknown> {
-		return this.client.api.delete(Routes.leaveGuild(this.id));
+	/**
+	 * Returns a list of voice region objects for the guild.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-voice-regions
+	 */
+	public async fetchRegions(): Promise<APIVoiceRegionData[]> {
+		const endpoint = Routes.guildVoiceRegions(this.id);
+		const results = await this.client.api.get(endpoint) as APIVoiceRegionData[];
+		return results;
+	}
+
+	/**
+	 * Returns the guild {@link GuildWidget widget}.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-widget
+	 */
+	public async fetchWidget(): Promise<GuildWidget> {
+		const endpoint = Routes.guildWidget(this.id);
+		const entry = await this.client.api.get(endpoint) as APIGuildWidgetData;
+		return new GuildWidget(entry, this);
+	}
+
+	/**
+	 * Makes the client leave the guild.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/user#leave-guild
+	 */
+	public async leave(): Promise<this> {
+		const endpoint = Routes.leaveGuild(this.id);
+		await this.client.api.delete(endpoint);
+		return this;
+	}
+
+	/**
+	 * Returns a partial {@link Invite invite} for guilds that have the feature enabled.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-vanity-url
+	 */
+	public async fetchVanityURL(): Promise<GuildVanityURL> {
+		const endpoint = Routes.guildVanityURL(this.id);
+		return this.client.api.get(endpoint) as Promise<GuildVanityURL>;
 	}
 
 	protected _patch(data: APIGuildData): this {
@@ -402,25 +523,219 @@ export class Guild extends Structure {
 
 }
 
-interface GuildEditOptions {
-	name: string;
-	region: string;
-	verification_level: string;
-	default_message_notifications: GuildDefaultMessageNotifications;
-	explicit_content_filter: GuildExplicitContentFilterLevel;
-	afk_channel_id: string;
-	afk_timeout: number;
-	icon: string;
-	owner_id: string;
-	splash: string;
-	banner: string;
-	system_channel_id: string;
-	rules_channel_id: string;
-	public_updates_channel_id: string;
-	preferred_locale: string;
+export interface Guild {
+	client: Client;
 }
 
-interface GuildPruneOptions {
+/**
+ * The options for {@link Guild#edit}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#modify-guild-json-params
+ */
+interface GuildEditOptions {
+	/**
+	 * The {@link Guild guild} name.
+	 * @since 0.0.1
+	 */
+	name?: string;
+
+	/**
+	 * The guild voice region id.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/voice#voice-region-object
+	 */
+	region?: string;
+
+	/**
+	 * The verification level.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#guild-object-verification-level
+	 */
+	verification_level?: string;
+
+	/**
+	 * The default message notification level.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#guild-object-default-message-notification-level
+	 */
+	default_message_notifications?: GuildDefaultMessageNotifications;
+
+	/**
+	 * The explicit content filter level.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level
+	 */
+	explicit_content_filter?: GuildExplicitContentFilterLevel;
+
+	/**
+	 * The id for afk {@link VoiceChannel channel}.
+	 * @since 0.0.1
+	 */
+	afk_channel_id?: string;
+
+	/**
+	 * The afk timeout in seconds.
+	 * @since 0.0.1
+	 */
+	afk_timeout?: number;
+
+	/**
+	 * The base64 1024x1024 png/jpeg/gif image for the guild icon (can be animated gif when the guild has `ANIMATED_ICON` feature).
+	 * @since 0.0.1
+	 */
+	icon?: string;
+
+	/**
+	 * The {@link User user} id to transfer guild ownership to (must be owner).
+	 * @since 0.0.1
+	 */
+	owner_id?: string;
+
+	/**
+	 * The base64 16:9 png/jpeg image for the guild splash (when the guild has `INVITE_SPLASH` feature).
+	 * @since 0.0.1
+	 */
+	splash?: string;
+
+	/**
+	 * The base64 16:9 png/jpeg image for the guild banner (when the guild has `BANNER` feature).
+	 * @since 0.0.1
+	 */
+	banner?: string;
+
+	/**
+	 * The id of the {@link TextChannel channel} where guild notices such as welcome messages and boost events are posted.
+	 * @since 0.0.1
+	 */
+	system_channel_id?: string;
+
+	/**
+	 * The id of the channel where guilds display rules and/or guidelines (when the guild has `PUBLIC` feature).
+	 * @since 0.0.1
+	 */
+	rules_channel_id?: string;
+
+	/**
+	 * The id of the channel where admins and moderators of guilds receive notices from Discord (when the guild has `PUBLIC` feature).
+	 * @since 0.0.1
+	 */
+	public_updates_channel_id?: string;
+
+	/**
+	 * The preferred locale of a guild used in server discovery and notices from Discord; defaults to "en-US" (when the guild has `PUBLIC` feature).
+	 * @since 0.0.1
+	 */
+	preferred_locale?: string;
+}
+
+/**
+ * The options for a dry {@link Guild#prune}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#get-guild-prune-count-query-string-params
+ */
+export interface GuildPruneDryOptions {
+	/**
+	 * The number of days to count prune for (1 or more).
+	 * @since 0.0.1
+	 * @default 7
+	 */
 	days: number;
+
+	/**
+	 * The {@link Role role} IDs to include.
+	 * @since 0.0.1
+	 * @default []
+	 */
+	include_roles: string[];
+}
+
+/**
+ * The options for a non-dry {@link Guild#prune}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#begin-guild-prune-query-string-params
+ */
+export interface GuildPruneOptions extends GuildPruneDryOptions {
+	/**
+	 * Whether 'pruned' is returned, discouraged for large guilds.
+	 * @since 0.0.1
+	 * @default !this.large
+	 */
 	compute_prune_count: boolean;
+}
+
+/**
+ * The vanity URL retrieved from {@link Guild#fetchVanityURL}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#get-guild-vanity-url-example-partial-invite-object
+ */
+export interface GuildVanityURL {
+	/**
+	 * The code of this invite.
+	 * @since 0.0.1
+	 * @example "discord"
+	 */
+	code: string;
+
+	/**
+	 * The amount of uses this invite has.
+	 * @since 0.0.1
+	 * @example 42
+	 */
+	uses: number;
+}
+
+/**
+ * The options for the widget image.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#get-guild-widget-image-query-string-params
+ */
+export interface WidgetImageOptions {
+	/**
+	 * Style of the widget image returned.
+	 * @since 0.0.1
+	 * @default WidgetStyle.Shield
+	 */
+	style?: WidgetStyle;
+}
+
+/**
+ * The widget style options.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#get-guild-widget-image-widget-style-options
+ */
+export enum WidgetStyle {
+	/**
+	 * shield style widget with Discord icon and guild members online count
+	 * @since 0.0.1
+	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=shield
+	 */
+	Shield = 'shield',
+
+	/**
+	 * large image with guild icon, name and online count. "POWERED BY DISCORD" as the footer of the widget
+	 * @since 0.0.1
+	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=banner1
+	 */
+	Banner1 = 'banner1',
+
+	/**
+	 * smaller widget style with guild icon, name and online count. Split on the right with Discord logo
+	 * @since 0.0.1
+	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=banner2
+	 */
+	Banner2 = 'banner2',
+
+	/**
+	 * large image with guild icon, name and online count. In the footer, Discord logo on the left and "Chat Now" on the right
+	 * @since 0.0.1
+	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=banner3
+	 */
+	Banner3 = 'banner3',
+
+	/**
+	 * large Discord logo at the top of the widget. Guild icon, name and online count in the middle portion of the widget and a "JOIN MY SERVER" button at the bottom
+	 * @since 0.0.1
+	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=banner4
+	 */
+	Banner4 = 'banner4'
 }

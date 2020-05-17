@@ -8,6 +8,7 @@ import { Message } from '../Message';
 
 import type { User } from '../User';
 import type { Client } from '../../../Client';
+import { Message } from '../Message';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -41,7 +42,7 @@ export class DMChannel extends Channel {
 
 	public constructor(client: Client, data: APIChannelData) {
 		super(client, data);
-		this.messages = new MessageStore(client);
+		this.messages = new MessageStore(client, this);
 	}
 
 	/**

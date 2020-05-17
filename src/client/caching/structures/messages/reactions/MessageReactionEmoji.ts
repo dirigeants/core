@@ -1,5 +1,5 @@
 import type { APIEmojiPartial } from '@klasa/dapi-types';
-import type { Client } from '../../../Client';
+import type { Client } from '../../../../Client';
 
 /**
  * @see https://discord.com/developers/docs/resources/emoji#emoji-object

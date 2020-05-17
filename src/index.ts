@@ -28,7 +28,7 @@ export * from './client/caching/stores/GuildChannelStore';
 export * from './client/caching/stores/GuildEmojiStore';
 export * from './client/caching/stores/GuildMemberStore';
 export * from './client/caching/stores/GuildStore';
-export * from './client/caching/stores/InviteStore';
+export * from './client/caching/stores/GuildInviteStore';
 export * from './client/caching/stores/MessageReactionStore';
 export * from './client/caching/stores/MessageStore';
 export * from './client/caching/stores/PresenceStore';
