@@ -9,7 +9,14 @@ import type { File } from '@klasa/rest';
 
 export class Attachment {
 
+	/**
+	 * The name of the Attachment
+	 */
 	public name?: string;
+
+	/**
+	 * The unresolved file to send to the api
+	 */
 	public file?: string | Readable | Buffer | MessageAttachment;
 
 	public constructor(attachment: Partial<Attachment> = {}) {
@@ -17,11 +24,19 @@ export class Attachment {
 		this.file = attachment.file;
 	}
 
+	/**
+	 * Allows you to set the name of the attachment
+	 * @param name The name of the Attachment
+	 */
 	public setName(name: string): this {
 		this.name = name;
 		return this;
 	}
 
+	/**
+	 * Allows you to set the file of the attachment
+	 * @param file The unresolved file to send to the api
+	 */
 	public setFile(file: string | Readable | Buffer | MessageAttachment): this {
 		this.file = file;
 		return this;

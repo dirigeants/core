@@ -9,6 +9,9 @@ import type { Constructor } from '../../../../util/Extender';
  */
 export class DataStore<S extends Structure> extends Cache<string, S> {
 
+	/**
+	 * The cache limit of this DataStore
+	 */
 	#limit: number;
 
 	public constructor(public readonly client: Client, protected readonly Holds: Constructor<S>, limit: number, iterable?: Iterable<S>) {
@@ -17,6 +20,11 @@ export class DataStore<S extends Structure> extends Cache<string, S> {
 		if (iterable) for (const item of iterable) this._add(item);
 	}
 
+	/**
+	 * Sets a value to this DataStore taking into account the cache limit.
+	 * @param key The key of the value you are setting
+	 * @param value The value for the key you are setting
+	 */
 	public set(key: string, value: S): this {
 		if (this.#limit === 0) return this;
 		if (this.size >= this.#limit && !this.has(key)) this.delete(this.firstKey as string);
