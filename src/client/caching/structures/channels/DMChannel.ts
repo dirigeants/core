@@ -1,9 +1,11 @@
-import { APIChannelData, ChannelType, APIUserData } from '@klasa/dapi-types';
+/* eslint-disable no-dupe-class-members */
+import { APIChannelData, ChannelType, APIUserData, APIMessageData } from '@klasa/dapi-types';
 import { Routes } from '@klasa/rest';
 import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
+import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
+import { Message } from '../Message';
 
-import type { MessageBuilder } from '../messages/MessageBuilder';
 import type { User } from '../User';
 import type { Client } from '../../../Client';
 
@@ -44,13 +46,24 @@ export class DMChannel extends Channel {
 
 	/**
 	 * Sends a message to the channel.
-	 * @param content The {@link MessageBuilder builder} to send.
+	 * @param data The {@link MessageBuilder builder} to send.
+	 * @param options The split options for the message.
 	 * @since 0.0.1
 	 */
-	public async send(content: MessageBuilder): Promise<this> {
-		const data = await this.client.api.post(Routes.channelMessages(this.id), content);
+	public async send(data: MessageOptions, options: SplitOptions): Promise<Message[]>
+	public async send(data: (message: MessageBuilder) => MessageBuilder, options: SplitOptions): Promise<Message[]>
+	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
+		const split = (typeof data === 'function' ? data(new MessageBuilder()) : new MessageBuilder(data)).split(options);
+
+		const endpoint = Routes.channelMessages(this.id);
+		const responses = [];
+
+		for (const message of split) responses.push(this.client.api.post(endpoint, message));
+
+		const rawMessages = await Promise.all(responses);
+
 		// eslint-disable-next-line dot-notation
-		return new this.client.dms['Holds'](this.client, data) as this;
+		return rawMessages.map(msg => this.messages['_add'](msg as APIMessageData));
 	}
 
 	protected _patch(data: APIChannelData): this {

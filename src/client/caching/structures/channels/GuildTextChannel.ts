@@ -57,6 +57,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	/**
 	 * Sends a message to the channel.
 	 * @param data The {@link MessageBuilder builder} to send.
+	 * @param options The split options for the message.
 	 * @since 0.0.1
 	 */
 	public async send(data: MessageOptions, options: SplitOptions): Promise<Message[]>
