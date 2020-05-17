@@ -9,7 +9,7 @@ import type { Constructor } from '../../../../util/Extender';
  */
 export class DataStore<S extends Structure> extends Cache<string, S> {
 
-	#limit = Infinity;
+	#limit: number;
 
 	public constructor(public readonly client: Client, protected readonly Holds: Constructor<S>, limit: number, iterable?: Iterable<S>) {
 		super();
