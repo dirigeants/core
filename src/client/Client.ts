@@ -23,15 +23,16 @@ export interface ClientPieceOptions {
 
 export interface CacheLimits {
 	bans: number;
-	dms: number;
 	channels: number;
+	dms: number;
 	emojis: number;
-	members: number;
 	guilds: number;
+	integrations: number;
 	invites: number;
-	reactions: number;
+	members: number;
 	messages: number;
 	presences: number;
+	reactions: number;
 	roles: number;
 	users: number;
 	voiceStates: number;

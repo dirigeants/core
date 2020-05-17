@@ -3,14 +3,12 @@ import { Routes } from '@klasa/rest';
 import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../../caching/stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
-import { Message } from '../Message';
 
-import type { APIChannelData } from '@klasa/dapi-types';
+import type { APIChannelData, APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
 import type { Guild } from '../guilds/Guild';
-import type { Message } from '../Message';
-import type { MessageBuilder } from '../messages/MessageBuilder';
 import type { TextBasedChannel } from '../../../../util/Util';
+import type { Message } from '../Message';
 
 export interface SendOptions {
 	split?: SplitOptions;

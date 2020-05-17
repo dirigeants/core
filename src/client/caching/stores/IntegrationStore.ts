@@ -12,7 +12,7 @@ export class IntegrationStore extends DataStore<Integration> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('Integration'));
+		super(client, extender.get('Integration'), client.options.cache.limits.integrations);
 		this.guild = guild;
 	}
 

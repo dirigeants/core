@@ -4,11 +4,10 @@ import { Routes } from '@klasa/rest';
 import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
-import { Message } from '../Message';
 
 import type { User } from '../User';
 import type { Client } from '../../../Client';
-import { Message } from '../Message';
+import type { Message } from '../Message';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object

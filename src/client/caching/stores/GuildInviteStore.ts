@@ -12,7 +12,7 @@ export class GuildInviteStore extends DataStore<Invite> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('Invite'));
+		super(client, extender.get('Invite'), client.options.cache.limits.invites);
 		this.guild = guild;
 	}
 
