@@ -41,13 +41,13 @@ export class IntegrationStore extends DataStore<Integration> {
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	protected _add(data: APIIntegrationData, cache = true): Integration {
+	protected _add(data: APIIntegrationData): Integration {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
 		const entry = new this.Holds(this.client, data, this.guild);
-		if (cache) this.set(entry.id, entry);
+		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 

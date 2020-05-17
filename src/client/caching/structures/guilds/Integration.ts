@@ -147,9 +147,7 @@ export class Integration extends Structure {
 	protected _patch(data: APIIntegrationData): this {
 		if (Reflect.has(data, 'expire_behavior')) this.expireBehavior = data.expire_behavior;
 		if (Reflect.has(data, 'expire_grace_period')) this.expireGracePeriod = data.expire_grace_period;
-		// TODO(kyranet): add this once Vlad adds this missing field
-		// if (Reflect.has(data, 'enable_emoticons')) this.enableEmoticons = data.enable_emoticons;
-		this.enableEmoticons = null;
+		if (Reflect.has(data, 'enable_emoticons')) this.enableEmoticons = data.enable_emoticons ?? null;
 		this.syncedTimestamp = new Date(data.synced_at).getTime();
 		throw new Error('Method not implemented.');
 	}

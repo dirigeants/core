@@ -35,13 +35,13 @@ export class GuildInviteStore extends DataStore<Invite> {
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	protected _add(data: APIInviteData, cache = true): Invite {
+	protected _add(data: APIInviteData): Invite {
 		const existing = this.get(data.code);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
 		const entry = new this.Holds(this.client, data, this.guild);
-		if (cache) this.set(entry.id, entry);
+		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 
