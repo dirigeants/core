@@ -37,7 +37,7 @@ export interface CacheLimits {
 }
 
 export interface ClientCacheOptions {
-	caching: boolean;
+	enabled: boolean;
 	limits: CacheLimits;
 }
 

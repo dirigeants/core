@@ -23,7 +23,7 @@ export class GuildEmojiStore extends DataStore<GuildEmoji> {
 		if (existing) return existing['_patch'](data);
 
 		const entry = new this.Holds(this.client, data);
-		if (this.client.options.cache.caching) this.set(entry.id, entry);
+		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 

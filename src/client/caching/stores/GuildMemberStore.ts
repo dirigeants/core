@@ -27,7 +27,7 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 		if (existing) return existing['_patch'](data);
 
 		const entry = new this.Holds(this.client, data, this.guild);
-		if (this.client.options.cache.caching) this.set(entry.id, entry);
+		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 

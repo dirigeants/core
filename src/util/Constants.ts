@@ -16,7 +16,7 @@ export const ClientOptionsDefaults: Required<ClientOptions> = {
 		disabledCoreTypes: []
 	},
 	cache: {
-		caching: true,
+		enabled: true,
 		limits: {
 			bans: Infinity,
 			dms: Infinity,
