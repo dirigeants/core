@@ -54,8 +54,8 @@ export abstract class Collector<K, V> implements AsyncIterableIterator<[K, V]> {
         }
         if (this.ended) return { done: true, value: undefined as never };
         return new Promise<IteratorResult<[K, V]>>((resolve): void => {
-            this.emitter.once((this.event), (...args: [K, V]): void => {
-                resolve({ done: false, value: args });
+            this.emitter.once((this.event), (): void => {
+                resolve(this.next());
             });
         });
     }
