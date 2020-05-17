@@ -18,6 +18,7 @@ export default class CoreAction extends Action {
 	}
 
 	public cache(data: Message): void {
+		data.deleted = true;
 		data.channel.messages.delete(data.id);
 	}
 

@@ -7,7 +7,7 @@ import type { Client } from '../../Client';
 export class UserStore extends DataStore<User> {
 
 	public constructor(client: Client) {
-		super(client, extender.get('User'));
+		super(client, extender.get('User'), client.options.cache.limits.users);
 	}
 
 }

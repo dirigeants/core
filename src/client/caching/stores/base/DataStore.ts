@@ -9,9 +9,26 @@ import type { Constructor } from '../../../../util/Extender';
  */
 export class DataStore<S extends Structure> extends Cache<string, S> {
 
-	public constructor(public readonly client: Client, protected readonly Holds: Constructor<S>, iterable?: Iterable<S>) {
+	/**
+	 * The cache limit of this DataStore
+	 */
+	#limit: number;
+
+	public constructor(public readonly client: Client, protected readonly Holds: Constructor<S>, limit: number, iterable?: Iterable<S>) {
 		super();
+		this.#limit = limit;
 		if (iterable) for (const item of iterable) this._add(item);
+	}
+
+	/**
+	 * Sets a value to this DataStore taking into account the cache limit.
+	 * @param key The key of the value you are setting
+	 * @param value The value for the key you are setting
+	 */
+	public set(key: string, value: S): this {
+		if (this.#limit === 0) return this;
+		if (this.size >= this.#limit && !this.has(key)) this.delete(this.firstKey as string);
+		return super.set(key, value);
 	}
 
 	/**
@@ -19,13 +36,13 @@ export class DataStore<S extends Structure> extends Cache<string, S> {
 	 * @param data The data packet to add
 	 * @param cache If the data should be cached
 	 */
-	protected _add(data: { id: string, [k: string]: any }, cache = true): S {
+	protected _add(data: { id: string, [k: string]: any }): S {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
 		const entry = new this.Holds(this.client, data);
-		if (cache) this.set(entry.id, entry);
+		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-class-members */
 import { Snowflake } from '@klasa/snowflake';
 import { Routes } from '@klasa/rest';
 import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
@@ -100,6 +101,7 @@ export class Webhook extends Structure {
 	 * The channel of this webhook
 	 */
 	get channel(): Channel | null {
+		// todo: This is broken from another change...
 		return (this.client as Client).dms.get(this.channelID) || null;
 	}
 
@@ -121,13 +123,17 @@ export class Webhook extends Structure {
 	 * Sends a message over the webhook
 	 * @param data Message data
 	 */
-	public async send(data: WebhookMessageOptions, splitOptions: SplitOptions = {}): Promise<Message[]> {
+	public async send(data: WebhookMessageOptions, splitOptions?: SplitOptions): Promise<Message[]>
+	public async send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder, splitOptions?: SplitOptions): Promise<Message[]>
+	public async send(data: WebhookMessageOptions | ((message: WebhookMessageBuilder) => WebhookMessageBuilder), splitOptions?: SplitOptions): Promise<Message[]> {
 		if (!this.token) throw new Error('The token on this webhook is unknown. You cannot send messages.');
+
+		const split = new WebhookMessageBuilder(typeof data === 'function' ? data(new WebhookMessageBuilder()) : data).split(splitOptions);
 
 		const endpoint = Routes.webhookTokened(this.id, this.token);
 		const responses = [];
 
-		for (const message of new WebhookMessageBuilder(data).split(splitOptions)) responses.push(this.client.api.post(endpoint, message));
+		for (const message of split) responses.push(this.client.api.post(endpoint, message));
 
 		const rawMessages = await Promise.all(responses);
 

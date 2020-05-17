@@ -1,9 +1,11 @@
+/* eslint-disable no-dupe-class-members */
 import { mergeDefault } from '@klasa/utils';
 
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
 
 import { MessageBuilder, AllowedMentions } from './MessageBuilder';
+import { Embed } from '../Embed';
 
 import type { RequiredExcept, PartialRequired } from '../../../../util/types/Util';
 
@@ -68,9 +70,11 @@ export class WebhookMessageBuilder extends MessageBuilder implements RequiredExc
 	 * Adds an embed to this webhook message
 	 * @param embed The field name
 	 */
-	public addEmbed(embed: APIEmbedData): this {
+	public addEmbed(embed: APIEmbedData): this
+	public addEmbed(embed: (embed: Embed) => Embed): this
+	public addEmbed(embed: APIEmbedData | ((embed: Embed) => Embed)): this {
 		if (!this.data.embeds) this.data.embeds = [];
-		this.data.embeds.push(embed);
+		this.data.embeds.push(typeof embed === 'function' ? embed(new Embed()) : embed);
 		return this;
 	}
 
@@ -80,9 +84,11 @@ export class WebhookMessageBuilder extends MessageBuilder implements RequiredExc
 	 * @param deleteCount How many fields to delete
 	 * @param embed The field name to insert
 	 */
-	public spliceEmbed(index: number, deleteCount: number, embed?: APIEmbedData): this {
+	public spliceEmbed(index: number, deleteCount: number, embed?: APIEmbedData): this
+	public spliceEmbed(index: number, deleteCount: number, embed?: (embed: Embed) => Embed): this
+	public spliceEmbed(index: number, deleteCount: number, embed?: APIEmbedData | ((embed: Embed) => Embed)): this {
 		if (!this.data.embeds) this.data.embeds = [];
-		if (embed) this.data.embeds.splice(index, deleteCount, embed);
+		if (embed) this.data.embeds.splice(index, deleteCount, typeof embed === 'function' ? embed(new Embed()) : embed);
 		else this.data.embeds.splice(index, deleteCount);
 		return this;
 	}

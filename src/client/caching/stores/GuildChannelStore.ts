@@ -12,22 +12,21 @@ export class GuildChannelStore extends DataStore<GuildChannel> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('GuildChannel'));
+		super(client, extender.get('GuildChannel'), client.options.cache.limits.channels);
 		this.guild = guild;
 	}
 
 	/**
 	 * Adds a new structure to this DataStore
 	 * @param data The data packet to add
-	 * @param cache If the data should be cached
 	 */
-	protected _add(data: APIChannelData, cache = true): GuildChannel {
+	protected _add(data: APIChannelData): GuildChannel {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
 		const entry = Channel.create(this.client, data, this.guild) as GuildChannel;
-		if (cache) this.set(entry.id, entry);
+		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 

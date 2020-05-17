@@ -15,10 +15,36 @@ import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
 import type { ClientUser } from './caching/structures/ClientUser';
 
+export interface ClientPieceOptions {
+	createFolders: boolean;
+	disabledCoreTypes: string[];
+}
+
+export interface CacheLimits {
+	bans: number;
+	dms: number;
+	channels: number;
+	emojis: number;
+	members: number;
+	guilds: number;
+	invites: number;
+	reactions: number;
+	messages: number;
+	presences: number;
+	roles: number;
+	users: number;
+	voiceStates: number;
+}
+
+export interface ClientCacheOptions {
+	enabled: boolean;
+	limits: CacheLimits;
+}
+
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
-	createPiecesFolders?: boolean;
-	disabledCorePieces?: string[];
+	pieces?: ClientPieceOptions;
+	cache?: ClientCacheOptions;
 }
 
 /**

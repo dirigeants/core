@@ -7,7 +7,7 @@ import type { Client } from '../../Client';
 export class GuildStore extends DataStore<Guild> {
 
 	public constructor(client: Client) {
-		super(client, extender.get('Guild'));
+		super(client, extender.get('Guild'), client.options.cache.limits.guilds);
 	}
 
 }

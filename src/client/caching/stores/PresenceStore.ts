@@ -11,24 +11,23 @@ export class PresenceStore extends DataStore<Presence> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('Presence'));
+		super(client, extender.get('Presence'), client.options.cache.limits.presences);
 		this.guild = guild;
 	}
 
 	/**
 	 * Adds a new structure to this DataStore
 	 * @param data The data packet to add
-	 * @param cache If the data should be cached
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	protected _add(data: APIPresenceUpdateData, cache = true): Presence {
+	protected _add(data: APIPresenceUpdateData): Presence {
 		const existing = this.get(data.user.id);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
 		const entry = new this.Holds(this.client, data);
-		if (cache) this.set(entry.id, entry);
+		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 

@@ -11,24 +11,23 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('GuildMember'));
+		super(client, extender.get('GuildMember'), client.options.cache.limits.members);
 		this.guild = guild;
 	}
 
 	/**
 	 * Adds a new structure to this DataStore
 	 * @param data The data packet to add
-	 * @param cache If the data should be cached
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	protected _add(data: MemberData, cache = true): GuildMember {
+	protected _add(data: MemberData): GuildMember {
 		const existing = this.get((data.user as APIUserData).id);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
 		const entry = new this.Holds(this.client, data, this.guild);
-		if (cache) this.set(entry.id, entry);
+		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 

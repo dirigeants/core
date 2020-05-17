@@ -20,6 +20,7 @@ export default class CoreAction extends Action {
 		for (const id of data.d.ids) {
 			const message = channel.messages.get(id);
 			if (message) {
+				message.deleted = true;
 				channel.messages.delete(id);
 				messages.push(message);
 			} else {

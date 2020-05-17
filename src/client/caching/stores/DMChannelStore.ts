@@ -8,23 +8,22 @@ import type { Client } from '../../Client';
 export class DMChannelStore extends DataStore<Channel> {
 
 	public constructor(client: Client) {
-		super(client, extender.get('DMChannel'));
+		super(client, extender.get('DMChannel'), client.options.cache.limits.dms);
 	}
 
 	/**
 	 * Adds a new structure to this DataStore
 	 * @param data The data packet to add
-	 * @param cache If the data should be cached
 	 */
 	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 	// @ts-ignore
-	protected _add(data: APIChannelData, cache = true): Channel | null {
+	protected _add(data: APIChannelData): Channel | null {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation
 		if (existing && existing.type === data.type) return existing['_patch'](data);
 
 		const entry = Channel.create(this.client, data);
-		if (entry && cache) this.set(entry.id, entry);
+		if (entry && this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 
