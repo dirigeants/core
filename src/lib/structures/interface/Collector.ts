@@ -22,6 +22,9 @@ export abstract class Collector<K, V> implements AsyncIterableIterator<[K, V]> {
         this.filter = options.filter ?? ((): boolean => true);
 
         this.event = options.event;
+
+        this.push = this.push.bind(this);
+        this.emitter.on(this.event, this.push);
     }
 
     public get collected(): number {
@@ -36,6 +39,11 @@ export abstract class Collector<K, V> implements AsyncIterableIterator<[K, V]> {
         this.#queue.push([key, value]);
     }
 
+    public end(): void {
+        this.ended = true;
+        this.emitter.off(this.event, this.push);
+    }
+
     public async next(): Promise<IteratorResult<[K, V]>> {
         if (this.#queue.length) {
             const value = this.#queue.shift() as [K, V];
@@ -45,7 +53,7 @@ export abstract class Collector<K, V> implements AsyncIterableIterator<[K, V]> {
             }
         }
         if (this.ended) return { done: true, value: undefined as never };
-        return new Promise((resolve): void => {
+        return new Promise<IteratorResult<[K, V]>>((resolve): void => {
             this.emitter.once((this.event), (...args: [K, V]): void => {
                 resolve({ done: false, value: args });
             });
