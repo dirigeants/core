@@ -12,7 +12,7 @@ export class GuildChannelStore extends DataStore<GuildChannel> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('GuildChannel'));
+		super(client, extender.get('GuildChannel'), client.options.cache.limits.channels);
 		this.guild = guild;
 	}
 

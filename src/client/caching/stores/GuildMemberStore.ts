@@ -11,7 +11,7 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('GuildMember'));
+		super(client, extender.get('GuildMember'), client.options.cache.limits.members);
 		this.guild = guild;
 	}
 

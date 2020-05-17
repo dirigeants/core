@@ -11,7 +11,7 @@ export class RoleStore extends DataStore<Role> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('Role'));
+		super(client, extender.get('Role'), client.options.cache.limits.roles);
 		this.guild = guild;
 	}
 

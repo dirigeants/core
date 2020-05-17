@@ -22,7 +22,7 @@ export class BanStore extends DataStore<Ban> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('Ban'));
+		super(client, extender.get('Ban'), client.options.cache.limits.bans);
 		this.guild = guild;
 	}
 

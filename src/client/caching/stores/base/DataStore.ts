@@ -9,9 +9,18 @@ import type { Constructor } from '../../../../util/Extender';
  */
 export class DataStore<S extends Structure> extends Cache<string, S> {
 
-	public constructor(public readonly client: Client, protected readonly Holds: Constructor<S>, iterable?: Iterable<S>) {
+	#limit = Infinity;
+
+	public constructor(public readonly client: Client, protected readonly Holds: Constructor<S>, limit: number, iterable?: Iterable<S>) {
 		super();
+		this.#limit = limit;
 		if (iterable) for (const item of iterable) this._add(item);
+	}
+
+	public set(key: string, value: S): this {
+		if (this.#limit === 0) return this;
+		if (this.size >= this.#limit && !this.has(key)) this.delete(this.firstKey as string);
+		return super.set(key, value);
 	}
 
 	/**

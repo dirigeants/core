@@ -11,7 +11,7 @@ export class PresenceStore extends DataStore<Presence> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('Presence'));
+		super(client, extender.get('Presence'), client.options.cache.limits.presences);
 		this.guild = guild;
 	}
 

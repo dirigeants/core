@@ -8,7 +8,7 @@ import type { Client } from '../../Client';
 export class DMChannelStore extends DataStore<Channel> {
 
 	public constructor(client: Client) {
-		super(client, extender.get('DMChannel'));
+		super(client, extender.get('DMChannel'), client.options.cache.limits.dms);
 	}
 
 	/**

@@ -7,7 +7,7 @@ import type { Client } from '../../Client';
 export class InviteStore extends DataStore<Invite> {
 
 	public constructor(client: Client) {
-		super(client, extender.get('Invite'));
+		super(client, extender.get('Invite'), client.options.cache.limits.invites);
 	}
 
 }

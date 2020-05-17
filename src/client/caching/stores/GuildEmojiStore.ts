@@ -8,7 +8,7 @@ import type { GuildEmoji } from '../structures/guilds/GuildEmoji';
 export class GuildEmojiStore extends DataStore<GuildEmoji> {
 
 	public constructor(client: Client) {
-		super(client, extender.get('GuildEmoji'));
+		super(client, extender.get('GuildEmoji'), client.options.cache.limits.emojis);
 	}
 
 	/**

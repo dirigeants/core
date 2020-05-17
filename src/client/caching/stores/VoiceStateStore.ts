@@ -11,7 +11,7 @@ export class VoiceStateStore extends DataStore<VoiceState> {
 	public readonly guild: Guild;
 
 	public constructor(client: Client, guild: Guild) {
-		super(client, extender.get('VoiceState'));
+		super(client, extender.get('VoiceState'), client.options.cache.limits.voiceStates);
 		this.guild = guild;
 	}
 
