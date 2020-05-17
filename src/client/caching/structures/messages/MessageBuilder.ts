@@ -1,11 +1,12 @@
 /* eslint-disable no-dupe-class-members */
 import { mergeDefault } from '@klasa/utils';
 
+import { Embed } from '../Embed';
+
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
 
 import type { RequiredExcept, PartialRequired } from '../../../../util/types/Util';
-import { Embed } from '../Embed';
 
 export interface MessageData {
 	content?: string;
