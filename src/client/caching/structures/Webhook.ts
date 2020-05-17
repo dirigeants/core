@@ -101,6 +101,7 @@ export class Webhook extends Structure {
 	 * The channel of this webhook
 	 */
 	get channel(): Channel | null {
+		// todo: This is broken from another change...
 		return (this.client as Client).dms.get(this.channelID) || null;
 	}
 
@@ -122,9 +123,9 @@ export class Webhook extends Structure {
 	 * Sends a message over the webhook
 	 * @param data Message data
 	 */
-	public async send(data: WebhookMessageOptions, splitOptions: SplitOptions): Promise<Message[]>
-	public async send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder, splitOptions: SplitOptions): Promise<Message[]>
-	public async send(data: WebhookMessageOptions | ((message: WebhookMessageBuilder) => WebhookMessageBuilder), splitOptions: SplitOptions = {}): Promise<Message[]> {
+	public async send(data: WebhookMessageOptions, splitOptions?: SplitOptions): Promise<Message[]>
+	public async send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder, splitOptions?: SplitOptions): Promise<Message[]>
+	public async send(data: WebhookMessageOptions | ((message: WebhookMessageBuilder) => WebhookMessageBuilder), splitOptions?: SplitOptions): Promise<Message[]> {
 		if (!this.token) throw new Error('The token on this webhook is unknown. You cannot send messages.');
 
 		const split = new WebhookMessageBuilder(typeof data === 'function' ? data(new WebhookMessageBuilder()) : data).split(splitOptions);

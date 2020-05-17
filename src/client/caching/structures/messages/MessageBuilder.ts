@@ -169,7 +169,7 @@ export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | '
 	 * Splits this into multiple messages
 	 * @param param0 Options to split the message by
 	 */
-	public split({ maxLength = 2000, char = '\n', prepend = '', append = '' }: SplitOptions): RequestOptions[] {
+	public split({ maxLength = 2000, char = '\n', prepend = '', append = '' }: SplitOptions = {}): RequestOptions[] {
 		// If there isn't content, the message can't be split
 		if (!this.data.content) return [this];
 

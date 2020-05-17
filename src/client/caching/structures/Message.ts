@@ -146,6 +146,12 @@ export class Message extends Structure {
 	 */
 	public flags!: MessageFlags;
 
+	/**
+	 * If the message is deleted
+	 * @since 0.0.1
+	 */
+	public deleted = false;
+
 	public constructor(client: Client, data: APIMessageData) {
 		super(client);
 		this.id = data.id;
