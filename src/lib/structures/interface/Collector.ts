@@ -3,7 +3,6 @@ import type { EventEmitter } from 'events';
 export type CollectorFilter<K, V> = (value: V, key: K, collected: [K, V][]) => boolean;
 
 export interface CollectorOptions<K, V> {
-	event: string;
 	filter?: CollectorFilter<K, V>;
 }
 
@@ -13,16 +12,12 @@ export abstract class Collector<K, V> implements AsyncIterableIterator<[K, V]> {
 
 	public filter: CollectorFilter<K, V>;
 
-	public event: string;
-
 	#queue: [K, V][] = [];
 
 	#collected = 0;
 
-	public constructor(public readonly emitter: EventEmitter, options: CollectorOptions<K, V>) {
+	public constructor(public readonly emitter: EventEmitter, public event: string, options: CollectorOptions<K, V> = {}) {
 		this.filter = options.filter ?? ((): boolean => true);
-
-		this.event = options.event;
 
 		this.push = this.push.bind(this);
 		this.emitter.on(this.event, this.push);
@@ -37,7 +32,10 @@ export abstract class Collector<K, V> implements AsyncIterableIterator<[K, V]> {
 	}
 
 	public push(key: K, value: V): void {
-		if (this.filter(value, key, this.queue)) this.#queue.push([key, value]);
+		if (this.filter(value, key, this.queue)) {
+			this.#queue.push([key, value]);
+			this.#collected++;
+		}
 	}
 
 	public end(): void {
