@@ -70,11 +70,11 @@ export class GuildMember extends Structure {
 
 	/**
 	 * Modifies the settings for the member.
-	 * @param data The settings to be added.
+	 * @param data The settings to be set.
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-member
 	 */
-	public async edit(data: GuildMemberEditOptions, requestOptions: RequestOptions = {}): Promise<this> {
+	public async modify(data: GuildMemberModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.patch(Routes.guildMember(this.guild.id, this.id), { ...requestOptions, data });
 		return this;
 	}
@@ -117,11 +117,11 @@ export interface GuildMember {
 export type MemberData = APIGuildMemberData | Omit<APIGuildMemberData, 'deaf' | 'mute' | 'nick' | 'joined_at'>;
 
 /**
- * The options for {@link GuildMember#edit}.
+ * The options for {@link GuildMember#modify}.
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#modify-guild-member-json-params
  */
-export interface GuildMemberEditOptions {
+export interface GuildMemberModifyOptions {
 	/**
 	 * Value to set {@link GuildMember user}'s nickname to.
 	 * @since 0.0.1

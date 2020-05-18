@@ -70,13 +70,13 @@ export class Role extends Structure {
 	}
 
 	/**
-	 * Edits a role's settings.
+	 * Modifies the role's settings.
 	 * @since 0.0.1
 	 * @param data The new settings for the role.
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-role
 	 */
-	public async edit(data: RoleEditOptions, requestOptions: RequestOptions = {}): Promise<this> {
+	public async modify(data: RoleModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		const entry = await this.client.api.patch(Routes.guildRole(this.guild.id, this.id), { ...requestOptions, data }) as APIRoleData;
 		return this.clone<this>()._patch(entry);
 	}
@@ -105,11 +105,11 @@ export class Role extends Structure {
 }
 
 /**
- * The options for {@link Role#edit}.
+ * The options for {@link Role#modify}.
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#modify-guild-role-json-params
  */
-export interface RoleEditOptions {
+export interface RoleModifyOptions {
 	/**
 	 * Name of the role.
 	 * @since 0.0.1

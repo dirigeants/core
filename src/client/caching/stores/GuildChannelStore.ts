@@ -37,7 +37,7 @@ export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-channel-positions
 	 */
-	public async editPositions(data: readonly GuildChannelStorePositionData[], requestOptions: RequestOptions = {}): Promise<this> {
+	public async modifyPositions(data: readonly GuildChannelStorePositionData[], requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.patch(Routes.guildChannels(this.guild.id), { ...requestOptions, data });
 		return this;
 	}
@@ -141,7 +141,7 @@ export interface GuildChannelStoreAddData {
 }
 
 /**
- * An entry for {@link GuildChannelStore#editPositions}.
+ * An entry for {@link GuildChannelStore#modifyPositions}.
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#modify-guild-channel-positions-json-params
  */

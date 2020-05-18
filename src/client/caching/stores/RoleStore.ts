@@ -35,7 +35,7 @@ export class RoleStore extends DataStore<Role> {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-role-positions
 	 */
-	public async editPositions(data: readonly RoleStorePositionData[], requestOptions: RequestOptions = {}): Promise<this> {
+	public async modifyPositions(data: readonly RoleStorePositionData[], requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.patch(Routes.guildRoles(this.guild.id), { ...requestOptions, data });
 		return this;
 	}
@@ -112,7 +112,7 @@ export interface RoleStoreAddOptions {
 }
 
 /**
- * An entry for {@link RoleStore#editPositions}.
+ * An entry for {@link RoleStore#modifyPositions}.
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#modify-guild-role-positions-json-params
  */

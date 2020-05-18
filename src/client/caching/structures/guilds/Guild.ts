@@ -366,13 +366,13 @@ export class Guild extends Structure {
 	}
 
 	/**
-	 * Edit's a guild's settings.
+	 * Modifies the guild's settings.
 	 * @since 0.0.1
 	 * @param data The settings to be applied to the guild.
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild
 	 */
-	public async edit(data: GuildEditOptions, requestOptions: RequestOptions = {}): Promise<unknown> {
+	public async modify(data: GuildModifyOptions, requestOptions: RequestOptions = {}): Promise<unknown> {
 		const result = await this.client.api.patch(Routes.guild(this.id), { ...requestOptions, data }) as APIGuildData;
 		return this.clone<this>()._patch(result);
 	}
@@ -510,11 +510,11 @@ export interface Guild {
 }
 
 /**
- * The options for {@link Guild#edit}.
+ * The options for {@link Guild#modify}.
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#modify-guild-json-params
  */
-interface GuildEditOptions {
+interface GuildModifyOptions {
 	/**
 	 * The {@link Guild guild} name.
 	 * @since 0.0.1

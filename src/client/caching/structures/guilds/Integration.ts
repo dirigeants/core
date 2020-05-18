@@ -118,7 +118,7 @@ export class Integration extends Structure {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-integration
 	 */
-	public async edit(options: IntegrationEditOptions, requestOptions: RequestOptions = {}): Promise<this> {
+	public async modify(options: IntegrationModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.patch(Routes.guildIntegration(this.guild.id, this.id), { ...requestOptions, data: options });
 		return this;
 	}
@@ -160,11 +160,11 @@ export interface Integration {
 }
 
 /**
- * The options for {@link Integration#edit}.
+ * The options for {@link Integration#modify}.
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#modify-guild-integration-json-params
  */
-export interface IntegrationEditOptions {
+export interface IntegrationModifyOptions {
 	/**
 	 * The behavior when an integration subscription lapses (see the integration expire behaviors documentation).
 	 * @since 0.0.1

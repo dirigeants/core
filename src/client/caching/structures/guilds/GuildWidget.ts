@@ -71,7 +71,7 @@ export class GuildWidget {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-widget
 	 */
-	public async edit(data: APIGuildWidgetData, requestOptions: RequestOptions = {}): Promise<this> {
+	public async modify(data: APIGuildWidgetData, requestOptions: RequestOptions = {}): Promise<this> {
 		const updated = await this.client.api.patch(Routes.guildWidget(this.guild.id), { ...requestOptions, data }) as APIGuildWidgetData;
 		return this._patch(updated);
 	}
