@@ -6,12 +6,25 @@ import type { Role } from '../structures/guilds/Role';
 import type { Guild } from '../structures/guilds/Guild';
 import type { Client } from '../../Client';
 
+/**
+ * The store for {@link Role member roles}.
+ * @since 0.0.1
+ */
 export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 
+	/**
+	 * The {@link GuildMember guild member} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly member: GuildMember;
 
-	public constructor(store: Map<string, Role>, keys: string[], member: GuildMember) {
-		super(store, keys);
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param member The {@link GuildMember guild member} this store belongs to.
+	 */
+	public constructor(member: GuildMember, keys: string[]) {
+		super(member.guild.roles, keys);
 		this.member = member;
 	}
 

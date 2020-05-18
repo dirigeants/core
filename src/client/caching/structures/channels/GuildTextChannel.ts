@@ -1,10 +1,9 @@
 /* eslint-disable no-dupe-class-members */
-import { Routes } from '@klasa/rest';
 import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../../caching/stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 
-import type { APIChannelData, APIMessageData } from '@klasa/dapi-types';
+import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
 import type { Guild } from '../guilds/Guild';
 import type { TextBasedChannel } from '../../../../util/Util';
@@ -60,21 +59,28 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 * @param data The {@link MessageBuilder builder} to send.
 	 * @param options The split options for the message.
 	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#create-message
+	 * @example
+	 * channel.messages.add(new MessageBuilder()
+	 *     .setContent('Ping!')
+	 *     .setEmbed(new Embed().setDescription('From an embed!')));
 	 */
-	public async send(data: MessageOptions, options: SplitOptions): Promise<Message[]>
-	public async send(data: (message: MessageBuilder) => MessageBuilder, options: SplitOptions): Promise<Message[]>
+	public send(data: MessageOptions, options: SplitOptions): Promise<Message[]>;
+	/**
+	 * Sends a message to the channel.
+	 * @param data A callback with a {@link MessageBuilder builder} as an argument.
+	 * @param options The split options for the message.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#create-message
+	 * @example
+	 * channel.messages.add(builder => builder
+	 *     .setContent('Ping!')
+	 *     .setEmbed(embed => embed.setDescription('From an embed!')));
+	 */
+	public send(data: (message: MessageBuilder) => MessageBuilder, options: SplitOptions): Promise<Message[]>;
 	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
-		const split = (typeof data === 'function' ? data(new MessageBuilder()) : new MessageBuilder(data)).split(options);
-
-		const endpoint = Routes.channelMessages(this.id);
-		const responses = [];
-
-		for (const message of split) responses.push(this.client.api.post(endpoint, message));
-
-		const rawMessages = await Promise.all(responses);
-
-		// eslint-disable-next-line dot-notation
-		return rawMessages.map(msg => this.messages['_add'](msg as APIMessageData));
+		// @ts-expect-error
+		return this.messages.add(data, options);
 	}
 
 	protected _patch(data: APIChannelData): this {

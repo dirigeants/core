@@ -6,8 +6,17 @@ import type { APIInviteData } from '@klasa/dapi-types';
 import type { Invite } from '../structures/Invite';
 import type { Client } from '../../Client';
 
+/**
+ * The store for {@link Invite invites}.
+ * @since 0.0.1
+ */
 export class InviteStore extends DataStore<Invite> {
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 */
 	public constructor(client: Client) {
 		super(client, extender.get('Invite'), client.options.cache.limits.invites);
 	}

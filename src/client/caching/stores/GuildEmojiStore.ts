@@ -5,8 +5,17 @@ import type { APIEmojiData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
 import type { GuildEmoji } from '../structures/guilds/GuildEmoji';
 
+/**
+ * The store for {@link GuildEmoji guild emojis}.
+ * @since 0.0.1
+ */
 export class GuildEmojiStore extends DataStore<GuildEmoji> {
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 */
 	public constructor(client: Client) {
 		super(client, extender.get('GuildEmoji'), client.options.cache.limits.emojis);
 	}

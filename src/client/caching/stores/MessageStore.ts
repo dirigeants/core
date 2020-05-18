@@ -1,21 +1,79 @@
 /* eslint-disable no-dupe-class-members */
 import { Cache } from '@klasa/cache';
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
+import { MessageOptions, SplitOptions, MessageBuilder } from '../structures/messages/MessageBuilder';
 
 import type { APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
 import type { Message } from '../structures/Message';
 import type { TextBasedChannel } from '../../../util/Util';
 
+/**
+ * The store for a {@link TextBasedChannel text-based channel} {@link Message messages}.
+ * @since 0.0.1
+ */
 export class MessageStore extends DataStore<Message> {
 
+	/**
+	 * The {@link TextBasedChannel text-based channel} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly channel: TextBasedChannel;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param channel The {@link TextBasedChannel text-based channel} this store belongs to.
+	 */
 	public constructor(client: Client, channel: TextBasedChannel) {
 		super(client, extender.get('Message'), client.options.cache.limits.messages);
 		this.channel = channel;
+	}
+
+	/**
+	 * Sends a message to the channel.
+	 * @param data The {@link MessageBuilder builder} to send.
+	 * @param options The split options for the message.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#create-message
+	 * @example
+	 * channel.messages.add(new MessageBuilder()
+	 *     .setContent('Ping!')
+	 *     .setEmbed(new Embed().setDescription('From an embed!')));
+	 */
+	public add(data: MessageOptions, options: SplitOptions): Promise<Message[]>;
+	/**
+	 * Sends a message to the channel.
+	 * @param data A callback with a {@link MessageBuilder builder} as an argument.
+	 * @param options The split options for the message.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#create-message
+	 * @example
+	 * channel.messages.add(builder => builder
+	 *     .setContent('Ping!')
+	 *     .setEmbed(embed => embed.setDescription('From an embed!')));
+	 */
+	public add(data: (message: MessageBuilder) => MessageBuilder, options: SplitOptions): Promise<Message[]>;
+	public async add(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
+		const split = (typeof data === 'function' ? data(new MessageBuilder()) : new MessageBuilder(data)).split(options);
+
+		const endpoint = Routes.channelMessages(this.channel.id);
+		const rawMessages = await Promise.all(split.map(message => this.client.api.post(endpoint, message)));
+		return rawMessages.map(msg => this._add(msg as APIMessageData));
+	}
+
+	/**
+	 * Deletes a message.
+	 * @param requestOptions The additional request options.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#delete-message
+	 */
+	public async remove(messageID: string, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.channelMessage(this.channel.id, messageID), requestOptions);
+		return this;
 	}
 
 	/**

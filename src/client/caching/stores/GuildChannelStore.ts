@@ -2,17 +2,31 @@ import { Routes, RequestOptions } from '@klasa/rest';
 import { Channel } from '../structures/channels/Channel';
 import { DataStore } from './base/DataStore';
 import { extender, Constructor } from '../../../util/Extender';
+import { Structure } from '../structures/base/Structure';
 
 import type { APIChannelData, APIOverwriteData, ChannelType } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
 import type { Guild } from '../structures/guilds/Guild';
 import type { GuildBasedChannel } from '../../../util/Util';
-import { Structure } from '../structures/base/Structure';
 
+/**
+ * The store for {@link GuildBasedChannel guild based channels}.
+ * @since 0.0.1
+ */
 export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 
+	/**
+	 * The {@link Guild guild} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly guild: Guild;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param guild The {@link Guild guild} this store belongs to.
+	 */
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('GuildChannel') as Constructor<GuildBasedChannel>, client.options.cache.limits.channels);
 		this.guild = guild;

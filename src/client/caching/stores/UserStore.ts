@@ -7,8 +7,17 @@ import type { APIUserData } from '@klasa/dapi-types';
 import type { User } from '../structures/User';
 import type { Client } from '../../Client';
 
+/**
+ * The store for {@link User users}.
+ * @since 0.0.1
+ */
 export class UserStore extends DataStore<User> {
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 */
 	public constructor(client: Client) {
 		super(client, extender.get('User'), client.options.cache.limits.users);
 	}

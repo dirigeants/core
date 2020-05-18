@@ -6,8 +6,17 @@ import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
 import type { DMChannel } from '../structures/channels/DMChannel';
 
+/**
+ * The store for {@link DMChannel DM channels}.
+ * @since 0.0.1
+ */
 export class DMChannelStore extends DataStore<DMChannel> {
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 */
 	public constructor(client: Client) {
 		super(client, extender.get('DMChannel'), client.options.cache.limits.dms);
 	}

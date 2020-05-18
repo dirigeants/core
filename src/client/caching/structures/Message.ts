@@ -1,5 +1,5 @@
 import { Cache } from '@klasa/cache';
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Embed } from './Embed';
 import { isSet } from '../../../util/Util';
 import { MessageAttachment } from './messages/MessageAttachment';
@@ -208,12 +208,13 @@ export class Message extends Structure {
 
 	/**
 	 * Deletes the message.
-	 * @param reason The reason to write in the audit logs.
+	 * @param requestOptions The additional request options.
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/channel#delete-message
 	 */
-	public async delete(reason: string): Promise<this> {
-		await this.client.api.delete(Routes.channelMessage(this.channel.id, this.id), { reason });
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.channel.messages.remove(this.id, requestOptions);
+		this.deleted = true;
 		return this;
 	}
 

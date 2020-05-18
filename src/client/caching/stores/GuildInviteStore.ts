@@ -7,10 +7,24 @@ import type { Invite } from '../structures/Invite';
 import type { Guild } from '../structures/guilds/Guild';
 import type { Client } from '../../Client';
 
+/**
+ * The store for {@link Invite guild invites}.
+ * @since 0.0.1
+ */
 export class GuildInviteStore extends DataStore<Invite> {
 
+	/**
+	 * The {@link Guild guild} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly guild: Guild;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param guild The {@link Guild guild} this store belongs to.
+	 */
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('Invite'), client.options.cache.limits.invites);
 		this.guild = guild;

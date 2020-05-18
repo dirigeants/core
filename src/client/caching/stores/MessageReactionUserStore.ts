@@ -8,17 +8,33 @@ import type { Message } from '../structures/Message';
 import type { User } from '../structures/User';
 import type { Client } from '../../Client';
 
+/**
+ * The store for {@link MessageReaction message reaction} {@link User users}.
+ * @since 0.0.1
+ */
 export class MessageReactionUserStore extends ProxyCache<string, User> {
 
+	/**
+	 * The {@link Client client} this store belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly client: Client;
+
+	/**
+	 * The {@link MessageReaction message reaction} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly reaction: MessageReaction;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param reaction The {@link MessageReaction message reaction} this store belongs to.
+	 */
 	public constructor(reaction: MessageReaction) {
 		super(reaction.client.users, []);
+		this.client = reaction.client;
 		this.reaction = reaction;
-	}
-
-	public get client(): Client {
-		return this.reaction.client;
 	}
 
 	public get message(): Message {

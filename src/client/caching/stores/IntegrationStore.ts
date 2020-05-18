@@ -7,10 +7,24 @@ import type { Client } from '../../Client';
 import type { Guild } from '../structures/guilds/Guild';
 import type { Integration } from '../structures/guilds/Integration';
 
+/**
+ * The store for {@link Integration integrations}.
+ * @since 0.0.1
+ */
 export class IntegrationStore extends DataStore<Integration> {
 
+	/**
+	 * The {@link Guild guild} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly guild: Guild;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param guild The {@link Guild guild} this store belongs to.
+	 */
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('Integration'), client.options.cache.limits.integrations);
 		this.guild = guild;

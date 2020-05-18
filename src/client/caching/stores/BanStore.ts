@@ -12,15 +12,22 @@ import type { GuildBanAddDispatch } from '@klasa/ws';
 
 /**
  * The store for {@link Ban bans}.
+ * @since 0.0.1
  */
 export class BanStore extends DataStore<Ban> {
 
 	/**
-	 * The {@link Guild} that owns this store.
+	 * The {@link Guild guild} this store belongs to.
 	 * @since 0.0.1
 	 */
 	public readonly guild: Guild;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param guild The {@link Guild guild} this store belongs to.
+	 */
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('Ban'), client.options.cache.limits.bans);
 		this.guild = guild;

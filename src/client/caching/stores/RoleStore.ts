@@ -7,10 +7,24 @@ import type { Client } from '../../Client';
 import type { Role } from '../structures/guilds/Role';
 import type { Guild } from '../structures/guilds/Guild';
 
+/**
+ * The store for {@link Guild guild} {@link Role roles}.
+ * @since 0.0.1
+ */
 export class RoleStore extends DataStore<Role> {
 
+	/**
+	 * The {@link Guild guild} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly guild: Guild;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param guild The {@link Guild guild} this store belongs to.
+	 */
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('Role'), client.options.cache.limits.roles);
 		this.guild = guild;

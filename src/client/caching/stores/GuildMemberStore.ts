@@ -9,10 +9,24 @@ import type { Client } from '../../Client';
 import type { GuildMember, MemberData } from '../structures/guilds/GuildMember';
 import type { Guild } from '../structures/guilds/Guild';
 
+/**
+ * The store for {@link GuildMember guild members}.
+ * @since 0.0.1
+ */
 export class GuildMemberStore extends DataStore<GuildMember> {
 
+	/**
+	 * The {@link Guild guild} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly guild: Guild;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param guild The {@link Guild guild} this store belongs to.
+	 */
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('GuildMember'), client.options.cache.limits.members);
 		this.guild = guild;

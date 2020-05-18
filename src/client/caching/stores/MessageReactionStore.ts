@@ -8,10 +8,24 @@ import type { Client } from '../../Client';
 import type { MessageReaction } from '../structures/messages/reactions/MessageReaction';
 import type { Message } from '../structures/Message';
 
+/**
+ * The store for {@link MessageReaction message reactions}.
+ * @since 0.0.1
+ */
 export class MessageReactionStore extends DataStore<MessageReaction> {
 
+	/**
+	 * The {@link Message message} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly message: Message;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param message The {@link Message message} this store belongs to.
+	 */
 	public constructor(client: Client, message: Message) {
 		super(client, extender.get('MessageReaction'), client.options.cache.limits.reactions);
 		this.message = message;

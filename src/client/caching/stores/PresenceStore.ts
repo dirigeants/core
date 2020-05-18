@@ -6,10 +6,24 @@ import type { Presence } from '../structures/guilds/Presence';
 import type { Client } from '../../Client';
 import type { Guild } from '../structures/guilds/Guild';
 
+/**
+ * The store for {@link Presence presences}.
+ * @since 0.0.1
+ */
 export class PresenceStore extends DataStore<Presence> {
 
+	/**
+	 * The {@link Guild guild} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public readonly guild: Guild;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param guild The {@link Guild guild} this store belongs to.
+	 */
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('Presence'), client.options.cache.limits.presences);
 		this.guild = guild;
