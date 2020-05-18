@@ -1,5 +1,5 @@
 import { ProxyCache } from '@klasa/cache';
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 
 import type { GuildMember } from '../structures/guilds/GuildMember';
 import type { Role } from '../structures/guilds/Role';
@@ -29,9 +29,8 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 	 * @param roleID The {@link Role role} ID to add.
 	 * @see https://discord.com/developers/docs/resources/guild#add-guild-member-role
 	 */
-	public async add(roleID: string): Promise<this> {
-		const endpoint = Routes.guildMemberRole(this.guild.id, this.member.id, roleID);
-		await this.client.api.put(endpoint);
+	public async add(roleID: string, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.put(Routes.guildMemberRole(this.guild.id, this.member.id, roleID), requestOptions);
 		return this;
 	}
 
@@ -41,9 +40,8 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 	 * @param roleID The {@link Role role} ID to remove.
 	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-member-role
 	 */
-	public async remove(roleID: string): Promise<this> {
-		const endpoint = Routes.guildMemberRole(this.guild.id, this.member.id, roleID);
-		await this.client.api.delete(endpoint);
+	public async remove(roleID: string, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.guildMemberRole(this.guild.id, this.member.id, roleID), requestOptions);
 		return this;
 	}
 

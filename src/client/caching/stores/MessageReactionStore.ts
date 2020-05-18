@@ -24,8 +24,7 @@ export class MessageReactionStore extends DataStore<MessageReaction> {
 	 * @see https://discord.com/developers/docs/resources/channel#create-reaction
 	 */
 	public async add(emoji: EmojiResolvable): Promise<this> {
-		const endpoint = Routes.messageReactionUser(this.message.channel.id, this.message.id, resolveEmoji(emoji), '@me');
-		await this.client.api.put(endpoint);
+		await this.client.api.put(Routes.messageReactionUser(this.message.channel.id, this.message.id, resolveEmoji(emoji), '@me'));
 		return this;
 	}
 
@@ -44,10 +43,9 @@ export class MessageReactionStore extends DataStore<MessageReaction> {
 	 */
 	public remove(emoji: EmojiResolvable): Promise<this>;
 	public async remove(emoji?: EmojiResolvable): Promise<this> {
-		const endpoint = emoji ?
+		await this.client.api.delete(emoji ?
 			Routes.messageReaction(this.message.channel.id, this.message.id, resolveEmoji(emoji)) :
-			Routes.messageReactions(this.message.channel.id, this.message.id);
-		await this.client.api.delete(endpoint);
+			Routes.messageReactions(this.message.channel.id, this.message.id));
 		return this;
 	}
 

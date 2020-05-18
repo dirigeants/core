@@ -1,6 +1,6 @@
 /* eslint-disable no-dupe-class-members */
 import { Cache } from '@klasa/cache';
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 
@@ -33,8 +33,7 @@ export class BanStore extends DataStore<Ban> {
 	 * @see https://discord.com/developers/docs/resources/guild#create-guild-ban
 	 */
 	public async add(userID: string, options: BanAddOptions = {}): Promise<this> {
-		const endpoint = Routes.guildBan(this.guild.id, userID);
-		await this.client.api.put(endpoint, { query: { 'delete-message-days': options.deleteMessageDays, reason: options.reason } });
+		await this.client.api.put(Routes.guildBan(this.guild.id, userID), { query: { 'delete-message-days': options.deleteMessageDays, reason: options.reason } });
 		return this;
 	}
 
@@ -44,9 +43,8 @@ export class BanStore extends DataStore<Ban> {
 	 * @param userID The {@link User user} ID to unban from the server.
 	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-ban
 	 */
-	public async remove(userID: string): Promise<this> {
-		const endpoint = Routes.guildBan(this.guild.id, userID);
-		await this.client.api.delete(endpoint);
+	public async remove(userID: string, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.guildBan(this.guild.id, userID), requestOptions);
 		return this;
 	}
 
@@ -59,7 +57,6 @@ export class BanStore extends DataStore<Ban> {
 	 * console.log(`The user ${ban.id} was banned for the reason: ${ban.reason}.`);
 	 */
 	public fetch(options: { id: string, cache?: boolean }): Promise<Ban>;
-
 	/**
 	 * Retrieves all bans for this guild from the API, returning all values as a {@link Cache} without populating the store.
 	 * @since 0.0.1
@@ -69,7 +66,6 @@ export class BanStore extends DataStore<Ban> {
 	 * console.log(`${bans.size} users are banned.`);
 	 */
 	public fetch(options: { cache: false }): Promise<Cache<string, Ban>>;
-
 	/**
 	 * Retrieves all bans for this guild from the API, populating the store and returning itself.
 	 * @since 0.0.1

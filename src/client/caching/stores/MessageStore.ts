@@ -25,7 +25,6 @@ export class MessageStore extends DataStore<Message> {
 	 * @see https://discord.com/developers/docs/resources/channel#get-channel-messages
 	 */
 	public fetch(options?: MessageFetchOptions): Promise<Cache<string, Message>>;
-
 	/**
 	 * Returns a specific message from this channel.
 	 * @since 0.0.1
@@ -35,13 +34,11 @@ export class MessageStore extends DataStore<Message> {
 	public fetch(messageID: string): Promise<Message>;
 	public async fetch(idOrOptions?: string | MessageFetchOptions): Promise<Message | Cache<string, Message>> {
 		if (typeof idOrOptions === 'string') {
-			const endpoint = Routes.channelMessage(this.channel.id, idOrOptions);
-			const entry = await this.client.api.get(endpoint) as APIMessageData;
+			const entry = await this.client.api.get(Routes.channelMessage(this.channel.id, idOrOptions)) as APIMessageData;
 			return this._add(entry);
 		}
 
-		const endpoint = Routes.channelMessages(this.channel.id);
-		const entries = await this.client.api.get(endpoint, { query: idOrOptions }) as APIMessageData[];
+		const entries = await this.client.api.get(Routes.channelMessages(this.channel.id), { query: idOrOptions }) as APIMessageData[];
 		const cache = new Cache<string, Message>();
 		for (const entry of entries) cache.set(entry.id, this._add(entry));
 		return cache;

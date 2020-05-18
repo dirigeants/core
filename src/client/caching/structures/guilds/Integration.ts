@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
 
 import type { APIIntegrationData, APIIntegrationAccountData } from '@klasa/dapi-types';
@@ -116,9 +116,8 @@ export class Integration extends Structure {
 	 * @param options The settings to modify in the integration.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-integration
 	 */
-	public async edit(options: IntegrationEditOptions): Promise<this> {
-		const endpoint = Routes.guildIntegration(this.guild.id, this.id);
-		await this.client.api.patch(endpoint, { data: options });
+	public async edit(options: IntegrationEditOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.patch(Routes.guildIntegration(this.guild.id, this.id), { ...requestOptions, data: options });
 		return this;
 	}
 
@@ -127,9 +126,8 @@ export class Integration extends Structure {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#delete-guild-integration
 	 */
-	public async delete(): Promise<this> {
-		const endpoint = Routes.guildIntegration(this.guild.id, this.id);
-		await this.client.api.delete(endpoint);
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.guildIntegration(this.guild.id, this.id), requestOptions);
 		return this;
 	}
 
@@ -138,9 +136,8 @@ export class Integration extends Structure {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#sync-guild-integration
 	 */
-	public async sync(): Promise<this> {
-		const endpoint = Routes.guildIntegrationSync(this.guild.id, this.id);
-		await this.client.api.post(endpoint);
+	public async sync(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.post(Routes.guildIntegrationSync(this.guild.id, this.id), requestOptions);
 		return this;
 	}
 

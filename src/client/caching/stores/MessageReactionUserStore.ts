@@ -31,8 +31,9 @@ export class MessageReactionUserStore extends ProxyCache<string, User> {
 	 * @param options The options for the fetch
 	 */
 	public async fetch(options?: MessageReactionFetchOptions): Promise<this> {
-		const endpoint = Routes.messageReaction(this.message.channel.id, this.message.id, this.reaction.emoji.identifier);
-		const users = await this.client.api.get(endpoint, { query: options }) as APIUserData[];
+		const users = await this.client.api.get(Routes.messageReaction(this.message.channel.id, this.message.id, this.reaction.emoji.identifier), {
+			query: options
+		}) as APIUserData[];
 		for (const user of users) {
 			// eslint-disable-next-line dot-notation
 			this.client.users['_add'](user);
@@ -54,7 +55,6 @@ export class MessageReactionUserStore extends ProxyCache<string, User> {
 	 * @see https://discord.com/developers/docs/resources/channel#delete-own-reaction
 	 */
 	public remove(userID?: '@me'): Promise<this>;
-
 	/**
 	 * Remove a reaction from a user.
 	 * @since 0.0.1
@@ -63,8 +63,7 @@ export class MessageReactionUserStore extends ProxyCache<string, User> {
 	 */
 	public remove(userID: string): Promise<this>;
 	public async remove(userID?: string): Promise<this> {
-		const endpoint = Routes.messageReactionUser(this.message.channel.id, this.message.id, this.reaction.emoji.identifier, userID === this.client.user?.id ? '@me' : userID);
-		await this.client.api.delete(endpoint);
+		await this.client.api.delete(Routes.messageReactionUser(this.message.channel.id, this.message.id, this.reaction.emoji.identifier, userID === this.client.user?.id ? '@me' : userID));
 		return this;
 	}
 

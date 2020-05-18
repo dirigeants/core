@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Channel } from '../structures/channels/Channel';
 import { DataStore } from './base/DataStore';
 import { extender, Constructor } from '../../../util/Extender';
@@ -23,9 +23,8 @@ export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#create-guild-channel
 	 */
-	public async add(data: GuildChannelStoreAddData): Promise<GuildBasedChannel> {
-		const endpoint = Routes.guildChannels(this.guild.id);
-		const channel = await this.client.api.post(endpoint, { data }) as APIChannelData;
+	public async add(data: GuildChannelStoreAddData, requestOptions: RequestOptions = {}): Promise<GuildBasedChannel> {
+		const channel = await this.client.api.post(Routes.guildChannels(this.guild.id), { ...requestOptions, data }) as APIChannelData;
 		return Channel.create(this.client, channel, this.guild) as GuildBasedChannel;
 	}
 
@@ -35,9 +34,8 @@ export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 	 * @param data The set of channels and their positions for the {@link Guild guild}.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-channel-positions
 	 */
-	public async editPositions(data: readonly GuildChannelStorePositionData[]): Promise<this> {
-		const endpoint = Routes.guildChannels(this.guild.id);
-		await this.client.api.patch(endpoint, { data });
+	public async editPositions(data: readonly GuildChannelStorePositionData[], requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.patch(Routes.guildChannels(this.guild.id), { ...requestOptions, data });
 		return this;
 	}
 
@@ -47,8 +45,7 @@ export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-channels
 	 */
 	public async fetch(): Promise<this> {
-		const endpoint = Routes.guildChannels(this.guild.id);
-		const channels = await this.client.api.get(endpoint) as APIChannelData[];
+		const channels = await this.client.api.get(Routes.guildChannels(this.guild.id)) as APIChannelData[];
 		for (const channel of channels) this._add(channel);
 		return this;
 	}

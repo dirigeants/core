@@ -22,8 +22,7 @@ export class GuildInviteStore extends DataStore<Invite> {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-invites
 	 */
 	public async fetch(): Promise<this> {
-		const endpoint = Routes.guildInvites(this.guild.id);
-		const entries = await this.client.api.get(endpoint) as APIInviteData[];
+		const entries = await this.client.api.get(Routes.guildInvites(this.guild.id)) as APIInviteData[];
 		for (const entry of entries) this._add(entry);
 		return this;
 	}

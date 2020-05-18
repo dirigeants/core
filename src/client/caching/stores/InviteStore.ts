@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 
@@ -19,9 +19,7 @@ export class InviteStore extends DataStore<Invite> {
 	 * @see https://discord.com/developers/docs/resources/invite#get-invite
 	 */
 	public async fetch(code: string, options: InviteStoreFetchOptions = {}): Promise<Invite> {
-		const endpoint = Routes.invite(code);
-
-		const entry = await this.client.api.get(endpoint, { query: options }) as APIInviteData;
+		const entry = await this.client.api.get(Routes.invite(code), { query: options }) as APIInviteData;
 		return this._add(entry);
 	}
 
@@ -31,9 +29,8 @@ export class InviteStore extends DataStore<Invite> {
 	 * @param code The {@link Invite#code invite code}.
 	 * @see https://discord.com/developers/docs/resources/invite#delete-invite
 	 */
-	public async remove(code: string): Promise<Invite> {
-		const endpoint = Routes.invite(code);
-		const entry = await this.client.api.delete(endpoint) as APIInviteData;
+	public async remove(code: string, requestOptions: RequestOptions = {}): Promise<Invite> {
+		const entry = await this.client.api.delete(Routes.invite(code), requestOptions) as APIInviteData;
 		return new this.Holds(this.client, entry);
 	}
 

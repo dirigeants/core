@@ -2,19 +2,19 @@ import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 import { mergeDefault } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
 import { dirname, join } from 'path';
-import { BaseClient, BaseClientOptions } from './BaseClient';
-import { ClientOptionsDefaults } from '../util/Constants';
-import { UserStore } from './caching/stores/UserStore';
-import { DMChannelStore } from './caching/stores/DMChannelStore';
-import { GuildStore } from './caching/stores/GuildStore';
-import { EventStore } from '../lib/structures/EventStore';
 import { ActionStore } from '../lib/structures/ActionStore';
+import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientEvents } from '../util/types/Util';
+import { ClientOptionsDefaults } from '../util/Constants';
+import { DMChannelStore } from './caching/stores/DMChannelStore';
+import { EventStore } from '../lib/structures/EventStore';
+import { GuildStore } from './caching/stores/GuildStore';
+import { InviteStore } from './caching/stores/InviteStore';
+import { UserStore } from './caching/stores/UserStore';
 
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
 import type { ClientUser } from './caching/structures/ClientUser';
-import { InviteStore } from './caching/stores/InviteStore';
 
 export interface ClientPieceOptions {
 	createFolders: boolean;

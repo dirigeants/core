@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
 import { Permissions } from '../../../../util/bitfields/Permissions';
 
@@ -75,9 +75,8 @@ export class Role extends Structure {
 	 * @param data The new settings for the role.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-role
 	 */
-	public async edit(data: RoleEditOptions): Promise<this> {
-		const endpoint = Routes.guildRole(this.guild.id, this.id);
-		const entry = await this.client.api.patch(endpoint, { data }) as APIRoleData;
+	public async edit(data: RoleEditOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		const entry = await this.client.api.patch(Routes.guildRole(this.guild.id, this.id), { ...requestOptions, data }) as APIRoleData;
 		return this.clone<this>()._patch(entry);
 	}
 
@@ -86,9 +85,8 @@ export class Role extends Structure {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#delete-guild-role
 	 */
-	public async delete(): Promise<this> {
-		const endpoint = Routes.guildRole(this.guild.id, this.id);
-		await this.client.api.delete(endpoint);
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.guildRole(this.guild.id, this.id), requestOptions);
 		return this;
 	}
 

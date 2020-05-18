@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 
@@ -16,9 +16,8 @@ export class IntegrationStore extends DataStore<Integration> {
 		this.guild = guild;
 	}
 
-	public async add(data: IntegrationStoreAddData): Promise<this> {
-		const endpoint = Routes.guildIntegrations(this.guild.id);
-		await this.client.api.post(endpoint, { data });
+	public async add(data: IntegrationStoreAddData, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.post(Routes.guildIntegrations(this.guild.id), { ...requestOptions, data });
 		return this;
 	}
 
@@ -28,8 +27,7 @@ export class IntegrationStore extends DataStore<Integration> {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-integrations
 	 */
 	public async fetch(): Promise<this> {
-		const endpoint = Routes.guildIntegrations(this.guild.id);
-		const entries = await this.client.api.get(endpoint) as APIIntegrationData[];
+		const entries = await this.client.api.get(Routes.guildIntegrations(this.guild.id)) as APIIntegrationData[];
 		for (const entry of entries) this._add(entry);
 		return this;
 	}

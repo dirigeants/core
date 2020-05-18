@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 
 import type { APIGuildWidgetData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
@@ -46,9 +46,8 @@ export class GuildWidget {
 	 * @param data The new data for the widget.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-widget
 	 */
-	public async edit(data: APIGuildWidgetData): Promise<this> {
-		const endpoint = Routes.guildWidget(this.guild.id);
-		const updated = await this.client.api.patch(endpoint, { data }) as APIGuildWidgetData;
+	public async edit(data: APIGuildWidgetData, requestOptions: RequestOptions = {}): Promise<this> {
+		const updated = await this.client.api.patch(Routes.guildWidget(this.guild.id), { ...requestOptions, data }) as APIGuildWidgetData;
 		return this._patch(updated);
 	}
 

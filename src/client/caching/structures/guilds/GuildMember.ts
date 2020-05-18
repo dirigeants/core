@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
 import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
 
@@ -73,9 +73,8 @@ export class GuildMember extends Structure {
 	 * @param data The settings to be added.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-member
 	 */
-	public async edit(data: GuildMemberEditOptions): Promise<this> {
-		const endpoint = Routes.guildMember(this.guild.id, this.id);
-		await this.client.api.patch(endpoint, { data });
+	public async edit(data: GuildMemberEditOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.patch(Routes.guildMember(this.guild.id, this.id), { ...requestOptions, data });
 		return this;
 	}
 
@@ -84,9 +83,8 @@ export class GuildMember extends Structure {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-member
 	 */
-	public async kick(): Promise<this> {
-		const endpoint = Routes.guildMember(this.guild.id, this.id);
-		await this.client.api.delete(endpoint);
+	public async kick(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.guildMember(this.guild.id, this.id), requestOptions);
 		return this;
 	}
 

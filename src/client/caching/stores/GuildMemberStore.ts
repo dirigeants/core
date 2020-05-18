@@ -2,7 +2,7 @@
 import { Cache } from '@klasa/cache';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 
 import type { APIUserData, APIGuildMemberData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
@@ -25,9 +25,8 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	 * @param data The data to send for this request.
 	 * @returns A {@link GuildMember} instance if the user joined the server, `null` if it was already joined.
 	 */
-	public async add(userID: string, data: GuildMemberStoreAddData): Promise<GuildMember | null> {
-		const endpoint = Routes.guildMember(this.guild.id, userID);
-		const entry = await this.client.api.put(endpoint, { data }) as APIGuildMemberData | undefined;
+	public async add(userID: string, data: GuildMemberStoreAddData, requestOptions: RequestOptions = {}): Promise<GuildMember | null> {
+		const entry = await this.client.api.put(Routes.guildMember(this.guild.id, userID), { ...requestOptions, data }) as APIGuildMemberData | undefined;
 		return entry ? this._add(entry) : null;
 	}
 
@@ -51,13 +50,11 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 			const previous = this.get(idOrOptions);
 			if (previous) return previous;
 
-			const endpoint = Routes.guildMember(this.guild.id, idOrOptions);
-			const member = await this.client.api.get(endpoint) as APIGuildMemberData;
+			const member = await this.client.api.get(Routes.guildMember(this.guild.id, idOrOptions)) as APIGuildMemberData;
 			return this._add(member);
 		}
 
-		const endpoint = Routes.guildMembers(this.guild.id);
-		const entries = await this.client.api.get(endpoint, { data: idOrOptions }) as APIGuildMemberData[];
+		const entries = await this.client.api.get(Routes.guildMembers(this.guild.id), { data: idOrOptions }) as APIGuildMemberData[];
 
 		const cache = new Cache<string, GuildMember>();
 		for (const entry of entries) {

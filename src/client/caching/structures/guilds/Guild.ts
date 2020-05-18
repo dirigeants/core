@@ -1,6 +1,6 @@
 /* eslint-disable no-dupe-class-members */
 import { URL } from 'url';
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
 import { GuildEmojiStore } from '../../stores/GuildEmojiStore';
@@ -366,8 +366,7 @@ export class Guild extends Structure {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-preview
 	 */
 	public fetchPreview(): Promise<APIGuildPreviewData> {
-		const endpoint = Routes.guildPreview(this.id);
-		return this.client.api.get(endpoint) as Promise<APIGuildPreviewData>;
+		return this.client.api.get(Routes.guildPreview(this.id)) as Promise<APIGuildPreviewData>;
 	}
 
 	/**
@@ -376,9 +375,8 @@ export class Guild extends Structure {
 	 * @param data The settings to be applied to the guild.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild
 	 */
-	public async edit(data: GuildEditOptions): Promise<unknown> {
-		const endpoint = Routes.guild(this.id);
-		const result = await this.client.api.patch(endpoint, { data }) as APIGuildData;
+	public async edit(data: GuildEditOptions, requestOptions: RequestOptions = {}): Promise<unknown> {
+		const result = await this.client.api.patch(Routes.guild(this.id), { ...requestOptions, data }) as APIGuildData;
 		return this.clone<this>()._patch(result);
 	}
 
@@ -391,6 +389,7 @@ export class Guild extends Structure {
 		return this.client.api.delete(Routes.guild(this.id));
 	}
 
+	// TODO(kyranet): make dry a part of RequestOptions or insert it into GuildPrune
 	/**
 	 * Returns a number indicating the number of members that would be removed in a prune operation.
 	 * @since 0.0.1
@@ -399,7 +398,6 @@ export class Guild extends Structure {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-prune-count
 	 */
 	public prune(options: GuildPruneDryOptions, dry: true): Promise<number>;
-
 	/**
 	 * Begins a prune operation.
 	 * @since 0.0.1
@@ -409,14 +407,13 @@ export class Guild extends Structure {
 	 */
 	public prune(options: GuildPruneOptions, dry?: false): Promise<number | null>
 	public async prune(options: GuildPruneDryOptions, dry?: boolean): Promise<number | null> {
-		const endpoint = Routes.guildPrune(this.id);
 		if (dry) {
-			const result = await this.client.api.get(endpoint, { query: options }) as { pruned: number };
+			const result = await this.client.api.get(Routes.guildPrune(this.id), { query: options }) as { pruned: number };
 			return result.pruned;
 		}
 
 		// eslint-disable-next-line @typescript-eslint/camelcase
-		const result = await this.client.api.post(endpoint, { query: { compute_prune_count: this.large, ...options } }) as { pruned: number | null };
+		const result = await this.client.api.post(Routes.guildPrune(this.id), { query: { compute_prune_count: this.large, ...options } }) as { pruned: number | null };
 		return result.pruned;
 	}
 
@@ -426,8 +423,7 @@ export class Guild extends Structure {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-voice-regions
 	 */
 	public async fetchRegions(): Promise<APIVoiceRegionData[]> {
-		const endpoint = Routes.guildVoiceRegions(this.id);
-		const results = await this.client.api.get(endpoint) as APIVoiceRegionData[];
+		const results = await this.client.api.get(Routes.guildVoiceRegions(this.id)) as APIVoiceRegionData[];
 		return results;
 	}
 
@@ -437,8 +433,7 @@ export class Guild extends Structure {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-widget
 	 */
 	public async fetchWidget(): Promise<GuildWidget> {
-		const endpoint = Routes.guildWidget(this.id);
-		const entry = await this.client.api.get(endpoint) as APIGuildWidgetData;
+		const entry = await this.client.api.get(Routes.guildWidget(this.id)) as APIGuildWidgetData;
 		return new GuildWidget(entry, this);
 	}
 
@@ -448,8 +443,7 @@ export class Guild extends Structure {
 	 * @see https://discord.com/developers/docs/resources/user#leave-guild
 	 */
 	public async leave(): Promise<this> {
-		const endpoint = Routes.leaveGuild(this.id);
-		await this.client.api.delete(endpoint);
+		await this.client.api.delete(Routes.leaveGuild(this.id));
 		return this;
 	}
 
@@ -459,8 +453,7 @@ export class Guild extends Structure {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-vanity-url
 	 */
 	public async fetchVanityURL(): Promise<GuildVanityURL> {
-		const endpoint = Routes.guildVanityURL(this.id);
-		return this.client.api.get(endpoint) as Promise<GuildVanityURL>;
+		return this.client.api.get(Routes.guildVanityURL(this.id)) as Promise<GuildVanityURL>;
 	}
 
 	protected _patch(data: APIGuildData): this {

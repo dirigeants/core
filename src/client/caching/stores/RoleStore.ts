@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 
@@ -21,9 +21,8 @@ export class RoleStore extends DataStore<Role> {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#create-guild-role
 	 */
-	public async add(data: RoleStoreAddOptions = {}): Promise<Role> {
-		const endpoint = Routes.guildRoles(this.guild.id);
-		const role = await this.client.api.post(endpoint, { data }) as APIRoleData;
+	public async add(data: RoleStoreAddOptions = {}, requestOptions: RequestOptions = {}): Promise<Role> {
+		const role = await this.client.api.post(Routes.guildRoles(this.guild.id), { ...requestOptions, data }) as APIRoleData;
 		return this._add(role);
 	}
 
@@ -33,9 +32,8 @@ export class RoleStore extends DataStore<Role> {
 	 * @param data The set of roles and their positions for the {@link Guild guild}.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-role-positions
 	 */
-	public async editPositions(data: readonly RoleStorePositionData[]): Promise<this> {
-		const endpoint = Routes.guildRoles(this.guild.id);
-		await this.client.api.patch(endpoint, { data });
+	public async editPositions(data: readonly RoleStorePositionData[], requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.patch(Routes.guildRoles(this.guild.id), { ...requestOptions, data });
 		return this;
 	}
 
@@ -45,8 +43,7 @@ export class RoleStore extends DataStore<Role> {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-roles
 	 */
 	public async fetch(): Promise<this> {
-		const endpoint = Routes.guildRoles(this.guild.id);
-		const roles = await this.client.api.get(endpoint) as APIRoleData[];
+		const roles = await this.client.api.get(Routes.guildRoles(this.guild.id)) as APIRoleData[];
 		for (const role of roles) this._add(role);
 		return this;
 	}
