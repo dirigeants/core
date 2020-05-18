@@ -43,6 +43,11 @@ export class MessageReactionUserStore extends ProxyCache<string, User> {
 		return this;
 	}
 
+	/**
+	 * Adds a reaction to the message.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#create-reaction
+	 */
 	public async add(): Promise<this> {
 		await this.message.reactions.add(this.reaction.emoji);
 		return this;
