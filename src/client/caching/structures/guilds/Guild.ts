@@ -1,5 +1,5 @@
 /* eslint-disable no-dupe-class-members */
-import { URL, URLSearchParams } from 'url';
+import { URLSearchParams } from 'url';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
@@ -26,7 +26,6 @@ import type {
 	GuildPremiumTier,
 	GuildSystemChannelFlags,
 	GuildVerificationLevel,
-	APIGuildWidgetData,
 	APIGuildPreviewData
 } from '@klasa/dapi-types';
 
@@ -316,8 +315,15 @@ export class Guild extends Structure {
 
 	/**
 	 * The approximate number of online members in this guild, returned from the `GET /guild/<id>` endpoint when `with_counts` is `true`.
+	 * @since 0.0.1
 	 */
 	public approximatePresenceCount?: number;
+
+	/**
+	 * The widget for this guild.
+	 * @since 0.0.1
+	 */
+	public widget: GuildWidget;
 
 	public constructor(client: Client, data: APIGuildData) {
 		super(client);
@@ -333,6 +339,9 @@ export class Guild extends Structure {
 		this.channels = new GuildChannelStore(client, this);
 		this.presences = new PresenceStore(client, this);
 
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		this.widget = new GuildWidget({ enabled: null, channel_id: null }, this);
+
 		this.unavailable = data.unavailable ?? false;
 		if (!this.unavailable) {
 			this._patch(data);
@@ -345,20 +354,6 @@ export class Guild extends Structure {
 	 */
 	public get joinedAt(): Date | null {
 		return this.joinedTimestamp === null ? null : new Date(this.joinedTimestamp);
-	}
-
-	/**
-	 * Returns a PNG image URL representing the image widget of the guild.
-	 * @since 0.0.1
-	 * @param options The options for the widget image.
-	 * @see https://discord.com/developers/docs/resources/guild#get-guild-widget-image
-	 */
-	public getWidgetImageURL(options?: WidgetImageOptions): string {
-		const path = Routes.guildWidgetImage(this.id);
-		// TODO(VladFrangu): I think we should move this to @klasa/rest
-		const url = new URL(`https://discord.com/api${path}`);
-		if (options) for (const [key, value] of Object.entries(options)) url.searchParams.append(key, value);
-		return url.toString();
 	}
 
 	/**
@@ -429,16 +424,6 @@ export class Guild extends Structure {
 	public async fetchRegions(): Promise<APIVoiceRegionData[]> {
 		const results = await this.client.api.get(Routes.guildVoiceRegions(this.id)) as APIVoiceRegionData[];
 		return results;
-	}
-
-	/**
-	 * Returns the guild {@link GuildWidget widget}.
-	 * @since 0.0.1
-	 * @see https://discord.com/developers/docs/resources/guild#get-guild-widget
-	 */
-	public async fetchWidget(): Promise<GuildWidget> {
-		const entry = await this.client.api.get(Routes.guildWidget(this.id)) as APIGuildWidgetData;
-		return new GuildWidget(entry, this);
 	}
 
 	/**
@@ -695,60 +680,4 @@ export interface GuildVanityURL {
 	 * @example 42
 	 */
 	uses: number;
-}
-
-/**
- * The options for the widget image.
- * @since 0.0.1
- * @see https://discord.com/developers/docs/resources/guild#get-guild-widget-image-query-string-params
- */
-export interface WidgetImageOptions {
-	/**
-	 * Style of the widget image returned.
-	 * @since 0.0.1
-	 * @default WidgetStyle.Shield
-	 */
-	style?: WidgetStyle;
-}
-
-/**
- * The widget style options.
- * @since 0.0.1
- * @see https://discord.com/developers/docs/resources/guild#get-guild-widget-image-widget-style-options
- */
-export enum WidgetStyle {
-	/**
-	 * shield style widget with Discord icon and guild members online count
-	 * @since 0.0.1
-	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=shield
-	 */
-	Shield = 'shield',
-
-	/**
-	 * large image with guild icon, name and online count. "POWERED BY DISCORD" as the footer of the widget
-	 * @since 0.0.1
-	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=banner1
-	 */
-	Banner1 = 'banner1',
-
-	/**
-	 * smaller widget style with guild icon, name and online count. Split on the right with Discord logo
-	 * @since 0.0.1
-	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=banner2
-	 */
-	Banner2 = 'banner2',
-
-	/**
-	 * large image with guild icon, name and online count. In the footer, Discord logo on the left and "Chat Now" on the right
-	 * @since 0.0.1
-	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=banner3
-	 */
-	Banner3 = 'banner3',
-
-	/**
-	 * large Discord logo at the top of the widget. Guild icon, name and online count in the middle portion of the widget and a "JOIN MY SERVER" button at the bottom
-	 * @since 0.0.1
-	 * @see https://discord.com/api/guilds/81384788765712384/widget.png?style=banner4
-	 */
-	Banner4 = 'banner4'
 }
