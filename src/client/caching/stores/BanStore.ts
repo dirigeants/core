@@ -27,9 +27,9 @@ export class BanStore extends DataStore<Ban> {
 	}
 
 	/**
-	 * Bans a user, and optionally delete previous messages sent by the banned user.
+	 * Adds a user to the guild's bans list and optionally deletes previous messages from that user
 	 * @since 0.0.1
-	 * @param userID The {@link User user} ID to ban from the server.
+	 * @param userID The {@link User user} ID to ban from the guild.
 	 * @see https://discord.com/developers/docs/resources/guild#create-guild-ban
 	 */
 	public async add(userID: string, options: BanAddOptions = {}): Promise<this> {
@@ -38,9 +38,9 @@ export class BanStore extends DataStore<Ban> {
 	}
 
 	/**
-	 * Remove the ban for a user.
+	 * Remove a user from the guild's bans list
 	 * @since 0.0.1
-	 * @param userID The {@link User user} ID to unban from the server.
+	 * @param userID The {@link User user} ID to unban from the guild.
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-ban
 	 */
