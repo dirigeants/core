@@ -14,6 +14,7 @@ export default class CoreAction extends Action {
 	}
 
 	public cache(data: Guild): void {
+		data.deleted = true;
 		this.client.guilds.delete(data.id);
 	}
 

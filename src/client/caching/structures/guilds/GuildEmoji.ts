@@ -2,6 +2,8 @@ import { Structure } from '../base/Structure';
 
 import type { APIEmojiData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
+import { RequestOptions } from '@klasa/rest';
+import { Guild } from './Guild';
 
 /**
  * @see https://discord.com/developers/docs/resources/emoji#emoji-object
@@ -56,9 +58,22 @@ export class GuildEmoji extends Structure {
 	 */
 	public available!: boolean;
 
-	public constructor(client: Client, data: APIEmojiData) {
+	/**
+	 * The guild this emoji is from.
+	 * @since 0.0.1
+	 */
+	public readonly guild: Guild;
+
+	/**
+	 * Whether the integration is deleted.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
+
+	public constructor(client: Client, data: APIEmojiData, guild: Guild) {
 		super(client);
 		this.id = data.id as string;
+		this.guild = guild;
 		this._patch(data);
 	}
 
@@ -76,6 +91,19 @@ export class GuildEmoji extends Structure {
 	 */
 	public toString(): string {
 		return this.id ? `<${this.animated ? 'a' : ''}:${this.name}:${this.id}>` : this.name as string;
+	}
+
+	/**
+	 * Deletes an emoji from the {@link Guild guild}.
+	 * @since 0.0.1
+	 * @param emojiID The {@link GuildEmoji guild emoji} ID.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/emoji#create-guild-emoji
+	 */
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.guild.emojis.remove(this.id, requestOptions);
+		this.deleted = true;
+		return this;
 	}
 
 	protected _patch(data: APIEmojiData): this {

@@ -12,6 +12,12 @@ import type { Guild } from './Guild';
 export class Role extends Structure {
 
 	/**
+	 * The {@link Guild guild} this role belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly guild: Guild;
+
+	/**
 	 * The role's ID.
 	 * @since 0.0.1
 	 */
@@ -59,7 +65,11 @@ export class Role extends Structure {
 	 */
 	public mentionable!: boolean;
 
-	public readonly guild: Guild;
+	/**
+	 * Whether the role is deleted.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
 
 	public constructor(client: Client, data: APIRoleData, guild: Guild) {
 		super(client);
@@ -88,7 +98,8 @@ export class Role extends Structure {
 	 * @see https://discord.com/developers/docs/resources/guild#delete-guild-role
 	 */
 	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
-		await this.client.api.delete(Routes.guildRole(this.guild.id, this.id), requestOptions);
+		await this.guild.roles.remove(this.id, requestOptions);
+		this.deleted = true;
 		return this;
 	}
 

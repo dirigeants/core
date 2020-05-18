@@ -22,17 +22,6 @@ export class InviteStore extends DataStore<Invite> {
 	}
 
 	/**
-	 * Returns a {@link Invite invite} with optionally their metadata.
-	 * @since 0.0.1
-	 * @param code The {@link Invite#code invite code}.
-	 * @see https://discord.com/developers/docs/resources/invite#get-invite
-	 */
-	public async fetch(code: string, options: InviteStoreFetchOptions = {}): Promise<Invite> {
-		const entry = await this.client.api.get(Routes.invite(code), { query: options }) as APIInviteData;
-		return this._add(entry);
-	}
-
-	/**
 	 * Deletes an invite given its code.
 	 * @since 0.0.1
 	 * @param code The {@link Invite#code invite code}.
@@ -42,6 +31,17 @@ export class InviteStore extends DataStore<Invite> {
 	public async remove(code: string, requestOptions: RequestOptions = {}): Promise<Invite> {
 		const entry = await this.client.api.delete(Routes.invite(code), requestOptions) as APIInviteData;
 		return new this.Holds(this.client, entry);
+	}
+
+	/**
+	 * Returns a {@link Invite invite} with optionally their metadata.
+	 * @since 0.0.1
+	 * @param code The {@link Invite#code invite code}.
+	 * @see https://discord.com/developers/docs/resources/invite#get-invite
+	 */
+	public async fetch(code: string, options: InviteStoreFetchOptions = {}): Promise<Invite> {
+		const entry = await this.client.api.get(Routes.invite(code), { query: options }) as APIInviteData;
+		return this._add(entry);
 	}
 
 	/**

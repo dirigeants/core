@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 
@@ -28,6 +28,18 @@ export class GuildInviteStore extends DataStore<Invite> {
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('Invite'), client.options.cache.limits.invites);
 		this.guild = guild;
+	}
+
+	/**
+	 * Deletes an invite given its code.
+	 * @since 0.0.1
+	 * @param code The {@link Invite#code invite code}.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/invite#delete-invite
+	 */
+	public async remove(code: string, requestOptions: RequestOptions = {}): Promise<Invite> {
+		const entry = this.client.api.delete(Routes.invite(code), requestOptions);
+		return new this.Holds(this.client, entry, this.guild);
 	}
 
 	/**

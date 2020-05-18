@@ -60,6 +60,12 @@ export class GuildMember extends Structure {
 	 */
 	public roles!: GuildMemberRoleStore;
 
+	/**
+	 * Whether the member was kicked.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
+
 	public constructor(client: Client, data: MemberData, guild: Guild) {
 		super(client);
 
@@ -86,7 +92,8 @@ export class GuildMember extends Structure {
 	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-member
 	 */
 	public async kick(requestOptions: RequestOptions = {}): Promise<this> {
-		await this.client.api.delete(Routes.guildMember(this.guild.id, this.id), requestOptions);
+		await this.guild.members.remove(this.id, requestOptions);
+		this.deleted = true;
 		return this;
 	}
 

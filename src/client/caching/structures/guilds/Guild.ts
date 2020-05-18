@@ -325,13 +325,19 @@ export class Guild extends Structure {
 	 */
 	public widget: GuildWidget;
 
+	/**
+	 * Whether the guild is deleted.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
+
 	public constructor(client: Client, data: APIGuildData) {
 		super(client);
 
 		this.id = data.id;
 		this.bans = new BanStore(client, this);
 		this.roles = new RoleStore(client, this);
-		this.emojis = new GuildEmojiStore(client);
+		this.emojis = new GuildEmojiStore(client, this);
 		this.invites = new GuildInviteStore(client, this);
 		this.integrations = new IntegrationStore(client, this);
 		this.voiceStates = new VoiceStateStore(client, this);
@@ -378,12 +384,15 @@ export class Guild extends Structure {
 	}
 
 	/**
-	 * Delete the guild permanently.
+	 * Deletes the guild permanently.
 	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#delete-guild
 	 */
-	public async delete(): Promise<unknown> {
-		return this.client.api.delete(Routes.guild(this.id));
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.guilds.remove(this.id, requestOptions);
+		this.deleted = true;
+		return this;
 	}
 
 	/**

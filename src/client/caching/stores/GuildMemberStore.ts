@@ -46,6 +46,18 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	}
 
 	/**
+	 * Kicks a member from the {@link Guild guild}.
+	 * @since 0.0.1
+	 * @param userID The {@link User user} ID to be kicked.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-member
+	 */
+	public async remove(userID: string, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.guildMember(this.guild.id, userID), requestOptions);
+		return this;
+	}
+
+	/**
 	 * Returns a {@link GuildMember member} instance, retrieving from cache if existing.
 	 * @since 0.0.1
 	 * @param userID The {@link User user} ID to fetch.

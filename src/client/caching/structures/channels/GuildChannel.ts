@@ -5,6 +5,7 @@ import { PermissionOverwrites } from '../PermissionOverwrites';
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
 import type { Guild } from '../guilds/Guild';
+import { RequestOptions } from '@klasa/rest';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -42,9 +43,27 @@ export abstract class GuildChannel extends Channel {
 	 */
 	public readonly guild: Guild;
 
+	/**
+	 * Whether the DM channel is deleted.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
+
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null = null) {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
+	}
+
+	/**
+	 * Removes the channel from the {@link Guild guild}.
+	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
+	 */
+	public async remove(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.guild.channels.remove(this.id, requestOptions);
+		this.deleted = true;
+		return this;
 	}
 
 	protected _patch(data: APIChannelData): this {

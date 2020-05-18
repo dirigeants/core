@@ -7,6 +7,7 @@ import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/Messag
 import type { User } from '../User';
 import type { Client } from '../../../Client';
 import type { Message } from '../Message';
+import { RequestOptions } from '@klasa/rest';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -37,6 +38,12 @@ export class DMChannel extends Channel {
 	 * @since 0.0.1
 	 */
 	public readonly messages: MessageStore;
+
+	/**
+	 * Whether the DM channel is deleted.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
 
 	public constructor(client: Client, data: APIChannelData) {
 		super(client, data);
@@ -70,6 +77,18 @@ export class DMChannel extends Channel {
 	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
 		// @ts-expect-error
 		return this.messages.add(data, options);
+	}
+
+	/**
+	 * Closes the channel.
+	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
+	 */
+	public async remove(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.dms.remove(this.id, requestOptions);
+		this.deleted = true;
+		return this;
 	}
 
 	protected _patch(data: APIChannelData): this {

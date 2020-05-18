@@ -93,7 +93,7 @@ export class Integration extends Structure {
 	public syncedTimestamp!: number;
 
 	/**
-	 * Whether the message is deleted.
+	 * Whether the integration is deleted.
 	 * @since 0.0.1
 	 */
 	public deleted = false;

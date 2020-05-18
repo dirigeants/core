@@ -43,6 +43,18 @@ export class RoleStore extends DataStore<Role> {
 	}
 
 	/**
+	 * Deletes a {@link Role role} from the {@link Guild guild}.
+	 * @since 0.0.1
+	 * @param roleID The {@link Role role} ID to delete.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#delete-guild-role
+	 */
+	public async remove(roleID: string, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.guildRole(this.guild.id, roleID), requestOptions);
+		return this;
+	}
+
+	/**
 	 * Modifies the positions of the roles.
 	 * @since 0.0.1
 	 * @param data The set of roles and their positions for the {@link Guild guild}.
