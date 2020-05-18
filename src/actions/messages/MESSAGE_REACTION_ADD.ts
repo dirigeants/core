@@ -4,7 +4,7 @@ import { extender } from '../../util/Extender';
 
 import type { MessageReactionAddDispatch } from '@klasa/ws';
 import type { Message } from '../../client/caching/structures/Message';
-import type { MessageReaction } from '../../client/caching/structures/messages/MessageReaction';
+import type { MessageReaction } from '../../client/caching/structures/messages/reactions/MessageReaction';
 
 export default class CoreAction extends Action {
 
@@ -31,7 +31,7 @@ export default class CoreAction extends Action {
 
 		const reaction = this.ensureReaction(message, data);
 		if (user.id === this.client.user?.id) reaction.me = true;
-		reaction.users.set(user.id, user);
+		reaction.users.set(user.id);
 		++reaction.count;
 
 		this.client.emit(this.clientEvent, reaction, user);

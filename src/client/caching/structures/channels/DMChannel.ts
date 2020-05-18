@@ -1,13 +1,13 @@
 /* eslint-disable no-dupe-class-members */
-import { APIChannelData, ChannelType, APIUserData, APIMessageData } from '@klasa/dapi-types';
-import { Routes } from '@klasa/rest';
+import { APIChannelData, ChannelType, APIUserData } from '@klasa/dapi-types';
 import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
-import { Message } from '../Message';
 
 import type { User } from '../User';
 import type { Client } from '../../../Client';
+import type { Message } from '../Message';
+import { RequestOptions } from '@klasa/rest';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -39,9 +39,15 @@ export class DMChannel extends Channel {
 	 */
 	public readonly messages: MessageStore;
 
+	/**
+	 * Whether the DM channel is deleted.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
+
 	public constructor(client: Client, data: APIChannelData) {
 		super(client, data);
-		this.messages = new MessageStore(client);
+		this.messages = new MessageStore(client, this);
 	}
 
 	/**
@@ -49,21 +55,40 @@ export class DMChannel extends Channel {
 	 * @param data The {@link MessageBuilder builder} to send.
 	 * @param options The split options for the message.
 	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#create-message
+	 * @example
+	 * channel.messages.add(new MessageBuilder()
+	 *     .setContent('Ping!')
+	 *     .setEmbed(new Embed().setDescription('From an embed!')));
 	 */
-	public async send(data: MessageOptions, options: SplitOptions): Promise<Message[]>
-	public async send(data: (message: MessageBuilder) => MessageBuilder, options: SplitOptions): Promise<Message[]>
+	public send(data: MessageOptions, options: SplitOptions): Promise<Message[]>;
+	/**
+	 * Sends a message to the channel.
+	 * @param data A callback with a {@link MessageBuilder builder} as an argument.
+	 * @param options The split options for the message.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#create-message
+	 * @example
+	 * channel.messages.add(builder => builder
+	 *     .setContent('Ping!')
+	 *     .setEmbed(embed => embed.setDescription('From an embed!')));
+	 */
+	public send(data: (message: MessageBuilder) => MessageBuilder, options: SplitOptions): Promise<Message[]>;
 	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
-		const split = (typeof data === 'function' ? data(new MessageBuilder()) : new MessageBuilder(data)).split(options);
+		// @ts-expect-error
+		return this.messages.add(data, options);
+	}
 
-		const endpoint = Routes.channelMessages(this.id);
-		const responses = [];
-
-		for (const message of split) responses.push(this.client.api.post(endpoint, message));
-
-		const rawMessages = await Promise.all(responses);
-
-		// eslint-disable-next-line dot-notation
-		return rawMessages.map(msg => this.messages['_add'](msg as APIMessageData));
+	/**
+	 * Closes the channel.
+	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
+	 */
+	public async remove(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.dms.remove(this.id, requestOptions);
+		this.deleted = true;
+		return this;
 	}
 
 	protected _patch(data: APIChannelData): this {

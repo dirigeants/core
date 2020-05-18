@@ -1,4 +1,6 @@
+import { Routes } from '@klasa/rest';
 import { Team } from './Team';
+import { isSet } from '../../../../util/Util';
 
 import type { APIOauthData, APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
@@ -104,17 +106,28 @@ export class Application {
 		this.name = data.name;
 		this.icon = data.icon;
 		this.description = data.description;
-		if (Reflect.has(data, 'rpc_origins')) this.rpcOrigins = data.rpc_origins;
+		if (isSet(data, 'rpc_origins')) this.rpcOrigins = data.rpc_origins;
 		this.botPublic = data.bot_public;
 		this.botRequireCodeGrant = data.bot_require_code_grant;
 		this.owner = data.owner;
 		this.summary = data.summary;
 		this.verifyKey = data.verify_key;
 		this.team = data.team ? new Team(client, data.team) : null;
-		if (Reflect.has(data, 'guild_id')) this.guildID = data.guild_id;
-		if (Reflect.has(data, 'primary_sku_id')) this.primarySkuID = data.primary_sku_id;
-		if (Reflect.has(data, 'slug')) this.slug = data.slug;
-		if (Reflect.has(data, 'cover_image')) this.coverImage = data.cover_image;
+		if (isSet(data, 'guild_id')) this.guildID = data.guild_id;
+		if (isSet(data, 'primary_sku_id')) this.primarySkuID = data.primary_sku_id;
+		if (isSet(data, 'slug')) this.slug = data.slug;
+		if (isSet(data, 'cover_image')) this.coverImage = data.cover_image;
+	}
+
+	/**
+	 * Returns an {@link Application application}.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} that will manage the created object.
+	 * @see https://discord.com/developers/docs/topics/oauth2#get-current-application-information
+	 */
+	public static async fetch(client: Client): Promise<Application> {
+		const data = await client.api.get(Routes.oauthApplication()) as APIOauthData;
+		return new this(client, data);
 	}
 
 }

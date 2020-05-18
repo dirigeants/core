@@ -1,6 +1,6 @@
 /* eslint-disable no-dupe-class-members */
 import { Cache } from '@klasa/cache';
-import { Routes } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 
@@ -12,34 +12,48 @@ import type { GuildBanAddDispatch } from '@klasa/ws';
 
 /**
  * The store for {@link Ban bans}.
+ * @since 0.0.1
  */
 export class BanStore extends DataStore<Ban> {
 
 	/**
-	 * The {@link Guild} that owns this store.
+	 * The {@link Guild guild} this store belongs to.
 	 * @since 0.0.1
 	 */
 	public readonly guild: Guild;
 
+	/**
+	 * Builds the store.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} this store belongs to.
+	 * @param guild The {@link Guild guild} this store belongs to.
+	 */
 	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('Ban'), client.options.cache.limits.bans);
 		this.guild = guild;
 	}
 
 	/**
-	 * Adds a new structure to this DataStore
-	 * @param data The data packet to add
+	 * Adds a user to the guild's bans list and optionally deletes previous messages from that user
+	 * @since 0.0.1
+	 * @param userID The {@link User user} ID to ban from the guild.
+	 * @see https://discord.com/developers/docs/resources/guild#create-guild-ban
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-	// @ts-ignore
-	protected _add(data: GuildBanAddDispatch['d']): Ban {
-		const existing = this.get(data.user.id);
-		// eslint-disable-next-line dot-notation
-		if (existing) return existing['_patch']();
+	public async add(userID: string, options: BanAddOptions = {}): Promise<this> {
+		await this.client.api.put(Routes.guildBan(this.guild.id, userID), { query: { 'delete-message-days': options.deleteMessageDays, reason: options.reason } });
+		return this;
+	}
 
-		const entry = new this.Holds(this.client, data, this.guild);
-		if (this.client.options.cache.enabled) this.set(entry.id, entry);
-		return entry;
+	/**
+	 * Remove a user from the guild's bans list
+	 * @since 0.0.1
+	 * @param userID The {@link User user} ID to unban from the guild.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-ban
+	 */
+	public async remove(userID: string, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.guildBan(this.guild.id, userID), requestOptions);
+		return this;
 	}
 
 	/**
@@ -51,7 +65,6 @@ export class BanStore extends DataStore<Ban> {
 	 * console.log(`The user ${ban.id} was banned for the reason: ${ban.reason}.`);
 	 */
 	public fetch(options: { id: string, cache?: boolean }): Promise<Ban>;
-
 	/**
 	 * Retrieves all bans for this guild from the API, returning all values as a {@link Cache} without populating the store.
 	 * @since 0.0.1
@@ -61,7 +74,6 @@ export class BanStore extends DataStore<Ban> {
 	 * console.log(`${bans.size} users are banned.`);
 	 */
 	public fetch(options: { cache: false }): Promise<Cache<string, Ban>>;
-
 	/**
 	 * Retrieves all bans for this guild from the API, populating the store and returning itself.
 	 * @since 0.0.1
@@ -99,6 +111,42 @@ export class BanStore extends DataStore<Ban> {
 		return output;
 	}
 
+	/**
+	 * Adds a new structure to this DataStore
+	 * @param data The data packet to add
+	 * @param cache If the data should be cached
+	 */
+	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+	// @ts-ignore
+	protected _add(data: GuildBanAddDispatch['d']): Ban {
+		const existing = this.get(data.user.id);
+		// eslint-disable-next-line dot-notation
+		if (existing) return existing['_patch']();
+
+		const entry = new this.Holds(this.client, data, this.guild);
+		if (this.client.options.cache.enabled) this.set(entry.id, entry);
+		return entry;
+	}
+
+}
+
+/**
+ * The options for {@link BanStore#add}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#create-guild-ban-query-string-params
+ */
+export interface BanAddOptions {
+	/**
+	 * Number of days to delete messages for (0-7).
+	 * @since 0.0.1
+	 */
+	deleteMessageDays?: number;
+
+	/**
+	 * Reason for the ban.
+	 * @since 0.0.1
+	 */
+	reason?: string;
 }
 
 export interface BanStoreFetchOptions {

@@ -3,6 +3,7 @@ import { Channel } from '../../client/caching/structures/channels/Channel';
 import { isGuildChannel } from '../../util/Util';
 
 import type { ChannelCreateDispatch } from '@klasa/ws';
+import type { DMChannel } from '../../client/caching/structures/channels/DMChannel';
 
 export default class CoreAction extends Action {
 
@@ -17,7 +18,7 @@ export default class CoreAction extends Action {
 
 	public cache(data: Channel): void {
 		if (isGuildChannel(data)) data.guild.channels.set(data.id, data);
-		else this.client.dms.set(data.id, data);
+		else this.client.dms.set(data.id, data as DMChannel);
 	}
 
 }

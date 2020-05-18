@@ -1,24 +1,32 @@
-import { Routes } from '@klasa/rest';
-import { Structure } from '../base/Structure';
-import { Permissions } from '../../../../util/bitfields/Permissions';
-import { GuildChannelStore } from '../../stores/GuildChannelStore';
-import { GuildMemberStore } from '../../stores/GuildMemberStore';
-import { PresenceStore } from '../../stores/PresenceStore';
-import { VoiceStateStore } from '../../stores/VoiceStateStore';
-import { RoleStore } from '../../stores/RoleStore';
-import { GuildEmojiStore } from '../../stores/GuildEmojiStore';
+/* eslint-disable no-dupe-class-members */
+import { URLSearchParams } from 'url';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
+import { GuildChannelStore } from '../../stores/GuildChannelStore';
+import { GuildEmojiStore } from '../../stores/GuildEmojiStore';
+import { GuildInviteStore } from '../../stores/GuildInviteStore';
+import { GuildMemberStore } from '../../stores/GuildMemberStore';
+import { GuildWidget } from './GuildWidget';
+import { IntegrationStore } from '../../stores/IntegrationStore';
+import { isSet } from '../../../../util/Util';
+import { Permissions } from '../../../../util/bitfields/Permissions';
+import { PresenceStore } from '../../stores/PresenceStore';
+import { RoleStore } from '../../stores/RoleStore';
+import { Structure } from '../base/Structure';
+import { VoiceStateStore } from '../../stores/VoiceStateStore';
 
 import type { Client } from '../../../Client';
 import type {
 	APIGuildData,
+	APIVoiceRegionData,
 	GuildDefaultMessageNotifications,
 	GuildExplicitContentFilterLevel,
 	GuildFeatures,
 	GuildMFALevel,
 	GuildPremiumTier,
 	GuildSystemChannelFlags,
-	GuildVerificationLevel
+	GuildVerificationLevel,
+	APIGuildPreviewData
 } from '@klasa/dapi-types';
 
 /**
@@ -130,6 +138,18 @@ export class Guild extends Structure {
 	public readonly emojis: GuildEmojiStore;
 
 	/**
+	 * The guild's store of invites.
+	 * @since 0.0.1
+	 */
+	public readonly invites: GuildInviteStore;
+
+	/**
+	 * The guild's store of integrations.
+	 * @since 0.0.1
+	 */
+	public readonly integrations: IntegrationStore;
+
+	/**
 	 * The guild's enabled features.
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#guild-object-guild-features
@@ -149,13 +169,13 @@ export class Guild extends Structure {
 	public applicationID!: string | null;
 
 	/**
-	 * Whether or not the server widget is enabled.
+	 * Whether or not the guild widget is enabled.
 	 * @since 0.0.1
 	 */
 	public widgetEnabled!: boolean;
 
 	/**
-	 * The channel id for the server widget.
+	 * The channel id for the guild widget.
 	 * @since 0.0.1
 	 */
 	public widgetChannelID!: string | null;
@@ -263,7 +283,7 @@ export class Guild extends Structure {
 	public banner!: string | null;
 
 	/**
-	 * The guild's Server Boosting tier
+	 * The guild's guild Boosting tier
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#guild-object-premium-tier
 	 */
@@ -276,7 +296,7 @@ export class Guild extends Structure {
 	public premiumSubscriptionCount!: number | null;
 
 	/**
-	 * The preferred locale of a `PUBLIC` guild used in server discovery and notices from Discord; defaults to "en-US".
+	 * The preferred locale of a `PUBLIC` guild used in guild discovery and notices from Discord; defaults to "en-US".
 	 * @since 0.0.1
 	 */
 	public preferredLocale!: string;
@@ -295,8 +315,21 @@ export class Guild extends Structure {
 
 	/**
 	 * The approximate number of online members in this guild, returned from the `GET /guild/<id>` endpoint when `with_counts` is `true`.
+	 * @since 0.0.1
 	 */
 	public approximatePresenceCount?: number;
+
+	/**
+	 * The widget for this guild.
+	 * @since 0.0.1
+	 */
+	public widget: GuildWidget;
+
+	/**
+	 * Whether the guild is deleted.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
 
 	public constructor(client: Client, data: APIGuildData) {
 		super(client);
@@ -304,11 +337,16 @@ export class Guild extends Structure {
 		this.id = data.id;
 		this.bans = new BanStore(client, this);
 		this.roles = new RoleStore(client, this);
-		this.emojis = new GuildEmojiStore(client);
+		this.emojis = new GuildEmojiStore(client, this);
+		this.invites = new GuildInviteStore(client, this);
+		this.integrations = new IntegrationStore(client, this);
 		this.voiceStates = new VoiceStateStore(client, this);
 		this.members = new GuildMemberStore(client, this);
 		this.channels = new GuildChannelStore(client, this);
 		this.presences = new PresenceStore(client, this);
+
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		this.widget = new GuildWidget({ enabled: null, channel_id: null }, this);
 
 		this.unavailable = data.unavailable ?? false;
 		if (!this.unavailable) {
@@ -324,22 +362,96 @@ export class Guild extends Structure {
 		return this.joinedTimestamp === null ? null : new Date(this.joinedTimestamp);
 	}
 
-	public async edit(data: GuildEditOptions): Promise<unknown> {
-		return this.client.api.patch(Routes.guild(this.id), { data });
+	/**
+	 * Returns the guild preview.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-preview
+	 */
+	public fetchPreview(): Promise<APIGuildPreviewData> {
+		return this.client.api.get(Routes.guildPreview(this.id)) as Promise<APIGuildPreviewData>;
 	}
 
-	public async delete(): Promise<unknown> {
-		return this.client.api.delete(Routes.guild(this.id));
+	/**
+	 * Modifies the guild's settings.
+	 * @since 0.0.1
+	 * @param data The settings to be applied to the guild.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#modify-guild
+	 */
+	public async modify(data: GuildModifyOptions, requestOptions: RequestOptions = {}): Promise<unknown> {
+		const result = await this.client.api.patch(Routes.guild(this.id), { ...requestOptions, data }) as APIGuildData;
+		return this.clone<this>()._patch(result);
 	}
 
-	public async prune(options: GuildPruneOptions): Promise<unknown> {
-		// eslint-disable-next-line @typescript-eslint/camelcase
-		const data = { ...options, compute_prune_count: this.large };
-		return this.client.api.post(Routes.guildPrune(this.id), { data });
+	/**
+	 * Deletes the guild permanently.
+	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#delete-guild
+	 */
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.guilds.remove(this.id, requestOptions);
+		this.deleted = true;
+		return this;
 	}
 
-	public async leave(): Promise<unknown> {
-		return this.client.api.delete(Routes.leaveGuild(this.id));
+	/**
+	 * Returns a number indicating the number of members that would be removed in a prune operation.
+	 * @since 0.0.1
+	 * @param options The number of days to count prune and the included roles.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-prune-count
+	 */
+	public prune(options: GuildPruneDryOptions, requestOptions?: RequestOptions): Promise<number>;
+	/**
+	 * Begins a prune operation.
+	 * @since 0.0.1
+	 * @param options The number of days to count prune and the included roles.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#begin-guild-prune
+	 */
+	public prune(options: GuildPruneNonDryOptions, requestOptions?: RequestOptions): Promise<number | null>
+	public async prune(options: GuildPruneOptions, requestOptions: RequestOptions = {}): Promise<number | null> {
+		const query = new URLSearchParams();
+		if (isSet(options, 'days')) query.append('days', options.days.toString());
+		if (isSet(options, 'includeRoles')) for (const role of options.includeRoles) query.append('include_roles', role);
+		if (options.dry) {
+			const result = await this.client.api.get(Routes.guildPrune(this.id), { ...requestOptions, query }) as { pruned: number };
+			return result.pruned;
+		}
+
+		if (isSet(options, 'computePruneCount')) query.append('compute_prune_count', options.computePruneCount.toString());
+		const result = await this.client.api.post(Routes.guildPrune(this.id), { ...requestOptions, query }) as { pruned: number | null };
+		return result.pruned;
+	}
+
+	/**
+	 * Returns a list of voice region objects for the guild.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-voice-regions
+	 */
+	public async fetchRegions(): Promise<APIVoiceRegionData[]> {
+		const results = await this.client.api.get(Routes.guildVoiceRegions(this.id)) as APIVoiceRegionData[];
+		return results;
+	}
+
+	/**
+	 * Makes the client leave the guild.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/user#leave-guild
+	 */
+	public async leave(): Promise<this> {
+		await this.client.api.delete(Routes.leaveGuild(this.id));
+		return this;
+	}
+
+	/**
+	 * Returns a partial {@link Invite invite} for guilds that have the feature enabled.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-vanity-url
+	 */
+	public async fetchVanityURL(): Promise<GuildVanityURL> {
+		return this.client.api.get(Routes.guildVanityURL(this.id)) as Promise<GuildVanityURL>;
 	}
 
 	protected _patch(data: APIGuildData): this {
@@ -402,25 +514,179 @@ export class Guild extends Structure {
 
 }
 
-interface GuildEditOptions {
-	name: string;
-	region: string;
-	verification_level: string;
-	default_message_notifications: GuildDefaultMessageNotifications;
-	explicit_content_filter: GuildExplicitContentFilterLevel;
-	afk_channel_id: string;
-	afk_timeout: number;
-	icon: string;
-	owner_id: string;
-	splash: string;
-	banner: string;
-	system_channel_id: string;
-	rules_channel_id: string;
-	public_updates_channel_id: string;
-	preferred_locale: string;
+export interface Guild {
+	client: Client;
 }
 
-interface GuildPruneOptions {
-	days: number;
-	compute_prune_count: boolean;
+/**
+ * The options for {@link Guild#modify}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#modify-guild-json-params
+ */
+interface GuildModifyOptions {
+	/**
+	 * The {@link Guild guild} name.
+	 * @since 0.0.1
+	 */
+	name?: string;
+
+	/**
+	 * The guild voice region id.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/voice#voice-region-object
+	 */
+	region?: string;
+
+	/**
+	 * The verification level.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#guild-object-verification-level
+	 */
+	verification_level?: string;
+
+	/**
+	 * The default message notification level.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#guild-object-default-message-notification-level
+	 */
+	default_message_notifications?: GuildDefaultMessageNotifications;
+
+	/**
+	 * The explicit content filter level.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/guild#guild-object-explicit-content-filter-level
+	 */
+	explicit_content_filter?: GuildExplicitContentFilterLevel;
+
+	/**
+	 * The id for afk {@link VoiceChannel channel}.
+	 * @since 0.0.1
+	 */
+	afk_channel_id?: string;
+
+	/**
+	 * The afk timeout in seconds.
+	 * @since 0.0.1
+	 */
+	afk_timeout?: number;
+
+	/**
+	 * The base64 1024x1024 png/jpeg/gif image for the guild icon (can be animated gif when the guild has `ANIMATED_ICON` feature).
+	 * @since 0.0.1
+	 */
+	icon?: string;
+
+	/**
+	 * The {@link User user} id to transfer guild ownership to (must be owner).
+	 * @since 0.0.1
+	 */
+	owner_id?: string;
+
+	/**
+	 * The base64 16:9 png/jpeg image for the guild splash (when the guild has `INVITE_SPLASH` feature).
+	 * @since 0.0.1
+	 */
+	splash?: string;
+
+	/**
+	 * The base64 16:9 png/jpeg image for the guild banner (when the guild has `BANNER` feature).
+	 * @since 0.0.1
+	 */
+	banner?: string;
+
+	/**
+	 * The id of the {@link TextChannel channel} where guild notices such as welcome messages and boost events are posted.
+	 * @since 0.0.1
+	 */
+	system_channel_id?: string;
+
+	/**
+	 * The id of the channel where guilds display rules and/or guidelines (when the guild has `PUBLIC` feature).
+	 * @since 0.0.1
+	 */
+	rules_channel_id?: string;
+
+	/**
+	 * The id of the channel where admins and moderators of guilds receive notices from Discord (when the guild has `PUBLIC` feature).
+	 * @since 0.0.1
+	 */
+	public_updates_channel_id?: string;
+
+	/**
+	 * The preferred locale of a guild used in server discovery and notices from Discord; defaults to "en-US" (when the guild has `PUBLIC` feature).
+	 * @since 0.0.1
+	 */
+	preferred_locale?: string;
+}
+
+/**
+ * The options for a dry {@link Guild#prune}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#get-guild-prune-count-query-string-params
+ */
+export interface GuildPruneDryOptions {
+	/**
+	 * The number of days to count prune for (1 or more).
+	 * @since 0.0.1
+	 * @default 7
+	 */
+	days?: number;
+
+	/**
+	 * The {@link Role role} IDs to include.
+	 * @since 0.0.1
+	 * @default []
+	 */
+	includeRoles?: string[];
+
+	/**
+	 * Whether or not this operation should fetch instead of starting a prune.
+	 * @since 0.0.1
+	 * @default false
+	 */
+	dry: true;
+}
+
+/**
+ * The options for a non-dry {@link Guild#prune}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#begin-guild-prune-query-string-params
+ */
+export interface GuildPruneNonDryOptions extends Omit<GuildPruneDryOptions, 'dry'> {
+	/**
+	 * Whether 'pruned' is returned, discouraged for large guilds.
+	 * @since 0.0.1
+	 * @default true
+	 */
+	computePruneCount?: boolean;
+
+	/**
+	 * Whether or not this operation should fetch instead of starting a prune.
+	 * @since 0.0.1
+	 * @default false
+	 */
+	dry?: false;
+}
+
+export type GuildPruneOptions = GuildPruneDryOptions | GuildPruneNonDryOptions;
+
+/**
+ * The vanity URL retrieved from {@link Guild#fetchVanityURL}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#get-guild-vanity-url-example-partial-invite-object
+ */
+export interface GuildVanityURL {
+	/**
+	 * The code of this invite.
+	 * @since 0.0.1
+	 * @example "discord"
+	 */
+	code: string;
+
+	/**
+	 * The amount of uses this invite has.
+	 * @since 0.0.1
+	 * @example 42
+	 */
+	uses: number;
 }

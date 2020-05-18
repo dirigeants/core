@@ -1,7 +1,7 @@
-import { Structure } from '../base/Structure';
+import { Structure } from './base/Structure';
 
 import type { APIInviteData, APIGuildPartial, APIChannelPartial, APIUserData, InviteTargetUserType } from '@klasa/dapi-types';
-import type { Client } from '../../../Client';
+import type { Client } from '../../Client';
 
 /**
  * @see https://discord.com/developers/docs/resources/invite#invite-object

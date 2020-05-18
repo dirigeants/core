@@ -1,3 +1,4 @@
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
 import { Permissions } from '../../../../util/bitfields/Permissions';
 
@@ -9,6 +10,12 @@ import type { Guild } from './Guild';
  * @see https://discord.com/developers/docs/topics/permissions#role-object
  */
 export class Role extends Structure {
+
+	/**
+	 * The {@link Guild guild} this role belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly guild: Guild;
 
 	/**
 	 * The role's ID.
@@ -58,7 +65,11 @@ export class Role extends Structure {
 	 */
 	public mentionable!: boolean;
 
-	public readonly guild: Guild;
+	/**
+	 * Whether the role is deleted.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
 
 	public constructor(client: Client, data: APIRoleData, guild: Guild) {
 		super(client);
@@ -66,6 +77,30 @@ export class Role extends Structure {
 		this.managed = data.managed;
 		this.guild = guild;
 		this._patch(data);
+	}
+
+	/**
+	 * Modifies the role's settings.
+	 * @since 0.0.1
+	 * @param data The new settings for the role.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-role
+	 */
+	public async modify(data: RoleModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		const entry = await this.client.api.patch(Routes.guildRole(this.guild.id, this.id), { ...requestOptions, data }) as APIRoleData;
+		return this.clone<this>()._patch(entry);
+	}
+
+	/**
+	 * Deletes the role from the {@link Guild guild}.
+	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#delete-guild-role
+	 */
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.guild.roles.remove(this.id, requestOptions);
+		this.deleted = true;
+		return this;
 	}
 
 	protected _patch(data: APIRoleData): this {
@@ -78,4 +113,41 @@ export class Role extends Structure {
 		return this;
 	}
 
+}
+
+/**
+ * The options for {@link Role#modify}.
+ * @since 0.0.1
+ * @see https://discord.com/developers/docs/resources/guild#modify-guild-role-json-params
+ */
+export interface RoleModifyOptions {
+	/**
+	 * Name of the role.
+	 * @since 0.0.1
+	 */
+	name?: string | null;
+
+	/**
+	 * Bitwise value of the enabled/disabled permissions.
+	 * @since 0.0.1
+	 */
+	permissions?: number | null;
+
+	/**
+	 * RGB color value
+	 * @since 0.0.1
+	 */
+	color?: number | null;
+
+	/**
+	 * Whether the role should be displayed separately in the sidebar
+	 * @since 0.0.1
+	 */
+	hoist?: boolean | null;
+
+	/**
+	 * Whether the role should be mentionable
+	 * @since 0.0.1
+	 */
+	mentionable?: boolean | null;
 }

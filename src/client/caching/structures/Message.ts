@@ -1,11 +1,13 @@
 import { Cache } from '@klasa/cache';
-import { Structure } from './base/Structure';
-import { MessageMentions } from './messages/MessageMentions';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Embed } from './Embed';
-import { MessageFlags } from '../../../util/bitfields/MessageFlags';
+import { isSet } from '../../../util/Util';
 import { MessageAttachment } from './messages/MessageAttachment';
+import { MessageFlags } from '../../../util/bitfields/MessageFlags';
+import { MessageMentions } from './messages/MessageMentions';
+import { MessageReaction } from './messages/reactions/MessageReaction';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
-import { MessageReaction } from './messages/MessageReaction';
+import { Structure } from './base/Structure';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import type { User } from './User';
@@ -15,6 +17,7 @@ import type { DMChannel } from './channels/DMChannel';
 import type { TextChannel } from './channels/TextChannel';
 import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
+import type { MessageBuilder } from './messages/MessageBuilder';
 
 export class Message extends Structure {
 
@@ -147,17 +150,17 @@ export class Message extends Structure {
 	public flags!: MessageFlags;
 
 	/**
-	 * If the message is deleted
+	 * Whether the message is deleted.
 	 * @since 0.0.1
 	 */
 	public deleted = false;
 
-	public constructor(client: Client, data: APIMessageData) {
+	public constructor(client: Client, data: APIMessageData, guild?: Guild) {
 		super(client);
 		this.id = data.id;
 		this.attachments = new Cache();
-		this.reactions = new MessageReactionStore(client);
-		this.guild = data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null;
+		this.reactions = new MessageReactionStore(client, this);
+		this.guild = guild || (data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null);
 		this.channel = this.guild ? this.guild.channels.get(data.channel_id) as TextChannel | NewsChannel : this.client.dms.get(data.channel_id) as DMChannel;
 		// eslint-disable-next-line dot-notation
 		this.author = this.client.users['_add'](data.author);
@@ -167,11 +170,11 @@ export class Message extends Structure {
 		this.mentions = new MessageMentions(this, data.mentions, data.mention_roles, data.mention_channels, data.mention_everyone);
 		this.type = data.type;
 
-		if (Reflect.has(data, 'nonce')) this.nonce = data.nonce;
-		if (Reflect.has(data, 'webhook_id')) this.webhookID = data.webhook_id;
-		if (Reflect.has(data, 'activity')) this.activity = data.activity;
-		if (Reflect.has(data, 'application')) this.application = data.application;
-		if (Reflect.has(data, 'message_reference')) this.reference = data.message_reference;
+		if (isSet(data, 'nonce')) this.nonce = data.nonce;
+		if (isSet(data, 'webhook_id')) this.webhookID = data.webhook_id;
+		if (isSet(data, 'activity')) this.activity = data.activity;
+		if (isSet(data, 'application')) this.application = data.application;
+		if (isSet(data, 'message_reference')) this.reference = data.message_reference;
 
 		this._patch(data);
 	}
@@ -192,10 +195,33 @@ export class Message extends Structure {
 		return this.editedTimestamp ? new Date(this.editedTimestamp) : null;
 	}
 
+	/**
+	 * Edits the message.
+	 * @param content The {@link MessageBuilder builder} to send.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#edit-message
+	 */
+	public async edit(content: MessageBuilder): Promise<Message> {
+		const data = await this.client.api.patch(Routes.channelMessage(this.channel.id, this.id), content) as APIMessageData;
+		return this._patch(data) as Message;
+	}
+
+	/**
+	 * Deletes the message.
+	 * @param requestOptions The additional request options.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#delete-message
+	 */
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.channel.messages.remove(this.id, requestOptions);
+		this.deleted = true;
+		return this;
+	}
+
 	protected _patch(data: Partial<APIMessageData>): this {
-		if (Reflect.has(data, 'content')) this.content = data.content as string;
-		if (Reflect.has(data, 'edited_timestamp')) this.editedTimestamp = data.edited_timestamp ? new Date(data.edited_timestamp).getTime() : null;
-		if (Reflect.has(data, 'tts')) this.tts = data.tts as boolean;
+		if (isSet(data, 'content')) this.content = data.content;
+		if (isSet(data, 'edited_timestamp')) this.editedTimestamp = data.edited_timestamp ? new Date(data.edited_timestamp).getTime() : null;
+		if (isSet(data, 'tts')) this.tts = data.tts;
 
 		if (data.reactions) {
 			this.reactions.clear();
@@ -208,8 +234,8 @@ export class Message extends Structure {
 		if (data.attachments) for (const attachment of data.attachments) this.attachments.set(attachment.id, new MessageAttachment(attachment));
 		if (data.embeds) for (const embed of data.embeds) this.embeds.push(new Embed(embed));
 
-		if (Reflect.has(data, 'pinned')) this.pinned = data.pinned as boolean;
-		if (Reflect.has(data, 'flags')) this.flags = new MessageFlags(data.flags);
+		if (isSet(data, 'pinned')) this.pinned = data.pinned;
+		if (isSet(data, 'flags')) this.flags = new MessageFlags(data.flags);
 		return this;
 	}
 

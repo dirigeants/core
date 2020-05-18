@@ -1,4 +1,5 @@
 import { Structure } from './base/Structure';
+import { isSet } from '../../../util/Util';
 
 import type { APIUserData, APIUserFlags, PremiumType } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
@@ -110,14 +111,14 @@ export class User extends Structure {
 		this.discriminator = data.discriminator;
 		this.avatar = data.avatar;
 		this.bot = data.bot ?? false;
-		if (Reflect.has(data, 'system')) this.system = data.system;
-		if (Reflect.has(data, 'mfa_enabled')) this.mfaEnabled = data.mfa_enabled;
-		if (Reflect.has(data, 'locale')) this.locale = data.locale;
-		if (Reflect.has(data, 'verified')) this.verified = data.verified;
-		if (Reflect.has(data, 'email')) this.email = data.email;
-		if (Reflect.has(data, 'flags')) this.flags = data.flags;
-		if (Reflect.has(data, 'premium_type')) this.premiumType = data.premium_type;
-		if (Reflect.has(data, 'public_flags')) this.publicFlags = data.public_flags;
+		if (isSet(data, 'system')) this.system = data.system;
+		if (isSet(data, 'mfa_enabled')) this.mfaEnabled = data.mfa_enabled;
+		if (isSet(data, 'locale')) this.locale = data.locale;
+		if (isSet(data, 'verified')) this.verified = data.verified;
+		if (isSet(data, 'email')) this.email = data.email;
+		if (isSet(data, 'flags')) this.flags = data.flags;
+		if (isSet(data, 'premium_type')) this.premiumType = data.premium_type;
+		if (isSet(data, 'public_flags')) this.publicFlags = data.public_flags;
 
 		return this;
 	}

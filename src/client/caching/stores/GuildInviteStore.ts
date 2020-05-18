@@ -4,21 +4,30 @@ import { extender } from '../../../util/Extender';
 
 import type { APIInviteData } from '@klasa/dapi-types';
 import type { Invite } from '../structures/Invite';
+import type { Guild } from '../structures/guilds/Guild';
 import type { Client } from '../../Client';
 
 /**
- * The store for {@link Invite invites}.
+ * The store for {@link Invite guild invites}.
  * @since 0.0.1
  */
-export class InviteStore extends DataStore<Invite> {
+export class GuildInviteStore extends DataStore<Invite> {
+
+	/**
+	 * The {@link Guild guild} this store belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly guild: Guild;
 
 	/**
 	 * Builds the store.
 	 * @since 0.0.1
 	 * @param client The {@link Client client} this store belongs to.
+	 * @param guild The {@link Guild guild} this store belongs to.
 	 */
-	public constructor(client: Client) {
+	public constructor(client: Client, guild: Guild) {
 		super(client, extender.get('Invite'), client.options.cache.limits.invites);
+		this.guild = guild;
 	}
 
 	/**
@@ -29,19 +38,19 @@ export class InviteStore extends DataStore<Invite> {
 	 * @see https://discord.com/developers/docs/resources/invite#delete-invite
 	 */
 	public async remove(code: string, requestOptions: RequestOptions = {}): Promise<Invite> {
-		const entry = await this.client.api.delete(Routes.invite(code), requestOptions) as APIInviteData;
-		return new this.Holds(this.client, entry);
+		const entry = this.client.api.delete(Routes.invite(code), requestOptions);
+		return new this.Holds(this.client, entry, this.guild);
 	}
 
 	/**
-	 * Returns a {@link Invite invite} with optionally their metadata.
+	 * Returns a list of {@link Invite invite}s with their metadata.
 	 * @since 0.0.1
-	 * @param code The {@link Invite#code invite code}.
-	 * @see https://discord.com/developers/docs/resources/invite#get-invite
+	 * @see https://discord.com/developers/docs/resources/guild#get-guild-invites
 	 */
-	public async fetch(code: string, options: InviteStoreFetchOptions = {}): Promise<Invite> {
-		const entry = await this.client.api.get(Routes.invite(code), { query: options }) as APIInviteData;
-		return this._add(entry);
+	public async fetch(): Promise<this> {
+		const entries = await this.client.api.get(Routes.guildInvites(this.guild.id)) as APIInviteData[];
+		for (const entry of entries) this._add(entry);
+		return this;
 	}
 
 	/**
@@ -56,23 +65,9 @@ export class InviteStore extends DataStore<Invite> {
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
-		const entry = new this.Holds(this.client, data);
+		const entry = new this.Holds(this.client, data, this.guild);
 		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}
 
-}
-
-/**
- * The options for {@link InviteStore#fetch}.
- * @since 0.0.1
- * @see https://discord.com/developers/docs/resources/invite#get-invite-get-invite-url-parameters
- */
-export interface InviteStoreFetchOptions {
-	/**
-	 * Whether the invite should contain approximate member counts.
-	 * @since 0.0.1
-	 * @default false
-	 */
-	with_counts?: boolean;
 }

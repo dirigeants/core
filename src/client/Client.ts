@@ -1,15 +1,16 @@
 import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 import { mergeDefault } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
-import { dirname, join } from 'path';
-import { BaseClient, BaseClientOptions } from './BaseClient';
-import { ClientOptionsDefaults } from '../util/Constants';
-import { UserStore } from './caching/stores/UserStore';
-import { DMChannelStore } from './caching/stores/DMChannelStore';
-import { GuildStore } from './caching/stores/GuildStore';
-import { EventStore } from '../lib/structures/EventStore';
 import { ActionStore } from '../lib/structures/ActionStore';
+import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientEvents } from '../util/types/Util';
+import { ClientOptionsDefaults } from '../util/Constants';
+import { dirname, join } from 'path';
+import { DMChannelStore } from './caching/stores/DMChannelStore';
+import { EventStore } from '../lib/structures/EventStore';
+import { GuildStore } from './caching/stores/GuildStore';
+import { InviteStore } from './caching/stores/InviteStore';
+import { UserStore } from './caching/stores/UserStore';
 
 import type { Store } from '../lib/structures/base/Store';
 import type { Piece } from '../lib/structures/base/Piece';
@@ -22,15 +23,16 @@ export interface ClientPieceOptions {
 
 export interface CacheLimits {
 	bans: number;
-	dms: number;
 	channels: number;
+	dms: number;
 	emojis: number;
-	members: number;
 	guilds: number;
+	integrations: number;
 	invites: number;
-	reactions: number;
+	members: number;
 	messages: number;
 	presences: number;
+	reactions: number;
 	roles: number;
 	users: number;
 	voiceStates: number;
@@ -78,9 +80,14 @@ export class Client extends BaseClient {
 	public readonly users: UserStore;
 
 	/**
-	 * The {@link DMChannel DM channels} that have bee ncached, mapped by their {@link Channel#id IDs}.
+	 * The {@link DMChannel DM channels} that have been cached, mapped by their {@link Channel#id IDs}.
 	 */
 	public readonly dms: DMChannelStore;
+
+	/**
+	 * The {@link Invite invites} that have been cached, mapped by their codes.
+	 */
+	public readonly invites: InviteStore;
 
 	/**
 	 * The directory where the user files are at.
@@ -114,6 +121,7 @@ export class Client extends BaseClient {
 		this.users = new UserStore(this);
 		this.guilds = new GuildStore(this);
 		this.dms = new DMChannelStore(this);
+		this.invites = new InviteStore(this);
 
 		this.pieceStores = new Cache();
 		this.events = new EventStore(this);

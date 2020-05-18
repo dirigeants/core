@@ -1,28 +1,28 @@
 /* eslint-disable no-dupe-class-members */
 import { Cache } from '@klasa/cache';
-import { CategoryChannel } from '../client/caching/structures/channels/CategoryChannel';
-import { DMChannel } from '../client/caching/structures/channels/DMChannel';
-import { NewsChannel } from '../client/caching/structures/channels/NewsChannel';
-import { StoreChannel } from '../client/caching/structures/channels/StoreChannel';
-import { TextChannel } from '../client/caching/structures/channels/TextChannel';
-import { VoiceChannel } from '../client/caching/structures/channels/VoiceChannel';
-import { Guild } from '../client/caching/structures/guilds/Guild';
-import { GuildEmoji } from '../client/caching/structures/guilds/GuildEmoji';
 import { Ban } from '../client/caching/structures/guilds/Ban';
+import { CategoryChannel } from '../client/caching/structures/channels/CategoryChannel';
+import { Channel } from '../client/caching/structures/channels/Channel';
+import { DMChannel } from '../client/caching/structures/channels/DMChannel';
+import { Guild } from '../client/caching/structures/guilds/Guild';
+import { GuildChannel } from '../client/caching/structures/channels/GuildChannel';
+import { GuildEmoji } from '../client/caching/structures/guilds/GuildEmoji';
 import { GuildMember } from '../client/caching/structures/guilds/GuildMember';
-import { Invite } from '../client/caching/structures/guilds/Invite';
+import { Integration } from '../client/caching/structures/guilds/Integration';
+import { Invite } from '../client/caching/structures/Invite';
+import { Message } from '../client/caching/structures/Message';
+import { MessageReaction } from '../client/caching/structures/messages/reactions/MessageReaction';
+import { NewsChannel } from '../client/caching/structures/channels/NewsChannel';
+import { PermissionOverwrites } from '../client/caching/structures/PermissionOverwrites';
 import { Presence } from '../client/caching/structures/guilds/Presence';
 import { Role } from '../client/caching/structures/guilds/Role';
-import { VoiceState } from '../client/caching/structures/guilds/VoiceState';
-import { Application } from '../client/caching/structures/oauth/Application';
+import { StoreChannel } from '../client/caching/structures/channels/StoreChannel';
 import { Team } from '../client/caching/structures/oauth/Team';
 import { TeamMember } from '../client/caching/structures/oauth/TeamMember';
-import { Message } from '../client/caching/structures/Message';
-import { PermissionOverwrites } from '../client/caching/structures/PermissionOverwrites';
+import { TextChannel } from '../client/caching/structures/channels/TextChannel';
 import { User } from '../client/caching/structures/User';
-import { Channel } from '../client/caching/structures/channels/Channel';
-import { GuildChannel } from '../client/caching/structures/channels/GuildChannel';
-import { MessageReaction } from '../client/caching/structures/messages/MessageReaction';
+import { VoiceChannel } from '../client/caching/structures/channels/VoiceChannel';
+import { VoiceState } from '../client/caching/structures/guilds/VoiceState';
 
 /**
  * The extender class that allows the extension of built-in structures from Project-Blue and plugins.
@@ -98,7 +98,6 @@ export type Constructor<T> = new (...args: unknown[]) => T;
  * The context data for Extender.
  */
 export interface ExtenderStructures {
-	Application: Constructor<Application>;
 	Ban: Constructor<Ban>;
 	CategoryChannel: Constructor<CategoryChannel>;
 	Channel: Constructor<Channel>;
@@ -107,6 +106,7 @@ export interface ExtenderStructures {
 	GuildChannel: Constructor<GuildChannel>;
 	GuildEmoji: Constructor<GuildEmoji>;
 	GuildMember: Constructor<GuildMember>;
+	Integration: Constructor<Integration>;
 	Invite: Constructor<Invite>;
 	Message: Constructor<Message>;
 	MessageReaction: Constructor<MessageReaction>;
@@ -127,7 +127,6 @@ export interface ExtenderStructures {
  * The exported singleton instance of the {@link Extender} class.
  */
 export const extender = new Extender()
-	.add('Application', Application)
 	.add('Ban', Ban)
 	.add('CategoryChannel', CategoryChannel)
 	.add('Channel', Channel)
@@ -136,6 +135,7 @@ export const extender = new Extender()
 	.add('GuildChannel', GuildChannel)
 	.add('GuildEmoji', GuildEmoji)
 	.add('GuildMember', GuildMember)
+	.add('Integration', Integration)
 	.add('Invite', Invite)
 	.add('Message', Message)
 	.add('MessageReaction', MessageReaction)
