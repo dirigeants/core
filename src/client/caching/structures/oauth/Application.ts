@@ -1,3 +1,4 @@
+import { Routes } from '@klasa/rest';
 import { Team } from './Team';
 import { isSet } from '../../../../util/Util';
 
@@ -116,6 +117,17 @@ export class Application {
 		if (isSet(data, 'primary_sku_id')) this.primarySkuID = data.primary_sku_id;
 		if (isSet(data, 'slug')) this.slug = data.slug;
 		if (isSet(data, 'cover_image')) this.coverImage = data.cover_image;
+	}
+
+	/**
+	 * Returns an {@link Application application}.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} that will manage the created object.
+	 * @see https://discord.com/developers/docs/topics/oauth2#get-current-application-information
+	 */
+	public static async fetch(client: Client): Promise<Application> {
+		const data = await client.api.get(Routes.oauthApplication()) as APIOauthData;
+		return new this(client, data);
 	}
 
 }

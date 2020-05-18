@@ -1,11 +1,11 @@
 import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 import { mergeDefault } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
-import { dirname, join } from 'path';
 import { ActionStore } from '../lib/structures/ActionStore';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientEvents } from '../util/types/Util';
 import { ClientOptionsDefaults } from '../util/Constants';
+import { dirname, join } from 'path';
 import { DMChannelStore } from './caching/stores/DMChannelStore';
 import { EventStore } from '../lib/structures/EventStore';
 import { GuildStore } from './caching/stores/GuildStore';

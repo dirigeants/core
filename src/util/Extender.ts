@@ -1,6 +1,5 @@
 /* eslint-disable no-dupe-class-members */
 import { Cache } from '@klasa/cache';
-import { Application } from '../client/caching/structures/oauth/Application';
 import { Ban } from '../client/caching/structures/guilds/Ban';
 import { CategoryChannel } from '../client/caching/structures/channels/CategoryChannel';
 import { Channel } from '../client/caching/structures/channels/Channel';
@@ -99,7 +98,6 @@ export type Constructor<T> = new (...args: unknown[]) => T;
  * The context data for Extender.
  */
 export interface ExtenderStructures {
-	Application: Constructor<Application>;
 	Ban: Constructor<Ban>;
 	CategoryChannel: Constructor<CategoryChannel>;
 	Channel: Constructor<Channel>;
@@ -129,7 +127,6 @@ export interface ExtenderStructures {
  * The exported singleton instance of the {@link Extender} class.
  */
 export const extender = new Extender()
-	.add('Application', Application)
 	.add('Ban', Ban)
 	.add('CategoryChannel', CategoryChannel)
 	.add('Channel', Channel)

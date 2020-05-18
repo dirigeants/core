@@ -168,11 +168,22 @@ export class Webhook extends Structure {
 	}
 
 	/**
-	 * Fetch a webhook from the api
-	 * @param client The Project Blue client
-	 * @param id The webhook id you want to fetch
-	 * @param token The token of the webhook
+	 * Returns a {@link Webhook webhook}, this uses the client for the authentication.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} or {@link WebhookClient webhook client} that will manage the created object.
+	 * @param id The {@link Webhook webhook} ID.
+	 * @see https://discord.com/developers/docs/resources/webhook#get-webhook
 	 */
+	public static fetch(client: Client | WebhookClient, id: string): Promise<Webhook>
+	/**
+	 * Returns a {@link Webhook webhook}, this uses the token passed.
+	 * @since 0.0.1
+	 * @param client The {@link Client client} or {@link WebhookClient webhook client} that will manage the created object.
+	 * @param id The {@link Webhook webhook} ID.
+	 * @param token The {@link Webhook webhook}'s token.
+	 * @see https://discord.com/developers/docs/resources/webhook#get-webhook-with-token
+	 */
+	public static fetch(client: Client | WebhookClient, id: string, token: string): Promise<Webhook>;
 	public static async fetch(client: Client | WebhookClient, id: string, token?: string): Promise<Webhook> {
 		const webhookData = await (token ?
 			client.api.get(Routes.webhookTokened(id, token), { auth: false }) :
