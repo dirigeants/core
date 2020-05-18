@@ -73,6 +73,7 @@ export class Role extends Structure {
 	 * Edits a role's settings.
 	 * @since 0.0.1
 	 * @param data The new settings for the role.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-role
 	 */
 	public async edit(data: RoleEditOptions, requestOptions: RequestOptions = {}): Promise<this> {
@@ -83,6 +84,7 @@ export class Role extends Structure {
 	/**
 	 * Deletes the role from the {@link Guild guild}.
 	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#delete-guild-role
 	 */
 	public async delete(requestOptions: RequestOptions = {}): Promise<this> {

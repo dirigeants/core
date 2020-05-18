@@ -41,6 +41,7 @@ export class BanStore extends DataStore<Ban> {
 	 * Remove the ban for a user.
 	 * @since 0.0.1
 	 * @param userID The {@link User user} ID to unban from the server.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-ban
 	 */
 	public async remove(userID: string, requestOptions: RequestOptions = {}): Promise<this> {

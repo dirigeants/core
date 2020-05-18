@@ -27,6 +27,7 @@ export class InviteStore extends DataStore<Invite> {
 	 * Deletes an invite given its code.
 	 * @since 0.0.1
 	 * @param code The {@link Invite#code invite code}.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/invite#delete-invite
 	 */
 	public async remove(code: string, requestOptions: RequestOptions = {}): Promise<Invite> {

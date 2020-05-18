@@ -114,6 +114,7 @@ export class Integration extends Structure {
 	 * Modifies the behaviour and settings of the integration.
 	 * @since 0.0.1
 	 * @param options The settings to modify in the integration.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-integration
 	 */
 	public async edit(options: IntegrationEditOptions, requestOptions: RequestOptions = {}): Promise<this> {
@@ -124,6 +125,7 @@ export class Integration extends Structure {
 	/**
 	 * Deletes the integration.
 	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#delete-guild-integration
 	 */
 	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
@@ -134,6 +136,7 @@ export class Integration extends Structure {
 	/**
 	 * Synchronizes the integration.
 	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#sync-guild-integration
 	 */
 	public async sync(requestOptions: RequestOptions = {}): Promise<this> {

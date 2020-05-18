@@ -27,6 +27,7 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 	 * Adds a {@link Role role} to the {@link GuildMember member}.
 	 * @since 0.0.1
 	 * @param roleID The {@link Role role} ID to add.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#add-guild-member-role
 	 */
 	public async add(roleID: string, requestOptions: RequestOptions = {}): Promise<this> {
@@ -38,6 +39,7 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 	 * Removes a {@link Role role} from the {@link GuildMember member}.
 	 * @since 0.0.1
 	 * @param roleID The {@link Role role} ID to remove.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-member-role
 	 */
 	public async remove(roleID: string, requestOptions: RequestOptions = {}): Promise<this> {

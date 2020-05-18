@@ -19,6 +19,8 @@ export class RoleStore extends DataStore<Role> {
 	/**
 	 * Creates a new {@link Role role} for the {@link Guild guild}.
 	 * @since 0.0.1
+	 * @param data The role settings.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#create-guild-role
 	 */
 	public async add(data: RoleStoreAddOptions = {}, requestOptions: RequestOptions = {}): Promise<Role> {
@@ -30,6 +32,7 @@ export class RoleStore extends DataStore<Role> {
 	 * Modifies the positions of the roles.
 	 * @since 0.0.1
 	 * @param data The set of roles and their positions for the {@link Guild guild}.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-role-positions
 	 */
 	public async editPositions(data: readonly RoleStorePositionData[], requestOptions: RequestOptions = {}): Promise<this> {

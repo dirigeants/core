@@ -23,6 +23,7 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	 * @since 0.0.1
 	 * @param userID The {@link User user} ID to add.
 	 * @param data The data to send for this request.
+	 * @param requestOptions The additional request options.
 	 * @returns A {@link GuildMember} instance if the user joined the server, `null` if it was already joined.
 	 */
 	public async add(userID: string, data: GuildMemberStoreAddData, requestOptions: RequestOptions = {}): Promise<GuildMember | null> {
@@ -37,7 +38,6 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-member
 	 */
 	public fetch(userID: string): Promise<GuildMember>;
-
 	/**
 	 * Returns up to 1000 {@link GuildMember members}.
 	 * @since 0.0.1

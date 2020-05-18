@@ -44,6 +44,7 @@ export class GuildWidget {
 	 * Modifies the {@link Guild guild}'s widget.
 	 * @since 0.0.1
 	 * @param data The new data for the widget.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-widget
 	 */
 	public async edit(data: APIGuildWidgetData, requestOptions: RequestOptions = {}): Promise<this> {

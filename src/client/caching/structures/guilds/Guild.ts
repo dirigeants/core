@@ -373,6 +373,7 @@ export class Guild extends Structure {
 	 * Edit's a guild's settings.
 	 * @since 0.0.1
 	 * @param data The settings to be applied to the guild.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild
 	 */
 	public async edit(data: GuildEditOptions, requestOptions: RequestOptions = {}): Promise<unknown> {

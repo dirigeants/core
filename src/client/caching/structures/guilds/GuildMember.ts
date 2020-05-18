@@ -71,6 +71,7 @@ export class GuildMember extends Structure {
 	/**
 	 * Modifies the settings for the member.
 	 * @param data The settings to be added.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-member
 	 */
 	public async edit(data: GuildMemberEditOptions, requestOptions: RequestOptions = {}): Promise<this> {
@@ -81,6 +82,7 @@ export class GuildMember extends Structure {
 	/**
 	 * Kicks a member from the {@link Guild guild}.
 	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-member
 	 */
 	public async kick(requestOptions: RequestOptions = {}): Promise<this> {

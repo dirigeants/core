@@ -16,6 +16,13 @@ export class IntegrationStore extends DataStore<Integration> {
 		this.guild = guild;
 	}
 
+	/**
+	 * Creates an integration to the {@link Guild guild}.
+	 * @since 0.0.1
+	 * @param data The integration id and type.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#create-guild-integration
+	 */
 	public async add(data: IntegrationStoreAddData, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.post(Routes.guildIntegrations(this.guild.id), { ...requestOptions, data });
 		return this;

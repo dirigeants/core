@@ -21,6 +21,8 @@ export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 	/**
 	 * Create a new channel for the {@link Guild guild}.
 	 * @since 0.0.1
+	 * @param data The channel settings.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#create-guild-channel
 	 */
 	public async add(data: GuildChannelStoreAddData, requestOptions: RequestOptions = {}): Promise<GuildBasedChannel> {
@@ -32,6 +34,7 @@ export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 	 * Modifies the positions of the channels.
 	 * @since 0.0.1
 	 * @param data The set of channels and their positions for the {@link Guild guild}.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild-channel-positions
 	 */
 	public async editPositions(data: readonly GuildChannelStorePositionData[], requestOptions: RequestOptions = {}): Promise<this> {
