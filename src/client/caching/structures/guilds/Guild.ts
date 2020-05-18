@@ -413,7 +413,7 @@ export class Guild extends Structure {
 		}
 
 		// eslint-disable-next-line @typescript-eslint/camelcase
-		const result = await this.client.api.post(Routes.guildPrune(this.id), { query: { compute_prune_count: this.large, ...options } }) as { pruned: number | null };
+		const result = await this.client.api.post(Routes.guildPrune(this.id), { query: options }) as { pruned: number | null };
 		return result.pruned;
 	}
 
@@ -651,7 +651,7 @@ export interface GuildPruneOptions extends GuildPruneDryOptions {
 	/**
 	 * Whether 'pruned' is returned, discouraged for large guilds.
 	 * @since 0.0.1
-	 * @default !this.large
+	 * @default true
 	 */
 	compute_prune_count: boolean;
 }
