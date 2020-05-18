@@ -47,4 +47,15 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 		return this;
 	}
 
+	/**
+	 * Modifies all the roles for the {@link GuildMember member}.
+	 * @since 0.0.1
+	 * @param roles A collection of {@link Role role} IDs.
+	 * @param requestOptions The additional request options.
+	 */
+	public async modify(roles: readonly string[], requestOptions: RequestOptions = {}): Promise<this> {
+		await this.member.modify({ roles }, requestOptions);
+		return this;
+	}
+
 }

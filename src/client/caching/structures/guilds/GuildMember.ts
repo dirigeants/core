@@ -132,7 +132,7 @@ export interface GuildMemberModifyOptions {
 	 * Array of {@link Role role} IDs the member is assigned.
 	 * @since 0.0.1
 	 */
-	roles?: string[];
+	roles?: readonly string[];
 
 	/**
 	 * Whether the user is muted in voice channels, will throw an error if the user is not in a {@link VoiceChannel voice channel}.
