@@ -34,7 +34,6 @@ export class MessageReactionStore extends DataStore<MessageReaction> {
 	 * @see https://discord.com/developers/docs/resources/channel#delete-all-reactions
 	 */
 	public remove(): Promise<this>;
-
 	/**
 	 * Deletes a reaction from a message.
 	 * @since 0.0.1
