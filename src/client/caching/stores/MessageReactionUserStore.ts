@@ -37,6 +37,10 @@ export class MessageReactionUserStore extends ProxyCache<string, User> {
 		this.reaction = reaction;
 	}
 
+	/**
+	 * The {@link Message message} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public get message(): Message {
 		return this.reaction.message;
 	}
@@ -83,7 +87,7 @@ export class MessageReactionUserStore extends ProxyCache<string, User> {
 	 * @see https://discord.com/developers/docs/resources/channel#delete-user-reaction
 	 */
 	public remove(userID: string): Promise<this>;
-	public async remove(userID?: string): Promise<this> {
+	public async remove(userID = '@me'): Promise<this> {
 		await this.client.api.delete(Routes.messageReactionUser(this.message.channel.id, this.message.id, this.reaction.emoji.identifier, userID === this.client.user?.id ? '@me' : userID));
 		return this;
 	}

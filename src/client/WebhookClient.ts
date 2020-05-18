@@ -18,7 +18,8 @@ export class WebhookClient extends BaseClient {
 	 * @param token The webhook token
 	 */
 	public async fetch(id: string, token?: string): Promise<Webhook> {
-		const webhook = await (token ? Webhook.fetch(this, id, token) : Webhook.fetch(this, id));
+		// @ts-expect-error
+		const webhook = await Webhook.fetch(this, id, token);
 		this.webhooks.set(id, webhook);
 		return webhook;
 	}

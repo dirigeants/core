@@ -150,7 +150,7 @@ export class Message extends Structure {
 	public flags!: MessageFlags;
 
 	/**
-	 * If the message is deleted
+	 * Whether the message is deleted.
 	 * @since 0.0.1
 	 */
 	public deleted = false;

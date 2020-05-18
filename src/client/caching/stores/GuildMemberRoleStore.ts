@@ -13,6 +13,12 @@ import type { Client } from '../../Client';
 export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 
 	/**
+	 * The {@link Client client} this store belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly client: Client;
+
+	/**
 	 * The {@link GuildMember guild member} this store belongs to.
 	 * @since 0.0.1
 	 */
@@ -25,13 +31,14 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 	 */
 	public constructor(member: GuildMember, keys: string[]) {
 		super(member.guild.roles, keys);
+		this.client = member.client;
 		this.member = member;
 	}
 
-	public get client(): Client {
-		return this.member.client;
-	}
-
+	/**
+	 * The {@link Guild guild} this store belongs to.
+	 * @since 0.0.1
+	 */
 	public get guild(): Guild {
 		return this.member.guild;
 	}

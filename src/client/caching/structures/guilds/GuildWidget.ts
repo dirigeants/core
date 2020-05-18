@@ -12,6 +12,18 @@ import type { GuildBasedChannel } from '../../../../util/Util';
 export class GuildWidget {
 
 	/**
+	 * The {@link Client client} this store belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly client: Client;
+
+	/**
+	 * The {@link Guild guild} this store belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly guild: Guild;
+
+	/**
 	 * Whether the widget is enabled, it will be null in the initial state.
 	 * @since 0.0.1
 	 */
@@ -22,15 +34,11 @@ export class GuildWidget {
 	 * @since 0.0.1
 	 */
 	public channelID!: string | null;
-	public readonly guild: Guild;
 
 	public constructor(data: WidgetData, guild: Guild) {
+		this.client = guild.client;
 		this.guild = guild;
 		this._patch(data);
-	}
-
-	public get client(): Client {
-		return this.guild.client;
 	}
 
 	/**

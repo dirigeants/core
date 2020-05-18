@@ -14,6 +14,12 @@ import { isSet } from '../../../../util/Util';
 export class Integration extends Structure {
 
 	/**
+	 * The {@link Guild guild} this integration belongs to.
+	 * @since 0.0.1
+	 */
+	public readonly guild: Guild;
+
+	/**
 	 * The integration id.
 	 * @since 0.0.1
 	 */
@@ -86,7 +92,11 @@ export class Integration extends Structure {
 	 */
 	public syncedTimestamp!: number;
 
-	public readonly guild: Guild;
+	/**
+	 * Whether the message is deleted.
+	 * @since 0.0.1
+	 */
+	public deleted = false;
 
 	public constructor(client: Client, data: APIIntegrationData, guild: Guild) {
 		super(client);
@@ -103,10 +113,18 @@ export class Integration extends Structure {
 		this.guild = guild;
 	}
 
+	/**
+	 * The {@link User user} for this integration.
+	 * @since 0.0.1
+	 */
 	public get user(): User | null {
 		return this.client.users.get(this.userID) ?? null;
 	}
 
+	/**
+	 * The {@link Role role} that this integration uses for "subscribers".
+	 * @since 0.0.1
+	 */
 	public get role(): Role | null {
 		return this.guild.roles.get(this.roleID) ?? null;
 	}
@@ -130,7 +148,8 @@ export class Integration extends Structure {
 	 * @see https://discord.com/developers/docs/resources/guild#delete-guild-integration
 	 */
 	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
-		await this.client.api.delete(Routes.guildIntegration(this.guild.id, this.id), requestOptions);
+		await this.guild.integrations.remove(this.id, requestOptions);
+		this.deleted = true;
 		return this;
 	}
 

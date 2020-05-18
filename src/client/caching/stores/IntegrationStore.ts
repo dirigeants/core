@@ -43,6 +43,18 @@ export class IntegrationStore extends DataStore<Integration> {
 	}
 
 	/**
+	 * Deletes an integration from the {@link Guild guild}.
+	 * @since 0.0.1
+	 * @param integrationID The {@link Integration integration} ID.
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/guild#delete-guild-integration
+	 */
+	public async remove(integrationID: string, requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.api.delete(Routes.guildIntegration(this.guild.id, integrationID), requestOptions);
+		return this;
+	}
+
+	/**
 	 * Returns a collection of {@link Integration integration}s.
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-integrations
