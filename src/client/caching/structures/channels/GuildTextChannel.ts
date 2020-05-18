@@ -1,6 +1,8 @@
 /* eslint-disable no-dupe-class-members */
 import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../../caching/stores/MessageStore';
+import { MessageIterator } from '../../../../lib/structures/MessageIterator';
+import { Cache } from '@klasa/cache';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 
 import type { APIChannelData } from '@klasa/dapi-types';
@@ -8,6 +10,7 @@ import type { Client } from '../../../Client';
 import type { Guild } from '../guilds/Guild';
 import type { TextBasedChannel } from '../../../../util/Util';
 import type { Message } from '../Message';
+import type { EventIteratorOptions } from '@klasa/event-iterator';
 
 export interface SendOptions {
 	split?: SplitOptions;
@@ -81,6 +84,10 @@ export abstract class GuildTextChannel extends GuildChannel {
 	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
 		// @ts-expect-error
 		return this.messages.add(data, options);
+	}
+
+	public createMessageIterator(limit: number, options: EventIteratorOptions<Message> = {}): MessageIterator {
+		return new MessageIterator(this as TextBasedChannel, limit, options);
 	}
 
 	protected _patch(data: APIChannelData): this {

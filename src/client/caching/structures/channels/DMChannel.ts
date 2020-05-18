@@ -8,6 +8,8 @@ import type { User } from '../User';
 import type { Client } from '../../../Client';
 import type { Message } from '../Message';
 import { RequestOptions } from '@klasa/rest';
+import { EventIteratorOptions } from '@klasa/event-iterator';
+import { MessageIterator } from '../../../../lib/structures/MessageIterator';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -89,6 +91,10 @@ export class DMChannel extends Channel {
 		await this.client.dms.remove(this.id, requestOptions);
 		this.deleted = true;
 		return this;
+	}
+
+	public createMessageIterator(limit: number, options: EventIteratorOptions<Message> = {}): MessageIterator {
+		return new MessageIterator(this, limit, options);
 	}
 
 	protected _patch(data: APIChannelData): this {
