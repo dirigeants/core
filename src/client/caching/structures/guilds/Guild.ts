@@ -1,5 +1,5 @@
 /* eslint-disable no-dupe-class-members */
-import { URL } from 'url';
+import { URL, URLSearchParams } from 'url';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
@@ -8,6 +8,7 @@ import { GuildInviteStore } from '../../stores/GuildInviteStore';
 import { GuildMemberStore } from '../../stores/GuildMemberStore';
 import { GuildWidget } from './GuildWidget';
 import { IntegrationStore } from '../../stores/IntegrationStore';
+import { isSet } from '../../../../util/Util';
 import { Permissions } from '../../../../util/bitfields/Permissions';
 import { PresenceStore } from '../../stores/PresenceStore';
 import { RoleStore } from '../../stores/RoleStore';
@@ -390,31 +391,33 @@ export class Guild extends Structure {
 		return this.client.api.delete(Routes.guild(this.id));
 	}
 
-	// TODO(kyranet): make dry a part of RequestOptions or insert it into GuildPrune
 	/**
 	 * Returns a number indicating the number of members that would be removed in a prune operation.
 	 * @since 0.0.1
 	 * @param options The number of days to count prune and the included roles.
-	 * @param dry When set to `true`, a calculation of how many members would be pruned.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-prune-count
 	 */
-	public prune(options: GuildPruneDryOptions, dry: true): Promise<number>;
+	public prune(options: GuildPruneDryOptions, requestOptions?: RequestOptions): Promise<number>;
 	/**
 	 * Begins a prune operation.
 	 * @since 0.0.1
 	 * @param options The number of days to count prune and the included roles.
-	 * @param dry When set to `false` or left undefined, this operation will kick users.
+	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#begin-guild-prune
 	 */
-	public prune(options: GuildPruneOptions, dry?: false): Promise<number | null>
-	public async prune(options: GuildPruneDryOptions, dry?: boolean): Promise<number | null> {
-		if (dry) {
-			const result = await this.client.api.get(Routes.guildPrune(this.id), { query: options }) as { pruned: number };
+	public prune(options: GuildPruneNonDryOptions, requestOptions?: RequestOptions): Promise<number | null>
+	public async prune(options: GuildPruneOptions, requestOptions: RequestOptions = {}): Promise<number | null> {
+		const query = new URLSearchParams();
+		if (isSet(options, 'days')) query.append('days', options.days.toString());
+		if (isSet(options, 'includeRoles')) for (const role of options.includeRoles) query.append('include_roles', role);
+		if (options.dry) {
+			const result = await this.client.api.get(Routes.guildPrune(this.id), { ...requestOptions, query }) as { pruned: number };
 			return result.pruned;
 		}
 
-		// eslint-disable-next-line @typescript-eslint/camelcase
-		const result = await this.client.api.post(Routes.guildPrune(this.id), { query: options }) as { pruned: number | null };
+		if (isSet(options, 'computePruneCount')) query.append('compute_prune_count', options.computePruneCount.toString());
+		const result = await this.client.api.post(Routes.guildPrune(this.id), { ...requestOptions, query }) as { pruned: number | null };
 		return result.pruned;
 	}
 
@@ -633,14 +636,21 @@ export interface GuildPruneDryOptions {
 	 * @since 0.0.1
 	 * @default 7
 	 */
-	days: number;
+	days?: number;
 
 	/**
 	 * The {@link Role role} IDs to include.
 	 * @since 0.0.1
 	 * @default []
 	 */
-	include_roles: string[];
+	includeRoles?: string[];
+
+	/**
+	 * Whether or not this operation should fetch instead of starting a prune.
+	 * @since 0.0.1
+	 * @default false
+	 */
+	dry: true;
 }
 
 /**
@@ -648,14 +658,23 @@ export interface GuildPruneDryOptions {
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#begin-guild-prune-query-string-params
  */
-export interface GuildPruneOptions extends GuildPruneDryOptions {
+export interface GuildPruneNonDryOptions extends Omit<GuildPruneDryOptions, 'dry'> {
 	/**
 	 * Whether 'pruned' is returned, discouraged for large guilds.
 	 * @since 0.0.1
 	 * @default true
 	 */
-	compute_prune_count: boolean;
+	computePruneCount?: boolean;
+
+	/**
+	 * Whether or not this operation should fetch instead of starting a prune.
+	 * @since 0.0.1
+	 * @default false
+	 */
+	dry?: false;
 }
+
+export type GuildPruneOptions = GuildPruneDryOptions | GuildPruneNonDryOptions;
 
 /**
  * The vanity URL retrieved from {@link Guild#fetchVanityURL}.

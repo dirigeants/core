@@ -6,6 +6,7 @@ import type { Client } from '../../../Client';
 import type { Guild } from './Guild';
 import type { Role } from './Role';
 import type { User } from '../User';
+import { isSet } from '../../../../util/Util';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#integration-object
@@ -145,9 +146,9 @@ export class Integration extends Structure {
 	}
 
 	protected _patch(data: APIIntegrationData): this {
-		if (Reflect.has(data, 'expire_behavior')) this.expireBehavior = data.expire_behavior;
-		if (Reflect.has(data, 'expire_grace_period')) this.expireGracePeriod = data.expire_grace_period;
-		if (Reflect.has(data, 'enable_emoticons')) this.enableEmoticons = data.enable_emoticons ?? null;
+		if (isSet(data, 'expire_behavior')) this.expireBehavior = data.expire_behavior;
+		if (isSet(data, 'expire_grace_period')) this.expireGracePeriod = data.expire_grace_period;
+		if (isSet(data, 'enable_emoticons')) this.enableEmoticons = data.enable_emoticons ?? null;
 		this.syncedTimestamp = new Date(data.synced_at).getTime();
 		return this;
 	}

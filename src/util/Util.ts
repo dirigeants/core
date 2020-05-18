@@ -30,6 +30,10 @@ export function isGuildChannel(channel: Channel): channel is GuildBasedChannel {
 	return Reflect.has(channel, 'guild');
 }
 
+export function isSet<V extends {}, K extends keyof V>(value: V, key: K): value is V & Required<Pick<V, K>> {
+	return Reflect.has(value, key);
+}
+
 export type EmojiResolvable = string | MessageReactionEmoji | GuildEmoji;
 
 export function resolveEmoji(emoji: EmojiResolvable): string {
