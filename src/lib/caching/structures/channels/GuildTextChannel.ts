@@ -1,6 +1,6 @@
 /* eslint-disable no-dupe-class-members */
-import { GuildChannel } from './GuildChannel';
 import { Cache } from '@klasa/cache';
+import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 import { MessageCollector, MessageCollectorOptions } from '../../../util/collectors/MessageCollector';
@@ -61,7 +61,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 * @since 0.0.1
 	 * @param options The options to control what you receive
 	 */
-	public async awaitMessages(options: MessageCollectorOptions): Promise<Cache<string, Message>> {
+	public awaitMessages(options: MessageCollectorOptions): Promise<Cache<string, Message>> {
 		return new MessageCollector(this, options).collect();
 	}
 

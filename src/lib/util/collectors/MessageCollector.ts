@@ -1,9 +1,10 @@
-import { Cache } from '@klasa/cache';
 import { MessageIterator } from '../iterators/MessageIterator';
 import { StructureCollector } from './base/StructureCollector';
-import { Message } from '../../caching/structures/Message';
-import { DMChannel } from '../../caching/structures/channels/DMChannel';
-import { GuildTextChannel } from '../../caching/structures/channels/GuildTextChannel';
+
+import type { Cache } from '@klasa/cache';
+import type { DMChannel } from '../../caching/structures/channels/DMChannel';
+import type { GuildTextChannel } from '../../caching/structures/channels/GuildTextChannel';
+import type { Message } from '../../caching/structures/Message';
 
 /**
  * Options for a MessageCollector.

@@ -58,7 +58,7 @@ export class DMChannel extends Channel {
 	 * @since 0.0.1
 	 * @param options The options to control what you receive
 	 */
-	public async awaitMessages(options: MessageCollectorOptions): Promise<Cache<string, Message>> {
+	public awaitMessages(options: MessageCollectorOptions): Promise<Cache<string, Message>> {
 		return new MessageCollector(this, options).collect();
 	}
 

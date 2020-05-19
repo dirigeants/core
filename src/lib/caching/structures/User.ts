@@ -1,7 +1,8 @@
 import { Structure } from './base/Structure';
 import { isSet } from '../../util/Util';
 import { Client } from '../../client/Client';
-import { DMChannel } from './channels/DMChannel';
+
+import type { DMChannel } from './channels/DMChannel';
 
 import type { APIUserData, APIUserFlags, PremiumType } from '@klasa/dapi-types';
 
