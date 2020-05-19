@@ -5,7 +5,7 @@ import { Cache } from '@klasa/cache';
 import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
-import { MessageIteratorOptions, MessageIterator } from '../../../../util/iterators/MessageIterator';
+import { MessageCollectorOptions, MessageCollector } from '../../../../util/collectors/MessageCollector';
 
 import type { User } from '../User';
 import type { Client } from '../../../Client';
@@ -58,8 +58,8 @@ export class DMChannel extends Channel {
 	 * @param limit The limit of filtered messages to await
 	 * @param options The options to control what you receive
 	 */
-	public async awaitMessages(limit: number, options: MessageIteratorOptions): Promise<Cache<string, Message>> {
-		return new MessageIterator(this, limit, options).collectAll();
+	public async awaitMessages(limit: number, options: MessageCollectorOptions): Promise<Cache<string, Message>> {
+		return new MessageCollector(this, limit, options).collectAll();
 	}
 
 	/**

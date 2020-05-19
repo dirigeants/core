@@ -3,7 +3,7 @@ import { GuildChannel } from './GuildChannel';
 import { Cache } from '@klasa/cache';
 import { MessageStore } from '../../../caching/stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
-import { MessageIteratorOptions, MessageIterator } from '../../../../util/iterators/MessageIterator';
+import { MessageCollector, MessageCollectorOptions } from '../../../../util/collectors/MessageCollector';
 
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
@@ -61,8 +61,8 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 * @param limit The limit of filtered messages to await
 	 * @param options The options to control what you receive
 	 */
-	public async awaitMessages(limit: number, options: MessageIteratorOptions): Promise<Cache<string, Message>> {
-		return new MessageIterator(this, limit, options).collectAll();
+	public async awaitMessages(limit: number, options: MessageCollectorOptions): Promise<Cache<string, Message>> {
+		return new MessageCollector(this, limit, options).collectAll();
 	}
 
 	/**

@@ -8,7 +8,7 @@ import { MessageMentions } from './messages/MessageMentions';
 import { MessageReaction } from './messages/reactions/MessageReaction';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { Structure } from './base/Structure';
-import { ReactionIterator, ReactionIteratorOptions } from '../../../util/iterators/ReactionIterator';
+import { ReactionCollector, ReactionCollectorOptions } from '../../../util/collectors/ReactionCollector';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import type { User } from './User';
@@ -201,8 +201,8 @@ export class Message extends Structure {
 	 * @param limit The limit of filtered messages to await
 	 * @param options The options to control what you receive
 	 */
-	public async awaitReactions(limit: number, options: ReactionIteratorOptions = {}): Promise<Cache<string, MessageReaction>> {
-		return new ReactionIterator(this, limit, options).collectAll();
+	public async awaitReactions(limit: number, options: ReactionCollectorOptions = {}): Promise<Cache<string, MessageReaction>> {
+		return new ReactionCollector(this, limit, options).collectAll();
 	}
 
 	/**
