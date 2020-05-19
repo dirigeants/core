@@ -6,10 +6,11 @@ import { MessageReaction } from '../../client/caching/structures/messages/reacti
 
 export class ReactionIterator extends StructureIterator<MessageReaction> {
 
-	public constructor(message: Message, limit: number, options: EventIteratorOptions<MessageReaction> = {}) {
-		const { idle, filter = (): boolean => true } = options;
+	public constructor(message: Message, options: EventIteratorOptions<MessageReaction> = {}) {
+		const { limit, idle, filter = (): boolean => true } = options;
 
-		super(new EventIterator(message.client, ClientEvents.MessageReactionAdd, limit, {
+		super(new EventIterator(message.client, ClientEvents.MessageReactionAdd, {
+			limit,
 			idle,
 			filter: (react): boolean => react.message === message && filter(react)
 		}));

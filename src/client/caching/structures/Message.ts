@@ -201,8 +201,8 @@ export class Message extends Structure {
 	 * @param limit The limit of filtered messages to await
 	 * @param options The options to control what you receive
 	 */
-	public async awaitReactions(limit: number, options: ReactionCollectorOptions = {}): Promise<Cache<string, MessageReaction>> {
-		return new ReactionCollector(this, limit, options).collectAll();
+	public async awaitReactions(options: ReactionCollectorOptions = {}): Promise<Cache<string, MessageReaction>> {
+		return new ReactionCollector(this, options).collectAll();
 	}
 
 	/**

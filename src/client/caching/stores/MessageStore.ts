@@ -104,8 +104,8 @@ export class MessageStore extends DataStore<Message> {
 		return cache;
 	}
 
-	public async *iterate(limit: number, options: EventIteratorOptions<Message>): AsyncIterableIterator<Message> {
-		yield* new MessageIterator(this.channel, limit, options);
+	public async *iterate(options: EventIteratorOptions<Message>): AsyncIterableIterator<Message> {
+		yield* new MessageIterator(this.channel, options);
 	}
 
 }

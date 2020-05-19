@@ -7,10 +7,11 @@ import { GuildTextChannel } from '../../client/caching/structures/channels/Guild
 
 export class MessageIterator extends StructureIterator<Message> {
 
-	public constructor(channel: GuildTextChannel | DMChannel, limit: number, options: EventIteratorOptions<Message> = {}) {
-		const { idle, filter = (): boolean => true } = options;
+	public constructor(channel: GuildTextChannel | DMChannel, options: EventIteratorOptions<Message> = {}) {
+		const { limit, idle, filter = (): boolean => true } = options;
 
-		super(new EventIterator(channel.client, ClientEvents.MessageCreate, limit, {
+		super(new EventIterator(channel.client, ClientEvents.MessageCreate, {
+			limit,
 			idle,
 			filter: (message): boolean => message.channel === channel && filter(message)
 		}));

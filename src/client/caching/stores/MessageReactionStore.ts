@@ -64,8 +64,8 @@ export class MessageReactionStore extends DataStore<MessageReaction> {
 		return this;
 	}
 
-	public async *iterate(limit: number, options: EventIteratorOptions<MessageReaction>): AsyncIterableIterator<MessageReaction> {
-		yield* new ReactionIterator(this.message, limit, options);
+	public async *iterate(options: EventIteratorOptions<MessageReaction>): AsyncIterableIterator<MessageReaction> {
+		yield* new ReactionIterator(this.message, options);
 	}
 
 }
