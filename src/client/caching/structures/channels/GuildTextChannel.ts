@@ -2,7 +2,6 @@
 import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../../caching/stores/MessageStore';
 import { MessageIterator } from '../../../../lib/structures/MessageIterator';
-import { Cache } from '@klasa/cache';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 
 import type { APIChannelData } from '@klasa/dapi-types';
