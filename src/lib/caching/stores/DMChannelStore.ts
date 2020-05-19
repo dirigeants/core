@@ -38,7 +38,7 @@ export class DMChannelStore extends DataStore<DMChannel> {
 	 * Opens a channel with a {@link User user}.
 	 * @since 0.0.1
 	 * @param userID The id for the user to open a dm channel with.
-	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
+	 * @see https://discord.com/developers/docs/resources/user#create-dm
 	 */
 	public async add(userID: string): Promise<DMChannel> {
 		// eslint-disable-next-line @typescript-eslint/camelcase
