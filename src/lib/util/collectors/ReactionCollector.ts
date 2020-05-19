@@ -4,14 +4,40 @@ import { StructureCollector } from './base/StructureCollector';
 import { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
 import { ReactionIterator } from '../iterators/ReactionIterator';
 
+/**
+ * Options for a ReactionCollector.
+ * @since 0.0.1
+ */
 export interface ReactionCollectorOptions {
+	/**
+	 * The amount of reactions to collect before ending the collector.
+	 * @since 0.0.1
+	 */
 	limit?: number;
+	/**
+	 * The time in ms that a ReactionCollector will go before idling out.
+	 * @since 0.0.1
+	 */
 	idle?: number;
+	/**
+	 * The filter used to filter out specific reactions.
+	 * @since 0.0.1
+	 */
 	filter?: (reaction: MessageReaction, collected: Cache<string, MessageReaction>) => boolean;
 }
 
+/**
+ * The ReactionCollector class responsible for collecting a set of reactions.
+ * @since 0.0.1
+ */
 export class ReactionCollector extends StructureCollector<MessageReaction, ReactionIterator> {
 
+	/**
+	 * Construct's a new ReactionCollector.
+	 * @since 0.0.1
+	 * @param message The message to listen for reactions.
+	 * @param options Any additional options to pass.
+	 */
 	public constructor(message: Message, options: ReactionCollectorOptions = {}) {
 		if (!options.limit && !options.idle) throw new Error('Collectors need either a limit or idle, or the collector will collect forever.');
 		const { limit, idle, filter = (): boolean => true } = options;

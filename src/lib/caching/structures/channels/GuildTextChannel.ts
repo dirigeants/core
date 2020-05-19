@@ -57,7 +57,8 @@ export abstract class GuildTextChannel extends GuildChannel {
 	}
 
 	/**
-	 * Awaits a group of messages
+	 * Awaits a group of messages.
+	 * @since 0.0.1
 	 * @param options The options to control what you receive
 	 */
 	public async awaitMessages(options: MessageCollectorOptions): Promise<Cache<string, Message>> {

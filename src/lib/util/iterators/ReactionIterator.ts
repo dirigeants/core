@@ -3,8 +3,18 @@ import { Message } from '../../caching/structures/Message';
 import { ClientEvents } from '../types/Util';
 import { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
 
+/**
+ * An asynchronous iterator responsible for iterating over reactions.
+ * @since 0.0.1
+ */
 export class ReactionIterator extends EventIterator<MessageReaction> {
 
+	/**
+	 * Construct's a new ReactionIterator.
+	 * @since 0.0.1
+	 * @param channel The message to listen for reactions.
+	 * @param options Any additional options to pass.
+	 */
 	public constructor(message: Message, options: EventIteratorOptions<MessageReaction> = {}) {
 		const { limit, idle, filter = (): boolean => true } = options;
 
