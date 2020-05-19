@@ -88,7 +88,7 @@ export class Role extends Structure {
 	 */
 	public async modify(data: RoleModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		const entry = await this.client.api.patch(Routes.guildRole(this.guild.id, this.id), { ...requestOptions, data }) as APIRoleData;
-		return this.clone<this>()._patch(entry);
+		return this._patch(entry);
 	}
 
 	/**

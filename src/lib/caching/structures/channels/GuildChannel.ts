@@ -55,12 +55,12 @@ export abstract class GuildChannel extends Channel {
 	}
 
 	/**
-	 * Removes the channel from the {@link Guild guild}.
+	 * Deletes the channel from the {@link Guild guild}.
 	 * @since 0.0.1
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
 	 */
-	public async remove(requestOptions: RequestOptions = {}): Promise<this> {
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
 		await this.guild.channels.remove(this.id, requestOptions);
 		this.deleted = true;
 		return this;

@@ -380,7 +380,7 @@ export class Guild extends Structure {
 	 */
 	public async modify(data: GuildModifyOptions, requestOptions: RequestOptions = {}): Promise<unknown> {
 		const result = await this.client.api.patch(Routes.guild(this.id), { ...requestOptions, data }) as APIGuildData;
-		return this.clone<this>()._patch(result);
+		return this._patch(result);
 	}
 
 	/**
