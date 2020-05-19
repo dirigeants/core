@@ -49,7 +49,3 @@ export class Ban extends Structure {
 	}
 
 }
-
-export interface Ban {
-	client: Client;
-}

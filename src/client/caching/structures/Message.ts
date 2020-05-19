@@ -19,6 +19,11 @@ import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
 import type { MessageBuilder } from './messages/MessageBuilder';
 
+export interface AwaitReactionsOptions {
+	idle?: number;
+	filter?: (message: MessageReaction, collected: Cache<string, MessageReaction>) => boolean;
+}
+
 export class Message extends Structure {
 
 	/**
@@ -196,6 +201,18 @@ export class Message extends Structure {
 	}
 
 	/**
+	 * Awaits a group of messages
+	 * @param limit The limit of filtered messages to await
+	 * @param options The options to control what you receive
+	 */
+	public async awaitReactions(limit: number, options: AwaitReactionsOptions = {}): Promise<Cache<string, MessageReaction>> {
+		const { idle, filter = (): boolean => true } = options;
+		const collected = new Cache<string, MessageReaction>();
+		for await (const reaction of this.reactions.iterate(limit, { idle, filter: (react) => filter(react, collected) })) collected.set(reaction.id, reaction);
+		return collected;
+	}
+
+	/**
 	 * Edits the message.
 	 * @param content The {@link MessageBuilder builder} to send.
 	 * @since 0.0.1
@@ -239,8 +256,4 @@ export class Message extends Structure {
 		return this;
 	}
 
-}
-
-export interface Message {
-	readonly client: Client;
 }

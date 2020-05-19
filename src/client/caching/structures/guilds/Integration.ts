@@ -1,12 +1,12 @@
 import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
+import { isSet } from '../../../../util/Util';
 
 import type { APIIntegrationData, APIIntegrationAccountData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
 import type { Guild } from './Guild';
 import type { Role } from './Role';
 import type { User } from '../User';
-import { isSet } from '../../../../util/Util';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#integration-object
@@ -172,10 +172,6 @@ export class Integration extends Structure {
 		return this;
 	}
 
-}
-
-export interface Integration {
-	client: Client;
 }
 
 /**

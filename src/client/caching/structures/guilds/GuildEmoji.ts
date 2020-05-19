@@ -1,9 +1,9 @@
+import { RequestOptions } from '@klasa/rest';
+import { Guild } from './Guild';
 import { Structure } from '../base/Structure';
 
 import type { APIEmojiData } from '@klasa/dapi-types';
 import type { Client } from '../../../Client';
-import { RequestOptions } from '@klasa/rest';
-import { Guild } from './Guild';
 
 /**
  * @see https://discord.com/developers/docs/resources/emoji#emoji-object

@@ -1,10 +1,9 @@
 import type { Client } from '../../../Client';
-import type { WebhookClient } from '../../../WebhookClient';
 
 /**
  * The base class for Structures
  */
-export abstract class Structure {
+export abstract class Structure<T = Client> {
 
 	/**
 	 * The id to be defined in Structures
@@ -12,12 +11,12 @@ export abstract class Structure {
 	public abstract readonly id: string;
 
 	// eslint-disable-next-line no-useless-constructor
-	public constructor(public readonly client: Client | WebhookClient) { }
+	public constructor(public readonly client: T) { }
 
 	/**
 	 * Basic clone method
 	 */
-	public clone<T = Structure>(): T {
+	public clone<V = Structure>(): V {
 		return Object.assign(Object.create(this), this);
 	}
 

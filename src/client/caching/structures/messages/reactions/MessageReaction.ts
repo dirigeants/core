@@ -9,7 +9,7 @@ import type { Client } from '../../../../Client';
 /**
  * @see https://discord.com/developers/docs/resources/channel#reaction-object
  */
-export class MessageReaction extends Structure {
+export class MessageReaction extends Structure<Client> {
 
 	/**
 	 * The reaction ID.
@@ -82,8 +82,4 @@ export class MessageReaction extends Structure {
 		return this;
 	}
 
-}
-
-export interface MessageReaction {
-	client: Client;
 }

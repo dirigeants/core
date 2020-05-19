@@ -1,15 +1,16 @@
 /* eslint-disable no-dupe-class-members */
 import { APIChannelData, ChannelType, APIUserData } from '@klasa/dapi-types';
+import { RequestOptions } from '@klasa/rest';
+import { Cache } from '@klasa/cache';
 import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
+import { AwaitMessagesOptions } from './GuildTextChannel';
 
 import type { User } from '../User';
 import type { Client } from '../../../Client';
 import type { Message } from '../Message';
-import { RequestOptions } from '@klasa/rest';
-import { EventIteratorOptions } from '@klasa/event-iterator';
-import { MessageIterator } from '../../../../util/iterators/MessageIterator';
+
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -53,6 +54,30 @@ export class DMChannel extends Channel {
 	}
 
 	/**
+	 * Awaits a group of messages
+	 * @param limit The limit of filtered messages to await
+	 * @param options The options to control what you receive
+	 */
+	public async awaitMessages(limit: number, options: AwaitMessagesOptions = {}): Promise<Cache<string, Message>> {
+		const { idle, filter = (): boolean => true } = options;
+		const collected = new Cache<string, Message>();
+		for await (const message of this.messages.iterate(limit, { idle, filter: (msg) => filter(msg, collected) })) collected.set(message.id, message);
+		return collected;
+	}
+
+	/**
+	 * Closes the channel.
+	 * @since 0.0.1
+	 * @param requestOptions The additional request options.
+	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
+	 */
+	public async remove(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.client.dms.remove(this.id, requestOptions);
+		this.deleted = true;
+		return this;
+	}
+
+	/**
 	 * Sends a message to the channel.
 	 * @param data The {@link MessageBuilder builder} to send.
 	 * @param options The split options for the message.
@@ -81,22 +106,6 @@ export class DMChannel extends Channel {
 		return this.messages.add(data, options);
 	}
 
-	/**
-	 * Closes the channel.
-	 * @since 0.0.1
-	 * @param requestOptions The additional request options.
-	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
-	 */
-	public async remove(requestOptions: RequestOptions = {}): Promise<this> {
-		await this.client.dms.remove(this.id, requestOptions);
-		this.deleted = true;
-		return this;
-	}
-
-	public createMessageIterator(limit: number, options: EventIteratorOptions<Message> = {}): MessageIterator {
-		return new MessageIterator(this, limit, options);
-	}
-
 	protected _patch(data: APIChannelData): this {
 		// eslint-disable-next-line dot-notation
 		this.recipients = (data.recipients as APIUserData[]).map(user => this.client.users['_add'](user));
@@ -104,8 +113,4 @@ export class DMChannel extends Channel {
 		return this;
 	}
 
-}
-
-export interface DMChannel {
-	client: Client;
 }

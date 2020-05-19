@@ -20,7 +20,7 @@ export interface WebhookUpdateData {
 	channelID?: string;
 }
 
-export class Webhook extends Structure {
+export class Webhook extends Structure<Client | WebhookClient> {
 
 	/**
 	 * The id of the webhook
@@ -45,7 +45,7 @@ export class Webhook extends Structure {
 	/**
 	 * The "user" of the webhook displayed on the webhook messages
 	 */
-	public user?: User;
+	public user?: User<Client | WebhookClient>;
 
 	/**
 	 * The name of the webhook

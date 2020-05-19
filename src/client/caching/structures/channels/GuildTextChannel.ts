@@ -1,7 +1,7 @@
 /* eslint-disable no-dupe-class-members */
 import { GuildChannel } from './GuildChannel';
+import { Cache } from '@klasa/cache';
 import { MessageStore } from '../../../caching/stores/MessageStore';
-import { MessageIterator } from '../../../../util/iterators/MessageIterator';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 
 import type { APIChannelData } from '@klasa/dapi-types';
@@ -9,11 +9,15 @@ import type { Client } from '../../../Client';
 import type { Guild } from '../guilds/Guild';
 import type { TextBasedChannel } from '../../../../util/Util';
 import type { Message } from '../Message';
-import type { EventIteratorOptions } from '@klasa/event-iterator';
 
 export interface SendOptions {
 	split?: SplitOptions;
 	cache?: boolean;
+}
+
+export interface AwaitMessagesOptions {
+	idle?: number;
+	filter?: (message: Message, collected: Cache<string, Message>) => boolean;
 }
 
 /**
@@ -57,6 +61,18 @@ export abstract class GuildTextChannel extends GuildChannel {
 	}
 
 	/**
+	 * Awaits a group of messages
+	 * @param limit The limit of filtered messages to await
+	 * @param options The options to control what you receive
+	 */
+	public async awaitMessages(limit: number, options: AwaitMessagesOptions = {}): Promise<Cache<string, Message>> {
+		const { idle, filter = (): boolean => true } = options;
+		const collected = new Cache<string, Message>();
+		for await (const message of this.messages.iterate(limit, { idle, filter: (msg) => filter(msg, collected) })) collected.set(message.id, message);
+		return collected;
+	}
+
+	/**
 	 * Sends a message to the channel.
 	 * @param data The {@link MessageBuilder builder} to send.
 	 * @param options The split options for the message.
@@ -83,10 +99,6 @@ export abstract class GuildTextChannel extends GuildChannel {
 	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
 		// @ts-expect-error
 		return this.messages.add(data, options);
-	}
-
-	public createMessageIterator(limit: number, options: EventIteratorOptions<Message> = {}): MessageIterator {
-		return new MessageIterator(this as TextBasedChannel, limit, options);
 	}
 
 	protected _patch(data: APIChannelData): this {

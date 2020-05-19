@@ -9,6 +9,8 @@ import type { APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
 import type { Message } from '../structures/Message';
 import type { TextBasedChannel } from '../../../util/Util';
+import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
+import { ClientEvents } from '../../../util/types/Util';
 
 /**
  * The store for a {@link TextBasedChannel text-based channel} {@link Message messages}.
@@ -74,6 +76,16 @@ export class MessageStore extends DataStore<Message> {
 	public async remove(messageID: string, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.delete(Routes.channelMessage(this.channel.id, messageID), requestOptions);
 		return this;
+	}
+
+	/**
+	 * Iterates over the messages being added to this Store
+	 * @param limit The number of filtered events to iterate
+	 * @param options The EventIterator options
+	 */
+	public async *iterate(limit: number, options: EventIteratorOptions<Message> = {}): AsyncIterableIterator<Message> {
+		const { idle, filter = (): boolean => true } = options;
+		yield* new EventIterator(this.client, ClientEvents.MessageCreate, limit, { idle, filter: (message): boolean => message.channel === this.channel && filter(message) });
 	}
 
 	/**

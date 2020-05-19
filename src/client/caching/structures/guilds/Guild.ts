@@ -514,10 +514,6 @@ export class Guild extends Structure {
 
 }
 
-export interface Guild {
-	client: Client;
-}
-
 /**
  * The options for {@link Guild#modify}.
  * @since 0.0.1

@@ -3,12 +3,11 @@ import { isSet } from '../../../util/Util';
 
 import type { APIUserData, APIUserFlags, PremiumType } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
-import type { WebhookClient } from '../../WebhookClient';
 
 /**
  * @see https://discord.com/developers/docs/resources/user#user-object
  */
-export class User extends Structure {
+export class User<T = Client> extends Structure<T> {
 
 	/**
 	 * The user's ID.
@@ -92,7 +91,7 @@ export class User extends Structure {
 	 */
 	public publicFlags?: APIUserFlags;
 
-	public constructor(client: Client | WebhookClient, data: APIUserData) {
+	public constructor(client: T, data: APIUserData) {
 		super(client);
 		this.id = data.id;
 		this._patch(data);
