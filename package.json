@@ -47,7 +47,7 @@
     "@klasa/rest": "^0.4.0",
     "@klasa/snowflake": "^0.0.1",
     "@klasa/timer-manager": "^0.0.1",
-    "@klasa/utils": "^0.0.4",
+    "@klasa/utils": "^0.0.5",
     "@klasa/ws": "^0.0.9",
     "fs-nextra": "^0.5.1"
   },
