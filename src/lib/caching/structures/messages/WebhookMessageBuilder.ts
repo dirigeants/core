@@ -1,14 +1,11 @@
 /* eslint-disable no-dupe-class-members */
-import { mergeDefault } from '@klasa/utils';
+import { mergeDefault, RequiredExcept, PartialRequired } from '@klasa/utils';
 
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
 
 import { MessageBuilder, AllowedMentions } from './MessageBuilder';
 import { Embed } from '../Embed';
-
-import type { RequiredExcept, PartialRequired } from '../../../util/types/Util';
-
 
 export interface WebhookMessageData {
 	content?: string;

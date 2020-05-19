@@ -4,7 +4,7 @@ import { REST, RESTOptions, RESTManagerEvents } from '@klasa/rest';
 import { TimerManager } from '@klasa/timer-manager';
 
 import { BaseClientOptionsDefaults } from '../util/Constants';
-import { ClientEvents } from '../util/types/Util';
+import { ClientEvents } from '../client/Client';
 
 export interface BaseClientOptions {
 	rest: RESTOptions;

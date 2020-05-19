@@ -1,6 +1,6 @@
 import { Action } from '../lib/pieces/Action';
 import { ClientUser } from '../lib/caching/structures/ClientUser';
-import { ClientEvents } from '../lib/util/types/Util';
+import { ClientEvents } from '../lib/client/Client';
 
 import type { ReadyDispatch } from '@klasa/ws';
 

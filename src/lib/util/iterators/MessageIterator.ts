@@ -1,7 +1,7 @@
 import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
 import { Message } from '../../caching/structures/Message';
 import { DMChannel } from '../../caching/structures/channels/DMChannel';
-import { ClientEvents } from '../types/Util';
+import { ClientEvents } from '../../client/Client';
 import { GuildTextChannel } from '../../caching/structures/channels/GuildTextChannel';
 
 /**

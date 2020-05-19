@@ -1,6 +1,6 @@
 import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
 import { Message } from '../../caching/structures/Message';
-import { ClientEvents } from '../types/Util';
+import { ClientEvents } from '../../client/Client';
 import { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
 
 /**

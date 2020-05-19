@@ -1,5 +1,5 @@
 import { Action } from '../../../lib/pieces/Action';
-import { ClientEvents } from '../../../lib/util/types/Util';
+import { ClientEvents } from '../../../lib/client/Client';
 
 import type { GuildMembersChunkDispatch } from '@klasa/ws';
 

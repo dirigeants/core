@@ -1,9 +1,8 @@
 import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
-import { mergeDefault } from '@klasa/utils';
+import { mergeDefault, DeepRequired } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
 import { ActionStore } from '../pieces/ActionStore';
 import { BaseClient, BaseClientOptions } from './BaseClient';
-import { ClientEvents } from '../util/types/Util';
 import { ClientOptionsDefaults } from '../util/Constants';
 import { dirname, join } from 'path';
 import { DMChannelStore } from '../caching/stores/DMChannelStore';
@@ -45,8 +44,58 @@ export interface ClientCacheOptions {
 
 export interface ClientOptions extends BaseClientOptions {
 	ws?: Partial<WSOptions>;
-	pieces?: ClientPieceOptions;
-	cache?: ClientCacheOptions;
+	pieces?: Partial<ClientPieceOptions>;
+	cache?: Partial<ClientCacheOptions>;
+}
+
+export const enum ClientEvents {
+	ChannelCreate = 'ChannelCreate',
+	ChannelDelete = 'ChannelDelete',
+	ChannelPinsUpdate = 'ChannelPinsUpdate',
+	ChannelUpdate = 'ChannelUpdate',
+	Debug = 'Debug',
+	Error = 'Error',
+	GuildBanAdd = 'GuildBanAdd',
+	GuildBanRemove = 'GuildBanRemove',
+	GuildCreate = 'GuildCreate',
+	GuildDelete = 'GuildDelete',
+	GuildEmojiCreate = 'GuildEmojiCreate',
+	GuildEmojiDelete = 'GuildEmojiDelete',
+	GuildEmojisUpdate = 'GuildEmojisUpdate',
+	GuildEmojiUpdate = 'GuildEmojiUpdate',
+	GuildIntegrationsUpdate = 'GuildIntegrationsUpdate',
+	GuildMemberAdd = 'GuildMemberAdd',
+	GuildMemberRemove = 'GuildMemberRemove',
+	GuildMembersChunk = 'GuildMembersChunk',
+	GuildMemberUpdate = 'GuildMemberUpdate',
+	GuildRoleCreate = 'GuildRoleCreate',
+	GuildRoleDelete = 'GuildRoleDelete',
+	GuildRoleUpdate = 'GuildRoleUpdate',
+	GuildUpdate = 'GuildUpdate',
+	InviteCreate = 'InviteCreate',
+	InviteDelete = 'InviteDelete',
+	MessageCreate = 'MessageCreate',
+	MessageDelete = 'MessageDelete',
+	MessageDeleteBulk = 'MessageDeleteBulk',
+	MessageReactionAdd = 'MessageReactionAdd',
+	MessageReactionRemove = 'MessageReactionRemove',
+	MessageReactionRemoveAll = 'MessageReactionRemoveAll',
+	MessageReactionRemoveEmoji = 'MessageReactionRemoveEmoji',
+	MessageUpdate = 'MessageUpdate',
+	PresenceUpdate = 'presenceUpdate',
+	Ready = 'Ready',
+	RESTDebug = 'RESTDebug',
+	Resumed = 'Resumed',
+	Ratelimited = 'Ratelimited',
+	ShardOnline = 'ShardOnline',
+	ShardReady = 'ShardReady',
+	ShardResumed = 'ShardResumed',
+	TypingStart = 'TypingStart',
+	UserUpdate = 'UserUpdate',
+	VoiceServerUpdate = 'VoiceServerUpdate',
+	VoiceStateUpdate = 'VoiceStateUpdate',
+	WebhooksUpdate = 'WebhooksUpdate',
+	WSDebug = 'WSDebug'
 }
 
 /**
@@ -62,7 +111,7 @@ export class Client extends BaseClient {
 	/**
 	 * The options to use for this client
 	 */
-	public options: Required<ClientOptions>;
+	public options: DeepRequired<ClientOptions>;
 
 	/**
 	 * The client user
