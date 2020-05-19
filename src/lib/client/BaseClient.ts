@@ -2,7 +2,6 @@ import { EventEmitter } from 'events';
 import { mergeDefault } from '@klasa/utils';
 import { REST, RESTOptions, RESTManagerEvents } from '@klasa/rest';
 import { TimerManager } from '@klasa/timer-manager';
-
 import { BaseClientOptionsDefaults } from '../util/Constants';
 import { ClientEvents } from '../client/Client';
 

@@ -1,7 +1,8 @@
 import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
-import { Message } from '../../caching/structures/Message';
 import { ClientEvents } from '../../client/Client';
-import { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
+
+import type { Message } from '../../caching/structures/Message';
+import type { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
 
 /**
  * An asynchronous iterator responsible for iterating over reactions.
