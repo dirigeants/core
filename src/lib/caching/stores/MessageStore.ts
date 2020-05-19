@@ -58,9 +58,9 @@ export class MessageStore extends DataStore<Message> {
 	 *     .setContent('Ping!')
 	 *     .setEmbed(embed => embed.setDescription('From an embed!')));
 	 */
-	public add(data: (message: MessageBuilder) => MessageBuilder, options: SplitOptions): Promise<Message[]>;
-	public async add(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
-		const split = (typeof data === 'function' ? data(new MessageBuilder()) : new MessageBuilder(data)).split(options);
+	public add(data: (message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>, options: SplitOptions): Promise<Message[]>;
+	public async add(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>), options: SplitOptions): Promise<Message[]> {
+		const split = (typeof data === 'function' ? await data(new MessageBuilder()) : new MessageBuilder(data)).split(options);
 
 		const endpoint = Routes.channelMessages(this.channel.id);
 		const rawMessages = await Promise.all(split.map(message => this.client.api.post(endpoint, message)));

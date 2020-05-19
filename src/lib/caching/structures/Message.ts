@@ -211,8 +211,8 @@ export class Message extends Structure {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/channel#edit-message
 	 */
-	public async edit(content: MessageBuilder | ((message: MessageBuilder) => MessageBuilder)): Promise<Message> {
-		content = typeof content === 'function' ? content(new MessageBuilder()) : content;
+	public async edit(content: MessageBuilder | ((message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>)): Promise<Message> {
+		content = typeof content === 'function' ? await content(new MessageBuilder()) : content;
 		const data = await this.client.api.patch(Routes.channelMessage(this.channel.id, this.id), content) as APIMessageData;
 		return this._patch(data) as Message;
 	}

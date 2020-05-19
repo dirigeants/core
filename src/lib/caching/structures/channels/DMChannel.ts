@@ -96,8 +96,8 @@ export class DMChannel extends Channel {
 	 *     .setContent('Ping!')
 	 *     .setEmbed(embed => embed.setDescription('From an embed!')));
 	 */
-	public send(data: (message: MessageBuilder) => MessageBuilder, options: SplitOptions): Promise<Message[]>;
-	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder), options: SplitOptions): Promise<Message[]> {
+	public send(data: (message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>, options: SplitOptions): Promise<Message[]>;
+	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>), options: SplitOptions): Promise<Message[]> {
 		// @ts-expect-error
 		return this.messages.add(data, options);
 	}

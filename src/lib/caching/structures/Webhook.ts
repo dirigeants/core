@@ -124,11 +124,11 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	 * @param data Message data
 	 */
 	public async send(data: WebhookMessageOptions, splitOptions?: SplitOptions): Promise<Message[]>
-	public async send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder, splitOptions?: SplitOptions): Promise<Message[]>
-	public async send(data: WebhookMessageOptions | ((message: WebhookMessageBuilder) => WebhookMessageBuilder), splitOptions?: SplitOptions): Promise<Message[]> {
+	public async send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>, splitOptions?: SplitOptions): Promise<Message[]>
+	public async send(data: WebhookMessageOptions | ((message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>), splitOptions?: SplitOptions): Promise<Message[]> {
 		if (!this.token) throw new Error('The token on this webhook is unknown. You cannot send messages.');
 
-		const split = new WebhookMessageBuilder(typeof data === 'function' ? data(new WebhookMessageBuilder()) : data).split(splitOptions);
+		const split = new WebhookMessageBuilder(typeof data === 'function' ? await data(new WebhookMessageBuilder()) : data).split(splitOptions);
 
 		const endpoint = Routes.webhookTokened(this.id, this.token);
 		const responses = [];
