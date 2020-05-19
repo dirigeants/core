@@ -1,4 +1,4 @@
-import { Action } from '../lib/structures/Action';
+import { Action } from '../lib/pieces/Action';
 
 import type { TypingStartDispatch } from '@klasa/ws';
 

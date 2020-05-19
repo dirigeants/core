@@ -1,5 +1,5 @@
-import { Action } from '../../lib/structures/Action';
-import { isTextBasedChannel } from '../../util/Util';
+import { Action } from '../../lib/pieces/Action';
+import { isTextBasedChannel } from '../../lib/util/Util';
 
 import type { MessageReactionRemoveDispatch } from '@klasa/ws';
 

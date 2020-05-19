@@ -1,5 +1,5 @@
-import { Action } from '../lib/structures/Action';
-import { ClientEvents } from '../util/types/Util';
+import { Action } from '../lib/pieces/Action';
+import { ClientEvents } from '../lib/util/types/Util';
 
 import type { ResumedDispatch } from '@klasa/ws';
 
