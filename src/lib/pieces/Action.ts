@@ -1,5 +1,5 @@
 import { Event, EventOptions } from './Event';
-import { snakeToPascal } from '../util/Util';
+import { snakeToCamel } from '../util/Util';
 
 import type { ActionStore } from './ActionStore';
 import type { EventStore } from './EventStore';
@@ -26,7 +26,7 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 	 */
 	public constructor(store: ActionStore, directory: string, file: readonly string[], options: ActionOptions = {}) {
 		super(store as unknown as EventStore, directory, file, { event: file[file.length - 1].slice(0, -3), ...options, once: false, emitter: 'ws' });
-		this.clientEvent = options.clientEvent ?? snakeToPascal(this.event);
+		this.clientEvent = options.clientEvent ?? snakeToCamel(this.event);
 	}
 
 	/**
