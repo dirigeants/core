@@ -38,9 +38,7 @@ export class DMChannelStore extends DataStore<DMChannel> {
 	 * Adds a new structure to this DataStore
 	 * @param data The data packet to add
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-	// @ts-ignore
-	protected _add(data: APIChannelData): DMChannel | null {
+	protected _add(data: APIChannelData): DMChannel {
 		const existing = this.get(data.id);
 		// eslint-disable-next-line dot-notation
 		if (existing && existing.type === data.type) return existing['_patch'](data);
