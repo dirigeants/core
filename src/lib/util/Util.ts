@@ -7,7 +7,7 @@ import type { VoiceChannel } from '../caching/structures/channels/VoiceChannel';
 import type { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
 import type { MessageReactionEmoji } from '../caching/structures/messages/reactions/MessageReactionEmoji';
 
-export function snakeToUpperCamel(input: string): string {
+export function snakeToPascal(input: string): string {
 	const parts = input.split('_');
 
 	let output = '';
