@@ -202,7 +202,7 @@ export class Message extends Structure {
 	 * @param options The options to control what you receive
 	 */
 	public async awaitReactions(options: ReactionCollectorOptions = {}): Promise<Cache<string, MessageReaction>> {
-		return new ReactionCollector(this, options).collectAll();
+		return new ReactionCollector(this, options).collect();
 	}
 
 	/**
