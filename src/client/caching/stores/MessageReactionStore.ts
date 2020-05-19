@@ -1,5 +1,7 @@
 /* eslint-disable no-dupe-class-members */
 import { Routes } from '@klasa/rest';
+import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
+import { ClientEvents } from '../../../util/types/Util';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 import { EmojiResolvable, resolveEmoji } from '../../../util/Util';
@@ -7,8 +9,6 @@ import { EmojiResolvable, resolveEmoji } from '../../../util/Util';
 import type { Client } from '../../Client';
 import type { MessageReaction } from '../structures/messages/reactions/MessageReaction';
 import type { Message } from '../structures/Message';
-import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
-import { ClientEvents } from '../../../util/types/Util';
 
 /**
  * The store for {@link MessageReaction message reactions}.
