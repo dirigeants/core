@@ -1,10 +1,11 @@
 import { Routes, RequestOptions } from '@klasa/rest';
-import type { Client } from '../../../Client';
-import type { Guild } from './Guild';
 import { Structure } from '../base/Structure';
 import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
 
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
+import type { Client } from '../../../Client';
+import type { Guild } from './Guild';
+
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
  */
