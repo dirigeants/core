@@ -197,9 +197,10 @@ export class Message extends Structure {
 	}
 
 	/**
-	 * Awaits a group of messages
-	 * @param limit The limit of filtered messages to await
-	 * @param options The options to control what you receive
+	 * Awaits a group of messages.
+	 * @since 0.0.1
+	 * @param limit The limit of filtered messages to await.
+	 * @param options The options to control what you receive.
 	 */
 	public async awaitReactions(options: ReactionCollectorOptions = {}): Promise<Cache<string, MessageReaction>> {
 		return new ReactionCollector(this, options).collect();
