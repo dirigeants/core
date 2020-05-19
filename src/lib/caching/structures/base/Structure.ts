@@ -16,7 +16,7 @@ export abstract class Structure<T = Client> {
 	/**
 	 * Basic clone method
 	 */
-	public clone<V = Structure>(): V {
+	public clone(): this {
 		return Object.assign(Object.create(this), this);
 	}
 
