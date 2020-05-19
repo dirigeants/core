@@ -126,7 +126,8 @@ export class User<T = Client> extends Structure<T> {
 	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
 	 */
 	public closeDM(): Promise<DMChannel | null> {
-		return this.channel?.delete() ?? Promise.resolve(null);
+		const existing = this.channel;
+		return existing ? existing.delete() : Promise.resolve(null);
 	}
 
 	/**
