@@ -30,7 +30,7 @@ export class Ban extends Structure {
 	public readonly guild: Guild;
 
 	/**
-	 * If the ban has been removed/deleted.
+	 * If the ban has been removed.
 	 * @since 0.0.1
 	 */
 	public deleted = false;
