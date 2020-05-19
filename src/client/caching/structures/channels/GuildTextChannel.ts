@@ -1,7 +1,7 @@
 /* eslint-disable no-dupe-class-members */
 import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../../caching/stores/MessageStore';
-import { MessageIterator } from '../../../../lib/structures/MessageIterator';
+import { MessageIterator } from '../../../../util/iterators/MessageIterator';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 
 import type { APIChannelData } from '@klasa/dapi-types';

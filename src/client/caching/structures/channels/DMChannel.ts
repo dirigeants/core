@@ -9,7 +9,7 @@ import type { Client } from '../../../Client';
 import type { Message } from '../Message';
 import { RequestOptions } from '@klasa/rest';
 import { EventIteratorOptions } from '@klasa/event-iterator';
-import { MessageIterator } from '../../../../lib/structures/MessageIterator';
+import { MessageIterator } from '../../../../util/iterators/MessageIterator';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
