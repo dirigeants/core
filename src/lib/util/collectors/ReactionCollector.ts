@@ -39,7 +39,7 @@ export class ReactionCollector extends StructureCollector<MessageReaction, React
 	 * @param options Any additional options to pass.
 	 */
 	public constructor(message: Message, options: ReactionCollectorOptions = {}) {
-		if (!options.limit && !options.idle) throw new Error('Collectors need either a limit or idle, or the collector will collect forever.');
+		if (!options.limit && !options.idle) throw new Error('Collectors need either a limit or idle, or they will collect forever.');
 		const { limit, idle, filter = (): boolean => true } = options;
 
 		super(new ReactionIterator(message, {
