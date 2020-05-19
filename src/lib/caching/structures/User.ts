@@ -105,7 +105,7 @@ export class User<T = Client> extends Structure<T> {
 	 */
 	public get channel(): DMChannel | null {
 		if (!(this.client instanceof Client)) throw new Error('DMs can only be opened by bot clients.');
-		return this.client.dms.get(this.id) ?? null;
+		return this.client.dms.findValue(dm => dm.recipients.includes(this as unknown as User<Client>)) ?? null;
 	}
 
 	/**
@@ -115,7 +115,7 @@ export class User<T = Client> extends Structure<T> {
 	 */
 	public async openDM(): Promise<DMChannel> {
 		if (!(this.client instanceof Client)) throw new Error('DMs can only be opened by bot clients.');
-		const existing = this.client.dms.get(this.id);
+		const existing = this.client.dms.findValue(dm => dm.recipients.includes(this as unknown as User<Client>));
 		if (existing) return Promise.resolve(existing);
 		// eslint-disable-next-line @typescript-eslint/camelcase
 		const channel = await this.client.api.post(Routes.dms(), { data: { recipient_id: this.id } }) as APIChannelData;
