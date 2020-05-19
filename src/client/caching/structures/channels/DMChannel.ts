@@ -68,7 +68,7 @@ export class DMChannel extends Channel {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
 	 */
-	public async remove(requestOptions: RequestOptions = {}): Promise<this> {
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.dms.remove(this.id, requestOptions);
 		this.deleted = true;
 		return this;
