@@ -5,7 +5,7 @@ import { Cache } from '@klasa/cache';
 import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
-import { AwaitMessagesOptions } from './GuildTextChannel';
+import { MessageIteratorOptions, MessageIterator } from '../../../../util/iterators/MessageIterator';
 
 import type { User } from '../User';
 import type { Client } from '../../../Client';
@@ -58,11 +58,8 @@ export class DMChannel extends Channel {
 	 * @param limit The limit of filtered messages to await
 	 * @param options The options to control what you receive
 	 */
-	public async awaitMessages(limit: number, options: AwaitMessagesOptions = {}): Promise<Cache<string, Message>> {
-		const { idle, filter = (): boolean => true } = options;
-		const collected = new Cache<string, Message>();
-		for await (const message of this.messages.iterate(limit, { idle, filter: (msg) => filter(msg, collected) })) collected.set(message.id, message);
-		return collected;
+	public async awaitMessages(limit: number, options: MessageIteratorOptions): Promise<Cache<string, Message>> {
+		return new MessageIterator(this, limit, options).collectAll();
 	}
 
 	/**

@@ -1,7 +1,5 @@
 /* eslint-disable no-dupe-class-members */
 import { Routes } from '@klasa/rest';
-import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
-import { ClientEvents } from '../../../util/types/Util';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 import { EmojiResolvable, resolveEmoji } from '../../../util/Util';
@@ -62,16 +60,6 @@ export class MessageReactionStore extends DataStore<MessageReaction> {
 			Routes.messageReaction(this.message.channel.id, this.message.id, resolveEmoji(emoji)) :
 			Routes.messageReactions(this.message.channel.id, this.message.id));
 		return this;
-	}
-
-	/**
-	 * Iterates over the messages being added to this Store
-	 * @param limit The number of filtered events to iterate
-	 * @param options The EventIterator options
-	 */
-	public async *iterate(limit: number, options: EventIteratorOptions<MessageReaction> = {}): AsyncIterableIterator<MessageReaction> {
-		const { idle, filter = (): boolean => true } = options;
-		yield* new EventIterator(this.client, ClientEvents.MessageCreate, limit, { idle, filter: (reaction): boolean => reaction.message === this.message && filter(reaction) });
 	}
 
 }

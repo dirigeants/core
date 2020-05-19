@@ -8,6 +8,7 @@ import { MessageMentions } from './messages/MessageMentions';
 import { MessageReaction } from './messages/reactions/MessageReaction';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { Structure } from './base/Structure';
+import { ReactionIterator, ReactionIteratorOptions } from '../../../util/iterators/ReactionIterator';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import type { User } from './User';
@@ -18,11 +19,6 @@ import type { TextChannel } from './channels/TextChannel';
 import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
 import type { MessageBuilder } from './messages/MessageBuilder';
-
-export interface AwaitReactionsOptions {
-	idle?: number;
-	filter?: (message: MessageReaction, collected: Cache<string, MessageReaction>) => boolean;
-}
 
 export class Message extends Structure {
 
@@ -205,11 +201,8 @@ export class Message extends Structure {
 	 * @param limit The limit of filtered messages to await
 	 * @param options The options to control what you receive
 	 */
-	public async awaitReactions(limit: number, options: AwaitReactionsOptions = {}): Promise<Cache<string, MessageReaction>> {
-		const { idle, filter = (): boolean => true } = options;
-		const collected = new Cache<string, MessageReaction>();
-		for await (const reaction of this.reactions.iterate(limit, { idle, filter: (react) => filter(react, collected) })) collected.set(reaction.id, reaction);
-		return collected;
+	public async awaitReactions(limit: number, options: ReactionIteratorOptions = {}): Promise<Cache<string, MessageReaction>> {
+		return new ReactionIterator(this, limit, options).collectAll();
 	}
 
 	/**

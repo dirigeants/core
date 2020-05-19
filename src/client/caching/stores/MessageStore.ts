@@ -1,8 +1,6 @@
 /* eslint-disable no-dupe-class-members */
 import { Cache } from '@klasa/cache';
 import { Routes, RequestOptions } from '@klasa/rest';
-import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
-import { ClientEvents } from '../../../util/types/Util';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 import { MessageOptions, SplitOptions, MessageBuilder } from '../structures/messages/MessageBuilder';
@@ -76,16 +74,6 @@ export class MessageStore extends DataStore<Message> {
 	public async remove(messageID: string, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.delete(Routes.channelMessage(this.channel.id, messageID), requestOptions);
 		return this;
-	}
-
-	/**
-	 * Iterates over the messages being added to this Store
-	 * @param limit The number of filtered events to iterate
-	 * @param options The EventIterator options
-	 */
-	public async *iterate(limit: number, options: EventIteratorOptions<Message> = {}): AsyncIterableIterator<Message> {
-		const { idle, filter = (): boolean => true } = options;
-		yield* new EventIterator(this.client, ClientEvents.MessageCreate, limit, { idle, filter: (message): boolean => message.channel === this.channel && filter(message) });
 	}
 
 	/**
