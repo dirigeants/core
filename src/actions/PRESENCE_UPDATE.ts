@@ -1,8 +1,8 @@
-import { Action } from '../lib/structures/Action';
+import { Action } from '../lib/pieces/Action';
 
 import type { PresenceUpdateDispatch } from '@klasa/ws';
-import type { User } from '../client/caching/structures/User';
-import type { Guild } from '../client/caching/structures/guilds/Guild';
+import type { User } from '../lib/caching/structures/User';
+import type { Guild } from '../lib/caching/structures/guilds/Guild';
 
 export default class CoreAction extends Action {
 

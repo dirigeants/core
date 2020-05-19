@@ -44,6 +44,7 @@
   "dependencies": {
     "@klasa/bitfield": "^0.0.2",
     "@klasa/cache": "^0.0.3",
+    "@klasa/event-iterator": "^0.0.8",
     "@klasa/rest": "^0.4.0",
     "@klasa/snowflake": "^0.0.1",
     "@klasa/timer-manager": "^0.0.1",

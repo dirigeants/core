@@ -1,8 +1,8 @@
-import { Action } from '../../lib/structures/Action';
-import { isTextBasedChannel } from '../../util/Util';
+import { Action } from '../../lib/pieces/Action';
+import { isTextBasedChannel } from '../../lib/util/Util';
 
 import type { MessageDeleteDispatch } from '@klasa/ws';
-import type { Message } from '../../client/caching/structures/Message';
+import type { Message } from '../../lib/caching/structures/Message';
 
 export default class CoreAction extends Action {
 

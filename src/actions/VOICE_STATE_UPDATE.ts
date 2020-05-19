@@ -1,8 +1,8 @@
-import { Action } from '../lib/structures/Action';
-import { extender } from '../util/Extender';
+import { Action } from '../lib/pieces/Action';
+import { extender } from '../lib/util/Extender';
 
 import type { VoiceStateUpdateDispatch } from '@klasa/ws';
-import type { VoiceState } from '../client/caching/structures/guilds/VoiceState';
+import type { VoiceState } from '../lib/caching/structures/guilds/VoiceState';
 
 export default class CoreAction extends Action {
 

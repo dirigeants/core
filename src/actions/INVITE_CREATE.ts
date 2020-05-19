@@ -1,8 +1,8 @@
-import { Action } from '../lib/structures/Action';
-import { extender } from '../util/Extender';
+import { Action } from '../lib/pieces/Action';
+import { extender } from '../lib/util/Extender';
 
 import type { InviteCreateDispatch } from '@klasa/ws';
-import type { Invite } from '../client/caching/structures/Invite';
+import type { Invite } from '../lib/caching/structures/Invite';
 
 export default class CoreAction extends Action {
 

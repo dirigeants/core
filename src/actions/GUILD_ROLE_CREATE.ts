@@ -1,8 +1,8 @@
-import { Action } from '../lib/structures/Action';
-import { extender } from '../util/Extender';
+import { Action } from '../lib/pieces/Action';
+import { extender } from '../lib/util/Extender';
 
 import type { GuildRoleCreateDispatch } from '@klasa/ws';
-import type { Role } from '../client/caching/structures/guilds/Role';
+import type { Role } from '../lib/caching/structures/guilds/Role';
 
 export default class CoreAction extends Action {
 
