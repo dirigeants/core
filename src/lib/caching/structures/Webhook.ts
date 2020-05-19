@@ -101,8 +101,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	 * The channel of this webhook
 	 */
 	get channel(): Channel | null {
-		// todo: This is broken from another change...
-		return (this.client as Client).dms.get(this.channelID) || null;
+		return (this.client as Client)?.channels.get(this.channelID) ?? null;
 	}
 
 	/**

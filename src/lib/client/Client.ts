@@ -14,6 +14,8 @@ import { UserStore } from '../caching/stores/UserStore';
 import type { Store } from '../pieces/base/Store';
 import type { Piece } from '../pieces/base/Piece';
 import type { ClientUser } from '../caching/structures/ClientUser';
+import type { Channel } from '../caching/structures/channels/Channel';
+import type { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
 
 export interface ClientPieceOptions {
 	createFolders: boolean;
@@ -186,7 +188,24 @@ export class Client extends BaseClient {
 	}
 
 	/**
+	 * Returns a new Cache of all channels.
+	 * @since 0.0.1
+	 */
+	get channels(): Cache<string, Channel> {
+		return new Cache<string, Channel>().concat(this.dms, ...this.guilds.map(guild => guild.channels));
+	}
+
+	/**
+	 * Returns a new Cache of all guild emojis.
+	 * @since 0.0.1
+	 */
+	get emojis(): Cache<string, GuildEmoji> {
+		return new Cache<string, GuildEmoji>().concat(...this.guilds.map(guild => guild.emojis));
+	}
+
+	/**
 	 * Sets the token to use for the api.
+	 * @since 0.0.1
 	 */
 	set token(token: string) {
 		super.token = token;
