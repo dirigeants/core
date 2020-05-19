@@ -4,7 +4,9 @@ import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 import { MessageOptions, SplitOptions, MessageBuilder } from '../structures/messages/MessageBuilder';
+import { MessageIterator } from '../../../util/iterators/MessageIterator';
 
+import type { EventIteratorOptions } from '@klasa/event-iterator';
 import type { APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../Client';
 import type { Message } from '../structures/Message';
@@ -100,6 +102,10 @@ export class MessageStore extends DataStore<Message> {
 		const cache = new Cache<string, Message>();
 		for (const entry of entries) cache.set(entry.id, this._add(entry));
 		return cache;
+	}
+
+	public async *iterate(limit: number, options: EventIteratorOptions<Message>): AsyncIterableIterator<Message> {
+		yield* new MessageIterator(this.channel, limit, options);
 	}
 
 }

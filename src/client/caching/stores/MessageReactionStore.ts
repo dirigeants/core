@@ -1,9 +1,10 @@
 /* eslint-disable no-dupe-class-members */
 import { Routes } from '@klasa/rest';
-import { DataStore } from './base/DataStore';
+import { ReactionIterator } from '../../../util/iterators/ReactionIterator'; import { DataStore } from './base/DataStore';
 import { extender } from '../../../util/Extender';
 import { EmojiResolvable, resolveEmoji } from '../../../util/Util';
 
+import type { EventIteratorOptions } from '@klasa/event-iterator';
 import type { Client } from '../../Client';
 import type { MessageReaction } from '../structures/messages/reactions/MessageReaction';
 import type { Message } from '../structures/Message';
@@ -60,6 +61,10 @@ export class MessageReactionStore extends DataStore<MessageReaction> {
 			Routes.messageReaction(this.message.channel.id, this.message.id, resolveEmoji(emoji)) :
 			Routes.messageReactions(this.message.channel.id, this.message.id));
 		return this;
+	}
+
+	public async *iterate(limit: number, options: EventIteratorOptions<MessageReaction>): AsyncIterableIterator<MessageReaction> {
+		yield* new ReactionIterator(this.message, limit, options);
 	}
 
 }
