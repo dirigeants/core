@@ -55,11 +55,10 @@ export class DMChannel extends Channel {
 
 	/**
 	 * Awaits a group of messages
-	 * @param limit The limit of filtered messages to await
 	 * @param options The options to control what you receive
 	 */
-	public async awaitMessages(limit: number, options: MessageCollectorOptions): Promise<Cache<string, Message>> {
-		return new MessageCollector(this, limit, options).collectAll();
+	public async awaitMessages(options: MessageCollectorOptions): Promise<Cache<string, Message>> {
+		return new MessageCollector(this, options).collectAll();
 	}
 
 	/**
