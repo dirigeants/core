@@ -9,6 +9,7 @@ import { MessageReaction } from './messages/reactions/MessageReaction';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { Structure } from './base/Structure';
 import { ReactionCollector, ReactionCollectorOptions } from '../../../util/collectors/ReactionCollector';
+import { MessageBuilder } from './messages/MessageBuilder';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import type { User } from './User';
@@ -18,7 +19,6 @@ import type { DMChannel } from './channels/DMChannel';
 import type { TextChannel } from './channels/TextChannel';
 import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
-import type { MessageBuilder } from './messages/MessageBuilder';
 
 export class Message extends Structure {
 
@@ -211,7 +211,8 @@ export class Message extends Structure {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/channel#edit-message
 	 */
-	public async edit(content: MessageBuilder): Promise<Message> {
+	public async edit(content: MessageBuilder | ((message: MessageBuilder) => MessageBuilder)): Promise<Message> {
+		content = typeof content === 'function' ? content(new MessageBuilder()) : content;
 		const data = await this.client.api.patch(Routes.channelMessage(this.channel.id, this.id), content) as APIMessageData;
 		return this._patch(data) as Message;
 	}
