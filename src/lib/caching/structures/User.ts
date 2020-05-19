@@ -1,10 +1,9 @@
-import { Routes } from '@klasa/rest';
 import { Structure } from './base/Structure';
 import { isSet } from '../../util/Util';
 import { Client } from '../../client/Client';
 import { DMChannel } from './channels/DMChannel';
 
-import type { APIUserData, APIUserFlags, PremiumType, APIChannelData } from '@klasa/dapi-types';
+import type { APIUserData, APIUserFlags, PremiumType } from '@klasa/dapi-types';
 
 /**
  * @see https://discord.com/developers/docs/resources/user#user-object
@@ -117,10 +116,7 @@ export class User<T = Client> extends Structure<T> {
 		if (!(this.client instanceof Client)) throw new Error('DMs can only be opened by bot clients.');
 		const existing = this.client.dms.findValue(dm => dm.recipients.includes(this as unknown as User<Client>));
 		if (existing) return Promise.resolve(existing);
-		// eslint-disable-next-line @typescript-eslint/camelcase
-		const channel = await this.client.api.post(Routes.dms(), { data: { recipient_id: this.id } }) as APIChannelData;
-		// eslint-disable-next-line dot-notation
-		return this.client.dms['_add'](channel);
+		return this.client.dms.add(this.id);
 	}
 
 	/**

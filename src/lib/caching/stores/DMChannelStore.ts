@@ -23,7 +23,7 @@ export class DMChannelStore extends DataStore<DMChannel> {
 	}
 
 	/**
-	 * Closes a channel from a {@link User user}.
+	 * Closes a channel with a {@link User user}.
 	 * @since 0.0.1
 	 * @param channelID The channel to remove.
 	 * @param requestOptions The additional request options.
@@ -32,6 +32,19 @@ export class DMChannelStore extends DataStore<DMChannel> {
 	public async remove(channelID: string, requestOptions: RequestOptions = {}): Promise<DMChannel> {
 		const channel = await this.client.api.delete(Routes.channel(channelID), requestOptions) as APIChannelData;
 		return Channel.create(this.client, channel) as DMChannel;
+	}
+
+	/**
+	 * Opens a channel with a {@link User user}.
+	 * @since 0.0.1
+	 * @param userID The id for the user to open a dm channel with.
+	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
+	 */
+	public async add(userID: string): Promise<DMChannel> {
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		const channel = await this.client.api.post(Routes.dms(), { data: { recipient_id: userID } }) as APIChannelData;
+		// eslint-disable-next-line dot-notation
+		return this.client.dms['_add'](channel);
 	}
 
 	/**
