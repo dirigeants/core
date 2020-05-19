@@ -1,6 +1,7 @@
 /* eslint-disable no-dupe-class-members */
 import { Routes } from '@klasa/rest';
-import { ReactionIterator } from '../../../util/iterators/ReactionIterator'; import { DataStore } from './base/DataStore';
+import { DataStore } from './base/DataStore';
+import { ReactionIterator } from '../../../util/iterators/ReactionIterator';
 import { extender } from '../../../util/Extender';
 import { EmojiResolvable, resolveEmoji } from '../../../util/Util';
 
