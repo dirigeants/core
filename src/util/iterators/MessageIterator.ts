@@ -15,7 +15,11 @@ export class MessageIterator extends StructureIterator<Message> {
 
 	public constructor(channel: GuildTextChannel | DMChannel, limit: number, options: MessageIteratorOptions = {}) {
 		const { idle, filter = (): boolean => true } = options;
-		super(new EventIterator(channel.client, ClientEvents.MessageCreate, limit, { idle, filter: (message): boolean => message.channel === channel && filter(message, this.collected) }));
+
+		super(new EventIterator(channel.client, ClientEvents.MessageCreate, limit, {
+			idle,
+			filter: (message): boolean => message.channel === channel && filter(message, this.collected)
+		}));
 	}
 
 }

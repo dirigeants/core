@@ -14,7 +14,11 @@ export class ReactionIterator extends StructureIterator<MessageReaction> {
 
 	public constructor(message: Message, limit: number, options: ReactionIteratorOptions = {}) {
 		const { idle, filter = (): boolean => true } = options;
-		super(new EventIterator(message.client, ClientEvents.MessageReactionAdd, limit, { idle, filter: (react): boolean => react.message === message && filter(react, this.collected) }));
+
+		super(new EventIterator(message.client, ClientEvents.MessageReactionAdd, limit, {
+			idle,
+			filter: (react): boolean => react.message === message && filter(react, this.collected)
+		}));
 	}
 
 }
