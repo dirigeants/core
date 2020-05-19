@@ -121,6 +121,15 @@ export class User<T = Client> extends Structure<T> {
 	}
 
 	/**
+	 * Closes a DM channel for this user if one exists.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
+	 */
+	public async closeDM(): Promise<DMChannel | null> {
+		return this.channel?.delete() ?? null;
+	}
+
+	/**
 	 * Defines toString behavior for members.
 	 * @since 0.0.1
 	 */
