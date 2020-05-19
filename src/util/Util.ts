@@ -7,10 +7,10 @@ import type { VoiceChannel } from '../client/caching/structures/channels/VoiceCh
 import type { GuildEmoji } from '../client/caching/structures/guilds/GuildEmoji';
 import type { MessageReactionEmoji } from '../client/caching/structures/messages/reactions/MessageReactionEmoji';
 
-export function snakeToCamel(input: string): string {
-	const [first, ...parts] = input.split('_');
+export function snakeToUpperCamel(input: string): string {
+	const parts = input.split('_');
 
-	let output = first.toLowerCase();
+	let output = '';
 	for (const part of parts) {
 		output += part[0].toUpperCase() + part.substr(1).toLowerCase();
 	}

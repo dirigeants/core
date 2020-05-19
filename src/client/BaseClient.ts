@@ -4,6 +4,7 @@ import { REST, RESTOptions, RESTManagerEvents } from '@klasa/rest';
 import { TimerManager } from '@klasa/timer-manager';
 
 import { BaseClientOptionsDefaults } from '../util/Constants';
+import { ClientEvents } from '../util/types/Util';
 
 export interface BaseClientOptions {
 	rest: RESTOptions;
@@ -31,8 +32,8 @@ export class BaseClient extends EventEmitter {
 		super();
 		this.options = mergeDefault(BaseClientOptionsDefaults, options);
 		this.api = new REST(this.options.rest)
-			.on(RESTManagerEvents.Debug, this.emit.bind(this, RESTManagerEvents.ClientRESTDebug))
-			.on(RESTManagerEvents.Ratelimited, this.emit.bind(this, RESTManagerEvents.Ratelimited));
+			.on(RESTManagerEvents.Debug, this.emit.bind(this, ClientEvents.RESTDebug))
+			.on(RESTManagerEvents.Ratelimited, this.emit.bind(this, ClientEvents.Ratelimited));
 	}
 
 	/**
