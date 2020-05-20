@@ -32,6 +32,7 @@ export interface CacheLimits {
 	invites: number;
 	members: number;
 	messages: number;
+	overwrites: number;
 	presences: number;
 	reactions: number;
 	roles: number;

@@ -27,6 +27,7 @@ export const ClientOptionsDefaults: Required<ClientOptions> = {
 			invites: Infinity,
 			members: Infinity,
 			messages: 100,
+			overwrites: Infinity,
 			presences: Infinity,
 			reactions: Infinity,
 			roles: Infinity,

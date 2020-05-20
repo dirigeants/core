@@ -33,7 +33,7 @@ export class OverwriteStore extends DataStore<Overwrite> {
 	 * @param client The {@link Client client} this store belongs to.
 	 */
 	public constructor(client: Client, channel: GuildChannel) {
-		super(client, extender.get('Overwrite'), client.options.cache.limits.dms);
+		super(client, extender.get('Overwrite'), client.options.cache.limits.overwrites);
 		this.channel = channel;
 	}
 
