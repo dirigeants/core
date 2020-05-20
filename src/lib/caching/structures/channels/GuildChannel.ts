@@ -1,11 +1,12 @@
-import { Cache } from '@klasa/cache';
 import { Channel } from './Channel';
-import { PermissionOverwrites } from '../PermissionOverwrites';
+import { OverwriteStore } from '../../stores/OverwriteStore';
+import { Permissions } from '../../../util/bitfields/Permissions';
 
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
-import { RequestOptions } from '@klasa/rest';
+import type { RequestOptions } from '@klasa/rest';
+import type { GuildMember } from '../guilds/GuildMember';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -35,7 +36,7 @@ export abstract class GuildChannel extends Channel {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/channel#overwrite-object
 	 */
-	public permissionsOverwrites!: Cache<string, PermissionOverwrites>;
+	public readonly permissionOverwrites: OverwriteStore;
 
 	/**
 	 * The {@link Guild guild} this channel belongs to.
@@ -52,6 +53,30 @@ export abstract class GuildChannel extends Channel {
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null = null) {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
+		this.permissionOverwrites = new OverwriteStore(client, this);
+	}
+
+	/**
+	 * Checks what permissions a {@link GuildMember member} has in this {@link GuildChannel channel}
+	 * @param member The guild member you are checking permissions for
+	 */
+	public permissionsFor(member: GuildMember): Readonly<Permissions> | null {
+		if (member.id === this.guild.ownerID) return new Permissions(Permissions.ALL).freeze();
+
+		const permissions = new Permissions(member.roles.map(role => role.permissions));
+
+		if (permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
+
+		const overwrites = this.permissionOverwrites.for(member);
+
+		return permissions
+			.remove(overwrites.everyone ? overwrites.everyone.deny : 0)
+			.add(overwrites.everyone ? overwrites.everyone.allow : 0)
+			.remove(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.deny) : 0)
+			.add(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.allow) : 0)
+			.remove(overwrites.member ? overwrites.member.deny : 0)
+			.add(overwrites.member ? overwrites.member.allow : 0)
+			.freeze();
 	}
 
 	/**
@@ -70,10 +95,8 @@ export abstract class GuildChannel extends Channel {
 		this.name = data.name as string;
 		this.position = data.position as number;
 		this.parentID = data.parent_id as string | null;
-		this.permissionsOverwrites = new Cache();
-		for (const overwrite of data.permission_overwrites ?? []) {
-			this.permissionsOverwrites.set(overwrite.id, new PermissionOverwrites(overwrite));
-		}
+		// eslint-disable-next-line dot-notation
+		for (const overwrite of data.permission_overwrites ?? []) this.permissionOverwrites['_add'](overwrite);
 
 		return this;
 	}

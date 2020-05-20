@@ -5,6 +5,7 @@ import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from './Guild';
+import type { User } from '../User';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
@@ -72,6 +73,14 @@ export class GuildMember extends Structure {
 		this.id = (data.user as APIUserData).id;
 		this.guild = guild;
 		this._patch(data);
+	}
+
+	/**
+	 * The user for this member
+	 * @since 0.0.1
+	 */
+	public get user(): User | null {
+		return this.client.users.get(this.id) ?? null;
 	}
 
 	/**

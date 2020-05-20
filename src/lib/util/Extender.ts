@@ -13,7 +13,7 @@ import { Invite } from '../caching/structures/Invite';
 import { Message } from '../caching/structures/Message';
 import { MessageReaction } from '../caching/structures/messages/reactions/MessageReaction';
 import { NewsChannel } from '../caching/structures/channels/NewsChannel';
-import { PermissionOverwrites } from '../caching/structures/PermissionOverwrites';
+import { Overwrite } from '../caching/structures/guilds/Overwrite';
 import { Presence } from '../caching/structures/guilds/Presence';
 import { Role } from '../caching/structures/guilds/Role';
 import { StoreChannel } from '../caching/structures/channels/StoreChannel';
@@ -111,7 +111,7 @@ export interface ExtenderStructures {
 	Message: Constructor<Message>;
 	MessageReaction: Constructor<MessageReaction>;
 	NewsChannel: Constructor<NewsChannel>;
-	PermissionOverwrites: Constructor<PermissionOverwrites>;
+	Overwrite: Constructor<Overwrite>;
 	Presence: Constructor<Presence>;
 	Role: Constructor<Role>;
 	StoreChannel: Constructor<StoreChannel>;
@@ -140,7 +140,7 @@ export const extender = new Extender()
 	.add('Message', Message)
 	.add('MessageReaction', MessageReaction)
 	.add('NewsChannel', NewsChannel)
-	.add('PermissionOverwrites', PermissionOverwrites)
+	.add('Overwrite', Overwrite)
 	.add('Presence', Presence)
 	.add('Role', Role)
 	.add('StoreChannel', StoreChannel)

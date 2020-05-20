@@ -91,6 +91,30 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	}
 
 	/**
+	 * Resolves data into Structures
+	 * @param data The data to resolve
+	 */
+	public resolve(data: unknown): GuildMember | null {
+		const member = super.resolve(data);
+		if (member) return member;
+		const user = this.client.users.resolve(data);
+		if (user) return super.resolve(user.id);
+		return null;
+	}
+
+	/**
+	 * Resolves data into ids
+	 * @param data The data to resolve
+	 */
+	public resolveID(data: unknown): string | null {
+		const member = super.resolveID(data);
+		if (member) return member;
+		const user = this.client.users.resolveID(data);
+		if (user) return user;
+		return null;
+	}
+
+	/**
 	 * Adds a new structure to this DataStore
 	 * @param data The data packet to add
 	 */

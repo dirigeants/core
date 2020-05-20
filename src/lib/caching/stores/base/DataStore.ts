@@ -21,6 +21,26 @@ export class DataStore<S extends Structure> extends Cache<string, S> {
 	}
 
 	/**
+	 * Resolves data into Structures
+	 * @param data The data to resolve
+	 */
+	public resolve(data: unknown): S | null {
+		if (typeof data === 'string') return this.get(data) || null;
+		if (data instanceof this.Holds) return data;
+		return null;
+	}
+
+	/**
+	 * Resolves data into ids
+	 * @param data The data to resolve
+	 */
+	public resolveID(data: unknown): string | null {
+		if (typeof data === 'string') return data;
+		if (data instanceof this.Holds) return data.id;
+		return null;
+	}
+
+	/**
 	 * Sets a value to this DataStore taking into account the cache limit.
 	 * @param key The key of the value you are setting
 	 * @param value The value for the key you are setting
@@ -44,26 +64,6 @@ export class DataStore<S extends Structure> extends Cache<string, S> {
 		const entry = new this.Holds(this.client, data);
 		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
-	}
-
-	/**
-	 * Resolves data into Structures
-	 * @param data The data to resolve
-	 */
-	public resolve(data: S | string): S | null {
-		if (typeof data === 'string') return this.get(data) || null;
-		if (data instanceof this.Holds) return data;
-		return null;
-	}
-
-	/**
-	 * Resolves data into ids
-	 * @param data The data to resolve
-	 */
-	public resolveID(data: S | string): string | null {
-		if (typeof data === 'string') return data;
-		if (data instanceof this.Holds) return data.id;
-		return null;
 	}
 
 	/**
