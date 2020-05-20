@@ -15,7 +15,6 @@ import { RoleStore } from '../../stores/RoleStore';
 import { Structure } from '../base/Structure';
 import { VoiceStateStore } from '../../stores/VoiceStateStore';
 
-import type { Client } from '../../../client/Client';
 import type {
 	APIGuildData,
 	APIVoiceRegionData,
@@ -28,6 +27,8 @@ import type {
 	GuildVerificationLevel,
 	APIGuildPreviewData
 } from '@klasa/dapi-types';
+import type { Client } from '../../../client/Client';
+import type { GuildMember } from './GuildMember';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-object
@@ -360,6 +361,15 @@ export class Guild extends Structure {
 	 */
 	public get joinedAt(): Date | null {
 		return this.joinedTimestamp === null ? null : new Date(this.joinedTimestamp);
+	}
+
+	/**
+	 * When this guild was joined at, as a Date.
+	 * @since 0.0.1
+	 */
+	public get me(): GuildMember | null {
+		if (!this.client.user) return null;
+		return this.members.get(this.client.user.id) ?? null;
 	}
 
 	/**

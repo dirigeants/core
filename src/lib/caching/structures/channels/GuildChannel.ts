@@ -37,7 +37,7 @@ export abstract class GuildChannel extends Channel {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/channel#overwrite-object
 	 */
-	public readonly permissionOverwrites: OverwriteStore;
+	public permissionOverwrites!: OverwriteStore;
 
 	/**
 	 * The {@link Guild guild} this channel belongs to.
@@ -54,7 +54,6 @@ export abstract class GuildChannel extends Channel {
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null = null) {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
-		this.permissionOverwrites = new OverwriteStore(client, this);
 	}
 
 	/**
@@ -74,7 +73,7 @@ export abstract class GuildChannel extends Channel {
 		if (this.permissionOverwrites.size !== parent.permissionOverwrites.size) return false;
 		return this.permissionOverwrites.every((value, key) => {
 			const overwrite = parent.permissionOverwrites.get(key);
-			return overwrite !== undefined && overwrite.deny.bitfield === value.deny.bitfield && overwrite.allow.bitfield === value.allow.bitfield;
+			return overwrite !== undefined && overwrite.deny.equals(value.deny) && overwrite.allow.equals(value.allow);
 		});
 	}
 
@@ -135,6 +134,7 @@ export abstract class GuildChannel extends Channel {
 		this.name = data.name as string;
 		this.position = data.position as number;
 		this.parentID = data.parent_id as string | null;
+		if (!this.permissionOverwrites) this.permissionOverwrites = new OverwriteStore(this.client, this);
 		const overwrites = data.permission_overwrites ?? [];
 		for (const overwrite of this.permissionOverwrites.values()) {
 			const apiOverwrite = overwrites.find((ovr) => ovr.id === overwrite.id);
