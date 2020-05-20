@@ -66,6 +66,19 @@ export abstract class GuildChannel extends Channel {
 	}
 
 	/**
+	 * If the overwrites are synced to the parent channel.
+	 */
+	public get synced(): boolean | null {
+		const { parent } = this;
+		if (!parent) return null;
+		if (this.permissionOverwrites.size !== parent.permissionOverwrites.size) return false;
+		return this.permissionOverwrites.every((value, key) => {
+			const overwrite = parent.permissionOverwrites.get(key);
+			return overwrite !== undefined && overwrite.deny.bitfield === value.deny.bitfield && overwrite.allow.bitfield === value.allow.bitfield;
+		});
+	}
+
+	/**
 	 * Syncs the permission overwrites with the parent channel.
 	 * @param requestOptions The additional request options.
 	 * @since 0.0.1
