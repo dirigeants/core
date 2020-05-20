@@ -7,7 +7,7 @@ import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
 import type { RequestOptions } from '@klasa/rest';
 import type { GuildMember } from '../guilds/GuildMember';
-import { CategoryChannel } from './CategoryChannel';
+import type { CategoryChannel } from './CategoryChannel';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
