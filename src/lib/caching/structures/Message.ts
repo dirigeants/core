@@ -9,6 +9,7 @@ import { MessageReaction } from './messages/reactions/MessageReaction';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { Structure } from './base/Structure';
 import { ReactionCollector, ReactionCollectorOptions } from '../../util/collectors/ReactionCollector';
+import { Permissions } from '../../util/bitfields/Permissions';
 import { MessageBuilder } from './messages/MessageBuilder';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
@@ -19,8 +20,7 @@ import type { DMChannel } from './channels/DMChannel';
 import type { TextChannel } from './channels/TextChannel';
 import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
-import { Permissions } from '../../util/bitfields/Permissions';
-import { GuildChannel } from './channels/GuildChannel';
+import type { GuildChannel } from './channels/GuildChannel';
 
 export class Message extends Structure {
 
