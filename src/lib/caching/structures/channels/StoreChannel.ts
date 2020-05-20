@@ -1,5 +1,5 @@
 import { ChannelType, APIChannelData } from '@klasa/dapi-types';
-import { GuildChannel, ChannelModfiyOptions } from './GuildChannel';
+import { GuildChannel, ChannelModifyOptions } from './GuildChannel';
 
 import type { RequestOptions } from '@klasa/rest';
 
@@ -32,7 +32,7 @@ export class StoreChannel extends GuildChannel {
 
 }
 
-interface StoreChannelModifyOptions extends ChannelModfiyOptions {
+interface StoreChannelModifyOptions extends ChannelModifyOptions {
 	nsfw?: boolean | null;
 	parent_id?: string | null;
 }

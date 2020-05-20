@@ -1,7 +1,7 @@
 import { APIChannelData, ChannelType } from '@klasa/dapi-types';
 import { GuildTextChannel } from './GuildTextChannel';
 
-import type { ChannelModfiyOptions } from './GuildChannel';
+import type { ChannelModifyOptions } from './GuildChannel';
 import type { RequestOptions } from '@klasa/rest';
 
 /**
@@ -34,7 +34,7 @@ export class TextChannel extends GuildTextChannel {
 
 }
 
-interface TextChannelModifyOptions extends ChannelModfiyOptions {
+interface TextChannelModifyOptions extends ChannelModifyOptions {
 	type?: ChannelType.GuildText | ChannelType.GuildAnnouncement;
 	topic?: string | null;
 	nsfw?: boolean | null;

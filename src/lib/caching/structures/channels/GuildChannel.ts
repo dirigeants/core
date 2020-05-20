@@ -112,7 +112,7 @@ export abstract class GuildChannel extends Channel {
 		return this;
 	}
 
-	public async modify(data: ChannelModfiyOptions, requestOptions: RequestOptions = {}): Promise<this> {
+	public async modify(data: ChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		const result = await this.client.api.patch(Routes.channel(this.id), { ...requestOptions, data }) as APIChannelData;
 		return this._patch(result);
 	}
@@ -139,7 +139,7 @@ export abstract class GuildChannel extends Channel {
 
 }
 
-export interface ChannelModfiyOptions {
+export interface ChannelModifyOptions {
 	name?: string;
 	position?: number | null;
 	permission_overwrites?: APIOverwriteData[] | null;

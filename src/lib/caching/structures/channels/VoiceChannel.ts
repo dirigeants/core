@@ -1,5 +1,5 @@
 import { ChannelType, APIChannelData } from '@klasa/dapi-types';
-import { GuildChannel, ChannelModfiyOptions } from './GuildChannel';
+import { GuildChannel, ChannelModifyOptions } from './GuildChannel';
 
 import type { RequestOptions } from '@klasa/rest';
 
@@ -39,7 +39,7 @@ export class VoiceChannel extends GuildChannel {
 
 }
 
-interface VoiceChannelModifyOptions extends ChannelModfiyOptions {
+interface VoiceChannelModifyOptions extends ChannelModifyOptions {
 	bitrate?: number | null;
 	user_limit?: number | null;
 	parent_id?: string | null;
