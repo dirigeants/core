@@ -95,8 +95,18 @@ export abstract class GuildChannel extends Channel {
 		this.name = data.name as string;
 		this.position = data.position as number;
 		this.parentID = data.parent_id as string | null;
-		// eslint-disable-next-line dot-notation
-		for (const overwrite of data.permission_overwrites ?? []) this.permissionOverwrites['_add'](overwrite);
+		const overwrites = data.permission_overwrites ?? [];
+		for (const overwrite of this.permissionOverwrites.values()) {
+			const apiOverwrite = overwrites.find((ovr) => ovr.id === overwrite.id);
+
+			if (typeof apiOverwrite === 'undefined') {
+				overwrite.deleted = true;
+				this.permissionOverwrites.delete(overwrite.id);
+				continue;
+			}
+			// eslint-disable-next-line dot-notation
+			this.permissionOverwrites['_add'](apiOverwrite);
+		}
 
 		return this;
 	}
