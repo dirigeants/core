@@ -70,7 +70,7 @@ export abstract class GuildChannel extends Channel {
 	 * @param reason The reason for syncing permissions.
 	 * @since 0.0.1
 	 */
-	public async syncPermissions(reason?: string): Promise<this> {
+	public syncPermissions(reason?: string): Promise<this> {
 		const { parent } = this;
 		if (!parent) return Promise.reject(new Error('This channel does not have a parent channel to sync permissions from.'));
 		const overwrites = parent.permissionOverwrites.map(({ id, type, allow, deny }) => ({ id, type, allow: allow.bitfield, deny: deny.bitfield }));
