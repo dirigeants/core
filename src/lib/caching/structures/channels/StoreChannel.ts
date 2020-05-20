@@ -32,7 +32,7 @@ export class StoreChannel extends GuildChannel {
 
 }
 
-interface StoreChannelModifyOptions extends ChannelModifyOptions {
+export interface StoreChannelModifyOptions extends ChannelModifyOptions {
 	nsfw?: boolean | null;
 	parent_id?: string | null;
 }

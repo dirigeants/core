@@ -22,7 +22,7 @@ export class NewsChannel extends GuildTextChannel {
 
 }
 
-interface NewsChannelModifyOptions extends ChannelModifyOptions {
+export interface NewsChannelModifyOptions extends ChannelModifyOptions {
 	type?: ChannelType.GuildAnnouncement | ChannelType.GuildText;
 	topic?: string | null;
 	nsfw?: boolean;

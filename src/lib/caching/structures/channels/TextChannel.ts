@@ -34,7 +34,7 @@ export class TextChannel extends GuildTextChannel {
 
 }
 
-interface TextChannelModifyOptions extends ChannelModifyOptions {
+export interface TextChannelModifyOptions extends ChannelModifyOptions {
 	type?: ChannelType.GuildText | ChannelType.GuildAnnouncement;
 	topic?: string | null;
 	nsfw?: boolean | null;

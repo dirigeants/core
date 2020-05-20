@@ -519,7 +519,7 @@ export class Guild extends Structure {
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#modify-guild-json-params
  */
-interface GuildModifyOptions {
+export interface GuildModifyOptions {
 	/**
 	 * The {@link Guild guild} name.
 	 * @since 0.0.1

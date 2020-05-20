@@ -39,7 +39,7 @@ export class VoiceChannel extends GuildChannel {
 
 }
 
-interface VoiceChannelModifyOptions extends ChannelModifyOptions {
+export interface VoiceChannelModifyOptions extends ChannelModifyOptions {
 	bitrate?: number | null;
 	user_limit?: number | null;
 	parent_id?: string | null;
