@@ -66,6 +66,7 @@ export abstract class GuildChannel extends Channel {
 
 	/**
 	 * If the overwrites are synced to the parent channel.
+	 * @since 0.0.1
 	 */
 	public get synced(): boolean | null {
 		const { parent } = this;
@@ -78,16 +79,33 @@ export abstract class GuildChannel extends Channel {
 	}
 
 	/**
-	 * Syncs the permission overwrites with the parent channel.
-	 * @param requestOptions The additional request options.
+	 * If the client can delete the channel.
 	 * @since 0.0.1
 	 */
-	public syncPermissions(requestOptions: RequestOptions = {}): Promise<this> {
-		const { parent } = this;
-		if (!parent) return Promise.reject(new Error('This channel does not have a parent channel to sync permissions from.'));
-		const overwrites = parent.permissionOverwrites.map(({ id, type, allow, deny }) => ({ id, type, allow: allow.bitfield, deny: deny.bitfield }));
-		// eslint-disable-next-line @typescript-eslint/camelcase
-		return this.modify({ permission_overwrites: overwrites }, requestOptions);
+	public get deletable(): boolean | null {
+		const { me } = this.guild;
+		if (!me) return null;
+		return this.permissionsFor(me)?.has(Permissions.FLAGS.MANAGE_CHANNELS) ?? null;
+	}
+
+	/**
+	 * If the client can view the channel.
+	 * @since 0.0.1
+	 */
+	public get viewable(): boolean | null {
+		const { me } = this.guild;
+		if (!me) return null;
+		return this.permissionsFor(me)?.has(Permissions.FLAGS.VIEW_CHANNEL) ?? null;
+	}
+
+	/**
+	 * If the client can manage the channel.
+	 * @since 0.0.1
+	 */
+	public get manageable(): boolean | null {
+		const { me } = this.guild;
+		if (!me) return null;
+		return this.permissionsFor(me)?.has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]) ?? null;
 	}
 
 	/**
@@ -128,6 +146,19 @@ export abstract class GuildChannel extends Channel {
 	public async modify(data: ChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		const result = await this.client.api.patch(Routes.channel(this.id), { ...requestOptions, data }) as APIChannelData;
 		return this._patch(result);
+	}
+
+	/**
+	 * Syncs the permission overwrites with the parent channel.
+	 * @param requestOptions The additional request options.
+	 * @since 0.0.1
+	 */
+	public syncPermissions(requestOptions: RequestOptions = {}): Promise<this> {
+		const { parent } = this;
+		if (!parent) return Promise.reject(new Error('This channel does not have a parent channel to sync permissions from.'));
+		const overwrites = parent.permissionOverwrites.map(({ id, type, allow, deny }) => ({ id, type, allow: allow.bitfield, deny: deny.bitfield }));
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		return this.modify({ permission_overwrites: overwrites }, requestOptions);
 	}
 
 	protected _patch(data: APIChannelData): this {

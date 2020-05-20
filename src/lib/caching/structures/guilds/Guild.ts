@@ -364,7 +364,7 @@ export class Guild extends Structure {
 	}
 
 	/**
-	 * When this guild was joined at, as a Date.
+	 * The Client's member of this guild.
 	 * @since 0.0.1
 	 */
 	public get me(): GuildMember | null {
