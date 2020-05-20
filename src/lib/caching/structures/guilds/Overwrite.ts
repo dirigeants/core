@@ -78,8 +78,7 @@ export class Overwrite extends Structure {
 			deny: options.deny ?? this.deny.bitfield
 		};
 		await this.channel.permissionOverwrites.add(this.id, data, requestOptions);
-		this._patch(data);
-		return this;
+		return this._patch(data);
 	}
 
 	protected _patch(data: APIOverwriteData | OverwriteData): this {
