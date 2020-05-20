@@ -62,7 +62,7 @@ export abstract class GuildChannel extends Channel {
 	 * The parent {@type CategoryChannel channel} for this channel.
 	 * @since 0.0.1
 	 */
-	get parent(): CategoryChannel | null {
+	public get parent(): CategoryChannel | null {
 		return (this.parentID && this.guild.channels.get(this.parentID) as CategoryChannel) || null;
 	}
 
