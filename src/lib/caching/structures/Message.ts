@@ -19,6 +19,8 @@ import type { DMChannel } from './channels/DMChannel';
 import type { TextChannel } from './channels/TextChannel';
 import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
+import { Permissions } from '../../util/bitfields/Permissions';
+import { GuildChannel } from './channels/GuildChannel';
 
 export class Message extends Structure {
 
@@ -194,6 +196,47 @@ export class Message extends Structure {
 	 */
 	public get editedAt(): Date | null {
 		return this.editedTimestamp ? new Date(this.editedTimestamp) : null;
+	}
+
+	/**
+	 * If the client can react to this message.
+	 * @since 0.0.1
+	 */
+	public get deletable(): boolean | null {
+		if (!this.guild) return !this.deleted && this.editable;
+		const { me } = this.guild;
+		if (!me) return null;
+		return !this.deleted && (this.editable || ((this.channel as GuildChannel).permissionsFor(me)?.has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null));
+	}
+
+	/**
+	 * If the client can react to this message.
+	 * @since 0.0.1
+	 */
+	public get editable(): boolean {
+		return this.author === this.client.user;
+	}
+
+	/**
+	 * If the client can react to this message.
+	 * @since 0.0.1
+	 */
+	public get pinnable(): boolean | null {
+		if (!this.guild) return true;
+		const { me } = this.guild;
+		if (!me) return null;
+		return (this.channel as GuildChannel).permissionsFor(me)?.has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null;
+	}
+
+	/**
+	 * If the client can react to this message.
+	 * @since 0.0.1
+	 */
+	public get reactable(): boolean | null {
+		if (!this.guild) return true;
+		const { me } = this.guild;
+		if (!me) return null;
+		return (this.channel as GuildChannel).permissionsFor(me)?.has([Permissions.FLAGS.ADD_REACTIONS]) ?? null;
 	}
 
 	/**

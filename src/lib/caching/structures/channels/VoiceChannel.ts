@@ -29,6 +29,14 @@ export class VoiceChannel extends GuildChannel {
 	public userLimit!: number;
 
 	/**
+	 * If the client can delete the channel.
+	 * @since 0.0.1
+	 */
+	public get deletable(): boolean | null {
+		return !this.deleted && this.manageable;
+	}
+
+	/**
 	 * If the client can manage the channel.
 	 * @since 0.0.1
 	 */

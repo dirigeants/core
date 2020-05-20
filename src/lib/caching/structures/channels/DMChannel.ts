@@ -54,6 +54,33 @@ export class DMChannel extends Channel {
 	}
 
 	/**
+	 * If the client can send message attachments in the channel.
+	 * @since 0.0.1
+	 */
+	public get attachable(): boolean {
+		// always true here
+		return true;
+	}
+
+	/**
+	 * If the client can send messages in the channel.
+	 * @since 0.0.1
+	 */
+	public get postable(): boolean {
+		// always true here
+		return true;
+	}
+
+	/**
+	 * If the client can send message embeds in the channel.
+	 * @since 0.0.1
+	 */
+	public get embedable(): boolean {
+		// always true here
+		return true;
+	}
+
+	/**
 	 * Awaits a group of messages.
 	 * @since 0.0.1
 	 * @param options The options to control what you receive
