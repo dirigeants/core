@@ -7,6 +7,7 @@ import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
 import type { RequestOptions } from '@klasa/rest';
 import type { GuildMember } from '../guilds/GuildMember';
+import { CategoryChannel } from './CategoryChannel';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -54,6 +55,26 @@ export abstract class GuildChannel extends Channel {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
 		this.permissionOverwrites = new OverwriteStore(client, this);
+	}
+
+	/**
+	 * The parent {@type CategoryChannel channel} for this channel.
+	 * @since 0.0.1
+	 */
+	get parent(): CategoryChannel | null {
+		return (this.parentID && this.guild.channels.get(this.parentID) as CategoryChannel) || null;
+	}
+
+	/**
+	 * Syncs the permission overwrites with the parent channel.
+	 * @since 0.0.1
+	 */
+	public async syncPermissions(): Promise<this> {
+		const { parent } = this;
+		if (!parent) return Promise.reject(new Error('This channel does not have a parent channel to sync permissions from.'));
+		// const permissionOverwrites = parent.permissionOverwrites.map(({ id, type, allow, deny }) => ({ id, type, allow, deny }));
+		return this;
+		// todo: implement .modify({ permissionOverwrites });
 	}
 
 	/**

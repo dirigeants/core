@@ -5,6 +5,8 @@ import type { APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { GuildChannel } from '../channels/GuildChannel';
 
+export type OverwriteData = Omit<APIOverwriteData, 'id'>;
+
 /**
  * @see https://discord.com/developers/docs/resources/channel#overwrite-object
  */
@@ -41,7 +43,7 @@ export class Overwrite extends Structure {
 	public deny!: Readonly<Permissions>;
 
 	/**
-	 * If the overwrite has been deleted
+	 * If the overwrite has been deleted.
 	 * @since 0.0.1
 	 */
 	public deleted = false;
@@ -49,12 +51,13 @@ export class Overwrite extends Structure {
 	public constructor(client: Client, data: APIOverwriteData, channel: GuildChannel) {
 		super(client);
 		this.id = data.id;
+		this.type = data.type;
 		this.channel = channel;
 		this._patch(data);
 	}
 
 	/**
-	 * Deletes this overwrite
+	 * Deletes this overwrite.
 	 * @param reason The reason for deleting this overwrite
 	 */
 	public async delete(reason?: string): Promise<this> {
@@ -62,8 +65,23 @@ export class Overwrite extends Structure {
 		return this;
 	}
 
-	protected _patch(data: APIOverwriteData): this {
-		this.type = data.type;
+	/**
+	 * Modifies this overwrite.
+	 * @param options The modify options
+	 * @param reason The reason for modifying overwrites
+	 */
+	public async modify(options: Partial<OverwriteData>, reason?: string): Promise<this> {
+		const data = {
+			type: this.type,
+			allow: options.allow ?? this.allow.bitfield,
+			deny: options.deny ?? this.deny.bitfield
+		};
+		await this.channel.permissionOverwrites.add(this.id, data, { reason });
+		this._patch(data);
+		return this;
+	}
+
+	protected _patch(data: APIOverwriteData | OverwriteData): this {
 		this.allow = new Permissions(data.allow).freeze();
 		this.deny = new Permissions(data.deny).freeze();
 		return this;

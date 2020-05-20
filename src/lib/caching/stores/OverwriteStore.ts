@@ -4,7 +4,7 @@ import { extender } from '../../util/Extender';
 
 import type { APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
-import type { Overwrite } from '../structures/guilds/Overwrite';
+import type { Overwrite, OverwriteData } from '../structures/guilds/Overwrite';
 import type { GuildChannel } from '../structures/channels/GuildChannel';
 import type { GuildMember } from '../structures/guilds/GuildMember';
 
@@ -40,13 +40,14 @@ export class OverwriteStore extends DataStore<Overwrite> {
 	/**
 	 * Creates a new {@link Overwrite overwrite} for the {@link GuildChannel channel}.
 	 * @since 0.0.1
+	 * @param id The id the overwrite is for
 	 * @param data The overwrite data.
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/channel#edit-channel-permissions
 	 */
-	public async add(data: APIOverwriteData, requestOptions: RequestOptions = {}): Promise<Overwrite> {
-		await this.client.api.put(Routes.channelPermissions(this.channel.id, data.id), { ...requestOptions, data });
-		return this._add(data);
+	public async add(id: string, data: OverwriteData, requestOptions: RequestOptions = {}): Promise<Overwrite> {
+		await this.client.api.put(Routes.channelPermissions(this.channel.id, id), { ...requestOptions, data });
+		return this._add({ id, ...data });
 	}
 
 	/**
