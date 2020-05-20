@@ -40,7 +40,7 @@ export class BanStore extends DataStore<Ban> {
 	 * @see https://discord.com/developers/docs/resources/guild#create-guild-ban
 	 */
 	public async add(userID: string, options: BanAddOptions = {}): Promise<this> {
-		await this.client.api.put(Routes.guildBan(this.guild.id, userID), { query: { 'delete-message-days': options.deleteMessageDays, reason: options.reason } });
+		await this.client.api.put(Routes.guildBan(this.guild.id, userID), { ...options, query: { 'delete-message-days': options.deleteMessageDays } });
 		return this;
 	}
 
@@ -135,18 +135,12 @@ export class BanStore extends DataStore<Ban> {
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#create-guild-ban-query-string-params
  */
-export interface BanAddOptions {
+export interface BanAddOptions extends RequestOptions {
 	/**
 	 * Number of days to delete messages for (0-7).
 	 * @since 0.0.1
 	 */
 	deleteMessageDays?: number;
-
-	/**
-	 * Reason for the ban.
-	 * @since 0.0.1
-	 */
-	reason?: string;
 }
 
 export interface BanStoreFetchOptions {

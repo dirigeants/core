@@ -4,6 +4,7 @@ import { Structure } from '../base/Structure';
 import type { APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { GuildChannel } from '../channels/GuildChannel';
+import type { RequestOptions } from '@klasa/rest';
 
 export type OverwriteData = Omit<APIOverwriteData, 'id'>;
 
@@ -58,25 +59,25 @@ export class Overwrite extends Structure {
 
 	/**
 	 * Deletes this overwrite.
-	 * @param reason The reason for deleting this overwrite
+	 * @param requestOptions The additional request options.
 	 */
-	public async delete(reason?: string): Promise<this> {
-		await this.channel.permissionOverwrites.remove(this.id, { reason });
+	public async delete(requestOptions: RequestOptions = {}): Promise<this> {
+		await this.channel.permissionOverwrites.remove(this.id, requestOptions);
 		return this;
 	}
 
 	/**
 	 * Modifies this overwrite.
 	 * @param options The modify options
-	 * @param reason The reason for modifying overwrites
+	 * @param requestOptions The additional request options.
 	 */
-	public async modify(options: Partial<OverwriteData>, reason?: string): Promise<this> {
+	public async modify(options: Partial<OverwriteData>, requestOptions: RequestOptions = {}): Promise<this> {
 		const data = {
 			type: this.type,
 			allow: options.allow ?? this.allow.bitfield,
 			deny: options.deny ?? this.deny.bitfield
 		};
-		await this.channel.permissionOverwrites.add(this.id, data, { reason });
+		await this.channel.permissionOverwrites.add(this.id, data, requestOptions);
 		this._patch(data);
 		return this;
 	}

@@ -67,15 +67,15 @@ export abstract class GuildChannel extends Channel {
 
 	/**
 	 * Syncs the permission overwrites with the parent channel.
-	 * @param reason The reason for syncing permissions.
+	 * @param requestOptions The additional request options.
 	 * @since 0.0.1
 	 */
-	public syncPermissions(reason?: string): Promise<this> {
+	public syncPermissions(requestOptions: RequestOptions = {}): Promise<this> {
 		const { parent } = this;
 		if (!parent) return Promise.reject(new Error('This channel does not have a parent channel to sync permissions from.'));
 		const overwrites = parent.permissionOverwrites.map(({ id, type, allow, deny }) => ({ id, type, allow: allow.bitfield, deny: deny.bitfield }));
 		// eslint-disable-next-line @typescript-eslint/camelcase
-		return this.modify({ permission_overwrites: overwrites }, { reason });
+		return this.modify({ permission_overwrites: overwrites }, requestOptions);
 	}
 
 	/**
