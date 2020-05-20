@@ -1,5 +1,7 @@
 import { ChannelType, APIChannelData } from '@klasa/dapi-types';
-import { GuildChannel } from './GuildChannel';
+import { GuildChannel, ChannelModfiyOptions } from './GuildChannel';
+
+import type { RequestOptions } from '@klasa/rest';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -25,10 +27,20 @@ export class VoiceChannel extends GuildChannel {
 	 */
 	public userLimit!: number;
 
+	public modify(data: VoiceChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		return super.modify(data, requestOptions);
+	}
+
 	protected _patch(data: APIChannelData): this {
 		this.bitrate = data.bitrate as number;
 		this.userLimit = data.user_limit as number;
 		return super._patch(data);
 	}
 
+}
+
+interface VoiceChannelModifyOptions extends ChannelModfiyOptions {
+	bitrate?: number | null;
+	user_limit?: number | null;
+	parent_id?: string | null;
 }

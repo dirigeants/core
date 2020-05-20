@@ -1,8 +1,9 @@
 import { Channel } from './Channel';
 import { OverwriteStore } from '../../stores/OverwriteStore';
 import { Permissions } from '../../../util/bitfields/Permissions';
+import {Routes} from '@klasa/rest';
 
-import type { APIChannelData } from '@klasa/dapi-types';
+import type { APIChannelData, APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
 import type { RequestOptions } from '@klasa/rest';
@@ -112,6 +113,11 @@ export abstract class GuildChannel extends Channel {
 		return this;
 	}
 
+	public async modify(data: ChannelModfiyOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		const result = await this.client.api.patch(Routes.channel(this.id), {...requestOptions, data}) as APIChannelData;
+		return this._patch(result);
+	}
+
 	protected _patch(data: APIChannelData): this {
 		this.name = data.name as string;
 		this.position = data.position as number;
@@ -132,4 +138,10 @@ export abstract class GuildChannel extends Channel {
 		return this;
 	}
 
+}
+
+export interface ChannelModfiyOptions {
+	name?: string;
+	position?: number | null;
+	permission_overwrites?: APIOverwriteData[] | null;
 }
