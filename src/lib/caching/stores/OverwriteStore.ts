@@ -70,7 +70,7 @@ export class OverwriteStore extends DataStore<Overwrite> {
 	}
 
 	/**
-	 * Gets the overwrites for a given guild member.
+	 * Gets the overwrites for a given guild member or role.
 	 * @param target
 	 */
 	public for(target: GuildMember): MemberOverwrites

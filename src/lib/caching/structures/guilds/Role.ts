@@ -85,8 +85,6 @@ export class Role extends Structure {
 	 * @param channel The channel to check permissions in
 	 */
 	public permissionsIn(channel: GuildChannel): Readonly<Permissions> {
-		if (this.id === this.guild.ownerID) return new Permissions(Permissions.ALL).freeze();
-
 		const { permissions } = this;
 
 		if (this.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
