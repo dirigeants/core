@@ -57,9 +57,9 @@
       "!test/lib"
     ],
     "typescript": {
-			"extensions": [
-				"ts",
-				"tsx"
+      "extensions": [
+        "ts",
+        "tsx"
       ],
       "rewritePaths": {
         "test/": "dist/test/"
