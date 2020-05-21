@@ -52,7 +52,7 @@ function isPng(buffer: Buffer): boolean {
  */
 function isWebp(buffer: Buffer): boolean {
 	// 0x52 0x49 0x46 0x46 0x__ 0x__ 0x__ 0x__ 0x57 0x45 0x42 0x50
-	return buffer.length > 11 &&
+	return buffer.length > 12 &&
 		buffer[0] === 0x52 &&
 		buffer[1] === 0x49 &&
 		buffer[2] === 0x46 &&
