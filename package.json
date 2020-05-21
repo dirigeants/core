@@ -52,6 +52,10 @@
     "fs-nextra": "^0.5.1"
   },
   "ava": {
+    "files": [
+      "test/**/*.ts",
+      "!test/lib"
+    ],
     "typescript": {
 			"extensions": [
 				"ts",
