@@ -87,8 +87,9 @@ class Extender extends Cache<keyof ExtenderStructures, ExtenderStructures[keyof 
 	public extend<K extends keyof ExtenderStructures, R extends ExtenderStructures[K]>(key: K, fn: (structure: ExtenderStructures[K]) => R): this {
 		const structure = this.get(key);
 		if (typeof structure === 'undefined') throw new TypeError(`The structure ${key} does not exist.`);
-		super.set(key, fn(structure));
-		return this;
+		const extended = fn(structure);
+		if (extended instanceof structure) throw new TypeError('The extended structure must extend the provided structure.');
+		return super.set(key, extended);
 	}
 
 }
