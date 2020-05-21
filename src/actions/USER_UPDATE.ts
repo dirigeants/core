@@ -15,7 +15,9 @@ export default class CoreAction extends Action {
 	}
 
 	public cache(data: User): void {
-		this.client.users.set(data.id, data);
+		if (this.client.options.cache.enabled) {
+			this.client.users.set(data.id, data);
+		}
 	}
 
 }
