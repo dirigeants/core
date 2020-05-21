@@ -1,9 +1,9 @@
 /**
  * @param buffer The buffer the sniff the magic numbers from.
- * @see https://en.wikipedia.org/wiki/JPEG
+ * @see https://en.wikipedia.org/wiki/GIF
  * @private
  */
-function isGif(buffer: Uint8Array): boolean {
+function isGif(buffer: Buffer): boolean {
 	// 0x47 0x49 0x46 0x38 0x39 0x61
 	return buffer.length > 6 &&
 		buffer[0] === 0x47 &&
@@ -16,10 +16,10 @@ function isGif(buffer: Uint8Array): boolean {
 
 /**
  * @param buffer The buffer the sniff the magic numbers from.
- * @see https://en.wikipedia.org/wiki/GIF
+ * @see https://en.wikipedia.org/wiki/JPEG
  * @private
  */
-function isJpeg(buffer: Uint8Array): boolean {
+function isJpeg(buffer: Buffer): boolean {
 	// 0xFF 0xD8 0xFF
 	return buffer.length > 3 &&
 		buffer[0] === 0xFF &&
@@ -32,7 +32,7 @@ function isJpeg(buffer: Uint8Array): boolean {
  * @see https://en.wikipedia.org/wiki/Portable_Network_Graphics
  * @private
  */
-function isPng(buffer: Uint8Array): boolean {
+function isPng(buffer: Buffer): boolean {
 	// 0x89 0x50 0x4E 0x47 0x0D 0x0A 0x1A 0x0A
 	return buffer.length > 8 &&
 		buffer[0] === 0x89 &&
@@ -50,7 +50,7 @@ function isPng(buffer: Uint8Array): boolean {
  * @see https://en.wikipedia.org/wiki/WebP
  * @private
  */
-function isWebp(buffer: Uint8Array): boolean {
+function isWebp(buffer: Buffer): boolean {
 	// 0x52 0x49 0x46 0x46 0x__ 0x__ 0x__ 0x__ 0x57 0x45 0x42 0x50
 	return buffer.length > 11 &&
 		buffer[0] === 0x52 &&
@@ -68,10 +68,20 @@ function isWebp(buffer: Uint8Array): boolean {
  * @since 0.0.1
  * @param buffer The buffer to sniff the magic numbers from.
  */
-export function getImageType(buffer: Uint8Array): string | null {
+export function getImageType(buffer: Buffer): string | null {
 	if (isGif(buffer)) return 'image/gif';
 	if (isJpeg(buffer)) return 'image/jpeg';
 	if (isPng(buffer)) return 'image/png';
 	if (isWebp(buffer)) return 'image/webp';
 	return null;
+}
+
+/**
+ * Determines the image's file type based on its contents and provides a base 64 string on success.
+ * @since 0.0.1
+ * @param buffer The buffer to sniff and stringify into a Base 64 string.
+ */
+export function getImageAsBase64(buffer: Buffer): string | null {
+	const type = getImageType(buffer);
+	return type ? `data:${type};base64,${buffer.toString('base64')}` : null;
 }
