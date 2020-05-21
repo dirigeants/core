@@ -1,4 +1,4 @@
-import { join } from 'path';
+import { join, basename, extname } from 'path';
 
 import type { Client } from '../../client/Client';
 import type { Store } from './Store';
@@ -56,7 +56,7 @@ export class Piece {
 		this.store = store as Store<this>;
 		this.directory = directory;
 		this.file = file;
-		this.name = options.name ?? file[file.length - 1].slice(0, -3);
+		this.name = options.name ?? basename(file[file.length - 1], extname(file[file.length - 1]));
 		this.enabled = options.enabled ?? true;
 	}
 
