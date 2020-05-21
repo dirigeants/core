@@ -203,7 +203,7 @@ export class Message extends Structure {
 	 * @since 0.0.1
 	 */
 	public get deletable(): boolean | null {
-		if (!this.deleted) return false;
+		if (this.deleted) return false;
 		if (!this.guild) return this.editable;
 		return this.editable || (this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null);
 	}
@@ -213,7 +213,7 @@ export class Message extends Structure {
 	 * @since 0.0.1
 	 */
 	public get editable(): boolean {
-		return this.author === this.client.user;
+		return !this.deleted && (this.author === this.client.user);
 	}
 
 	/**
@@ -221,6 +221,7 @@ export class Message extends Structure {
 	 * @since 0.0.1
 	 */
 	public get pinnable(): boolean | null {
+		if (this.deleted) return false;
 		if (!this.guild) return true;
 		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null;
 	}
@@ -230,6 +231,7 @@ export class Message extends Structure {
 	 * @since 0.0.1
 	 */
 	public get reactable(): boolean | null {
+		if (this.deleted) return false;
 		if (!this.guild) return true;
 		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.ADD_REACTIONS]) ?? null;
 	}
