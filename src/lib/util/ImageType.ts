@@ -63,16 +63,23 @@ function isWebp(buffer: Buffer): boolean {
 		buffer[11] === 0x50;
 }
 
+export const enum ImageTypes {
+	GIF = 'image/gif',
+	JPEG = 'image/jpeg',
+	PNG = 'image/png',
+	WEBP = 'image/webp'
+}
+
 /**
  * Determines whether or not a buffer corresponds to a GIF, JPG/JPEG, PNG, or WebP.
  * @since 0.0.1
  * @param buffer The buffer to sniff the magic numbers from.
  */
-export function getImageType(buffer: Buffer): string | null {
-	if (isGif(buffer)) return 'image/gif';
-	if (isJpeg(buffer)) return 'image/jpeg';
-	if (isPng(buffer)) return 'image/png';
-	if (isWebp(buffer)) return 'image/webp';
+export function getImageType(buffer: Buffer): ImageTypes | null {
+	if (isGif(buffer)) return ImageTypes.GIF;
+	if (isJpeg(buffer)) return ImageTypes.JPEG;
+	if (isPng(buffer)) return ImageTypes.PNG;
+	if (isWebp(buffer)) return ImageTypes.WEBP;
 	return null;
 }
 
@@ -80,8 +87,8 @@ export function getImageType(buffer: Buffer): string | null {
  * Determines the image's file type based on its contents and provides a base 64 string on success.
  * @since 0.0.1
  * @param buffer The buffer to sniff and stringify into a Base 64 string.
+ * @param fallback The default image to fall back to
  */
-export function getImageAsBase64(buffer: Buffer): string | null {
-	const type = getImageType(buffer);
-	return type ? `data:${type};base64,${buffer.toString('base64')}` : null;
+export function imageToBase64(buffer: Buffer, fallback: ImageTypes = ImageTypes.JPEG): string {
+	return `data:${getImageType(buffer) ?? fallback};base64,${buffer.toString('base64')}`;
 }
