@@ -5,7 +5,7 @@ import { Permissions } from '../../../util/bitfields/Permissions';
 import type { APIRoleData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from './Guild';
-import { GuildChannel } from '../channels/GuildChannel';
+import type { GuildChannel } from '../channels/GuildChannel';
 
 /**
  * @see https://discord.com/developers/docs/topics/permissions#role-object

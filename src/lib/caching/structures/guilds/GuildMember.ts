@@ -1,13 +1,13 @@
 import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
 import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
+import { Permissions } from '../../../util/bitfields/Permissions';
 
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from './Guild';
 import type { User } from '../User';
-import { GuildChannel } from '../channels/GuildChannel';
-import { Permissions } from '../../../util/bitfields/Permissions';
+import type { GuildChannel } from '../channels/GuildChannel';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
