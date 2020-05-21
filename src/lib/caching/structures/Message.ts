@@ -206,7 +206,7 @@ export class Message extends Structure {
 		if (!this.guild) return !this.deleted && this.editable;
 		const { me } = this.guild;
 		if (!me) return null;
-		return !this.deleted && (this.editable || ((this.channel as GuildChannel).permissionsFor(me)?.has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null));
+		return !this.deleted && (this.editable || (this.channel as GuildChannel).permissionsFor(me).has([Permissions.FLAGS.MANAGE_MESSAGES]));
 	}
 
 	/**
@@ -225,7 +225,7 @@ export class Message extends Structure {
 		if (!this.guild) return true;
 		const { me } = this.guild;
 		if (!me) return null;
-		return (this.channel as GuildChannel).permissionsFor(me)?.has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null;
+		return (this.channel as GuildChannel).permissionsFor(me).has([Permissions.FLAGS.MANAGE_MESSAGES]);
 	}
 
 	/**
@@ -236,7 +236,7 @@ export class Message extends Structure {
 		if (!this.guild) return true;
 		const { me } = this.guild;
 		if (!me) return null;
-		return (this.channel as GuildChannel).permissionsFor(me)?.has([Permissions.FLAGS.ADD_REACTIONS]) ?? null;
+		return (this.channel as GuildChannel).permissionsFor(me).has([Permissions.FLAGS.ADD_REACTIONS]);
 	}
 
 	/**

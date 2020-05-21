@@ -8,6 +8,7 @@ import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
 import type { GuildMember } from '../guilds/GuildMember';
 import type { CategoryChannel } from './CategoryChannel';
+import type { Role } from '../guilds/Role';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -85,7 +86,7 @@ export abstract class GuildChannel extends Channel {
 	public get deletable(): boolean | null {
 		const { me } = this.guild;
 		if (!me) return null;
-		return this.permissionsFor(me)?.has(Permissions.FLAGS.MANAGE_CHANNELS) ?? null;
+		return this.permissionsFor(me).has(Permissions.FLAGS.MANAGE_CHANNELS);
 	}
 
 	/**
@@ -95,7 +96,7 @@ export abstract class GuildChannel extends Channel {
 	public get viewable(): boolean | null {
 		const { me } = this.guild;
 		if (!me) return null;
-		return this.permissionsFor(me)?.has(Permissions.FLAGS.VIEW_CHANNEL) ?? null;
+		return this.permissionsFor(me).has(Permissions.FLAGS.VIEW_CHANNEL);
 	}
 
 	/**
@@ -105,30 +106,15 @@ export abstract class GuildChannel extends Channel {
 	public get manageable(): boolean | null {
 		const { me } = this.guild;
 		if (!me) return null;
-		return this.permissionsFor(me)?.has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]) ?? null;
+		return this.permissionsFor(me).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]);
 	}
 
 	/**
-	 * Checks what permissions a {@link GuildMember member} has in this {@link GuildChannel channel}
-	 * @param member The guild member you are checking permissions for
+	 * Checks what permissions a {@link GuildMember member} or {@link Role role} has in this {@link GuildChannel channel}
+	 * @param target The guild member you are checking permissions for
 	 */
-	public permissionsFor(member: GuildMember): Readonly<Permissions> | null {
-		if (member.id === this.guild.ownerID) return new Permissions(Permissions.ALL).freeze();
-
-		const permissions = new Permissions(member.roles.map(role => role.permissions));
-
-		if (permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
-
-		const overwrites = this.permissionOverwrites.for(member);
-
-		return permissions
-			.remove(overwrites.everyone ? overwrites.everyone.deny : 0)
-			.add(overwrites.everyone ? overwrites.everyone.allow : 0)
-			.remove(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.deny) : 0)
-			.add(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.allow) : 0)
-			.remove(overwrites.member ? overwrites.member.deny : 0)
-			.add(overwrites.member ? overwrites.member.allow : 0)
-			.freeze();
+	public permissionsFor(target: GuildMember | Role): Readonly<Permissions> {
+		return target.permissionsIn(this);
 	}
 
 	/**

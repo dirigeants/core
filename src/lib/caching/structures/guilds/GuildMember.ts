@@ -6,6 +6,8 @@ import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from './Guild';
 import type { User } from '../User';
+import { GuildChannel } from '../channels/GuildChannel';
+import { Permissions } from '../../../util/bitfields/Permissions';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
@@ -92,6 +94,29 @@ export class GuildMember extends Structure {
 	public async modify(data: GuildMemberModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.patch(Routes.guildMember(this.guild.id, this.id), { ...requestOptions, data });
 		return this;
+	}
+
+	/**
+	 * Checks permissions for this member in a given channel.
+	 * @param channel The channel to check permissions in
+	 */
+	public permissionsIn(channel: GuildChannel): Readonly<Permissions> {
+		if (this.id === this.guild.ownerID) return new Permissions(Permissions.ALL).freeze();
+
+		const permissions = new Permissions(this.roles.map(role => role.permissions));
+
+		if (permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
+
+		const overwrites = channel.permissionOverwrites.for(this);
+
+		return permissions
+			.remove(overwrites.everyone ? overwrites.everyone.deny : 0)
+			.add(overwrites.everyone ? overwrites.everyone.allow : 0)
+			.remove(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.deny) : 0)
+			.add(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.allow) : 0)
+			.remove(overwrites.member ? overwrites.member.deny : 0)
+			.add(overwrites.member ? overwrites.member.allow : 0)
+			.freeze();
 	}
 
 	/**

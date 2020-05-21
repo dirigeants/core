@@ -64,7 +64,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	public get attachable(): boolean | null {
 		const { me } = this.guild;
 		if (!me) return null;
-		return this.permissionsFor(me)?.has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.ATTACH_FILES]) ?? null;
+		return this.permissionsFor(me).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.ATTACH_FILES]);
 	}
 
 	/**
@@ -74,7 +74,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	public get postable(): boolean | null {
 		const { me } = this.guild;
 		if (!me) return null;
-		return this.permissionsFor(me)?.has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES]) ?? null;
+		return this.permissionsFor(me).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES]);
 	}
 
 	/**
@@ -84,7 +84,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	public get embedable(): boolean | null {
 		const { me } = this.guild;
 		if (!me) return null;
-		return this.permissionsFor(me)?.has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.EMBED_LINKS]) ?? null;
+		return this.permissionsFor(me).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.EMBED_LINKS]);
 	}
 
 	/**

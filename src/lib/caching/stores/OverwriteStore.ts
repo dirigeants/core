@@ -1,17 +1,25 @@
+/* eslint-disable no-dupe-class-members */
 import { RequestOptions, Routes } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../util/Extender';
+import { GuildMember } from '../structures/guilds/GuildMember';
+import { Role } from '../structures/guilds/Role';
 
 import type { APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
 import type { Overwrite, OverwriteData } from '../structures/guilds/Overwrite';
 import type { GuildChannel } from '../structures/channels/GuildChannel';
-import type { GuildMember } from '../structures/guilds/GuildMember';
 
-export interface OverwritesFor {
+
+export interface MemberOverwrites {
 	everyone?: Overwrite;
 	roles: Overwrite[];
 	member?: Overwrite;
+}
+
+export interface RoleOverwrites {
+	everyone?: Overwrite;
+	role?: Overwrite;
 }
 
 /**
@@ -64,18 +72,27 @@ export class OverwriteStore extends DataStore<Overwrite> {
 
 	/**
 	 * Gets the overwrites for a given guild member.
-	 * @param guildMember
+	 * @param target
 	 */
-	public for(guildMember: GuildMember): OverwritesFor {
+	public for(target: GuildMember): MemberOverwrites
+	public for(target: Role): RoleOverwrites
+	public for(target: GuildMember | Role): MemberOverwrites | RoleOverwrites {
 		const everyone = this.get(this.channel.guild.id);
-		const member = this.get(guildMember.id);
-		const roles: Overwrite[] = [];
 
-		for (const overwrite of this.values()) {
-			if (guildMember.roles.has(overwrite.id)) roles.push(overwrite);
+		if (target instanceof GuildMember) {
+			const member = this.get(target.id);
+			const roles: Overwrite[] = [];
+
+			for (const overwrite of this.values()) {
+				if (target.roles.has(overwrite.id)) roles.push(overwrite);
+			}
+
+			return { everyone, roles, member };
 		}
 
-		return { everyone, roles, member };
+		const role = this.get(target.id);
+
+		return { everyone, role };
 	}
 
 	/**

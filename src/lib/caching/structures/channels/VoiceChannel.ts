@@ -43,7 +43,7 @@ export class VoiceChannel extends GuildChannel {
 	public get manageable(): boolean | null {
 		const { me } = this.guild;
 		if (!me) return null;
-		return this.permissionsFor(me)?.has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]) ?? null;
+		return this.permissionsFor(me).has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]);
 	}
 
 	public modify(data: VoiceChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
