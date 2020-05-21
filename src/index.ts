@@ -1,6 +1,7 @@
 export * from './lib/caching/stores/BanStore';
 export * from './lib/caching/stores/base/DataStore';
 export * from './lib/caching/stores/DMChannelStore';
+export * from './lib/caching/stores/ChannelStore';
 export * from './lib/caching/stores/GuildChannelStore';
 export * from './lib/caching/stores/GuildEmojiStore';
 export * from './lib/caching/stores/GuildInviteStore';

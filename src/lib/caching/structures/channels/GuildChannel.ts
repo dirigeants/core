@@ -46,12 +46,6 @@ export abstract class GuildChannel extends Channel {
 	 */
 	public readonly guild: Guild;
 
-	/**
-	 * Whether the DM channel is deleted.
-	 * @since 0.0.1
-	 */
-	public deleted = false;
-
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null = null) {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
