@@ -11,11 +11,16 @@ export default class CoreAction extends Action {
 	}
 
 	public build(data: InviteCreateDispatch): Invite {
-		return new (extender.get('Invite'))(this.client, data.d);
+		const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : null;
+		const channel = this.client.channels.get(data.d.channel_id);
+		return new (extender.get('Invite'))(this.client, data, channel, guild);
 	}
 
-	public cache(): void {
-		// noop
+	public cache(data: Invite): void {
+		if (this.client.options.cache.enabled) {
+			this.client.invites.set(data.id, data);
+			if (data.guild) data.guild.invites.set(data.id, data);
+		}
 	}
 
 }

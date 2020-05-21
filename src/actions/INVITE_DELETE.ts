@@ -16,8 +16,9 @@ export default class CoreAction extends Action {
 		return new (extender.get('Invite'))(this.client, { ...data, guild, channel });
 	}
 
-	public cache(): void {
-		// noop
+	public cache(data: Invite): void {
+		this.client.invites.delete(data.id);
+		if (data.guild) data.guild.invites.delete(data.id);
 	}
 
 }
