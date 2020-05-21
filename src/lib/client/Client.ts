@@ -10,13 +10,12 @@ import { EventStore } from '../pieces/EventStore';
 import { GuildStore } from '../caching/stores/GuildStore';
 import { InviteStore } from '../caching/stores/InviteStore';
 import { UserStore } from '../caching/stores/UserStore';
+import { ChannelStore } from '../caching/stores/ChannelStore';
 
 import type { Store } from '../pieces/base/Store';
 import type { Piece } from '../pieces/base/Piece';
 import type { ClientUser } from '../caching/structures/ClientUser';
-import type { Channel } from '../caching/structures/channels/Channel';
 import type { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
-import { ChannelStore } from '../caching/stores/ChannelStore';
 
 export interface ClientPieceOptions {
 	createFolders: boolean;

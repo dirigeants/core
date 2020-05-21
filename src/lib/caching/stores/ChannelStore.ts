@@ -2,7 +2,6 @@ import { Routes, RequestOptions } from '@klasa/rest';
 import { Channel } from '../structures/channels/Channel';
 import { DataStore } from './base/DataStore';
 import { extender, Constructor } from '../../util/Extender';
-import { Structure } from '../structures/base/Structure';
 
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
@@ -45,10 +44,12 @@ export class ChannelStore extends DataStore<Channel> {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/channel#get-channel
 	 */
-	public async fetch(id: string): Promise<this> {
-		const channel = await this.client.api.get(Routes.channel(id)) as APIChannelData;
-		this._add(channel);
-		return this;
+	public async fetch(id: string): Promise<Channel> {
+		const existing = this.get(id);
+		if (existing) return existing;
+		const rawChannel = await this.client.api.get(Routes.channel(id)) as APIChannelData;
+		const channel = this._add(rawChannel);
+		return channel;
 	}
 
 	/**
