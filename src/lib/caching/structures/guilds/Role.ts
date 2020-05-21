@@ -5,6 +5,7 @@ import { Permissions } from '../../../util/bitfields/Permissions';
 import type { APIRoleData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from './Guild';
+import type { GuildChannel } from '../channels/GuildChannel';
 
 /**
  * @see https://discord.com/developers/docs/topics/permissions#role-object
@@ -77,6 +78,25 @@ export class Role extends Structure {
 		this.managed = data.managed;
 		this.guild = guild;
 		this._patch(data);
+	}
+
+	/**
+	 * Checks permissions for this member in a given channel.
+	 * @param channel The channel to check permissions in
+	 */
+	public permissionsIn(channel: GuildChannel): Readonly<Permissions> {
+		const { permissions } = this;
+
+		if (this.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
+
+		const overwrites = channel.permissionOverwrites.for(this);
+
+		return permissions
+			.remove(overwrites.everyone ? overwrites.everyone.deny : 0)
+			.add(overwrites.everyone ? overwrites.everyone.allow : 0)
+			.remove(overwrites.role ? overwrites.role.deny : 0)
+			.add(overwrites.role ? overwrites.role.allow : 0)
+			.freeze();
 	}
 
 	/**

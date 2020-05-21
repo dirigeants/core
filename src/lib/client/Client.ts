@@ -10,11 +10,11 @@ import { EventStore } from '../pieces/EventStore';
 import { GuildStore } from '../caching/stores/GuildStore';
 import { InviteStore } from '../caching/stores/InviteStore';
 import { UserStore } from '../caching/stores/UserStore';
+import { ChannelStore } from '../caching/stores/ChannelStore';
 
 import type { Store } from '../pieces/base/Store';
 import type { Piece } from '../pieces/base/Piece';
 import type { ClientUser } from '../caching/structures/ClientUser';
-import type { Channel } from '../caching/structures/channels/Channel';
 import type { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
 
 export interface ClientPieceOptions {
@@ -32,6 +32,7 @@ export interface CacheLimits {
 	invites: number;
 	members: number;
 	messages: number;
+	overwrites: number;
 	presences: number;
 	reactions: number;
 	roles: number;
@@ -121,6 +122,11 @@ export class Client extends BaseClient {
 	public user: ClientUser | null;
 
 	/**
+	 * The {@link Channel channels} that have been cached, mapped by their {@link Channel#id IDs}.
+	 */
+	public readonly channels: ChannelStore;
+
+	/**
 	 * The collection of {@link Guild guilds} the client is currently handling, mapped by their {@link Guild#id IDs}
 	 */
 	public readonly guilds: GuildStore;
@@ -169,6 +175,7 @@ export class Client extends BaseClient {
 		this.ws = new WebSocketManager(this.api, this.options.ws)
 			.on(WebSocketManagerEvents.Debug, this.emit.bind(this, ClientEvents.WSDebug));
 		this.user = null;
+		this.channels = new ChannelStore(this);
 		this.users = new UserStore(this);
 		this.guilds = new GuildStore(this);
 		this.dms = new DMChannelStore(this);
@@ -185,14 +192,6 @@ export class Client extends BaseClient {
 		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);
 
 		for (const plugin of Client.plugins) plugin.call(this);
-	}
-
-	/**
-	 * Returns a new Cache of all channels.
-	 * @since 0.0.1
-	 */
-	get channels(): Cache<string, Channel> {
-		return new Cache<string, Channel>().concat(this.dms, ...this.guilds.map(guild => guild.channels));
 	}
 
 	/**

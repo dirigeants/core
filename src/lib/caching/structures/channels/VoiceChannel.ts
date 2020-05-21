@@ -1,5 +1,8 @@
 import { ChannelType, APIChannelData } from '@klasa/dapi-types';
-import { GuildChannel } from './GuildChannel';
+import { GuildChannel, ChannelModifyOptions } from './GuildChannel';
+
+import type { RequestOptions } from '@klasa/rest';
+import { Permissions } from '../../../util/bitfields/Permissions';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -25,10 +28,42 @@ export class VoiceChannel extends GuildChannel {
 	 */
 	public userLimit!: number;
 
+	/**
+	 * If the client can delete the channel.
+	 * @since 0.0.1
+	 */
+	public get deletable(): boolean | null {
+		return !this.deleted && this.manageable;
+	}
+
+	/**
+	 * If the client can manage the channel.
+	 * @since 0.0.1
+	 */
+	public get manageable(): boolean | null {
+		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]) ?? null;
+	}
+
+	/**
+	 * Modifies this channel.
+	 * @param data The channel modify options.
+	 * @param requestOptions The request options.
+	 * @since 0.0.1
+	 */
+	public modify(data: VoiceChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		return super.modify(data, requestOptions);
+	}
+
 	protected _patch(data: APIChannelData): this {
 		this.bitrate = data.bitrate as number;
 		this.userLimit = data.user_limit as number;
 		return super._patch(data);
 	}
 
+}
+
+export interface VoiceChannelModifyOptions extends ChannelModifyOptions {
+	bitrate?: number | null;
+	user_limit?: number | null;
+	parent_id?: string | null;
 }

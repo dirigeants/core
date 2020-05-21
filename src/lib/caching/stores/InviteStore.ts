@@ -30,7 +30,9 @@ export class InviteStore extends DataStore<Invite> {
 	 */
 	public async remove(code: string, requestOptions: RequestOptions = {}): Promise<Invite> {
 		const entry = await this.client.api.delete(Routes.invite(code), requestOptions) as APIInviteData;
-		return new this.Holds(this.client, entry);
+		const guild = entry.guild ? this.client.guilds.get(entry.guild.id) : null;
+		const channel = this.client.channels.get(entry.channel.id);
+		return new this.Holds(this.client, entry, channel, guild);
 	}
 
 	/**
@@ -56,7 +58,9 @@ export class InviteStore extends DataStore<Invite> {
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
-		const entry = new this.Holds(this.client, data);
+		const guild = data.guild ? this.client.guilds.get(data.guild.id) : null;
+		const channel = this.client.channels.get(data.channel.id);
+		const entry = new this.Holds(this.client, data, channel, guild);
 		if (this.client.options.cache.enabled) this.set(entry.id, entry);
 		return entry;
 	}

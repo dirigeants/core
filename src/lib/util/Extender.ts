@@ -13,7 +13,7 @@ import { Invite } from '../caching/structures/Invite';
 import { Message } from '../caching/structures/Message';
 import { MessageReaction } from '../caching/structures/messages/reactions/MessageReaction';
 import { NewsChannel } from '../caching/structures/channels/NewsChannel';
-import { PermissionOverwrites } from '../caching/structures/PermissionOverwrites';
+import { Overwrite } from '../caching/structures/guilds/Overwrite';
 import { Presence } from '../caching/structures/guilds/Presence';
 import { Role } from '../caching/structures/guilds/Role';
 import { StoreChannel } from '../caching/structures/channels/StoreChannel';
@@ -23,6 +23,7 @@ import { TextChannel } from '../caching/structures/channels/TextChannel';
 import { User } from '../caching/structures/User';
 import { VoiceChannel } from '../caching/structures/channels/VoiceChannel';
 import { VoiceState } from '../caching/structures/guilds/VoiceState';
+import { ClientUser } from '../caching/structures/ClientUser';
 
 /**
  * The extender class that allows the extension of built-in structures from Project-Blue and plugins.
@@ -86,8 +87,9 @@ class Extender extends Cache<keyof ExtenderStructures, ExtenderStructures[keyof 
 	public extend<K extends keyof ExtenderStructures, R extends ExtenderStructures[K]>(key: K, fn: (structure: ExtenderStructures[K]) => R): this {
 		const structure = this.get(key);
 		if (typeof structure === 'undefined') throw new TypeError(`The structure ${key} does not exist.`);
-		super.set(key, fn(structure));
-		return this;
+		const extended = fn(structure);
+		if (!(extended instanceof structure)) throw new TypeError('The extended structure must extend the previous structure.');
+		return super.set(key, extended);
 	}
 
 }
@@ -101,6 +103,7 @@ export interface ExtenderStructures {
 	Ban: Constructor<Ban>;
 	CategoryChannel: Constructor<CategoryChannel>;
 	Channel: Constructor<Channel>;
+	ClientUser: Constructor<ClientUser>;
 	DMChannel: Constructor<DMChannel>;
 	Guild: Constructor<Guild>;
 	GuildChannel: Constructor<GuildChannel>;
@@ -111,7 +114,7 @@ export interface ExtenderStructures {
 	Message: Constructor<Message>;
 	MessageReaction: Constructor<MessageReaction>;
 	NewsChannel: Constructor<NewsChannel>;
-	PermissionOverwrites: Constructor<PermissionOverwrites>;
+	Overwrite: Constructor<Overwrite>;
 	Presence: Constructor<Presence>;
 	Role: Constructor<Role>;
 	StoreChannel: Constructor<StoreChannel>;
@@ -130,6 +133,7 @@ export const extender = new Extender()
 	.add('Ban', Ban)
 	.add('CategoryChannel', CategoryChannel)
 	.add('Channel', Channel)
+	.add('ClientUser', ClientUser)
 	.add('DMChannel', DMChannel)
 	.add('Guild', Guild)
 	.add('GuildChannel', GuildChannel)
@@ -140,7 +144,7 @@ export const extender = new Extender()
 	.add('Message', Message)
 	.add('MessageReaction', MessageReaction)
 	.add('NewsChannel', NewsChannel)
-	.add('PermissionOverwrites', PermissionOverwrites)
+	.add('Overwrite', Overwrite)
 	.add('Presence', Presence)
 	.add('Role', Role)
 	.add('StoreChannel', StoreChannel)

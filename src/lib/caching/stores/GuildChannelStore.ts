@@ -53,7 +53,9 @@ export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 	 */
 	public async remove(channelID: string, requestOptions: RequestOptions = {}): Promise<GuildBasedChannel> {
 		const channel = await this.client.api.delete(Routes.channel(channelID), requestOptions) as APIChannelData;
-		return Channel.create(this.client, channel, this.guild) as GuildBasedChannel;
+		const newChannel = Channel.create(this.client, channel, this.guild) as GuildBasedChannel;
+		newChannel.deleted = true;
+		return newChannel;
 	}
 
 	/**

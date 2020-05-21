@@ -15,7 +15,6 @@ import { RoleStore } from '../../stores/RoleStore';
 import { Structure } from '../base/Structure';
 import { VoiceStateStore } from '../../stores/VoiceStateStore';
 
-import type { Client } from '../../../client/Client';
 import type {
 	APIGuildData,
 	APIVoiceRegionData,
@@ -28,6 +27,8 @@ import type {
 	GuildVerificationLevel,
 	APIGuildPreviewData
 } from '@klasa/dapi-types';
+import type { Client } from '../../../client/Client';
+import type { GuildMember } from './GuildMember';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-object
@@ -363,6 +364,15 @@ export class Guild extends Structure {
 	}
 
 	/**
+	 * The Client's member of this guild.
+	 * @since 0.0.1
+	 */
+	public get me(): GuildMember | null {
+		if (!this.client.user) return null;
+		return this.members.get(this.client.user.id) ?? null;
+	}
+
+	/**
 	 * Returns the guild preview.
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-preview
@@ -378,7 +388,7 @@ export class Guild extends Structure {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild
 	 */
-	public async modify(data: GuildModifyOptions, requestOptions: RequestOptions = {}): Promise<unknown> {
+	public async modify(data: GuildModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		const result = await this.client.api.patch(Routes.guild(this.id), { ...requestOptions, data }) as APIGuildData;
 		return this._patch(result);
 	}
@@ -519,7 +529,7 @@ export class Guild extends Structure {
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#modify-guild-json-params
  */
-interface GuildModifyOptions {
+export interface GuildModifyOptions {
 	/**
 	 * The {@link Guild guild} name.
 	 * @since 0.0.1

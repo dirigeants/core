@@ -16,7 +16,9 @@ export default class CoreAction extends Action {
 	}
 
 	public cache(data: VoiceState): void {
-		data.guild.voiceStates.set(data.id, data);
+		if (this.client.options.cache.enabled) {
+			data.guild.voiceStates.set(data.id, data);
+		}
 	}
 
 }

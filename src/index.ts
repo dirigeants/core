@@ -1,6 +1,7 @@
 export * from './lib/caching/stores/BanStore';
 export * from './lib/caching/stores/base/DataStore';
 export * from './lib/caching/stores/DMChannelStore';
+export * from './lib/caching/stores/ChannelStore';
 export * from './lib/caching/stores/GuildChannelStore';
 export * from './lib/caching/stores/GuildEmojiStore';
 export * from './lib/caching/stores/GuildInviteStore';
@@ -51,7 +52,7 @@ export * from './lib/caching/structures/messages/WebhookMessageBuilder';
 export * from './lib/caching/structures/oauth/Application';
 export * from './lib/caching/structures/oauth/Team';
 export * from './lib/caching/structures/oauth/TeamMember';
-export * from './lib/caching/structures/PermissionOverwrites';
+export * from './lib/caching/structures/guilds/Overwrite';
 export * from './lib/caching/structures/User';
 export * from './lib/caching/structures/Webhook';
 export * from './lib/client/BaseClient';

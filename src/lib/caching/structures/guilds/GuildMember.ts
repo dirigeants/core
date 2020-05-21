@@ -1,10 +1,13 @@
 import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
 import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
+import { Permissions } from '../../../util/bitfields/Permissions';
 
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from './Guild';
+import type { User } from '../User';
+import type { GuildChannel } from '../channels/GuildChannel';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
@@ -75,6 +78,14 @@ export class GuildMember extends Structure {
 	}
 
 	/**
+	 * The user for this member
+	 * @since 0.0.1
+	 */
+	public get user(): User | null {
+		return this.client.users.get(this.id) ?? null;
+	}
+
+	/**
 	 * Modifies the settings for the member.
 	 * @param data The settings to be set.
 	 * @param requestOptions The additional request options.
@@ -83,6 +94,29 @@ export class GuildMember extends Structure {
 	public async modify(data: GuildMemberModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.patch(Routes.guildMember(this.guild.id, this.id), { ...requestOptions, data });
 		return this;
+	}
+
+	/**
+	 * Checks permissions for this member in a given channel.
+	 * @param channel The channel to check permissions in
+	 */
+	public permissionsIn(channel: GuildChannel): Readonly<Permissions> {
+		if (this.id === this.guild.ownerID) return new Permissions(Permissions.ALL).freeze();
+
+		const permissions = new Permissions(this.roles.map(role => role.permissions));
+
+		if (permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
+
+		const overwrites = channel.permissionOverwrites.for(this);
+
+		return permissions
+			.remove(overwrites.everyone ? overwrites.everyone.deny : 0)
+			.add(overwrites.everyone ? overwrites.everyone.allow : 0)
+			.remove(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.deny) : 0)
+			.add(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.allow) : 0)
+			.remove(overwrites.member ? overwrites.member.deny : 0)
+			.add(overwrites.member ? overwrites.member.allow : 0)
+			.freeze();
 	}
 
 	/**

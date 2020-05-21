@@ -2,6 +2,8 @@
 import { Routes } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../util/Extender';
+import { GuildMember } from '../structures/guilds/GuildMember';
+import { Message } from '../structures/Message';
 
 import type { APIUserData } from '@klasa/dapi-types';
 import type { User } from '../structures/User';
@@ -31,6 +33,26 @@ export class UserStore extends DataStore<User> {
 	public async fetch(userID: string): Promise<User> {
 		const data = await this.client.api.get(Routes.user(userID)) as APIUserData;
 		return this._add(data);
+	}
+
+	/**
+	 * Resolves data into Structures
+	 * @param data The data to resolve
+	 */
+	public resolve(data: unknown): User | null {
+		if (data instanceof GuildMember) return data.user;
+		if (data instanceof Message) return data.author;
+		return super.resolve(data);
+	}
+
+	/**
+	 * Resolves data into ids
+	 * @param data The data to resolve
+	 */
+	public resolveID(data: unknown): string | null {
+		if (data instanceof GuildMember) return data.user && data.user.id;
+		if (data instanceof Message) return data.author.id;
+		return super.resolveID(data);
 	}
 
 }

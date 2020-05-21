@@ -15,7 +15,9 @@ export default class CoreAction extends Action {
 	}
 
 	public cache(data: Guild): void {
-		this.client.guilds.set(data.id, data);
+		if (this.client.options.cache.enabled) {
+			this.client.guilds.set(data.id, data);
+		}
 	}
 
 }

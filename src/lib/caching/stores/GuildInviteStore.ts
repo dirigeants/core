@@ -38,8 +38,9 @@ export class GuildInviteStore extends DataStore<Invite> {
 	 * @see https://discord.com/developers/docs/resources/invite#delete-invite
 	 */
 	public async remove(code: string, requestOptions: RequestOptions = {}): Promise<Invite> {
-		const entry = this.client.api.delete(Routes.invite(code), requestOptions);
-		return new this.Holds(this.client, entry, this.guild);
+		const entry = await this.client.api.delete(Routes.invite(code), requestOptions) as APIInviteData;
+		const channel = this.client.channels.get(entry.channel.id);
+		return new this.Holds(this.client, entry, channel, this.guild);
 	}
 
 	/**
@@ -65,8 +66,12 @@ export class GuildInviteStore extends DataStore<Invite> {
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
-		const entry = new this.Holds(this.client, data, this.guild);
-		if (this.client.options.cache.enabled) this.set(entry.id, entry);
+		const channel = this.client.channels.get(data.channel.id);
+		const entry = new this.Holds(this.client, data, channel, this.guild);
+		if (this.client.options.cache.enabled) {
+			this.set(entry.id, entry);
+			this.client.invites.set(entry.id, entry);
+		}
 		return entry;
 	}
 

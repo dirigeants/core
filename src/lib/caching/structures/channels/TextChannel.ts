@@ -1,6 +1,9 @@
 import { APIChannelData, ChannelType } from '@klasa/dapi-types';
 import { GuildTextChannel } from './GuildTextChannel';
 
+import type { ChannelModifyOptions } from './GuildChannel';
+import type { RequestOptions } from '@klasa/rest';
+
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
  */
@@ -20,9 +23,27 @@ export class TextChannel extends GuildTextChannel {
 	 */
 	public rateLimitPerUser!: number;
 
+	/**
+	 * Modifies this channel.
+	 * @param data The channel modify options.
+	 * @param requestOptions The request options.
+	 * @since 0.0.1
+	 */
+	public modify(data: TextChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		return super.modify(data, requestOptions);
+	}
+
 	protected _patch(data: APIChannelData): this {
 		this.rateLimitPerUser = data.rate_limit_per_user as number;
 		return super._patch(data);
 	}
 
+}
+
+export interface TextChannelModifyOptions extends ChannelModifyOptions {
+	type?: ChannelType.GuildText | ChannelType.GuildAnnouncement;
+	topic?: string | null;
+	nsfw?: boolean | null;
+	rate_limit_per_user?: number | null;
+	parent_id?: string | null;
 }

@@ -1,11 +1,14 @@
-import { Cache } from '@klasa/cache';
 import { Channel } from './Channel';
-import { PermissionOverwrites } from '../PermissionOverwrites';
+import { OverwriteStore } from '../../stores/OverwriteStore';
+import { Permissions } from '../../../util/bitfields/Permissions';
+import { Routes, RequestOptions } from '@klasa/rest';
 
-import type { APIChannelData } from '@klasa/dapi-types';
+import type { APIChannelData, APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
-import { RequestOptions } from '@klasa/rest';
+import type { GuildMember } from '../guilds/GuildMember';
+import type { CategoryChannel } from './CategoryChannel';
+import type { Role } from '../guilds/Role';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -35,7 +38,7 @@ export abstract class GuildChannel extends Channel {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/channel#overwrite-object
 	 */
-	public permissionsOverwrites!: Cache<string, PermissionOverwrites>;
+	public permissionOverwrites!: OverwriteStore;
 
 	/**
 	 * The {@link Guild guild} this channel belongs to.
@@ -43,15 +46,63 @@ export abstract class GuildChannel extends Channel {
 	 */
 	public readonly guild: Guild;
 
-	/**
-	 * Whether the DM channel is deleted.
-	 * @since 0.0.1
-	 */
-	public deleted = false;
-
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null = null) {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
+	}
+
+	/**
+	 * The parent {@type CategoryChannel channel} for this channel.
+	 * @since 0.0.1
+	 */
+	public get parent(): CategoryChannel | null {
+		return (this.parentID && this.guild.channels.get(this.parentID) as CategoryChannel) || null;
+	}
+
+	/**
+	 * If the overwrites are synced to the parent channel.
+	 * @since 0.0.1
+	 */
+	public get synced(): boolean | null {
+		const { parent } = this;
+		if (!parent) return null;
+		if (this.permissionOverwrites.size !== parent.permissionOverwrites.size) return false;
+		return this.permissionOverwrites.every((value, key) => {
+			const overwrite = parent.permissionOverwrites.get(key);
+			return overwrite !== undefined && overwrite.deny.equals(value.deny) && overwrite.allow.equals(value.allow);
+		});
+	}
+
+	/**
+	 * If the client can delete the channel.
+	 * @since 0.0.1
+	 */
+	public get deletable(): boolean | null {
+		return this.guild.me?.permissionsIn(this).has(Permissions.FLAGS.MANAGE_CHANNELS) ?? null;
+	}
+
+	/**
+	 * If the client can view the channel.
+	 * @since 0.0.1
+	 */
+	public get viewable(): boolean | null {
+		return this.guild.me?.permissionsIn(this).has(Permissions.FLAGS.VIEW_CHANNEL) ?? null;
+	}
+
+	/**
+	 * If the client can manage the channel.
+	 * @since 0.0.1
+	 */
+	public get manageable(): boolean | null {
+		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]) ?? null;
+	}
+
+	/**
+	 * Checks what permissions a {@link GuildMember member} or {@link Role role} has in this {@link GuildChannel channel}
+	 * @param target The guild member you are checking permissions for
+	 */
+	public permissionsFor(target: GuildMember | Role): Readonly<Permissions> {
+		return target.permissionsIn(this);
 	}
 
 	/**
@@ -66,16 +117,55 @@ export abstract class GuildChannel extends Channel {
 		return this;
 	}
 
+	/**
+	 * Modifies this channel.
+	 * @param data The channel modify options.
+	 * @param requestOptions The request options.
+	 * @since 0.0.1
+	 */
+	public async modify(data: ChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		const result = await this.client.api.patch(Routes.channel(this.id), { ...requestOptions, data }) as APIChannelData;
+		return this._patch(result);
+	}
+
+	/**
+	 * Syncs the permission overwrites with the parent channel.
+	 * @param requestOptions The additional request options.
+	 * @since 0.0.1
+	 */
+	public syncPermissions(requestOptions: RequestOptions = {}): Promise<this> {
+		const { parent } = this;
+		if (!parent) return Promise.reject(new Error('This channel does not have a parent channel to sync permissions from.'));
+		const overwrites = parent.permissionOverwrites.map(({ id, type, allow, deny }) => ({ id, type, allow: allow.bitfield, deny: deny.bitfield }));
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		return this.modify({ permission_overwrites: overwrites }, requestOptions);
+	}
+
 	protected _patch(data: APIChannelData): this {
 		this.name = data.name as string;
 		this.position = data.position as number;
 		this.parentID = data.parent_id as string | null;
-		this.permissionsOverwrites = new Cache();
-		for (const overwrite of data.permission_overwrites ?? []) {
-			this.permissionsOverwrites.set(overwrite.id, new PermissionOverwrites(overwrite));
+		if (!this.permissionOverwrites) this.permissionOverwrites = new OverwriteStore(this.client, this);
+		const overwrites = data.permission_overwrites ?? [];
+		for (const overwrite of this.permissionOverwrites.values()) {
+			const apiOverwrite = overwrites.find((ovr) => ovr.id === overwrite.id);
+
+			if (typeof apiOverwrite === 'undefined') {
+				overwrite.deleted = true;
+				this.permissionOverwrites.delete(overwrite.id);
+				continue;
+			}
+			// eslint-disable-next-line dot-notation
+			this.permissionOverwrites['_add'](apiOverwrite);
 		}
 
 		return this;
 	}
 
+}
+
+export interface ChannelModifyOptions {
+	name?: string;
+	position?: number | null;
+	permission_overwrites?: APIOverwriteData[] | null;
 }

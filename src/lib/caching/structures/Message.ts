@@ -9,6 +9,7 @@ import { MessageReaction } from './messages/reactions/MessageReaction';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { Structure } from './base/Structure';
 import { ReactionCollector, ReactionCollectorOptions } from '../../util/collectors/ReactionCollector';
+import { Permissions } from '../../util/bitfields/Permissions';
 import { MessageBuilder } from './messages/MessageBuilder';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
@@ -19,6 +20,7 @@ import type { DMChannel } from './channels/DMChannel';
 import type { TextChannel } from './channels/TextChannel';
 import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
+import type { GuildChannel } from './channels/GuildChannel';
 
 export class Message extends Structure {
 
@@ -194,6 +196,44 @@ export class Message extends Structure {
 	 */
 	public get editedAt(): Date | null {
 		return this.editedTimestamp ? new Date(this.editedTimestamp) : null;
+	}
+
+	/**
+	 * If the client can react to this message.
+	 * @since 0.0.1
+	 */
+	public get deletable(): boolean | null {
+		if (this.deleted) return false;
+		if (!this.guild) return this.editable;
+		return this.editable || (this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null);
+	}
+
+	/**
+	 * If the client can react to this message.
+	 * @since 0.0.1
+	 */
+	public get editable(): boolean {
+		return !this.deleted && (this.author === this.client.user);
+	}
+
+	/**
+	 * If the client can react to this message.
+	 * @since 0.0.1
+	 */
+	public get pinnable(): boolean | null {
+		if (this.deleted) return false;
+		if (!this.guild) return true;
+		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null;
+	}
+
+	/**
+	 * If the client can react to this message.
+	 * @since 0.0.1
+	 */
+	public get reactable(): boolean | null {
+		if (this.deleted) return false;
+		if (!this.guild) return true;
+		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.ADD_REACTIONS]) ?? null;
 	}
 
 	/**

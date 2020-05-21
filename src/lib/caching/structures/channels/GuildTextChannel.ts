@@ -10,6 +10,7 @@ import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
 import type { TextBasedChannel } from '../../../util/Util';
 import type { Message } from '../Message';
+import { Permissions } from '../../../util/bitfields/Permissions';
 
 export interface SendOptions {
 	split?: SplitOptions;
@@ -54,6 +55,30 @@ export abstract class GuildTextChannel extends GuildChannel {
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null) {
 		super(client, data, guild);
 		this.messages = new MessageStore(client, this as TextBasedChannel);
+	}
+
+	/**
+	 * If the client can send message attachments in the channel.
+	 * @since 0.0.1
+	 */
+	public get attachable(): boolean | null {
+		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.ATTACH_FILES]) ?? null;
+	}
+
+	/**
+	 * If the client can send messages in the channel.
+	 * @since 0.0.1
+	 */
+	public get postable(): boolean | null {
+		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES]) ?? null;
+	}
+
+	/**
+	 * If the client can send message embeds in the channel.
+	 * @since 0.0.1
+	 */
+	public get embedable(): boolean | null {
+		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.EMBED_LINKS]) ?? null;
 	}
 
 	/**
