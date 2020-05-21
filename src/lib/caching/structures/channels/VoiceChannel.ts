@@ -44,6 +44,12 @@ export class VoiceChannel extends GuildChannel {
 		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]) ?? null;
 	}
 
+	/**
+	 * Modifies this channel.
+	 * @param data The channel modify options.
+	 * @param requestOptions The request options.
+	 * @since 0.0.1
+	 */
 	public modify(data: VoiceChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		return super.modify(data, requestOptions);
 	}

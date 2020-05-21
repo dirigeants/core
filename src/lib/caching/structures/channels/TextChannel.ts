@@ -23,6 +23,12 @@ export class TextChannel extends GuildTextChannel {
 	 */
 	public rateLimitPerUser!: number;
 
+	/**
+	 * Modifies this channel.
+	 * @param data The channel modify options.
+	 * @param requestOptions The request options.
+	 * @since 0.0.1
+	 */
 	public modify(data: TextChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		return super.modify(data, requestOptions);
 	}

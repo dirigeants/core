@@ -16,6 +16,12 @@ export class NewsChannel extends GuildTextChannel {
 	 */
 	public readonly type = ChannelType.GuildAnnouncement;
 
+	/**
+	 * Modifies this channel.
+	 * @param data The channel modify options.
+	 * @param requestOptions The request options.
+	 * @since 0.0.1
+	 */
 	public modify(options: NewsChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		return super.modify(options, requestOptions);
 	}

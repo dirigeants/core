@@ -117,6 +117,12 @@ export abstract class GuildChannel extends Channel {
 		return this;
 	}
 
+	/**
+	 * Modifies this channel.
+	 * @param data The channel modify options.
+	 * @param requestOptions The request options.
+	 * @since 0.0.1
+	 */
 	public async modify(data: ChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		const result = await this.client.api.patch(Routes.channel(this.id), { ...requestOptions, data }) as APIChannelData;
 		return this._patch(result);

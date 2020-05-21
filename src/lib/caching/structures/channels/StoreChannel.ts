@@ -21,6 +21,12 @@ export class StoreChannel extends GuildChannel {
 	 */
 	public nsfw!: boolean;
 
+	/**
+	 * Modifies this channel.
+	 * @param data The channel modify options.
+	 * @param requestOptions The request options.
+	 * @since 0.0.1
+	 */
 	public modify(options: StoreChannelModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
 		return super.modify(options, requestOptions);
 	}
