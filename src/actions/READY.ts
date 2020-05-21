@@ -1,6 +1,6 @@
 import { Action } from '../lib/pieces/Action';
-import { ClientUser } from '../lib/caching/structures/ClientUser';
 import { ClientEvents } from '../lib/client/Client';
+import { extender } from '../lib/util/Extender';
 
 import type { ReadyDispatch } from '@klasa/ws';
 
@@ -16,6 +16,8 @@ export default class CoreAction extends Action {
 			// eslint-disable-next-line dot-notation
 			this.client.guilds['_add'](guild);
 		}
+
+		const ClientUser = extender.get('ClientUser');
 
 		this.client.user = new ClientUser(this.client, data.d.user);
 		this.client.users.set(this.client.user.id, this.client.user);

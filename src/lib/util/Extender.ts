@@ -101,6 +101,7 @@ export interface ExtenderStructures {
 	Ban: Constructor<Ban>;
 	CategoryChannel: Constructor<CategoryChannel>;
 	Channel: Constructor<Channel>;
+	ClientUser: Constructor<User>;
 	DMChannel: Constructor<DMChannel>;
 	Guild: Constructor<Guild>;
 	GuildChannel: Constructor<GuildChannel>;
@@ -130,6 +131,7 @@ export const extender = new Extender()
 	.add('Ban', Ban)
 	.add('CategoryChannel', CategoryChannel)
 	.add('Channel', Channel)
+	.add('ClientUser', User)
 	.add('DMChannel', DMChannel)
 	.add('Guild', Guild)
 	.add('GuildChannel', GuildChannel)
