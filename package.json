@@ -58,8 +58,7 @@
     ],
     "typescript": {
       "extensions": [
-        "ts",
-        "tsx"
+        "ts"
       ],
       "rewritePaths": {
         "test/": "dist/test/"
