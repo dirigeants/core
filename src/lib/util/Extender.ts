@@ -23,6 +23,7 @@ import { TextChannel } from '../caching/structures/channels/TextChannel';
 import { User } from '../caching/structures/User';
 import { VoiceChannel } from '../caching/structures/channels/VoiceChannel';
 import { VoiceState } from '../caching/structures/guilds/VoiceState';
+import { ClientUser } from '../caching/structures/ClientUser';
 
 /**
  * The extender class that allows the extension of built-in structures from Project-Blue and plugins.
@@ -101,7 +102,7 @@ export interface ExtenderStructures {
 	Ban: Constructor<Ban>;
 	CategoryChannel: Constructor<CategoryChannel>;
 	Channel: Constructor<Channel>;
-	ClientUser: Constructor<User>;
+	ClientUser: Constructor<ClientUser>;
 	DMChannel: Constructor<DMChannel>;
 	Guild: Constructor<Guild>;
 	GuildChannel: Constructor<GuildChannel>;
@@ -131,7 +132,7 @@ export const extender = new Extender()
 	.add('Ban', Ban)
 	.add('CategoryChannel', CategoryChannel)
 	.add('Channel', Channel)
-	.add('ClientUser', User)
+	.add('ClientUser', ClientUser)
 	.add('DMChannel', DMChannel)
 	.add('Guild', Guild)
 	.add('GuildChannel', GuildChannel)
