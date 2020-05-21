@@ -84,9 +84,7 @@ export abstract class GuildChannel extends Channel {
 	 * @since 0.0.1
 	 */
 	public get deletable(): boolean | null {
-		const { me } = this.guild;
-		if (!me) return null;
-		return this.permissionsFor(me).has(Permissions.FLAGS.MANAGE_CHANNELS);
+		return this.guild.me?.permissionsIn(this).has(Permissions.FLAGS.MANAGE_CHANNELS) ?? null;
 	}
 
 	/**
@@ -94,9 +92,7 @@ export abstract class GuildChannel extends Channel {
 	 * @since 0.0.1
 	 */
 	public get viewable(): boolean | null {
-		const { me } = this.guild;
-		if (!me) return null;
-		return this.permissionsFor(me).has(Permissions.FLAGS.VIEW_CHANNEL);
+		return this.guild.me?.permissionsIn(this).has(Permissions.FLAGS.VIEW_CHANNEL) ?? null;
 	}
 
 	/**
@@ -104,9 +100,7 @@ export abstract class GuildChannel extends Channel {
 	 * @since 0.0.1
 	 */
 	public get manageable(): boolean | null {
-		const { me } = this.guild;
-		if (!me) return null;
-		return this.permissionsFor(me).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]);
+		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]) ?? null;
 	}
 
 	/**

@@ -203,10 +203,9 @@ export class Message extends Structure {
 	 * @since 0.0.1
 	 */
 	public get deletable(): boolean | null {
-		if (!this.guild) return !this.deleted && this.editable;
-		const { me } = this.guild;
-		if (!me) return null;
-		return !this.deleted && (this.editable || (this.channel as GuildChannel).permissionsFor(me).has([Permissions.FLAGS.MANAGE_MESSAGES]));
+		if (!this.deleted) return false;
+		if (!this.guild) return this.editable;
+		return this.editable || (this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null);
 	}
 
 	/**
@@ -223,9 +222,7 @@ export class Message extends Structure {
 	 */
 	public get pinnable(): boolean | null {
 		if (!this.guild) return true;
-		const { me } = this.guild;
-		if (!me) return null;
-		return (this.channel as GuildChannel).permissionsFor(me).has([Permissions.FLAGS.MANAGE_MESSAGES]);
+		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null;
 	}
 
 	/**
@@ -234,9 +231,7 @@ export class Message extends Structure {
 	 */
 	public get reactable(): boolean | null {
 		if (!this.guild) return true;
-		const { me } = this.guild;
-		if (!me) return null;
-		return (this.channel as GuildChannel).permissionsFor(me).has([Permissions.FLAGS.ADD_REACTIONS]);
+		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.ADD_REACTIONS]) ?? null;
 	}
 
 	/**

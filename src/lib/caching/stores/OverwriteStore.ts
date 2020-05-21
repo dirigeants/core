@@ -10,7 +10,6 @@ import type { Client } from '../../client/Client';
 import type { Overwrite, OverwriteData } from '../structures/guilds/Overwrite';
 import type { GuildChannel } from '../structures/channels/GuildChannel';
 
-
 export interface MemberOverwrites {
 	everyone?: Overwrite;
 	roles: Overwrite[];
