@@ -1,3 +1,9 @@
+import fetch from 'node-fetch';
+import { Readable } from 'stream';
+import { pathExists } from 'fs-nextra';
+import { promises as fsp } from 'fs';
+import { MessageAttachment } from '../caching/structures/messages/MessageAttachment';
+
 /**
  * @param buffer The buffer the sniff the magic numbers from.
  * @see https://en.wikipedia.org/wiki/GIF
@@ -70,6 +76,8 @@ export const enum ImageTypes {
 	WEBP = 'image/webp'
 }
 
+export type ImageBufferResolvable = Readable | Buffer | MessageAttachment | string;
+
 /**
  * Determines whether or not a buffer corresponds to a GIF, JPG/JPEG, PNG, or WebP.
  * @since 0.0.1
@@ -84,11 +92,40 @@ export function getImageType(buffer: Buffer): ImageTypes | null {
 }
 
 /**
- * Determines the image's file type based on its contents and provides a base 64 string on success.
+ * Determines the image's file type based on its contents and provides a base 64 string.
  * @since 0.0.1
  * @param buffer The buffer to sniff and stringify into a Base 64 string.
- * @param fallback The default image to fall back to
+ * @param fallback The default image type to fall back to.
  */
 export function imageToBase64(buffer: Buffer, fallback: ImageTypes = ImageTypes.JPEG): string {
 	return `data:${getImageType(buffer) ?? fallback};base64,${buffer.toString('base64')}`;
+}
+
+/**
+ * Converts a stream, buffer, message attachment, url, or filepath to a buffer.
+ * @since 0.0.1
+ * @param data The data to resolve into a buffer.
+ */
+export async function resolveImageBuffer(data: ImageBufferResolvable): Promise<Buffer> {
+	if (data instanceof Readable) {
+		const buffers = [];
+		for await (const buffer of data) buffers.push(buffer);
+		return Buffer.concat(buffers);
+	}
+	if (Buffer.isBuffer(data)) return data;
+	if (data instanceof MessageAttachment) return (await fetch(data.url)).buffer();
+	if (/^https?:\/\//.test(data)) return (await fetch(data)).buffer();
+	if (await pathExists(data)) return fsp.readFile(data);
+	return Buffer.from(data);
+}
+
+/**
+ * Determines the image's file type based on its contents and provides a base 64 string.
+ * @since 0.0.1
+ * @param data The data to resolve into a Base 64 string.
+ * @param fallback The default image type to fall back to.
+ */
+export async function resolveImageToBase64(data: ImageBufferResolvable, fallback?: ImageTypes): Promise<string> {
+	const resolved = await resolveImageBuffer(data);
+	return imageToBase64(resolved, fallback);
 }
