@@ -21,4 +21,5 @@ test-results.xml
 .nycrc.json
 .typedoc.json
 .github/
+dist/test/
 
