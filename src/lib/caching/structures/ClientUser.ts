@@ -1,10 +1,10 @@
 import { Routes } from '@klasa/rest';
 import { User } from './User';
 import { ClientPresence } from './presences/ClientPresence';
+import { ImageBufferResolvable, resolveImageToBase64 } from '../../util/ImageUtil';
 
 import type { APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
-import { ImageBufferResolvable, resolveImageToBase64 } from '../../util/ImageUtil';
 
 /**
  * Represents the client's user account.
