@@ -9,6 +9,7 @@ import {
 	APIActivityDataSecrets,
 	APIActivityDataTimestamp
 } from '@klasa/dapi-types';
+import { ActivityResolvable, Activity } from '../../../util/bitfields/Activity';
 
 /**
  * The presence game builder.
@@ -28,7 +29,7 @@ export class PresenceGameBuilder implements APIActivityData {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/topics/gateway#activity-object-activity-types
 	 */
-	public type: ActivityType;
+	public type: number;
 
 	/**
 	 * Stream url, is validated when type is 1.
@@ -261,10 +262,10 @@ export class PresenceGameBuilder implements APIActivityData {
 	/**
 	 * Modifies this presence game and returns it.
 	 * @since 0.0.1
-	 * @param flags Activity flags `OR`d together, describes what the payload includes.
+	 * @param flags Activity flags, describes what the payload includes.
 	 */
-	public setFlags(flags: ActivityFlags): this {
-		this.flags = flags;
+	public setFlags(flags: ActivityResolvable): this {
+		this.flags = new Activity(flags).valueOf();
 		return this;
 	}
 
