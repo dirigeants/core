@@ -109,7 +109,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 *     .setContent('Ping!')
 	 *     .setEmbed(new Embed().setDescription('From an embed!')));
 	 */
-	public send(data: MessageOptions, options: SplitOptions): Promise<Message[]>;
+	public send(data: MessageOptions, options?: SplitOptions): Promise<Message[]>;
 	/**
 	 * Sends a message to the channel.
 	 * @param data A callback with a {@link MessageBuilder builder} as an argument.
@@ -121,8 +121,8 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 *     .setContent('Ping!')
 	 *     .setEmbed(embed => embed.setDescription('From an embed!')));
 	 */
-	public send(data: (message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>, options: SplitOptions): Promise<Message[]>;
-	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>), options: SplitOptions): Promise<Message[]> {
+	public send(data: (message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>, options?: SplitOptions): Promise<Message[]>;
+	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>), options: SplitOptions = {}): Promise<Message[]> {
 		// @ts-expect-error
 		return this.messages.add(data, options);
 	}
