@@ -2,7 +2,6 @@ import { Structure } from '../base/Structure';
 
 import type { APIPresenceUpdateData, PresenceUpdateStatus, APIActivityData, APIClientStatusData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
-import type { Guild } from './Guild';
 
 /**
  * @see https://discord.com/developers/docs/topics/gateway#presence
