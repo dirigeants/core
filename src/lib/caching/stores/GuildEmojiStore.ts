@@ -40,7 +40,7 @@ export class GuildEmojiStore extends DataStore<GuildEmoji> {
 	 */
 	public async add({ image, ...options }: GuildEmojiStoreAddData, requestOptions: RequestOptions = {}): Promise<GuildEmoji> {
 		const data: GuildEmojiStoreAddData = {
-			image: image ? await resolveImageToBase64(image) : image,
+			image: await resolveImageToBase64(image),
 			...options
 		};
 		const entry = await this.client.api.post(Routes.guildEmojis(this.guild.id), { ...requestOptions, data }) as APIEmojiData;
@@ -109,15 +109,15 @@ export interface GuildEmojiStoreAddData {
 	/**
 	 * The name of the emoji.
 	 */
-	name?: string;
+	name: string;
 
 	/**
 	 * The 128x128 emoji image.
 	 */
-	image?: ImageBufferResolvable;
+	image: ImageBufferResolvable;
 
 	/**
 	 * The roles for which this emoji will be whitelisted.
 	 */
-	roles?: readonly string[];
+	roles: readonly string[];
 }
