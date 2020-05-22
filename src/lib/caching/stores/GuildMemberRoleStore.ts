@@ -36,6 +36,14 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 	}
 
 	/**
+	 * Gets the highest role from this store.
+	 * @since 0.0.1
+	 */
+	public highest(): Role | undefined {
+		return this.reduce((highest, role) => highest.position > role.position ? highest : role, this.firstValue as Role);
+	}
+
+	/**
 	 * The {@link Guild guild} this store belongs to.
 	 * @since 0.0.1
 	 */
