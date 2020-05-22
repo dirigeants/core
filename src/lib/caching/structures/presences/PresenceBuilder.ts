@@ -52,8 +52,8 @@ export class PresenceBuilder implements StatusUpdateData {
 	 * @since 0.0.1
 	 * @param since Unix time (in milliseconds) of when the client went idle, or null if the client is not idle.
 	 */
-	public setSince(since: number | null): this {
-		this.since = since;
+	public setSince(since: Date | number | null = Date.now()): this {
+		this.since = since instanceof Date ? since.getTime() : since;
 		return this;
 	}
 

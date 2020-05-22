@@ -4,6 +4,7 @@ import { ClientPresence } from './presences/ClientPresence';
 
 import type { APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
+import { ImageBufferResolvable, resolveImageToBase64 } from '../../util/ImageUtil';
 
 /**
  * Represents the client's user account.
@@ -28,8 +29,12 @@ export class ClientUser extends User {
 	 * @param options The options to be set.
 	 * @see https://discord.com/developers/docs/resources/user#modify-current-user
 	 */
-	public async modify(options: ClientUserModifyOptions): Promise<this> {
-		const entry = await this.client.api.patch(Routes.user(), { data: options }) as APIUserData;
+	public async modify({ avatar, ...options }: ClientUserModifyOptions): Promise<this> {
+		const data: ClientUserModifyOptions = {
+			avatar: avatar ? await resolveImageToBase64(avatar) : avatar,
+			...options
+		};
+		const entry = await this.client.api.patch(Routes.user(), { data }) as APIUserData;
 		return this._patch(entry);
 	}
 
@@ -46,10 +51,10 @@ export class ClientUser extends User {
 	/**
 	 * Modifies the client user's avatar.
 	 * @since 0.0.1
-	 * @param username The avatar to be set.
+	 * @param avatar The avatar to be set.
 	 * @see https://discord.com/developers/docs/resources/user#modify-current-user
 	 */
-	public setAvatar(avatar: string): Promise<this> {
+	public setAvatar(avatar: ImageBufferResolvable): Promise<this> {
 		return this.modify({ avatar });
 	}
 
@@ -71,5 +76,5 @@ export interface ClientUserModifyOptions {
 	 * If passed, modifies the user's avatar
 	 * @since 0.0.1
 	 */
-	avatar?: string;
+	avatar?: ImageBufferResolvable;
 }
