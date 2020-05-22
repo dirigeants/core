@@ -105,7 +105,7 @@ export class GuildMember extends Structure {
 	 * or a boolean specifying whether or not the conditions are met.
 	 */
 	public get kickable(): boolean | null {
-		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.KICK_MEMBERS)) ?? null;
+		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.KICK_MEMBERS)) ?? null;
 	}
 
 	/**
@@ -129,7 +129,7 @@ export class GuildMember extends Structure {
 	 * or a boolean specifying whether or not the conditions are met.
 	 */
 	public get manageNicknames(): boolean | null {
-		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_NICKNAMES)) ?? null;
+		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_NICKNAMES)) ?? null;
 	}
 
 	/**
