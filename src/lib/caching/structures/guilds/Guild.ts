@@ -14,6 +14,7 @@ import { PresenceStore } from '../../stores/PresenceStore';
 import { RoleStore } from '../../stores/RoleStore';
 import { Structure } from '../base/Structure';
 import { VoiceStateStore } from '../../stores/VoiceStateStore';
+import { resolveImageToBase64, ImageBufferResolvable } from '../../../util/ImageUtil';
 
 import type {
 	APIGuildData,
@@ -388,7 +389,13 @@ export class Guild extends Structure {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#modify-guild
 	 */
-	public async modify(data: GuildModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
+	public async modify({ icon, splash, banner, ...options }: GuildModifyOptions, requestOptions: RequestOptions = {}): Promise<this> {
+		const data: GuildModifyOptions = {
+			icon: icon ? await resolveImageToBase64(icon) : icon,
+			splash: splash ? await resolveImageToBase64(splash) : splash,
+			banner: banner ? await resolveImageToBase64(banner) : banner,
+			...options
+		};
 		const result = await this.client.api.patch(Routes.guild(this.id), { ...requestOptions, data }) as APIGuildData;
 		return this._patch(result);
 	}
@@ -580,7 +587,7 @@ export interface GuildModifyOptions {
 	 * The base64 1024x1024 png/jpeg/gif image for the guild icon (can be animated gif when the guild has `ANIMATED_ICON` feature).
 	 * @since 0.0.1
 	 */
-	icon?: string;
+	icon?: ImageBufferResolvable;
 
 	/**
 	 * The {@link User user} id to transfer guild ownership to (must be owner).
@@ -592,13 +599,13 @@ export interface GuildModifyOptions {
 	 * The base64 16:9 png/jpeg image for the guild splash (when the guild has `INVITE_SPLASH` feature).
 	 * @since 0.0.1
 	 */
-	splash?: string;
+	splash?: ImageBufferResolvable;
 
 	/**
 	 * The base64 16:9 png/jpeg image for the guild banner (when the guild has `BANNER` feature).
 	 * @since 0.0.1
 	 */
-	banner?: string;
+	banner?: ImageBufferResolvable;
 
 	/**
 	 * The id of the {@link TextChannel channel} where guild notices such as welcome messages and boost events are posted.

@@ -9,7 +9,6 @@ export class MessageReactionEmoji implements APIEmojiPartial {
 	/**
 	 * The emoji's ID.
 	 * @since 0.0.1
-	 * @see https://discord.com/developers/docs/reference#image-formatting
 	 */
 	public readonly id: string | null;
 
