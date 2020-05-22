@@ -97,6 +97,54 @@ export class GuildMember extends Structure {
 	}
 
 	/**
+	 * Whether or not the {@link ClientUser client user} can kick this member. This is based on:
+	 * - {@link GuildMember#manageable}.
+	 * - The {@link ClientUser client user} has `KICK_MEMBERS` permission.
+	 * @since 0.0.1
+	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
+	 * or a boolean specifying whether or not the conditions are met.
+	 */
+	public get kickable(): boolean | null {
+		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.KICK_MEMBERS)) ?? null;
+	}
+
+	/**
+	 * Whether or not the {@link ClientUser client user} can ban this member. This is based on:
+	 * - {@link GuildMember#manageable}.
+	 * - The {@link ClientUser client user} has `BAN_MEMBERS` permission.
+	 * @since 0.0.1
+	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
+	 * or a boolean specifying whether or not the conditions are met.
+	 */
+	public get bannable(): boolean | null {
+		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.BAN_MEMBERS)) ?? null;
+	}
+
+	/**
+	 * Whether or not the {@link ClientUser client user} can ban this member. This is based on:
+	 * - {@link GuildMember#manageable}.
+	 * - The {@link ClientUser client user} has `BAN_MEMBERS` permission.
+	 * @since 0.0.1
+	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
+	 * or a boolean specifying whether or not the conditions are met.
+	 */
+	public get manageNicknames(): boolean | null {
+		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_NICKNAMES)) ?? null;
+	}
+
+	/**
+	 * Whether or not the {@link ClientUser client user} can ban this member. This is based on:
+	 * - {@link GuildMember#manageable}.
+	 * - The {@link ClientUser client user} has `BAN_MEMBERS` permission.
+	 * @since 0.0.1
+	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
+	 * or a boolean specifying whether or not the conditions are met.
+	 */
+	public get manageRoles(): boolean | null {
+		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_ROLES)) ?? null;
+	}
+
+	/**
 	 * Whether or not the {@link ClientUser client user} can manage this member. This is based on:
 	 * - The member is not the {@link Guild#owner guild owner}.
 	 * - The member is not the {@link ClientUser client user} itself.
@@ -106,7 +154,7 @@ export class GuildMember extends Structure {
 	 * @returns `true` when any of the conditions are met, `null` when the {@link ClientUser client user}'s member is not
 	 * cached (or when {@link Client#user} is null), or `false` otherwise.
 	 */
-	public get manageable(): boolean | null {
+	protected get _manageable(): boolean | null {
 		// If the user is the owner, it is not manageable.
 		if (this.id === this.guild.ownerID) return false;
 
@@ -124,34 +172,6 @@ export class GuildMember extends Structure {
 		// If the client user is the owner, or if the client user's highest
 		// role is higher than the member's, return true.
 		return user.id === this.guild.ownerID || me.roles.highest > this.roles.highest;
-	}
-
-	/**
-	 * Whether or not the {@link ClientUser client user} can kick this member. This is based on:
-	 * - {@link GuildMember#manageable}.
-	 * - The {@link ClientUser client user} has `KICK_MEMBERS` permission.
-	 * @since 0.0.1
-	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
-	 * or a boolean specifying whether or not the conditions are met.
-	 */
-	public get kickable(): boolean | null {
-		const { manageable } = this;
-		if (manageable === null) return null;
-		return manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.KICK_MEMBERS);
-	}
-
-	/**
-	 * Whether or not the {@link ClientUser client user} can ban this member. This is based on:
-	 * - {@link GuildMember#manageable}.
-	 * - The {@link ClientUser client user} has `BAN_MEMBERS` permission.
-	 * @since 0.0.1
-	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
-	 * or a boolean specifying whether or not the conditions are met.
-	 */
-	public get bannable(): boolean | null {
-		const { manageable } = this;
-		if (manageable === null) return null;
-		return manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.BAN_MEMBERS);
 	}
 
 	/**
