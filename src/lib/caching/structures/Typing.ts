@@ -21,11 +21,6 @@ export class Typing {
 	 */
 	public readonly channel: GuildTextChannel | DMChannel;
 
-	public constructor(channel: GuildTextChannel | DMChannel) {
-		this.client = channel.client;
-		this.channel = channel;
-	}
-
 	/**
 	 * The internal typing counter (allows handling of multiple commands in the same channel).
 	 * @since 0.0.1
@@ -37,6 +32,11 @@ export class Typing {
 	 * @since 0.0.1
 	 */
 	#interval: NodeJS.Timeout | null = null;
+
+	public constructor(channel: GuildTextChannel | DMChannel) {
+		this.client = channel.client;
+		this.channel = channel;
+	}
 
 	/**
 	 * Ups the internal typing counter and starts typing if not already.
