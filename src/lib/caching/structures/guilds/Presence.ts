@@ -33,16 +33,9 @@ export class Presence extends Structure {
 	 */
 	public activities!: APIActivityData[];
 
-	/**
-	 * The guild the presence belongs to.
-	 * @since 0.0.1
-	 */
-	public readonly guild: Guild;
-
-	public constructor(client: Client, data: APIPresenceUpdateData, guild: Guild) {
+	public constructor(client: Client, data: APIPresenceUpdateData) {
 		super(client);
 		this.id = data.user.id;
-		this.guild = guild;
 		this._patch(data);
 	}
 
