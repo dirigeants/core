@@ -212,15 +212,15 @@
   resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.5.tgz#42891d2412f3e428e8e53af1227daedf78324b1a"
   integrity sha512-5aZXx33QLGSAAGoCMghG2rQnk33r3aLZXrtPxpJl9AnIh5aI7HAIyuyJ/sHPfk9mOzCx/0NOaB+T8vOjiLD35g==
 
-"@klasa/ws@^0.0.9":
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.9.tgz#cc1dc9be398a72eb200e0fdf28d6931d0ffa3392"
-  integrity sha512-VKjBJcFTG+GQD8fO8yQx2HQQEwz1up/ETLZLqBqlKnRERPYoywE/MSgHSo/4vs8koLIs9l6t4N6nfln3mb5A0Q==
+"@klasa/ws@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.10.tgz#fad023886c5e4121610b7b5986d920a5ffa35dca"
+  integrity sha512-4/FWaW54jhOLvMoyzkHBeQLja6psv+Zug6Lvkc6wWpAGeo7UZ/Sv8G2ITiymr6DsWKeKduJou82CcwmCCt56Ww==
   dependencies:
     "@klasa/async-queue" "^0.0.1"
     "@klasa/bitfield" "^0.0.2"
-    "@klasa/cache" "^0.0.2"
-    "@klasa/utils" "^0.0.4"
+    "@klasa/cache" "^0.0.3"
+    "@klasa/utils" "^0.0.5"
     ws "^7.3.0"
   optionalDependencies:
     bufferutil "^4.0.1"
