@@ -119,5 +119,5 @@ export interface GuildEmojiStoreAddData {
 	/**
 	 * The roles for which this emoji will be whitelisted.
 	 */
-	roles: readonly string[];
+	roles?: readonly string[];
 }
