@@ -87,7 +87,7 @@ export class Role extends Structure {
 	public permissionsIn(channel: GuildChannel): Readonly<Permissions> {
 		const { permissions } = this;
 
-		if (this.permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
+		if (permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
 
 		const overwrites = channel.permissionOverwrites.for(this);
 

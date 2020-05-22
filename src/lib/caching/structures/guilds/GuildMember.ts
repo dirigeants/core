@@ -86,6 +86,81 @@ export class GuildMember extends Structure {
 	}
 
 	/**
+	 * The calculated permissions from the member's {@link GuildMemberRoleStore roles}.
+	 * @since 0.0.1
+	 */
+	public get permissions(): Readonly<Permissions> {
+		if (this.id === this.guild.ownerID) return new Permissions(Permissions.ALL).freeze();
+
+		const permissions = new Permissions(this.roles.map(role => role.permissions));
+		return (permissions.has(Permissions.FLAGS.ADMINISTRATOR) ? permissions.add(Permissions.ALL) : permissions).freeze();
+	}
+
+	/**
+	 * Whether or not the {@link ClientUser client user} can kick this member.
+	 * @since 0.0.1
+	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
+	 * or a boolean specifying whether or not the conditions are met.
+	 */
+	public get kickable(): boolean | null {
+		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.KICK_MEMBERS)) ?? null;
+	}
+
+	/**
+	 * Whether or not the {@link ClientUser client user} can ban this member.
+	 * @since 0.0.1
+	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
+	 * or a boolean specifying whether or not the conditions are met.
+	 */
+	public get bannable(): boolean | null {
+		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.BAN_MEMBERS)) ?? null;
+	}
+
+	/**
+	 * Whether or not the {@link ClientUser client user} can manage the member's nickname.
+	 * @since 0.0.1
+	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
+	 * or a boolean specifying whether or not the conditions are met.
+	 */
+	public get manageNicknames(): boolean | null {
+		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_NICKNAMES)) ?? null;
+	}
+
+	/**
+	 * Whether or not the {@link ClientUser client user} can manage the member's roles.
+	 * @since 0.0.1
+	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
+	 * or a boolean specifying whether or not the conditions are met.
+	 */
+	public get manageRoles(): boolean | null {
+		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_ROLES)) ?? null;
+	}
+
+	/**
+	 * Whether or not the {@link ClientUser client user} can manage this member. This is based on:
+	 * - The member is not the {@link Guild#owner guild owner}.
+	 * - The {@link ClientUser client user} is the owner of the {@link Guild}.
+	 * - The {@link ClientUser client user}'s {@link GuildMemberRoleStore#highest highest role} is higher than the member's.
+	 * @since 0.0.1
+	 * @returns `true` when any of the conditions are met, `null` when the {@link ClientUser client user}'s member is not
+	 * cached (or when {@link Client#user} is null), or `false` otherwise.
+	 */
+	protected get _manageable(): boolean | null {
+		// If the client user's member instance is not cached, return null.
+		const { me } = this.guild;
+		if (!this.client.user || !me) return null;
+
+		// If the client is the owner, then it can manage itself
+		if (this.guild.ownerID === this.client.user.id) return true;
+
+		// If this is the owner (and we have already determined we are not the owner), then it can't manage
+		if (this.id === this.guild.ownerID) return false;
+
+		// If the clients highest role is higher than this roles highest role
+		return me.roles.highest > this.roles.highest;
+	}
+
+	/**
 	 * Modifies the settings for the member.
 	 * @param data The settings to be set.
 	 * @param requestOptions The additional request options.
@@ -101,11 +176,9 @@ export class GuildMember extends Structure {
 	 * @param channel The channel to check permissions in
 	 */
 	public permissionsIn(channel: GuildChannel): Readonly<Permissions> {
-		if (this.id === this.guild.ownerID) return new Permissions(Permissions.ALL).freeze();
+		const { permissions } = this;
 
-		const permissions = new Permissions(this.roles.map(role => role.permissions));
-
-		if (permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
+		if (permissions.equals(Permissions.ALL)) return permissions;
 
 		const overwrites = channel.permissionOverwrites.for(this);
 

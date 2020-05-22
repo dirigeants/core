@@ -31,6 +31,14 @@ export class RoleStore extends DataStore<Role> {
 	}
 
 	/**
+	 * Gets the highest role from this store.
+	 * @since 0.0.1
+	 */
+	public highest(): Role | undefined {
+		return this.reduce((highest, role) => highest.position > role.position ? highest : role, this.firstValue as Role);
+	}
+
+	/**
 	 * Creates a new {@link Role role} for the {@link Guild guild}.
 	 * @since 0.0.1
 	 * @param data The role settings.
