@@ -76,5 +76,5 @@ export interface ClientUserModifyOptions {
 	 * If passed, modifies the user's avatar
 	 * @since 0.0.1
 	 */
-	avatar?: ImageBufferResolvable;
+	avatar?: ImageBufferResolvable | null;
 }
