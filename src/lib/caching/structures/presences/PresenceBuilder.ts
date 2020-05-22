@@ -4,7 +4,7 @@ import { PresenceGameBuilder } from './PresenceGameBuilder';
 import type { PresenceUpdateData } from '@klasa/ws';
 import type { APIActivityData } from '@klasa/dapi-types';
 
-export type PresenceStatus = 'online' | 'dnd' | 'idle' | 'invisible' | 'offline';
+export type PresenceStatus = PresenceUpdateData['status'];
 
 /**
  * The presence builder.
