@@ -97,9 +97,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * Whether or not the {@link ClientUser client user} can kick this member. This is based on:
-	 * - {@link GuildMember#manageable}.
-	 * - The {@link ClientUser client user} has `KICK_MEMBERS` permission.
+	 * Whether or not the {@link ClientUser client user} can kick this member.
 	 * @since 0.0.1
 	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
 	 * or a boolean specifying whether or not the conditions are met.
@@ -109,9 +107,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * Whether or not the {@link ClientUser client user} can ban this member. This is based on:
-	 * - {@link GuildMember#manageable}.
-	 * - The {@link ClientUser client user} has `BAN_MEMBERS` permission.
+	 * Whether or not the {@link ClientUser client user} can ban this member.
 	 * @since 0.0.1
 	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
 	 * or a boolean specifying whether or not the conditions are met.
@@ -121,9 +117,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * Whether or not the {@link ClientUser client user} can ban this member. This is based on:
-	 * - {@link GuildMember#manageable}.
-	 * - The {@link ClientUser client user} has `BAN_MEMBERS` permission.
+	 * Whether or not the {@link ClientUser client user} can manage the member's nickname.
 	 * @since 0.0.1
 	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
 	 * or a boolean specifying whether or not the conditions are met.
@@ -133,9 +127,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * Whether or not the {@link ClientUser client user} can ban this member. This is based on:
-	 * - {@link GuildMember#manageable}.
-	 * - The {@link ClientUser client user} has `BAN_MEMBERS` permission.
+	 * Whether or not the {@link ClientUser client user} can manage the member's roles.
 	 * @since 0.0.1
 	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
 	 * or a boolean specifying whether or not the conditions are met.
