@@ -6,6 +6,7 @@ import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 import { MessageCollectorOptions, MessageCollector } from '../../../util/collectors/MessageCollector';
+import { Typing } from '../Typing';
 
 import type { User } from '../User';
 import type { Client } from '../../../client/Client';
@@ -16,6 +17,12 @@ import type { Message } from '../Message';
  * @see https://discord.com/developers/docs/resources/channel#channel-object
  */
 export class DMChannel extends Channel {
+
+	/**
+	 * The typing handler for this channel.
+	 * @since 0.0.1
+	 */
+	public readonly typing: Typing;
 
 	/**
 	 * The type of channel.
@@ -51,6 +58,7 @@ export class DMChannel extends Channel {
 	public constructor(client: Client, data: APIChannelData) {
 		super(client, data);
 		this.messages = new MessageStore(client, this);
+		this.typing = new Typing(this);
 	}
 
 	/**

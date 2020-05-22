@@ -4,13 +4,14 @@ import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 import { MessageCollector, MessageCollectorOptions } from '../../../util/collectors/MessageCollector';
+import { Permissions } from '../../../util/bitfields/Permissions';
+import { Typing } from '../Typing';
 
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
 import type { TextBasedChannel } from '../../../util/Util';
 import type { Message } from '../Message';
-import { Permissions } from '../../../util/bitfields/Permissions';
 
 export interface SendOptions {
 	split?: SplitOptions;
@@ -27,6 +28,12 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 * @since 0.0.1
 	 */
 	public readonly messages: MessageStore;
+
+	/**
+	 * The typing handler for this channel.
+	 * @since 0.0.1
+	 */
+	public readonly typing: Typing;
 
 	/**
 	 * The channel topic (0-1024 characters).
@@ -55,6 +62,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null) {
 		super(client, data, guild);
 		this.messages = new MessageStore(client, this as TextBasedChannel);
+		this.typing = new Typing(this);
 	}
 
 	/**
