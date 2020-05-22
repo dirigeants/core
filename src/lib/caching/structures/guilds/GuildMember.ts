@@ -117,7 +117,7 @@ export class GuildMember extends Structure {
 	 * or a boolean specifying whether or not the conditions are met.
 	 */
 	public get bannable(): boolean | null {
-		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.BAN_MEMBERS)) ?? null;
+		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.BAN_MEMBERS)) ?? null;
 	}
 
 	/**
@@ -129,7 +129,7 @@ export class GuildMember extends Structure {
 	 * or a boolean specifying whether or not the conditions are met.
 	 */
 	public get manageNicknames(): boolean | null {
-		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_NICKNAMES)) ?? null;
+		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_NICKNAMES)) ?? null;
 	}
 
 	/**
@@ -161,9 +161,6 @@ export class GuildMember extends Structure {
 		// If the client user is not cached, return null.
 		const { user } = this.client;
 		if (!user) return null;
-
-		// If the user is the same as the client user, it is not manageable.
-		if (this.id === user.id) return false;
 
 		// If the client user's member instance is not cached, return null.
 		const { me } = this.guild;
