@@ -1,7 +1,7 @@
 /* eslint-disable no-dupe-class-members */
-import { OpCodes, SendPayload } from '@klasa/ws';
+import { OpCodes, SendPayload, PresenceUpdateData } from '@klasa/ws';
 import { Presence } from '../guilds/Presence';
-import { PresenceBuilder, StatusUpdateData } from './PresenceBuilder';
+import { PresenceBuilder } from './PresenceBuilder';
 
 /**
  * The {@link Presence presence} for the {@link ClientUser client user}.
@@ -16,14 +16,14 @@ export class ClientPresence extends Presence {
 	 * @param presence The presence data to be sent.
 	 * @see https://discord.com/developers/docs/topics/gateway#update-status
 	 */
-	public modify(game: StatusUpdateData, shards?: number | number[]): this;
+	public modify(game: PresenceUpdateData, shards?: number | number[]): this;
 	/**
 	 * Sets the client presence with a builder, and returns it.
 	 * @since 0.0.1
 	 * @param builder The builder to aid building the game.
 	 */
 	public modify(builder: (presence: PresenceBuilder) => PresenceBuilder, shards?: number | number[]): this;
-	public modify(presence: StatusUpdateData | ((game: PresenceBuilder) => PresenceBuilder), shards?: number | number[]): this {
+	public modify(presence: PresenceUpdateData | ((game: PresenceBuilder) => PresenceBuilder), shards?: number | number[]): this {
 		const data = typeof presence === 'function' ? presence(new PresenceBuilder()) : presence;
 		// eslint-disable-next-line id-length
 		const sent: SendPayload = { op: OpCodes.STATUS_UPDATE, d: data };

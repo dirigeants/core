@@ -1,10 +1,9 @@
 /* eslint-disable no-dupe-class-members */
 import { PresenceGameBuilder } from './PresenceGameBuilder';
 
-import type { WSIdentify } from '@klasa/ws';
+import type { PresenceUpdateData } from '@klasa/ws';
 import type { APIActivityData } from '@klasa/dapi-types';
 
-export type StatusUpdateData = NonNullable<WSIdentify['presence']>;
 export type PresenceStatus = 'online' | 'dnd' | 'idle' | 'invisible' | 'offline';
 
 /**
@@ -12,7 +11,7 @@ export type PresenceStatus = 'online' | 'dnd' | 'idle' | 'invisible' | 'offline'
  * @since 0.0.1
  * @see https://discord.com/developers/docs/topics/gateway#update-status-gateway-status-update-structure
  */
-export class PresenceBuilder implements StatusUpdateData {
+export class PresenceBuilder implements PresenceUpdateData {
 
 	/**
 	 * Unix time (in milliseconds) of when the client went idle, or null if the client is not idle.
@@ -40,7 +39,7 @@ export class PresenceBuilder implements StatusUpdateData {
 	 */
 	public afk: boolean;
 
-	public constructor(data: Partial<StatusUpdateData> = {}) {
+	public constructor(data: Partial<PresenceUpdateData> = {}) {
 		this.since = data.since ?? null;
 		this.game = data.game ?? null;
 		this.status = data.status ?? 'online';
