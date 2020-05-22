@@ -147,7 +147,6 @@ export class GuildMember extends Structure {
 	/**
 	 * Whether or not the {@link ClientUser client user} can manage this member. This is based on:
 	 * - The member is not the {@link Guild#owner guild owner}.
-	 * - The member is not the {@link ClientUser client user} itself.
 	 * - The {@link ClientUser client user} is the owner of the {@link Guild}.
 	 * - The {@link ClientUser client user}'s {@link GuildMemberRoleStore#highest highest role} is higher than the member's.
 	 * @since 0.0.1
@@ -155,16 +154,18 @@ export class GuildMember extends Structure {
 	 * cached (or when {@link Client#user} is null), or `false` otherwise.
 	 */
 	protected get _manageable(): boolean | null {
-		// If the user is the owner, it is not manageable.
-		if (this.id === this.guild.ownerID) return false;
-
 		// If the client user's member instance is not cached, return null.
 		const { me } = this.guild;
 		if (!this.client.user || !me) return null;
 
-		// If the client user is the owner, or if the client user's highest
-		// role is higher than the member's, return true.
-		return this.client.user.id === this.guild.ownerID || me.roles.highest > this.roles.highest;
+		// If the client is the owner, then it can manage itself
+		if (this.guild.ownerID === this.client.user.id) return true;
+
+		// If this is the owner (and we have already determined we are not the owner), then it can't manage
+		if (this.id === this.guild.ownerID) return false;
+
+		// If the clients highest role is higher than this roles highest role
+		return me.roles.highest > this.roles.highest;
 	}
 
 	/**
