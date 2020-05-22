@@ -1,10 +1,18 @@
+import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../util/Extender';
+import { resolveImageToBase64, ImageBufferResolvable } from '../../util/ImageUtil';
 
+import type {
+	APIChannelData,
+	APIGuildData,
+	APIRoleData,
+	GuildDefaultMessageNotifications,
+	GuildExplicitContentFilterLevel,
+	GuildVerificationLevel
+} from '@klasa/dapi-types';
 import type { Guild } from '../structures/guilds/Guild';
 import type { Client } from '../../client/Client';
-import { Routes, RequestOptions } from '@klasa/rest';
-import { APIGuildData, GuildDefaultMessageNotifications, GuildVerificationLevel, GuildExplicitContentFilterLevel, APIRoleData, APIChannelData } from '@klasa/dapi-types';
 
 /**
  * The store for {@link Guild guilds}.
@@ -28,7 +36,12 @@ export class GuildStore extends DataStore<Guild> {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/guild#create-guild
 	 */
-	public async add(data: GuildStoreAddData, requestOptions: RequestOptions = {}): Promise<Guild> {
+	public async add({ icon, ...options }: GuildStoreAddData, requestOptions: RequestOptions = {}): Promise<Guild> {
+		const data: GuildStoreAddData = {
+			icon: icon ? await resolveImageToBase64(icon) : icon,
+			...options
+		};
+
 		const entry = await this.client.api.post(Routes.guilds(), { ...requestOptions, data }) as APIGuildData;
 		return this._add(entry);
 	}
@@ -83,7 +96,7 @@ export interface GuildStoreAddData {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/reference#image-data
 	 */
-	icon?: string;
+	icon?: ImageBufferResolvable;
 
 	/**
 	 * The verification level.

@@ -2,6 +2,7 @@
 import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../util/Extender';
+import { resolveImageToBase64, ImageBufferResolvable } from '../../util/ImageUtil';
 
 import type { APIEmojiData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
@@ -37,7 +38,11 @@ export class GuildEmojiStore extends DataStore<GuildEmoji> {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/emoji#create-guild-emoji
 	 */
-	public async add(data: GuildEmojiStoreAddData, requestOptions: RequestOptions = {}): Promise<GuildEmoji> {
+	public async add({ image, ...options }: GuildEmojiStoreAddData, requestOptions: RequestOptions = {}): Promise<GuildEmoji> {
+		const data: GuildEmojiStoreAddData = {
+			image: await resolveImageToBase64(image),
+			...options
+		};
 		const entry = await this.client.api.post(Routes.guildEmojis(this.guild.id), { ...requestOptions, data }) as APIEmojiData;
 		return this._add(entry);
 	}
@@ -104,12 +109,12 @@ export interface GuildEmojiStoreAddData {
 	/**
 	 * The name of the emoji.
 	 */
-	name?: string;
+	name: string;
 
 	/**
 	 * The 128x128 emoji image.
 	 */
-	image?: Buffer;
+	image: ImageBufferResolvable;
 
 	/**
 	 * The roles for which this emoji will be whitelisted.
