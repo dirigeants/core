@@ -10,17 +10,6 @@ export type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | Bi
 export class Permissions extends BitField<PermissionsResolvable> {
 
 	/**
-	 * Determines if this Permissions includes a permission or permissions
-	 * @param permission The permission/s to check for
-	 * @param checkAdmin Whether this should account for implied Administrator permissions
-	 */
-	public has(permission: PermissionsResolvable, checkAdmin = false): boolean {
-		const constructor = this.constructor as typeof Permissions;
-		if (checkAdmin && super.has(constructor.FLAGS.ADMINISTRATOR)) return true;
-		return super.has(permission);
-	}
-
-	/**
 	 * The Permissions flags
 	 */
 	public static FLAGS = {
