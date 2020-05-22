@@ -168,10 +168,10 @@
   resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.3.tgz#824595f247fbd6204a6278eae988d22eb783d00b"
   integrity sha512-8+V14gY0soYSd9j5NKel+gKpoEccwFnKYPEL2XALx+SOHzVMAmmfVBqO4cd3QzPdIW3770jklLY2SeXeEv9xvA==
 
-"@klasa/dapi-types@^0.1.0":
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/@klasa/dapi-types/-/dapi-types-0.1.0.tgz#58553c1d1264680d0df0cc67e2398fc3d5e4e553"
-  integrity sha512-MjUZDyOzIJb/E42xPqt4/DBQnCZSra6Cy/cwej4Qo2cdwErVxS0aM5xDqnB64oxVR6pax7huRZ3oigUbwxwxiA==
+"@klasa/dapi-types@^0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@klasa/dapi-types/-/dapi-types-0.1.1.tgz#f207d58d9ff878598ea01c8c11aeece598cce726"
+  integrity sha512-mTCTF7LxNFVewULTEaewlf+MpTYsGWKlkwHgmOqdw4HeS5OlQrRmeoWwg2drgjhXrdbYnXBV6s3LsiESqKIoAg==
 
 "@klasa/event-iterator@^0.0.8":
   version "0.0.8"
