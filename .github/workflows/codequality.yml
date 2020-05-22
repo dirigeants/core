@@ -104,4 +104,4 @@ jobs:
         git commit -m "Docs build: ${GITHUB_SHA}" || true
         git push origin $TARGET_BRANCH
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.COMMIT_TOKEN }}
