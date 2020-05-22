@@ -1,6 +1,5 @@
 import { TimerManager } from '@klasa/timer-manager';
 import { Routes } from '@klasa/rest';
-import { EventEmitter } from 'events';
 
 import type { DMChannel } from './channels/DMChannel';
 import type { Client } from '../../client/Client';
@@ -9,7 +8,7 @@ import type { GuildTextChannel } from './channels/GuildTextChannel';
 /**
  * Handles typing indication sending in text channels
  */
-export class Typing extends EventEmitter {
+export class Typing {
 
 	/**
 	 * The client this typing manager is for.
@@ -23,14 +22,8 @@ export class Typing extends EventEmitter {
 	public readonly channel: GuildTextChannel | DMChannel;
 
 	public constructor(channel: GuildTextChannel | DMChannel) {
-		super();
 		this.client = channel.client;
 		this.channel = channel;
-
-		this.on('error', () => {
-			this.#count = 0;
-			this._stopTyping();
-		});
 	}
 
 	/**
@@ -92,8 +85,9 @@ export class Typing extends EventEmitter {
 	protected async _type(): Promise<void> {
 		try {
 			await this.client.api.post(Routes.channelTyping(this.channel.id));
-		} catch (error) {
-			this.emit('error', error);
+		} catch {
+			this.#count = 0;
+			this._stopTyping();
 		}
 	}
 
