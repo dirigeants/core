@@ -89,9 +89,11 @@ export class GuildMember extends Structure {
 	 * The calculated permissions from the member's {@link GuildMemberRoleStore roles}.
 	 * @since 0.0.1
 	 */
-	public get permissions(): Permissions {
+	public get permissions(): Readonly<Permissions> {
 		if (this.id === this.guild.ownerID) return new Permissions(Permissions.ALL).freeze();
-		return new Permissions(this.roles.map(role => role.permissions));
+
+		const permissions = new Permissions(this.roles.map(role => role.permissions));
+		return (permissions.has(Permissions.FLAGS.ADMINISTRATOR) ? permissions.add(Permissions.ALL) : permissions).freeze();
 	}
 
 	/**
