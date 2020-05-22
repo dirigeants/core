@@ -7,7 +7,7 @@ import {
 	APIActivityDataEmoji,
 	APIActivityDataParty,
 	APIActivityDataSecrets,
-	APIActivityDataTimestamps
+	APIActivityDataTimestamp
 } from '@klasa/dapi-types';
 
 /**
@@ -46,7 +46,7 @@ export class PresenceGameBuilder implements APIActivityData {
 	 * Unix timestamps for start and/or end of the game.
 	 * @since 0.0.1
 	 */
-	public timestamps?: APIActivityDataTimestamps[];
+	public timestamps?: APIActivityDataTimestamp;
 
 	/**
 	 * Application id for the game.
@@ -169,7 +169,7 @@ export class PresenceGameBuilder implements APIActivityData {
 	 * @since 0.0.1
 	 * @param timestamps Unix timestamps for start and/or end of the game.
 	 */
-	public setTimestamps(timestamps: APIActivityDataTimestamps[]): this {
+	public setTimestamps(timestamps: APIActivityDataTimestamp): this {
 		this.timestamps = timestamps;
 		return this;
 	}
