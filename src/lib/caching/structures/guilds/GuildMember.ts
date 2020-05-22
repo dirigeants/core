@@ -158,17 +158,13 @@ export class GuildMember extends Structure {
 		// If the user is the owner, it is not manageable.
 		if (this.id === this.guild.ownerID) return false;
 
-		// If the client user is not cached, return null.
-		const { user } = this.client;
-		if (!user) return null;
-
 		// If the client user's member instance is not cached, return null.
 		const { me } = this.guild;
-		if (!me) return null;
+		if (!this.client.user || !me) return null;
 
 		// If the client user is the owner, or if the client user's highest
 		// role is higher than the member's, return true.
-		return user.id === this.guild.ownerID || me.roles.highest > this.roles.highest;
+		return this.client.user.id === this.guild.ownerID || me.roles.highest > this.roles.highest;
 	}
 
 	/**
