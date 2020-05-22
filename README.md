@@ -1,5 +1,5 @@
 # @klasa/core
-This is an early alpha discord library which will be the future core of the Klasa Bot framework. This implements a high-level stateful interface over @klasa/rest and @klasa/ws. You are bound to come across missing or broken code/types using this alpha library. (I even found some unintended types while writing this!s) Please make issues and pull requests to further the development.
+This is an early alpha discord library which will be the future core of the Klasa Bot framework. This implements a high-level stateful interface over @klasa/rest and @klasa/ws. You are bound to come across missing or broken code/types using this alpha library. (I even found some unintended types while writing this!) Please make issues and pull requests to further the development.
 
 Simple ping client in typescript
 ```typescript
