@@ -34,6 +34,7 @@ export const ClientOptionsDefaults: Required<ClientOptions> = {
 			users: Infinity,
 			voiceStates: Infinity
 		},
-		messageLifetime: 0
+		messageLifetime: 0,
+		messageSweepInterval: 0
 	}
 };
