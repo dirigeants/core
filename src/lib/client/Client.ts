@@ -1,6 +1,7 @@
 import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 import { mergeDefault, DeepRequired } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
+import { TimerManager } from '@klasa/timer-manager';
 import { ActionStore } from '../pieces/ActionStore';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
@@ -11,13 +12,12 @@ import { GuildStore } from '../caching/stores/GuildStore';
 import { InviteStore } from '../caching/stores/InviteStore';
 import { UserStore } from '../caching/stores/UserStore';
 import { ChannelStore } from '../caching/stores/ChannelStore';
+import { isTextBasedChannel } from '../util/Util';
 
 import type { Store } from '../pieces/base/Store';
 import type { Piece } from '../pieces/base/Piece';
 import type { ClientUser } from '../caching/structures/ClientUser';
 import type { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
-import { isTextBasedChannel } from '../util/Util';
-import { TimerManager } from '@klasa/timer-manager';
 
 export interface ClientPieceOptions {
 	createFolders: boolean;
