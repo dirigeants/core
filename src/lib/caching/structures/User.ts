@@ -109,6 +109,14 @@ export class User<T = Client> extends Structure<T> {
 	}
 
 	/**
+	 * Returns the users username and discriminator.
+	 * @since 0.0.1
+	 */
+	public get tag(): string {
+		return `${this.username}#${this.discriminator}`;
+	}
+
+	/**
 	 * Gets or Fetches a DM channel for this user.
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/user#create-dm
