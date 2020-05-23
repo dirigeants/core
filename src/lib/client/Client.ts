@@ -1,6 +1,7 @@
 import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
 import { mergeDefault, DeepRequired } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
+import { TimerManager } from '@klasa/timer-manager';
 import { ActionStore } from '../pieces/ActionStore';
 import { BaseClient, BaseClientOptions } from './BaseClient';
 import { ClientOptionsDefaults } from '../util/Constants';
@@ -11,6 +12,7 @@ import { GuildStore } from '../caching/stores/GuildStore';
 import { InviteStore } from '../caching/stores/InviteStore';
 import { UserStore } from '../caching/stores/UserStore';
 import { ChannelStore } from '../caching/stores/ChannelStore';
+import { isTextBasedChannel } from '../util/Util';
 
 import type { Store } from '../pieces/base/Store';
 import type { Piece } from '../pieces/base/Piece';
@@ -43,6 +45,8 @@ export interface CacheLimits {
 export interface ClientCacheOptions {
 	enabled: boolean;
 	limits: CacheLimits;
+	messageLifetime: number;
+	messageSweepInterval: number;
 }
 
 export interface ClientOptions extends BaseClientOptions {
@@ -191,6 +195,10 @@ export class Client extends BaseClient {
 		const coreDirectory = join(__dirname, '../../');
 		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);
 
+		if (this.options.cache.messageSweepInterval > 0) {
+			TimerManager.setInterval(this.sweepMessages.bind(this), this.options.cache.messageSweepInterval);
+		}
+
 		for (const plugin of Client.plugins) plugin.call(this);
 	}
 
@@ -231,6 +239,28 @@ export class Client extends BaseClient {
 	public unregisterStore<V extends Piece>(store: Store<V>): this {
 		this.pieceStores.delete(store.name);
 		return this;
+	}
+
+	public sweepMessages(lifetime = this.options.cache.messageLifetime): number {
+		if (typeof lifetime !== 'number' || isNaN(lifetime)) throw new TypeError('The lifetime must be a number.');
+		if (lifetime <= 0) {
+			this.emit(ClientEvents.Debug, 'Didn\'t sweep messages - lifetime is unlimited');
+			return -1;
+		}
+
+		const now = Date.now();
+		let channels = 0;
+		let messages = 0;
+
+		for (const channel of this.channels.values()) {
+			if (!isTextBasedChannel(channel)) continue;
+			channels++;
+
+			messages += channel.messages.sweep(message => now - (message.editedTimestamp || message.createdTimestamp) > lifetime);
+		}
+
+		this.emit(ClientEvents.Debug, `Swept ${messages} messages older than ${lifetime} milliseconds in ${channels} text-based channels`);
+		return messages;
 	}
 
 	/**
