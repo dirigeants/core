@@ -196,7 +196,7 @@ export class Client extends BaseClient {
 		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);
 
 		if (this.options.cache.messageSweepInterval > 0) {
-			TimerManager.setInterval(this.sweepMessages.bind(this), this.options.cache.messageSweepInterval);
+			TimerManager.setInterval(this._sweepMessages.bind(this), this.options.cache.messageSweepInterval);
 		}
 
 		for (const plugin of Client.plugins) plugin.call(this);
@@ -241,7 +241,8 @@ export class Client extends BaseClient {
 		return this;
 	}
 
-	public sweepMessages(lifetime = this.options.cache.messageLifetime): number {
+	// todo: add docs
+	protected _sweepMessages(lifetime = this.options.cache.messageLifetime): number {
 		if (typeof lifetime !== 'number' || isNaN(lifetime)) throw new TypeError('The lifetime must be a number.');
 		if (lifetime <= 0) {
 			this.emit(ClientEvents.Debug, 'Didn\'t sweep messages - lifetime is unlimited');
