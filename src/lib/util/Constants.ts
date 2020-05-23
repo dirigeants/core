@@ -33,6 +33,7 @@ export const ClientOptionsDefaults: Required<ClientOptions> = {
 			roles: Infinity,
 			users: Infinity,
 			voiceStates: Infinity
-		}
+		},
+		messageLifetime: 0
 	}
 };

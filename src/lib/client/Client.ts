@@ -43,6 +43,7 @@ export interface CacheLimits {
 export interface ClientCacheOptions {
 	enabled: boolean;
 	limits: CacheLimits;
+	messageLifetime: number;
 }
 
 export interface ClientOptions extends BaseClientOptions {
