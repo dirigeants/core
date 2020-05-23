@@ -1,6 +1,6 @@
 {
   "name": "@klasa/core",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "wip-concept",
   "main": "dist/src/index.js",
   "scripts": {
