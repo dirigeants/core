@@ -374,6 +374,14 @@ export class Guild extends Structure {
 	}
 
 	/**
+	 * The owner of this guild.
+	 * @since 0.0.1
+	 */
+	public get owner(): GuildMember | null {
+		return this.members.get(this.ownerID) ?? null;
+	}
+
+	/**
 	 * Returns the guild preview.
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-preview
