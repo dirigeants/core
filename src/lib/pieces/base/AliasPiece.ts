@@ -11,7 +11,7 @@ export class AliasPiece extends Piece {
 	 * The aliases for this piece.
 	 * @since 0.0.1
 	 */
-	public aliases: readonly string[];
+	public aliases: string[];
 
 	/**
 	 * @since 0.0.1

@@ -36,7 +36,7 @@ export class Piece {
 	 * The name of the Piece.
 	 * @since 0.0.1
 	 */
-	public readonly name: string;
+	public name: string;
 
 	/**
 	 * Whether or not the Piece is enabled.
