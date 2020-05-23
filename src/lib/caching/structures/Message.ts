@@ -1,3 +1,4 @@
+/* eslint-disable no-dupe-class-members */
 import { Cache } from '@klasa/cache';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { Embed } from './Embed';
@@ -10,7 +11,7 @@ import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { Structure } from './base/Structure';
 import { ReactionCollector, ReactionCollectorOptions } from '../../util/collectors/ReactionCollector';
 import { Permissions } from '../../util/bitfields/Permissions';
-import { MessageBuilder } from './messages/MessageBuilder';
+import { MessageBuilder, MessageOptions } from './messages/MessageBuilder';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import type { User } from './User';
@@ -246,15 +247,37 @@ export class Message extends Structure {
 	}
 
 	/**
+	 * Sends a message to the channel.
+	 * @param data The {@link MessageBuilder builder} to send.
+	 * @since 0.0.2
+	 * @see https://discord.com/developers/docs/resources/channel#edit-message
+	 * @example
+	 * message.edit(new MessageBuilder()
+	 *     .setContent('Ping!')
+	 *     .setEmbed(new Embed().setDescription('From an embed!')));
+	 */
+	public edit(data: MessageOptions): Promise<Message>;
+	/**
+	 * Sends a message to the channel.
+	 * @param data A callback with a {@link MessageBuilder builder} as an argument.
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#edit-message
+	 * @example
+	 * message.edit(builder => builder
+	 *     .setContent('Ping!')
+	 *     .setEmbed(embed => embed.setDescription('From an embed!')));
+	 */
+	public edit(data: (message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>): Promise<Message>;
+	/**
 	 * Edits the message.
-	 * @param content The {@link MessageBuilder builder} to send.
+	 * @param data The {@link MessageBuilder builder} to send.
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/channel#edit-message
 	 */
-	public async edit(content: MessageBuilder | ((message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>)): Promise<Message> {
-		content = typeof content === 'function' ? await content(new MessageBuilder()) : content;
-		const data = await this.client.api.patch(Routes.channelMessage(this.channel.id, this.id), content) as APIMessageData;
-		return this._patch(data) as Message;
+	public async edit(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>)): Promise<Message> {
+		data = typeof data === 'function' ? await data(new MessageBuilder()) : data;
+		const apiData = await this.client.api.patch(Routes.channelMessage(this.channel.id, this.id), data) as APIMessageData;
+		return this._patch(apiData) as Message;
 	}
 
 	/**
