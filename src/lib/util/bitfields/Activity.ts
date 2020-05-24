@@ -5,7 +5,7 @@ export type ActivityResolvable = keyof typeof Activity.FLAGS | number | BitField
 /* eslint-disable no-bitwise */
 
 /**
- * Handles Activity BitFields in Project-Blue
+ * Handles Activity BitFields in Klasa-Core
  */
 export class Activity extends BitField<ActivityResolvable> {
 

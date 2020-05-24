@@ -17,7 +17,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dirigeants/project-blue.git"
+    "url": "git+https://github.com/dirigeants/core.git"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
@@ -38,9 +38,9 @@
   "author": "dirigeants",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/dirigeants/project-blue/issues"
+    "url": "https://github.com/dirigeants/core/issues"
   },
-  "homepage": "https://github.com/dirigeants/project-blue#readme",
+  "homepage": "https://github.com/dirigeants/core#readme",
   "dependencies": {
     "@klasa/bitfield": "^0.0.2",
     "@klasa/cache": "^0.0.3",

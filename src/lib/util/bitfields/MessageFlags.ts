@@ -5,7 +5,7 @@ export type MessageFlagsResolvable = keyof typeof MessageFlags.FLAGS | number | 
 /* eslint-disable no-bitwise */
 
 /**
- * Handles MessageFlags BitFields in Project-Blue
+ * Handles MessageFlags BitFields in Klasa-Core
  */
 export class MessageFlags extends BitField<MessageFlagsResolvable> {
 

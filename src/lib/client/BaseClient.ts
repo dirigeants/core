@@ -10,7 +10,7 @@ export interface BaseClientOptions {
 }
 
 /**
- * The Project-Blue Base Client used to wrap the Discord API
+ * The Klasa-Core Base Client used to wrap the Discord API
  */
 export class BaseClient extends EventEmitter {
 
@@ -25,7 +25,7 @@ export class BaseClient extends EventEmitter {
 	public options: BaseClientOptions;
 
 	/**
-	 * @param options All of your preferences on how Project-Blue should work for you
+	 * @param options All of your preferences on how Klasa-Core should work for you
 	 */
 	public constructor(options: Partial<BaseClientOptions>) {
 		super();
