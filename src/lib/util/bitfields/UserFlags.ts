@@ -5,7 +5,7 @@ export type UserFlagsResolvable = keyof typeof UserFlags.FLAGS | number | BitFie
 /* eslint-disable no-bitwise */
 
 /**
- * Handles UserFlags BitFields in Project-Blue
+ * Handles UserFlags BitFields in Klasa-Core
  */
 export class UserFlags extends BitField<UserFlagsResolvable> {
 

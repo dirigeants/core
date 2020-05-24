@@ -106,7 +106,7 @@ export const enum ClientEvents {
 }
 
 /**
- * The Project-Blue Client used to wrap the discord api
+ * The Klasa-Core Client used to wrap the discord api
  */
 export class Client extends BaseClient {
 
@@ -171,7 +171,7 @@ export class Client extends BaseClient {
 	public readonly actions: ActionStore;
 
 	/**
-	 * @param options All of your preferences on how Project-Blue should work for you
+	 * @param options All of your preferences on how Klasa-Core should work for you
 	 */
 	public constructor(options: Partial<ClientOptions> = {}) {
 		super(options);
@@ -289,7 +289,7 @@ export class Client extends BaseClient {
 	/**
 	 * The plugin symbol to be used in external packages
 	 */
-	public static readonly plugin: unique symbol = Symbol('ProjectBluePlugin');
+	public static readonly plugin: unique symbol = Symbol('KlasaCorePlugin');
 
 	/**
 	 * The plugins to be used when creating a Client instance

@@ -5,7 +5,7 @@ export type SpeakingResolvable = keyof typeof Speaking.FLAGS | number | BitField
 /* eslint-disable no-bitwise */
 
 /**
- * Handles Speaking BitFields in Project-Blue
+ * Handles Speaking BitFields in Klasa-Core
  */
 export class Speaking extends BitField<SpeakingResolvable> {
 
