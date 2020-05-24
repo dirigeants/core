@@ -5,7 +5,7 @@ export type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | Bi
 /* eslint-disable no-bitwise */
 
 /**
- * Handles Permission BitFields in Project-Blue
+ * Handles Permission BitFields in Klasa-Core
  */
 export class Permissions extends BitField<PermissionsResolvable> {
 

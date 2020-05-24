@@ -3,7 +3,7 @@ import { Webhook } from '../caching/structures/Webhook';
 import { Cache } from '@klasa/cache';
 
 /**
- * The Project-Blue Webhook Client used to manipulate webhooks
+ * The Klasa-Core Webhook Client used to manipulate webhooks
  */
 export class WebhookClient extends BaseClient {
 
