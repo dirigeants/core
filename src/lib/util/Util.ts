@@ -4,6 +4,7 @@ import type { TextChannel } from '../caching/structures/channels/TextChannel';
 import type { NewsChannel } from '../caching/structures/channels/NewsChannel';
 import type { CategoryChannel } from '../caching/structures/channels/CategoryChannel';
 import type { VoiceChannel } from '../caching/structures/channels/VoiceChannel';
+import type { StoreChannel } from '../caching/structures/channels/StoreChannel';
 import type { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
 import type { MessageReactionEmoji } from '../caching/structures/messages/reactions/MessageReactionEmoji';
 
@@ -18,9 +19,10 @@ export function snakeToCamel(input: string): string {
 	return output;
 }
 
-export type GuildBasedChannel = TextChannel | NewsChannel | VoiceChannel | CategoryChannel;
+export type GuildBasedChannel = TextChannel | NewsChannel | VoiceChannel | CategoryChannel | StoreChannel;
 export type GuildTextBasedChannel = TextChannel | NewsChannel;
 export type TextBasedChannel = DMChannel | GuildTextBasedChannel;
+export type Channels = DMChannel | GuildBasedChannel;
 
 export function isTextBasedChannel(channel: Channel): channel is TextBasedChannel {
 	return Reflect.has(channel, 'messages');
