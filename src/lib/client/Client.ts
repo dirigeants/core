@@ -1,4 +1,4 @@
-import { WebSocketManager, WSOptions, WebSocketManagerEvents } from '@klasa/ws';
+import { WebSocketManager, WSOptions, WebSocketManagerEvents, WebSocketShard, VoiceServerUpdateDispatch } from '@klasa/ws';
 import { mergeDefault, DeepRequired } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
 import { TimerManager } from '@klasa/timer-manager';
@@ -12,14 +12,28 @@ import { GuildStore } from '../caching/stores/GuildStore';
 import { InviteStore } from '../caching/stores/InviteStore';
 import { UserStore } from '../caching/stores/UserStore';
 import { ChannelStore } from '../caching/stores/ChannelStore';
-import { isTextBasedChannel } from '../util/Util';
+import { isTextBasedChannel, GuildBasedChannel, TextBasedChannel } from '../util/Util';
 
 import type { Store } from '../pieces/base/Store';
 import type { Piece } from '../pieces/base/Piece';
 import type { ClientUser } from '../caching/structures/ClientUser';
 import type { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
 import type { ActionOptions } from '../pieces/Action';
-import type { EventOptions } from '../pieces/Event';
+import type { EventOptions, Event } from '../pieces/Event';
+import type { Channel } from '../caching/structures/channels/Channel';
+import type { DMChannel } from '../caching/structures/channels/DMChannel';
+import type { NewsChannel } from '../caching/structures/channels/NewsChannel';
+import type { TextChannel } from '../caching/structures/channels/TextChannel';
+import type { Ban } from '../caching/structures/guilds/Ban';
+import type { Guild } from '../caching/structures/guilds/Guild';
+import type { GuildMember } from '../caching/structures/guilds/GuildMember';
+import type { Presence } from '../caching/structures/guilds/Presence';
+import type { Role } from '../caching/structures/guilds/Role';
+import type { VoiceState } from '../caching/structures/guilds/VoiceState';
+import type { Invite } from '../caching/structures/Invite';
+import type { Message } from '../caching/structures/messages/Message';
+import type { MessageReaction } from '../caching/structures/messages/reactions/MessageReaction';
+import type { User } from '../caching/structures/User';
 
 export interface ClientPieceOptions {
 	defaults: PieceDefaults;
@@ -87,7 +101,6 @@ export const enum ClientEvents {
 	GuildDelete = 'guildDelete',
 	GuildEmojiCreate = 'guildEmojiCreate',
 	GuildEmojiDelete = 'guildEmojiDelete',
-	GuildEmojisUpdate = 'guildEmojisUpdate',
 	GuildEmojiUpdate = 'guildEmojiUpdate',
 	GuildIntegrationsUpdate = 'guildIntegrationsUpdate',
 	GuildMemberAdd = 'guildMemberAdd',
@@ -109,16 +122,16 @@ export const enum ClientEvents {
 	MessageReactionRemoveAll = 'messageReactionRemoveAll',
 	MessageReactionRemoveEmoji = 'messageReactionRemoveEmoji',
 	MessageUpdate = 'messageUpdate',
-	PresenceUpdate = 'presenceUpdate',
 	PieceDisabled = 'pieceDisabled',
 	PieceEnabled = 'pieceEnabled',
 	PieceLoaded = 'pieceLoaded',
 	PieceReloaded = 'pieceReloaded',
 	PieceUnloaded = 'pieceUnloaded',
+	PresenceUpdate = 'presenceUpdate',
+	Ratelimited = 'ratelimited',
 	Ready = 'ready',
 	RESTDebug = 'restDebug',
 	Resumed = 'resumed',
-	Ratelimited = 'ratelimited',
 	ShardOnline = 'shardOnline',
 	ShardReady = 'shardReady',
 	ShardResumed = 'shardResumed',
@@ -367,4 +380,73 @@ export abstract class Plugin {
 
 	static [Client.plugin]: Function;
 
+}
+
+interface ClientEventsMap {
+	[ClientEvents.ChannelCreate](channel: GuildBasedChannel | DMChannel | null): void;
+	[ClientEvents.ChannelDelete](channel: GuildBasedChannel | DMChannel): void;
+	[ClientEvents.ChannelPinsUpdate](channel: TextBasedChannel, updatedAt: Date | null): void;
+	[ClientEvents.ChannelUpdate](channel: Channel): void;
+	[ClientEvents.Debug](message: string): void;
+	[ClientEvents.Error](error: Error): void;
+	[ClientEvents.EventError](eventClass: Event, args: unknown[], error: Error): void;
+	[ClientEvents.GuildBanAdd](ban: Ban): void;
+	[ClientEvents.GuildBanRemove](ban: Ban): void;
+	[ClientEvents.GuildCreate](guild: Guild): void;
+	[ClientEvents.GuildDelete](guild: Guild): void;
+	[ClientEvents.GuildEmojiCreate](emoji: GuildEmoji, guild: Guild): void;
+	[ClientEvents.GuildEmojiDelete](emoji: GuildEmoji, guild: Guild): void;
+	[ClientEvents.GuildEmojiUpdate](emoji: GuildEmoji, previousEmoji: GuildEmoji, guild: Guild): void;
+	[ClientEvents.GuildIntegrationsUpdate](guild: Guild, previousGuild: Guild): void;
+	[ClientEvents.GuildMemberAdd](guildMember: GuildMember): void;
+	[ClientEvents.GuildMemberRemove](guildMember: GuildMember): void;
+	[ClientEvents.GuildMembersChunk](members: GuildMember[], guild: Guild, extraData: { chunkCount?: number, chunkIndex?: number, nonce?: number }): void;
+	[ClientEvents.GuildMemberUpdate](guildMember: GuildMember, previousGuildMember: GuildMember): void;
+	[ClientEvents.GuildRoleCreate](role: Role): void;
+	[ClientEvents.GuildRoleDelete](role: Role): void;
+	[ClientEvents.GuildRoleUpdate](role: Role, previousRole?: Role): void;
+	[ClientEvents.GuildUpdate](guild: Guild, previousGuild?: Guild): void;
+	[ClientEvents.InviteCreate](invite: Invite): void;
+	[ClientEvents.InviteDelete](invite: Invite): void;
+	[ClientEvents.MessageCreate](message: Message): void;
+	[ClientEvents.MessageDelete](message: Message, previousMessage?: Message): void;
+	[ClientEvents.MessageDeleteBulk](messages: ({ id: string } | Message)[], channel: TextBasedChannel): void;
+	[ClientEvents.MessageReactionAdd](reaction: MessageReaction, user: User): void;
+	[ClientEvents.MessageReactionRemove](reaction: MessageReaction, user: User): void;
+	[ClientEvents.MessageReactionRemoveAll](message: Message, reactions: Cache<string, MessageReaction>): void;
+	[ClientEvents.MessageReactionRemoveEmoji](reaction: MessageReaction): void;
+	[ClientEvents.MessageUpdate](message: Message, previousMessage: Message): void;
+	[ClientEvents.PieceDisabled](piece: Piece): void;
+	[ClientEvents.PieceEnabled](piece: Piece): void;
+	[ClientEvents.PieceLoaded](piece: Piece): void;
+	[ClientEvents.PieceReloaded](piece: Piece): void;
+	[ClientEvents.PieceUnloaded](piece: Piece): void;
+	[ClientEvents.PresenceUpdate](presence: Presence, previousPresence: Presence | null): void;
+	[ClientEvents.Ratelimited](...args: unknown[]): void;
+	[ClientEvents.Ready](): void;
+	[ClientEvents.RESTDebug](message: string): void;
+	[ClientEvents.Resumed](): void;
+	[ClientEvents.ShardOnline](): void;
+	[ClientEvents.ShardReady](shard: WebSocketShard): void;
+	[ClientEvents.ShardResumed](shard: WebSocketShard): void;
+	[ClientEvents.TypingStart](channel: GuildBasedChannel | DMChannel, user: User): void;
+	[ClientEvents.UserUpdate](user: User): void;
+	[ClientEvents.VoiceServerUpdate](voiceServerData: VoiceServerUpdateDispatch): void;
+	[ClientEvents.VoiceStateUpdate](voiceState: VoiceState): void;
+	[ClientEvents.WebhooksUpdate](channel: TextChannel | NewsChannel, previousChannel: TextChannel | NewsChannel): void;
+	[ClientEvents.WSDebug](message: string): void;
+	[ClientEvents.WTF](message: string): void;
+}
+
+export declare interface Client {
+	addListener<K extends keyof ClientEventsMap>(event: K, listener: ClientEventsMap[K]): this;
+	eventNames(): (keyof ClientEventsMap)[];
+	listenerCount(type: keyof ClientEventsMap): number;
+	off<K extends keyof ClientEventsMap>(event: K, listener: ClientEventsMap[K]): this;
+	on<K extends keyof ClientEventsMap>(event: K, listener: ClientEventsMap[K]): this;
+	once<K extends keyof ClientEventsMap>(event: K, listener: ClientEventsMap[K]): this;
+	prependListener<K extends keyof ClientEventsMap>(event: K, listener: ClientEventsMap[K]): this;
+	prependOnceListener<K extends keyof ClientEventsMap>(event: K, listener: ClientEventsMap[K]): this;
+	removeAllListeners<K extends keyof ClientEventsMap>(event: K): this;
+	removeListener<K extends keyof ClientEventsMap>(event: K, listener: ClientEventsMap[K]): this;
 }
