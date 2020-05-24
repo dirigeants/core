@@ -3,6 +3,7 @@
   "version": "0.0.2",
   "description": "wip-concept",
   "main": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
   "scripts": {
     "prepublishOnly": "yarn build",
     "build": "tsc",
@@ -64,5 +65,8 @@
         "test/": "dist/test/"
       }
     }
-  }
+  },
+  "files": [
+    "dist/src"
+  ]
 }
