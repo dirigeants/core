@@ -206,7 +206,7 @@ export class Client extends BaseClient {
 	 * Returns a new Cache of all guild emojis.
 	 * @since 0.0.1
 	 */
-	get emojis(): Cache<string, GuildEmoji> {
+	public get emojis(): Cache<string, GuildEmoji> {
 		return new Cache<string, GuildEmoji>().concat(...this.guilds.map(guild => guild.emojis));
 	}
 
@@ -214,7 +214,7 @@ export class Client extends BaseClient {
 	 * Sets the token to use for the api.
 	 * @since 0.0.1
 	 */
-	set token(token: string) {
+	public set token(token: string) {
 		super.token = token;
 		this.ws.token = token;
 	}
