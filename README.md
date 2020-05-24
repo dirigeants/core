@@ -8,6 +8,7 @@ import config from './config.json';
 
 const client = new Client()
 	.on(ClientEvents.MessageCreate, async (message): Promise<void> => {
+		if (message.author.bot) return;
 		if (message.content.toLowerCase().startsWith('ping')) {
 			const [response] = await message.channel.send(mb => mb.setContent('ping?'));
 			await response.edit(mb => mb.setContent(`Pong! Took: ${response.createdTimestamp - message.createdTimestamp}ms`));
@@ -25,12 +26,13 @@ const { Client } = require('@klasa/core');
 const { token } = require('./config.json');
 
 const client = new Client()
-    .on('messageCreate', async (message) => {
-        if (message.content.toLowerCase().startsWith('ping')) {
-            const [response] = await message.channel.send(mb => mb.setContent('ping?'));
-            return response.edit(mb => mb.setContent(`Pong! Took: ${response.createdTimestamp - message.createdTimestamp}ms`));
-        }
-    });
+	.on('messageCreate', async (message) => {
+		if (message.author.bot) return;
+		if (message.content.toLowerCase().startsWith('ping')) {
+			const [response] = await message.channel.send(mb => mb.setContent('ping?'));
+			return response.edit(mb => mb.setContent(`Pong! Took: ${response.createdTimestamp - message.createdTimestamp}ms`));
+		}
+	});
 
 client.token = token;
 
