@@ -248,7 +248,38 @@ export class Client extends BaseClient {
 		return this;
 	}
 
-	// todo: add docs
+
+	/**
+	 * Connects the client to the websocket
+	 */
+	public async connect(): Promise<void> {
+		await Promise.all(this.pieceStores.map(store => store.loadAll()));
+		try {
+			await this.ws.spawn();
+		} catch (err) {
+			await this.destroy();
+			throw err;
+		}
+		await Promise.all(this.pieceStores.map(store => store.init()));
+		this.emit(ClientEvents.Ready);
+	}
+
+	/**
+	 * Destroys all timers and disconnects all shards from the websocket
+	 */
+	public async destroy(): Promise<void> {
+		await super.destroy();
+		this.ws.destroy();
+	}
+
+
+	/**
+	 * Sweeps all text-based channels' messages and removes the ones older than the max message or command message lifetime.
+	 * If the message has been edited, the time of the edit is used rather than the time of the original message.
+	 * @since 0.5.0
+	 * @param lifetime Messages that are older than this (in milliseconds)
+	 * will be removed from the caches. The default is based on {@link ClientOptions#messageLifetime}
+	 */
 	protected _sweepMessages(lifetime = this.options.cache.messageLifetime): number {
 		if (typeof lifetime !== 'number' || isNaN(lifetime)) throw new TypeError('The lifetime must be a number.');
 		if (lifetime <= 0) {
@@ -269,28 +300,6 @@ export class Client extends BaseClient {
 
 		this.emit(ClientEvents.Debug, `Swept ${messages} messages older than ${lifetime} milliseconds in ${channels} text-based channels`);
 		return messages;
-	}
-
-	/**
-	 * Connects the client to the websocket
-	 */
-	public async connect(): Promise<void> {
-		await Promise.all(this.pieceStores.map(store => store.loadAll()));
-		try {
-			await this.ws.spawn();
-		} catch (err) {
-			await this.destroy();
-			throw err;
-		}
-		await Promise.all(this.pieceStores.map(store => store.init()));
-	}
-
-	/**
-	 * Destroys all timers and disconnects all shards from the websocket
-	 */
-	public async destroy(): Promise<void> {
-		await super.destroy();
-		this.ws.destroy();
 	}
 
 	/**
