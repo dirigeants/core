@@ -1,0 +1,17 @@
+import type { Channel } from '../caching/structures/channels/Channel';
+import type { DMChannel } from '../caching/structures/channels/DMChannel';
+import type { TextChannel } from '../caching/structures/channels/TextChannel';
+import type { NewsChannel } from '../caching/structures/channels/NewsChannel';
+import type { CategoryChannel } from '../caching/structures/channels/CategoryChannel';
+import type { VoiceChannel } from '../caching/structures/channels/VoiceChannel';
+import type { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
+import type { MessageReactionEmoji } from '../caching/structures/messages/reactions/MessageReactionEmoji';
+export declare function snakeToCamel(input: string): string;
+export declare type GuildBasedChannel = TextChannel | NewsChannel | VoiceChannel | CategoryChannel;
+export declare type GuildTextBasedChannel = TextChannel | NewsChannel;
+export declare type TextBasedChannel = DMChannel | GuildTextBasedChannel;
+export declare function isTextBasedChannel(channel: Channel): channel is TextBasedChannel;
+export declare function isGuildChannel(channel: Channel): channel is GuildBasedChannel;
+export declare function isSet<V extends {}, K extends keyof V>(value: V, key: K): value is V & Required<Pick<V, K>>;
+export declare type EmojiResolvable = string | MessageReactionEmoji | GuildEmoji;
+export declare function resolveEmoji(emoji: EmojiResolvable): string;
