@@ -44,7 +44,7 @@ jobs:
         echo -e "\n# Move the generated docs to the newly-checked-out repo, to be committed and pushed"
         mv package.json out/package.json
         mv LICENSE out/LICENSE
-        rsync -vau dist/src out/dist/src
+        rsync -vau dist/src out/dist
         echo -e "\n# Commit and push"
         cd out
         git add --all .
