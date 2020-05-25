@@ -2,7 +2,7 @@
 import { EventEmitter } from 'events';
 import { REST, RESTOptions } from '@klasa/rest';
 export interface BaseClientOptions {
-    rest: RESTOptions;
+    rest: Partial<RESTOptions>;
 }
 /**
  * The Klasa-Core Base Client used to wrap the Discord API
