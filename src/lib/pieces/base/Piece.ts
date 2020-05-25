@@ -96,7 +96,7 @@ export class Piece {
 	 */
 	public unload(): boolean {
 		this.client.emit('pieceUnloaded', this);
-		return this.store.delete(this);
+		return this.store.remove(this);
 	}
 
 	/**

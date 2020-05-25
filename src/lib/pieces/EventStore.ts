@@ -39,30 +39,30 @@ export class EventStore extends Store<Event> {
 	 * @since 0.0.1
 	 */
 	public clear(): void {
-		for (const event of this.values()) this.delete(event);
+		for (const event of this.values()) this.remove(event);
 	}
 
 	/**
-	 * Deletes an event from the store.
+	 * Removes an event from the store.
 	 * @since 0.0.1
 	 * @param name An event object or a string representing the event name.
-	 * @returns Whether or not the delete was successful.
+	 * @returns Whether or not the removal was successful.
 	 */
-	public delete(name: Event | string): boolean {
+	public remove(name: Event | string): boolean {
 		const event = this.resolve(name);
 		if (!event) return false;
 		// eslint-disable-next-line dot-notation
 		event['_unlisten']();
-		return super.delete(event);
+		return super.remove(event);
 	}
 
 	/**
-	 * Sets up an event in our store.
+	 * Adds and sets up an event in our store.
 	 * @since 0.0.1
 	 * @param piece The event piece we are setting up
 	 */
-	public set(piece: Event): Event | null {
-		const event = super.set(piece);
+	public add(piece: Event): Event | null {
+		const event = super.add(piece);
 		if (!event) return null;
 		// eslint-disable-next-line dot-notation
 		event['_listen']();

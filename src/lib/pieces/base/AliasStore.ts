@@ -34,28 +34,28 @@ export class AliasStore<V extends AliasPiece> extends Store<V> {
 	}
 
 	/**
-	 * Sets up an AliasPiece in our store.
+	 * Adds and sets up an AliasPiece in our store.
 	 * @since 0.0.1
 	 * @param piece The piece we are setting up
 	 */
-	public set(piece: V): V | null {
-		const aliasPiece = super.set(piece);
+	public add(piece: V): V | null {
+		const aliasPiece = super.add(piece);
 		if (!aliasPiece) return null;
 		for (const alias of aliasPiece.aliases) this.aliases.set(alias, aliasPiece);
 		return aliasPiece;
 	}
 
 	/**
-	 * Deletes an AliasPiece from the store.
+	 * Removes an AliasPiece from the store.
 	 * @since 0.0.1
 	 * @param name An AliasPiece object or a string representing an AliasPiece or alias name
-	 * @returns Whether or not the delete was successful.
+	 * @returns Whether or not the removal was successful.
 	 */
-	public delete(name: V | string): boolean {
+	public remove(name: V | string): boolean {
 		const aliasPiece = this.resolve(name) as V | null;
 		if (!aliasPiece) return false;
 		for (const alias of aliasPiece.aliases) this.aliases.delete(alias);
-		return super.delete(aliasPiece);
+		return super.remove(aliasPiece);
 	}
 
 	/**
