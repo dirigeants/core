@@ -24,7 +24,7 @@ import { VoiceChannel } from '../caching/structures/channels/VoiceChannel';
 import { VoiceState } from '../caching/structures/guilds/VoiceState';
 import { ClientUser } from '../caching/structures/ClientUser';
 /**
- * The extender class that allows the extension of built-in structures from Project-Blue and plugins.
+ * The extender class that allows the extension of built-in structures from Klasa-Core and plugins.
  */
 declare class Extender extends Cache<keyof ExtenderStructures, ExtenderStructures[keyof ExtenderStructures]> {
     /**
@@ -54,8 +54,8 @@ declare class Extender extends Cache<keyof ExtenderStructures, ExtenderStructure
      * @param key The name of the structure to be extended
      * @param fn A callback returning the extended class
      * @example
-     * const { extender } = require('@klasa/project-blue');
-     * const { Settings } = require('@klasa/project-red');
+     * const { extender } = require('@klasa/core');
+     * const { Settings } = require('klasa');
      *
      * extender.extend('TextChannel', (TextChannel) => class extends TextChannel {
      *

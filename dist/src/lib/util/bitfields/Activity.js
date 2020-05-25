@@ -4,7 +4,7 @@ exports.Activity = void 0;
 const bitfield_1 = require("@klasa/bitfield");
 /* eslint-disable no-bitwise */
 /**
- * Handles Activity BitFields in Project-Blue
+ * Handles Activity BitFields in Klasa-Core
  */
 class Activity extends bitfield_1.BitField {
 }

@@ -4,7 +4,7 @@ exports.UserFlags = void 0;
 const bitfield_1 = require("@klasa/bitfield");
 /* eslint-disable no-bitwise */
 /**
- * Handles UserFlags BitFields in Project-Blue
+ * Handles UserFlags BitFields in Klasa-Core
  */
 class UserFlags extends bitfield_1.BitField {
 }

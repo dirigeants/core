@@ -1,7 +1,7 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
 export declare type ActivityResolvable = keyof typeof Activity.FLAGS | number | BitFieldObject | ((keyof typeof Activity.FLAGS) | number | BitFieldObject)[];
 /**
- * Handles Activity BitFields in Project-Blue
+ * Handles Activity BitFields in Klasa-Core
  */
 export declare class Activity extends BitField<ActivityResolvable> {
     /**

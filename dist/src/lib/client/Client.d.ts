@@ -95,7 +95,7 @@ export declare const enum ClientEvents {
     WSDebug = "wsDebug"
 }
 /**
- * The Project-Blue Client used to wrap the discord api
+ * The Klasa-Core Client used to wrap the discord api
  */
 export declare class Client extends BaseClient {
     /**
@@ -147,7 +147,7 @@ export declare class Client extends BaseClient {
      */
     readonly actions: ActionStore;
     /**
-     * @param options All of your preferences on how Project-Blue should work for you
+     * @param options All of your preferences on how Klasa-Core should work for you
      */
     constructor(options?: Partial<ClientOptions>);
     /**

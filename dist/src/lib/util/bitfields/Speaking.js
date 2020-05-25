@@ -4,7 +4,7 @@ exports.Speaking = void 0;
 const bitfield_1 = require("@klasa/bitfield");
 /* eslint-disable no-bitwise */
 /**
- * Handles Speaking BitFields in Project-Blue
+ * Handles Speaking BitFields in Klasa-Core
  */
 class Speaking extends bitfield_1.BitField {
 }

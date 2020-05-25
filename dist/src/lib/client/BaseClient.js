@@ -7,11 +7,11 @@ const rest_1 = require("@klasa/rest");
 const timer_manager_1 = require("@klasa/timer-manager");
 const Constants_1 = require("../util/Constants");
 /**
- * The Project-Blue Base Client used to wrap the Discord API
+ * The Klasa-Core Base Client used to wrap the Discord API
  */
 class BaseClient extends events_1.EventEmitter {
     /**
-     * @param options All of your preferences on how Project-Blue should work for you
+     * @param options All of your preferences on how Klasa-Core should work for you
      */
     constructor(options) {
         super();

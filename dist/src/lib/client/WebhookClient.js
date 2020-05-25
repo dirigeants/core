@@ -5,7 +5,7 @@ const BaseClient_1 = require("./BaseClient");
 const Webhook_1 = require("../caching/structures/Webhook");
 const cache_1 = require("@klasa/cache");
 /**
- * The Project-Blue Webhook Client used to manipulate webhooks
+ * The Klasa-Core Webhook Client used to manipulate webhooks
  */
 class WebhookClient extends BaseClient_1.BaseClient {
     constructor() {

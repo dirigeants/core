@@ -1,7 +1,7 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
 export declare type UserFlagsResolvable = keyof typeof UserFlags.FLAGS | number | BitFieldObject | ((keyof typeof UserFlags.FLAGS) | number | BitFieldObject)[];
 /**
- * Handles UserFlags BitFields in Project-Blue
+ * Handles UserFlags BitFields in Klasa-Core
  */
 export declare class UserFlags extends BitField<UserFlagsResolvable> {
     /**

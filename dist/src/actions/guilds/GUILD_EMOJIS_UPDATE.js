@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = require("@klasa/utils");
-const core_1 = require("@klasa/core");
-class CoreAction extends core_1.Action {
+const Action_1 = require("../../lib/pieces/Action");
+class CoreAction extends Action_1.Action {
     /**
      * Processes the event data from the websocket.
      * @since 0.0.1

@@ -17,11 +17,11 @@ const UserStore_1 = require("../caching/stores/UserStore");
 const ChannelStore_1 = require("../caching/stores/ChannelStore");
 const Util_1 = require("../util/Util");
 /**
- * The Project-Blue Client used to wrap the discord api
+ * The Klasa-Core Client used to wrap the discord api
  */
 class Client extends BaseClient_1.BaseClient {
     /**
-     * @param options All of your preferences on how Project-Blue should work for you
+     * @param options All of your preferences on how Klasa-Core should work for you
      */
     constructor(options = {}) {
         super(options);
@@ -144,7 +144,7 @@ exports.Client = Client;
 /**
  * The plugin symbol to be used in external packages
  */
-Client.plugin = Symbol('ProjectBluePlugin');
+Client.plugin = Symbol('KlasaCorePlugin');
 /**
  * The plugins to be used when creating a Client instance
  */

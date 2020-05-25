@@ -1,4 +1,4 @@
-import { Action } from '@klasa/core';
+import { Action } from '../../lib/pieces/Action';
 import type { GuildEmojisUpdateDispatch } from '@klasa/ws';
 export default class CoreAction extends Action {
     /**

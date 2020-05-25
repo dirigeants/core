@@ -1,7 +1,7 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
 export declare type MessageFlagsResolvable = keyof typeof MessageFlags.FLAGS | number | BitFieldObject | ((keyof typeof MessageFlags.FLAGS) | number | BitFieldObject)[];
 /**
- * Handles MessageFlags BitFields in Project-Blue
+ * Handles MessageFlags BitFields in Klasa-Core
  */
 export declare class MessageFlags extends BitField<MessageFlagsResolvable> {
     /**

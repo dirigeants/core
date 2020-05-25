@@ -4,7 +4,7 @@ exports.Permissions = void 0;
 const bitfield_1 = require("@klasa/bitfield");
 /* eslint-disable no-bitwise */
 /**
- * Handles Permission BitFields in Project-Blue
+ * Handles Permission BitFields in Klasa-Core
  */
 class Permissions extends bitfield_1.BitField {
 }

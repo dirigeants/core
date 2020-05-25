@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const core_1 = require("@klasa/core");
-class CoreAction extends core_1.Action {
+const Action_1 = require("../lib/pieces/Action");
+const Extender_1 = require("../lib/util/Extender");
+class CoreAction extends Action_1.Action {
     check() {
         return null;
     }
@@ -9,7 +10,7 @@ class CoreAction extends core_1.Action {
         var _a;
         const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : null;
         const channel = (_a = (guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id))) !== null && _a !== void 0 ? _a : { id: data.d.channel_id };
-        return new (core_1.extender.get('Invite'))(this.client, { ...data, guild, channel });
+        return new (Extender_1.extender.get('Invite'))(this.client, { ...data, guild, channel });
     }
     cache(data) {
         this.client.invites.delete(data.id);

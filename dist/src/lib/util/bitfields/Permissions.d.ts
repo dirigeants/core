@@ -1,7 +1,7 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
 export declare type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | BitFieldObject | ((keyof typeof Permissions.FLAGS) | number | BitFieldObject)[];
 /**
- * Handles Permission BitFields in Project-Blue
+ * Handles Permission BitFields in Klasa-Core
  */
 export declare class Permissions extends BitField<PermissionsResolvable> {
     /**

@@ -4,7 +4,7 @@ exports.MessageFlags = void 0;
 const bitfield_1 = require("@klasa/bitfield");
 /* eslint-disable no-bitwise */
 /**
- * Handles MessageFlags BitFields in Project-Blue
+ * Handles MessageFlags BitFields in Klasa-Core
  */
 class MessageFlags extends bitfield_1.BitField {
 }
