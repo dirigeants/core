@@ -36,7 +36,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * The core directories pieces of this store can hold.
 	 * @since 0.0.1
 	 */
-	private readonly coreDirectories = new Set<string>();
+	protected readonly coreDirectories = new Set<string>();
 
 	/**
 	 * @since 0.0.1
@@ -84,7 +84,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * @param directory The directory the file is located in
 	 * @param file A string or array of strings showing where the file is located.
 	 */
-	public async load(directory: string, file: readonly string[]): Promise<V | null> {
+	public async load(directory: string, file: string[]): Promise<V | null> {
 		const loc = join(directory, ...file);
 		let piece = null;
 		try {
