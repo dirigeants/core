@@ -21,7 +21,7 @@ const ImageUtil_1 = require("../../../util/ImageUtil");
  * @see https://discord.com/developers/docs/resources/guild#guild-object
  */
 class Guild extends Structure_1.Structure {
-    constructor(client, data) {
+    constructor(client, data, shardID) {
         var _a;
         super(client);
         /**
@@ -39,6 +39,8 @@ class Guild extends Structure_1.Structure {
         this.members = new GuildMemberStore_1.GuildMemberStore(client, this);
         this.channels = new GuildChannelStore_1.GuildChannelStore(client, this);
         this.presences = new PresenceStore_1.PresenceStore(client, this);
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        this.shard = this.client.ws.shards.get(shardID);
         // eslint-disable-next-line @typescript-eslint/camelcase
         this.widget = new GuildWidget_1.GuildWidget({ enabled: null, channel_id: null }, this);
         this.unavailable = (_a = data.unavailable) !== null && _a !== void 0 ? _a : false;

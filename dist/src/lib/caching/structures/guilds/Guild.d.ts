@@ -1,3 +1,4 @@
+import { WebSocketShard } from '@klasa/ws';
 import { RequestOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
@@ -116,6 +117,11 @@ export declare class Guild extends Structure {
      * @since 0.0.1
      */
     readonly integrations: IntegrationStore;
+    /**
+     * The guild's store of integrations.
+     * @since 0.0.4
+     */
+    readonly shard: WebSocketShard;
     /**
      * The guild's enabled features.
      * @since 0.0.1
@@ -269,7 +275,7 @@ export declare class Guild extends Structure {
      * @since 0.0.1
      */
     deleted: boolean;
-    constructor(client: Client, data: APIGuildData);
+    constructor(client: Client, data: APIGuildData, shardID: number);
     /**
      * When this guild was joined at, as a Date.
      * @since 0.0.1
