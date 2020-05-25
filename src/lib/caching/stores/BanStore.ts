@@ -116,8 +116,6 @@ export class BanStore extends DataStore<Ban> {
 	 * @param data The data packet to add
 	 * @param cache If the data should be cached
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-	// @ts-ignore
 	protected _add(data: GuildBanAddDispatch['d']): Ban {
 		const existing = this.get(data.user.id);
 		// eslint-disable-next-line dot-notation

@@ -118,8 +118,6 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	 * Adds a new structure to this DataStore
 	 * @param data The data packet to add
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-	// @ts-ignore
 	protected _add(data: MemberData): GuildMember {
 		const existing = this.get((data.user as APIUserData).id);
 		// eslint-disable-next-line dot-notation

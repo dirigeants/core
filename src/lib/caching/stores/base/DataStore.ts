@@ -56,8 +56,8 @@ export class DataStore<S extends Structure> extends Cache<string, S> {
 	 * @param data The data packet to add
 	 * @param cache If the data should be cached
 	 */
-	protected _add(data: { id: string, [k: string]: any }): S {
-		const existing = this.get(data.id);
+	protected _add(data: Record<string, any>): S {
+		const existing = this.get(data.id as string);
 		// eslint-disable-next-line dot-notation
 		if (existing) return existing['_patch'](data);
 
