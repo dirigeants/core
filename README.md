@@ -3,11 +3,11 @@ This is an early alpha discord library which will be the future core of the Klas
 
 Simple ping client in typescript
 ```typescript
-import { Client, ClientEvents } from '@klasa/core';
-import config from './config.json';
+import { Client, ClientEvents, Message } from '@klasa/core';
+import * as config from './config.json';
 
 const client = new Client()
-	.on(ClientEvents.MessageCreate, async (message): Promise<void> => {
+	.on(ClientEvents.MessageCreate, async (message: Message): Promise<void> => {
 		if (message.author.bot) return;
 		if (message.content.toLowerCase().startsWith('ping')) {
 			const [response] = await message.channel.send(mb => mb.setContent('ping?'));
@@ -19,6 +19,8 @@ client.token = config.token;
 
 client.connect();
 ```
+
+*For compiling typescript, you will need `typescript` and the following types packages: `@klasa/dapi-types`, `@types/node`, `@types/node-fetch`; as dev dependencies.*
 
 Simple ping client in javascript
 ```javascript
