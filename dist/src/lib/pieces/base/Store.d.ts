@@ -26,7 +26,7 @@ export declare class Store<V extends Piece> extends Cache<string, V> {
      * The core directories pieces of this store can hold.
      * @since 0.0.1
      */
-    private readonly coreDirectories;
+    protected readonly coreDirectories: Set<string>;
     /**
      * @since 0.0.1
      * @param client The client this Store was created with
