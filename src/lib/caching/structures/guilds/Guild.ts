@@ -1,5 +1,6 @@
 /* eslint-disable no-dupe-class-members */
 import { URLSearchParams } from 'url';
+import { WebSocketShard } from '@klasa/ws';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
@@ -150,6 +151,12 @@ export class Guild extends Structure {
 	 * @since 0.0.1
 	 */
 	public readonly integrations: IntegrationStore;
+
+	/**
+	 * The guild's store of integrations.
+	 * @since 0.0.4
+	 */
+	public readonly shard: WebSocketShard;
 
 	/**
 	 * The guild's enabled features.
@@ -333,7 +340,7 @@ export class Guild extends Structure {
 	 */
 	public deleted = false;
 
-	public constructor(client: Client, data: APIGuildData) {
+	public constructor(client: Client, data: APIGuildData, shardID: number) {
 		super(client);
 
 		this.id = data.id;
@@ -346,6 +353,8 @@ export class Guild extends Structure {
 		this.members = new GuildMemberStore(client, this);
 		this.channels = new GuildChannelStore(client, this);
 		this.presences = new PresenceStore(client, this);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		this.shard = this.client.ws.shards.get(shardID)!;
 
 		// eslint-disable-next-line @typescript-eslint/camelcase
 		this.widget = new GuildWidget({ enabled: null, channel_id: null }, this);
