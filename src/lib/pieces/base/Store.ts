@@ -91,7 +91,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 			const loaded = await import(loc) as { default: PieceConstructor<V> } | PieceConstructor<V>;
 			const LoadedPiece = 'default' in loaded ? loaded.default : loaded;
 			if (!isClass(LoadedPiece)) throw new TypeError('The exported structure is not a class.');
-			piece = this.set(new LoadedPiece(this, directory, file));
+			piece = this.add(new LoadedPiece(this, directory, file));
 		} catch (error) {
 			this.client.emit('wtf', `Failed to load file '${loc}'. Error:\n${error.stack || error}`);
 		}
@@ -115,20 +115,18 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	}
 
 	/**
-	 * Sets up a piece in our store.
+	 * Adds and sets up a piece in our store.
 	 * @since 0.0.1
 	 * @param piece The piece we are setting up
 	 */
-	// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-	// @ts-ignore
-	public set(piece: V): V | null {
+	public add(piece: V): V | null {
 		if (!(piece instanceof this.holds)) {
 			this.client.emit('error', `Only ${this} may be stored in this Store.`);
 			return null;
 		}
 
 		// Remove any previous piece named the same
-		this.delete(piece.name);
+		this.remove(piece.name);
 
 		// Emit pieceLoaded event, set to the cache, and return it
 		this.client.emit('pieceLoaded', piece);
@@ -137,16 +135,32 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	}
 
 	/**
-	 * Deletes a piece from the store.
+	 * Removes a piece from the store.
 	 * @since 0.0.1
 	 * @param name A piece instance or a string representing a piece or alias name
-	 * @returns Whether or not the delete was successful.
+	 * @returns Whether or not the removal was successful.
 	 */
-	public delete(name: V | string): boolean {
+	public remove(name: V | string): boolean {
 		const piece = this.resolve(name);
 		if (!piece) return false;
 		super.delete(piece.name);
 		return true;
+	}
+
+	/**
+	 * The overriden set method, this will always throw.
+	 * @internal
+	 */
+	public set(): never {
+		throw new Error('Cannot set in this Store.');
+	}
+
+	/**
+	 * The overriden delete method, this will always throw.
+	 * @internal
+	 */
+	public delete(): never {
+		throw new Error('Cannot delete in this Store.');
 	}
 
 	/**
