@@ -8,7 +8,8 @@ class CoreAction extends Action_1.Action {
         return (_a = this.client.guilds.get(data.d.id)) !== null && _a !== void 0 ? _a : null;
     }
     build(data) {
-        return new (Extender_1.extender.get('Guild'))(this.client, data.d);
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        return new (Extender_1.extender.get('Guild'))(this.client, data.d, data.shard_id);
     }
     cache(data) {
         if (this.client.options.cache.enabled) {
