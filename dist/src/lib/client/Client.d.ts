@@ -181,7 +181,6 @@ export declare class Client extends BaseClient {
      * @chainable
      */
     unregisterStore<V extends Piece>(store: Store<V>): this;
-    protected _sweepMessages(lifetime?: number): number;
     /**
      * Connects the client to the websocket
      */
@@ -190,6 +189,14 @@ export declare class Client extends BaseClient {
      * Destroys all timers and disconnects all shards from the websocket
      */
     destroy(): Promise<void>;
+    /**
+     * Sweeps all text-based channels' messages and removes the ones older than the max message or command message lifetime.
+     * If the message has been edited, the time of the edit is used rather than the time of the original message.
+     * @since 0.5.0
+     * @param lifetime Messages that are older than this (in milliseconds)
+     * will be removed from the caches. The default is based on {@link ClientOptions#messageLifetime}
+     */
+    protected _sweepMessages(lifetime?: number): number;
     /**
      * The plugin symbol to be used in external packages
      */
