@@ -17,16 +17,16 @@ export declare class ActionStore extends Store<Action> {
      */
     clear(): void;
     /**
-     * Deletes an action from the store.
+     * Removes an action from the store.
      * @since 0.0.1
      * @param name An action object or a string representing the action name.
-     * @returns Whether or not the delete was successful.
+     * @returns Whether or not the removal was successful.
      */
-    delete(name: Action | string): boolean;
+    remove(name: Action | string): boolean;
     /**
-     * Sets up an action in our store.
+     * Adds and sets up an action in our store.
      * @since 0.0.1
      * @param piece The event piece we are setting up
      */
-    set(piece: Action): Action | null;
+    add(piece: Action): Action | null;
 }

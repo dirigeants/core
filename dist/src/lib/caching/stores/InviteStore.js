@@ -45,8 +45,6 @@ class InviteStore extends DataStore_1.DataStore {
      * @param data The data packet to add
      * @param cache If the data should be cached
      */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
     _add(data) {
         const existing = this.get(data.code);
         // eslint-disable-next-line dot-notation

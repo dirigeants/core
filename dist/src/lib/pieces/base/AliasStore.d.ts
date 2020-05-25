@@ -24,18 +24,18 @@ export declare class AliasStore<V extends AliasPiece> extends Store<V> {
      */
     has(name: string): boolean;
     /**
-     * Sets up an AliasPiece in our store.
+     * Adds and sets up an AliasPiece in our store.
      * @since 0.0.1
      * @param piece The piece we are setting up
      */
-    set(piece: V): V | null;
+    add(piece: V): V | null;
     /**
-     * Deletes an AliasPiece from the store.
+     * Removes an AliasPiece from the store.
      * @since 0.0.1
      * @param name An AliasPiece object or a string representing an AliasPiece or alias name
-     * @returns Whether or not the delete was successful.
+     * @returns Whether or not the removal was successful.
      */
-    delete(name: V | string): boolean;
+    remove(name: V | string): boolean;
     /**
      * Clears the AliasPieces and aliases from this store
      * @since 0.0.1

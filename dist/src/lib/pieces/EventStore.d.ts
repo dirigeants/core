@@ -29,16 +29,16 @@ export declare class EventStore extends Store<Event> {
      */
     clear(): void;
     /**
-     * Deletes an event from the store.
+     * Removes an event from the store.
      * @since 0.0.1
      * @param name An event object or a string representing the event name.
-     * @returns Whether or not the delete was successful.
+     * @returns Whether or not the removal was successful.
      */
-    delete(name: Event | string): boolean;
+    remove(name: Event | string): boolean;
     /**
-     * Sets up an event in our store.
+     * Adds and sets up an event in our store.
      * @since 0.0.1
      * @param piece The event piece we are setting up
      */
-    set(piece: Event): Event | null;
+    add(piece: Event): Event | null;
 }

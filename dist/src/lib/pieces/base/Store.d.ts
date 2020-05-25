@@ -64,18 +64,28 @@ export declare class Store<V extends Piece> extends Cache<string, V> {
      */
     loadAll(): Promise<number>;
     /**
-     * Sets up a piece in our store.
+     * Adds and sets up a piece in our store.
      * @since 0.0.1
      * @param piece The piece we are setting up
      */
-    set(piece: V): V | null;
+    add(piece: V): V | null;
     /**
-     * Deletes a piece from the store.
+     * Removes a piece from the store.
      * @since 0.0.1
      * @param name A piece instance or a string representing a piece or alias name
-     * @returns Whether or not the delete was successful.
+     * @returns Whether or not the removal was successful.
      */
-    delete(name: V | string): boolean;
+    remove(name: V | string): boolean;
+    /**
+     * The overriden set method, this will always throw.
+     * @internal
+     */
+    set(): never;
+    /**
+     * The overriden delete method, this will always throw.
+     * @internal
+     */
+    delete(): never;
     /**
      * Resolve a string or piece into a piece object.
      * @since 0.0.1

@@ -33,12 +33,12 @@ class AliasStore extends Store_1.Store {
         return super.has(name) || this.aliases.has(name);
     }
     /**
-     * Sets up an AliasPiece in our store.
+     * Adds and sets up an AliasPiece in our store.
      * @since 0.0.1
      * @param piece The piece we are setting up
      */
-    set(piece) {
-        const aliasPiece = super.set(piece);
+    add(piece) {
+        const aliasPiece = super.add(piece);
         if (!aliasPiece)
             return null;
         for (const alias of aliasPiece.aliases)
@@ -46,18 +46,18 @@ class AliasStore extends Store_1.Store {
         return aliasPiece;
     }
     /**
-     * Deletes an AliasPiece from the store.
+     * Removes an AliasPiece from the store.
      * @since 0.0.1
      * @param name An AliasPiece object or a string representing an AliasPiece or alias name
-     * @returns Whether or not the delete was successful.
+     * @returns Whether or not the removal was successful.
      */
-    delete(name) {
+    remove(name) {
         const aliasPiece = this.resolve(name);
         if (!aliasPiece)
             return false;
         for (const alias of aliasPiece.aliases)
             this.aliases.delete(alias);
-        return super.delete(aliasPiece);
+        return super.remove(aliasPiece);
     }
     /**
      * Clears the AliasPieces and aliases from this store

@@ -64,7 +64,7 @@ class Store extends cache_1.Cache {
             const LoadedPiece = 'default' in loaded ? loaded.default : loaded;
             if (!utils_1.isClass(LoadedPiece))
                 throw new TypeError('The exported structure is not a class.');
-            piece = this.set(new LoadedPiece(this, directory, file));
+            piece = this.add(new LoadedPiece(this, directory, file));
         }
         catch (error) {
             this.client.emit('wtf', `Failed to load file '${loc}'. Error:\n${error.stack || error}`);
@@ -88,36 +88,48 @@ class Store extends cache_1.Cache {
         return this.size;
     }
     /**
-     * Sets up a piece in our store.
+     * Adds and sets up a piece in our store.
      * @since 0.0.1
      * @param piece The piece we are setting up
      */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    set(piece) {
+    add(piece) {
         if (!(piece instanceof this.holds)) {
             this.client.emit('error', `Only ${this} may be stored in this Store.`);
             return null;
         }
         // Remove any previous piece named the same
-        this.delete(piece.name);
+        this.remove(piece.name);
         // Emit pieceLoaded event, set to the cache, and return it
         this.client.emit('pieceLoaded', piece);
         super.set(piece.name, piece);
         return piece;
     }
     /**
-     * Deletes a piece from the store.
+     * Removes a piece from the store.
      * @since 0.0.1
      * @param name A piece instance or a string representing a piece or alias name
-     * @returns Whether or not the delete was successful.
+     * @returns Whether or not the removal was successful.
      */
-    delete(name) {
+    remove(name) {
         const piece = this.resolve(name);
         if (!piece)
             return false;
         super.delete(piece.name);
         return true;
+    }
+    /**
+     * The overriden set method, this will always throw.
+     * @internal
+     */
+    set() {
+        throw new Error('Cannot set in this Store.');
+    }
+    /**
+     * The overriden delete method, this will always throw.
+     * @internal
+     */
+    delete() {
+        throw new Error('Cannot delete in this Store.');
     }
     /**
      * Resolve a string or piece into a piece object.

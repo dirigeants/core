@@ -31,10 +31,7 @@ export declare class DataStore<S extends Structure> extends Cache<string, S> {
      * @param data The data packet to add
      * @param cache If the data should be cached
      */
-    protected _add(data: {
-        id: string;
-        [k: string]: any;
-    }): S;
+    protected _add(data: Record<string, any>): S;
     /**
      * Defines the extensibility of DataStores
      */

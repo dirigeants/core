@@ -22,8 +22,6 @@ class VoiceStateStore extends DataStore_1.DataStore {
      * Adds a new structure to this DataStore
      * @param data The data packet to add
      */
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
     _add(data) {
         const existing = this.get(data.user_id);
         // eslint-disable-next-line dot-notation
