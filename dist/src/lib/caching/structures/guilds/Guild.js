@@ -183,9 +183,9 @@ class Guild extends Structure_1.Structure {
         }
         if (data.channels) {
             this.channels.clear();
-            // eslint-disable-next-line dot-notation
+            // eslint-disable-next-line dot-notation, @typescript-eslint/camelcase
             for (const channel of data.channels)
-                this.client.channels['_add'](channel);
+                this.client.channels['_add']({ ...channel, guild_id: this.id });
         }
         this.features = data.features;
         this.mfaLevel = data.mfa_level;
