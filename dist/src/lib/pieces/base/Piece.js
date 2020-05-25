@@ -45,7 +45,7 @@ class Piece {
         const piece = await this.store.load(this.directory, this.file);
         if (piece) {
             await piece.init();
-            this.client.emit('pieceReloaded', piece);
+            this.client.emit("pieceReloaded" /* PieceReloaded */, piece);
         }
         return piece;
     }
@@ -54,7 +54,7 @@ class Piece {
      * @since 0.0.1
      */
     unload() {
-        this.client.emit('pieceUnloaded', this);
+        this.client.emit("pieceUnloaded" /* PieceUnloaded */, this);
         return this.store.remove(this);
     }
     /**
@@ -63,7 +63,7 @@ class Piece {
      * @chainable
      */
     disable() {
-        this.client.emit('pieceDisabled', this);
+        this.client.emit("pieceDisabled" /* PieceDisabled */, this);
         this.enabled = false;
         return this;
     }
@@ -73,7 +73,7 @@ class Piece {
      * @chainable
      */
     enable() {
-        this.client.emit('pieceEnabled', this);
+        this.client.emit("pieceEnabled" /* PieceEnabled */, this);
         this.enabled = true;
         return this;
     }

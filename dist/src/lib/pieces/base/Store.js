@@ -67,7 +67,7 @@ class Store extends cache_1.Cache {
             piece = this.add(new LoadedPiece(this, directory, file));
         }
         catch (error) {
-            this.client.emit('wtf', `Failed to load file '${loc}'. Error:\n${error.stack || error}`);
+            this.client.emit("wtf" /* WTF */, `Failed to load file '${loc}'. Error:\n${error.stack || error}`);
         }
         delete require.cache[loc];
         module.children.pop();
@@ -94,13 +94,13 @@ class Store extends cache_1.Cache {
      */
     add(piece) {
         if (!(piece instanceof this.holds)) {
-            this.client.emit('error', `Only ${this} may be stored in this Store.`);
+            this.client.emit("error" /* Error */, `Only ${this} may be stored in this Store.`);
             return null;
         }
         // Remove any previous piece named the same
         this.remove(piece.name);
         // Emit pieceLoaded event, set to the cache, and return it
-        this.client.emit('pieceLoaded', piece);
+        this.client.emit("pieceLoaded" /* PieceLoaded */, piece);
         super.set(piece.name, piece);
         return piece;
     }
@@ -162,7 +162,7 @@ class Store extends cache_1.Cache {
         }
         catch {
             if (store.client.options.pieces.createFolders) {
-                fs_nextra_1.ensureDir(directory).catch(err => store.client.emit('error', err));
+                fs_nextra_1.ensureDir(directory).catch(err => store.client.emit("error" /* Error */, err));
             }
             return [];
         }

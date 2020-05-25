@@ -1,4 +1,4 @@
-import type { Client } from '../../client/Client';
+import { Client } from '../../client/Client';
 import type { Store } from './Store';
 /**
  * The common class for all pieces.

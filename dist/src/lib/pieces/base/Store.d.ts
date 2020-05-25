@@ -1,5 +1,5 @@
 import { Cache } from '@klasa/cache';
-import type { Client } from '../../client/Client';
+import { Client } from '../../client/Client';
 import type { Piece } from './Piece';
 export declare type PieceConstructor<T> = new (...args: ConstructorParameters<typeof Piece>) => T;
 /**

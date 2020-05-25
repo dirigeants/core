@@ -1,8 +1,8 @@
 /// <reference types="node" />
 import { Piece, PieceOptions } from './base/Piece';
+import { Client } from '../client/Client';
 import type { EventEmitter } from 'events';
 import type { EventStore } from './EventStore';
-import type { Client } from '../client/Client';
 /**
  * The common class for all events.
  */

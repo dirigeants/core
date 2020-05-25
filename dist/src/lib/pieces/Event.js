@@ -68,7 +68,7 @@ class Event extends Piece_1.Piece {
             await this.run(...args);
         }
         catch (err) {
-            this.client.emit('eventError', this, args, err);
+            this.client.emit("eventError" /* EventError */, this, args, err);
         }
     }
     /**
