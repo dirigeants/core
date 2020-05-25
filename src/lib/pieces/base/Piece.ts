@@ -1,6 +1,6 @@
 import { join, basename, extname } from 'path';
+import { Client, ClientEvents } from '../../client/Client';
 
-import type { Client } from '../../client/Client';
 import type { Store } from './Store';
 
 /**
@@ -85,7 +85,7 @@ export class Piece {
 		const piece = await this.store.load(this.directory, this.file);
 		if (piece) {
 			await piece.init();
-			this.client.emit('pieceReloaded', piece);
+			this.client.emit(ClientEvents.PieceReloaded, piece);
 		}
 		return piece;
 	}
@@ -95,7 +95,7 @@ export class Piece {
 	 * @since 0.0.1
 	 */
 	public unload(): boolean {
-		this.client.emit('pieceUnloaded', this);
+		this.client.emit(ClientEvents.PieceUnloaded, this);
 		return this.store.remove(this);
 	}
 
@@ -105,7 +105,7 @@ export class Piece {
 	 * @chainable
 	 */
 	public disable(): this {
-		this.client.emit('pieceDisabled', this);
+		this.client.emit(ClientEvents.PieceDisabled, this);
 		this.enabled = false;
 		return this;
 	}
@@ -116,7 +116,7 @@ export class Piece {
 	 * @chainable
 	 */
 	public enable(): this {
-		this.client.emit('pieceEnabled', this);
+		this.client.emit(ClientEvents.PieceEnabled, this);
 		this.enabled = true;
 		return this;
 	}

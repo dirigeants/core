@@ -62,6 +62,7 @@ export const enum ClientEvents {
 	ChannelUpdate = 'channelUpdate',
 	Debug = 'debug',
 	Error = 'error',
+	EventError = 'eventError',
 	GuildBanAdd = 'guildBanAdd',
 	GuildBanRemove = 'guildBanRemove',
 	GuildCreate = 'guildCreate',
@@ -90,6 +91,11 @@ export const enum ClientEvents {
 	MessageReactionRemoveEmoji = 'messageReactionRemoveEmoji',
 	MessageUpdate = 'messageUpdate',
 	PresenceUpdate = 'presenceUpdate',
+	PieceDisabled = 'pieceDisabled',
+	PieceEnabled = 'pieceEnabled',
+	PieceLoaded = 'pieceLoaded',
+	PieceReloaded = 'pieceReloaded',
+	PieceUnloaded = 'pieceUnloaded',
 	Ready = 'ready',
 	RESTDebug = 'restDebug',
 	Resumed = 'resumed',
@@ -102,7 +108,8 @@ export const enum ClientEvents {
 	VoiceServerUpdate = 'voiceServerUpdate',
 	VoiceStateUpdate = 'voiceStateUpdate',
 	WebhooksUpdate = 'webhooksUpdate',
-	WSDebug = 'wsDebug'
+	WSDebug = 'wsDebug',
+	WTF = 'wtf'
 }
 
 /**

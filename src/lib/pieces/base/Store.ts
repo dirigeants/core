@@ -2,8 +2,8 @@ import { join, extname, relative, sep } from 'path';
 import { scan, ensureDir } from 'fs-nextra';
 import { isClass } from '@klasa/utils';
 import { Cache } from '@klasa/cache';
+import { Client, ClientEvents } from '../../client/Client';
 
-import type { Client } from '../../client/Client';
 import type { Piece } from './Piece';
 
 export type PieceConstructor<T> = new (...args: ConstructorParameters<typeof Piece>) => T;
@@ -93,7 +93,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 			if (!isClass(LoadedPiece)) throw new TypeError('The exported structure is not a class.');
 			piece = this.add(new LoadedPiece(this, directory, file));
 		} catch (error) {
-			this.client.emit('wtf', `Failed to load file '${loc}'. Error:\n${error.stack || error}`);
+			this.client.emit(ClientEvents.WTF, `Failed to load file '${loc}'. Error:\n${error.stack || error}`);
 		}
 		delete require.cache[loc];
 		module.children.pop();
@@ -121,7 +121,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 */
 	public add(piece: V): V | null {
 		if (!(piece instanceof this.holds)) {
-			this.client.emit('error', `Only ${this} may be stored in this Store.`);
+			this.client.emit(ClientEvents.Error, `Only ${this} may be stored in this Store.`);
 			return null;
 		}
 
@@ -129,7 +129,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 		this.remove(piece.name);
 
 		// Emit pieceLoaded event, set to the cache, and return it
-		this.client.emit('pieceLoaded', piece);
+		this.client.emit(ClientEvents.PieceLoaded, piece);
 		super.set(piece.name, piece);
 		return piece;
 	}
@@ -194,7 +194,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 			return Promise.all([...files.keys()].map(file => store.load(directory, relative(directory, file).split(sep)) as Promise<T>));
 		} catch {
 			if (store.client.options.pieces.createFolders) {
-				ensureDir(directory).catch(err => store.client.emit('error', err));
+				ensureDir(directory).catch(err => store.client.emit(ClientEvents.Error, err));
 			}
 
 			return [];
