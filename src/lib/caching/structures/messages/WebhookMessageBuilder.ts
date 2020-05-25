@@ -4,7 +4,7 @@ import { mergeDefault, RequiredExcept, PartialRequired } from '@klasa/utils';
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
 
-import { MessageBuilder, AllowedMentions } from './MessageBuilder';
+import { MessageBuilder, AllowedMentions, SplitOptions } from './MessageBuilder';
 import { Embed } from '../Embed';
 
 export interface WebhookMessageData {
@@ -107,6 +107,24 @@ export class WebhookMessageBuilder extends MessageBuilder implements RequiredExc
 		// eslint-disable-next-line @typescript-eslint/camelcase
 		this.data.avatar_url = avatar;
 		return this;
+	}
+
+	/**
+	 * Splits this into multiple messages.
+	 * @param options Options to split the message by.
+	 */
+	public split(options: SplitOptions = {}): RequestOptions[] {
+		// If there isn't content, the message can't be split
+		if (!this.data.content) return [this];
+
+		const messages = this._split(options);
+
+		// Don't send any possible empty messages, and return the array of RequestOptions
+		return messages.filter(mes => mes).map((content, index) => index === 0 ?
+			// first message has embed/s and files
+			{ data: { ...this.data, content }, files: this.files } :
+			// Later messages have neither
+			{ data: { ...this.data, content, embeds: null } });
 	}
 
 }
