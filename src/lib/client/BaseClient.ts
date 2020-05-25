@@ -6,7 +6,7 @@ import { BaseClientOptionsDefaults } from '../util/Constants';
 import { ClientEvents } from '../client/Client';
 
 export interface BaseClientOptions {
-	rest: RESTOptions;
+	rest: Partial<RESTOptions>;
 }
 
 /**
