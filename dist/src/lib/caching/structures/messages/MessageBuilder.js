@@ -107,13 +107,28 @@ class MessageBuilder {
         return this;
     }
     /**
-     * Splits this into multiple messages
-     * @param param0 Options to split the message by
+     * Splits this into multiple messages.
+     * @param options Options to split the message by.
      */
-    split({ maxLength = 2000, char = '\n', prepend = '', append = '' } = {}) {
+    split(options = {}) {
         // If there isn't content, the message can't be split
         if (!this.data.content)
             return [this];
+        const messages = this._split(options);
+        // Don't send any possible empty messages, and return the array of RequestOptions
+        return messages.filter(mes => mes).map((content, index) => index === 0 ?
+            // first message has embed/s and files
+            { data: { ...this.data, content }, files: this.files } :
+            // Later messages have neither
+            { data: { ...this.data, content, embed: null } });
+    }
+    /**
+     * Internal shared method to split the content by.
+     * @param param0 Options to split the content.
+     */
+    _split({ maxLength = 2000, char = '\n', prepend = '', append = '' } = {}) {
+        if (!this.data.content)
+            return [];
         const text = this.data.content;
         const splitText = text.length <= maxLength ? [text] : text.split(char);
         const messages = [];
@@ -132,12 +147,7 @@ class MessageBuilder {
         }
         // Push the last message we had when we ran out of chunks
         messages.push(msg);
-        // Don't send any possible empty messages, and return the array of RequestOptions
-        return messages.filter(mes => mes).map((content, index) => index === 0 ?
-            // first message has embed/s and files
-            { data: { ...this.data, content }, files: this.files } :
-            // Later messages have neither
-            { data: { ...this.data, content, embed: undefined, embeds: undefined } });
+        return messages;
     }
 }
 exports.MessageBuilder = MessageBuilder;

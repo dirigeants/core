@@ -1,7 +1,7 @@
 import { RequiredExcept, PartialRequired } from '@klasa/utils';
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
-import { MessageBuilder, AllowedMentions } from './MessageBuilder';
+import { MessageBuilder, AllowedMentions, SplitOptions } from './MessageBuilder';
 import { Embed } from '../Embed';
 export interface WebhookMessageData {
     content?: string;
@@ -60,4 +60,9 @@ export declare class WebhookMessageBuilder extends MessageBuilder implements Req
      * @param avatar The avatar for the webhook message
      */
     setAvatar(avatar?: string): this;
+    /**
+     * Splits this into multiple messages.
+     * @param options Options to split the message by.
+     */
+    split(options?: SplitOptions): RequestOptions[];
 }

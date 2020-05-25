@@ -92,8 +92,13 @@ export declare class MessageBuilder implements RequiredExcept<MessageOptions, 'a
      */
     spliceFile(index: number, deleteCount: number, file?: File): this;
     /**
-     * Splits this into multiple messages
-     * @param param0 Options to split the message by
+     * Splits this into multiple messages.
+     * @param options Options to split the message by.
      */
-    split({ maxLength, char, prepend, append }?: SplitOptions): RequestOptions[];
+    split(options?: SplitOptions): RequestOptions[];
+    /**
+     * Internal shared method to split the content by.
+     * @param param0 Options to split the content.
+     */
+    protected _split({ maxLength, char, prepend, append }?: SplitOptions): string[];
 }

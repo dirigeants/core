@@ -64,6 +64,22 @@ class WebhookMessageBuilder extends MessageBuilder_1.MessageBuilder {
         this.data.avatar_url = avatar;
         return this;
     }
+    /**
+     * Splits this into multiple messages.
+     * @param options Options to split the message by.
+     */
+    split(options = {}) {
+        // If there isn't content, the message can't be split
+        if (!this.data.content)
+            return [this];
+        const messages = this._split(options);
+        // Don't send any possible empty messages, and return the array of RequestOptions
+        return messages.filter(mes => mes).map((content, index) => index === 0 ?
+            // first message has embed/s and files
+            { data: { ...this.data, content }, files: this.files } :
+            // Later messages have neither
+            { data: { ...this.data, content, embeds: null } });
+    }
 }
 exports.WebhookMessageBuilder = WebhookMessageBuilder;
 //# sourceMappingURL=WebhookMessageBuilder.js.map
