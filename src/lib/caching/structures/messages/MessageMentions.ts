@@ -51,7 +51,7 @@ export class MessageMentions {
 
 				if (mention.member) {
 					// eslint-disable-next-line dot-notation
-					(this.message.guild as Guild).members['_add'](mention.member);
+					(this.message.guild as Guild).members['_add']({ ...mention.member, user });
 				}
 			}
 		}
