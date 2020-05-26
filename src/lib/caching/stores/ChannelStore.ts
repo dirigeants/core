@@ -58,6 +58,7 @@ export class ChannelStore extends DataStore<Channel> {
 	 */
 	protected _add(data: APIChannelData): DMChannel | GuildChannel {
 		let entry: DMChannel | GuildChannel;
+		console.log(data);
 		// eslint-disable-next-line dot-notation, @typescript-eslint/no-non-null-assertion
 		if (data.guild_id) entry = this.client.guilds.get(data.guild_id)!.channels['_add'](data);
 		// eslint-disable-next-line dot-notation
