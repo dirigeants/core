@@ -1,6 +1,4 @@
-import { Action } from '../lib/pieces/Action';
-import { ClientEvents } from '../lib/client/Client';
-import { extender } from '../lib/util/Extender';
+import { Action, ClientEvents, extender } from '@klasa/core';
 
 import type { ReadyDispatch } from '@klasa/ws';
 

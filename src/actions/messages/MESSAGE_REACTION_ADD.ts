@@ -1,10 +1,6 @@
-import { Action } from '../../lib/pieces/Action';
-import { isTextBasedChannel } from '../../lib/util/Util';
-import { extender } from '../../lib/util/Extender';
+import { Action, isTextBasedChannel, extender, Message, MessageReaction } from '@klasa/core';
 
 import type { MessageReactionAddDispatch } from '@klasa/ws';
-import type { Message } from '../../lib/caching/structures/Message';
-import type { MessageReaction } from '../../lib/caching/structures/messages/reactions/MessageReaction';
 
 export default class CoreAction extends Action {
 

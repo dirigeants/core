@@ -1,7 +1,6 @@
-import { Action } from '../lib/pieces/Action';
+import { Action, Role } from '@klasa/core';
 
 import type { GuildRoleDeleteDispatch } from '@klasa/ws';
-import type { Role } from '../lib/caching/structures/guilds/Role';
 
 export default class CoreAction extends Action {
 

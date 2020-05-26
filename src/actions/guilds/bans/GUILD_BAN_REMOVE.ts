@@ -1,8 +1,6 @@
-import { Action } from '../../../lib/pieces/Action';
-import { extender } from '../../../lib/util/Extender';
+import { Action, extender, Ban } from '@klasa/core';
 
 import type { GuildBanAddDispatch } from '@klasa/ws';
-import type { Ban } from '../../../lib/caching/structures/guilds/Ban';
 
 export default class CoreAction extends Action {
 

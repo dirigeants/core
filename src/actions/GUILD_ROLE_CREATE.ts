@@ -1,8 +1,6 @@
-import { Action } from '../lib/pieces/Action';
-import { extender } from '../lib/util/Extender';
+import { Action, extender, Role } from '@klasa/core';
 
 import type { GuildRoleCreateDispatch } from '@klasa/ws';
-import type { Role } from '../lib/caching/structures/guilds/Role';
 
 export default class CoreAction extends Action {
 

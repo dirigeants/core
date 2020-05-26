@@ -1,9 +1,6 @@
-import { Action } from '../../lib/pieces/Action';
-import { Channel } from '../../lib/caching/structures/channels/Channel';
-import { isGuildChannel } from '../../lib/util/Util';
+import { Action, Channel, isGuildChannel, DMChannel } from '@klasa/core';
 
 import type { ChannelCreateDispatch } from '@klasa/ws';
-import type { DMChannel } from '../../lib/caching/structures/channels/DMChannel';
 
 export default class CoreAction extends Action {
 

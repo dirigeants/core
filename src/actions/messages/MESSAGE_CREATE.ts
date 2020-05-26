@@ -1,8 +1,6 @@
-import { Action } from '../../lib/pieces/Action';
-import { extender } from '../../lib/util/Extender';
+import { Action, extender, Message } from '@klasa/core';
 
 import type { MessageCreateDispatch } from '@klasa/ws';
-import type { Message } from '../../lib/caching/structures/Message';
 
 export default class CoreAction extends Action {
 

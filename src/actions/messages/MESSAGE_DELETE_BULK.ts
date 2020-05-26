@@ -1,8 +1,6 @@
-import { Action } from '../../lib/pieces/Action';
-import { isTextBasedChannel } from '../../lib/util/Util';
+import { Action, isTextBasedChannel, Message } from '@klasa/core';
 
 import type { MessageDeleteBulkDispatch } from '@klasa/ws';
-import type { Message } from '../../lib/caching/structures/Message';
 
 export default class CoreAction extends Action {
 

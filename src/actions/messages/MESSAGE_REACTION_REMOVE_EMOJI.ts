@@ -1,5 +1,4 @@
-import { Action } from '../../lib/pieces/Action';
-import { isTextBasedChannel } from '../../lib/util/Util';
+import { Action, isTextBasedChannel } from '@klasa/core';
 
 import type { MessageReactionRemoveEmojiDispatch } from '@klasa/ws';
 

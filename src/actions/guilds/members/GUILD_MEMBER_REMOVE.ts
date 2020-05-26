@@ -1,7 +1,6 @@
-import { Action } from '../../../lib/pieces/Action';
+import { Action, GuildMember } from '@klasa/core';
 
 import type { GuildMemberRemoveDispatch } from '@klasa/ws';
-import type { GuildMember } from '../../../lib/caching/structures/guilds/GuildMember';
 
 export default class CoreAction extends Action {
 

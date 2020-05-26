@@ -1,6 +1,5 @@
 import { arrayStrictEquals } from '@klasa/utils';
-import { Action } from '../../lib/pieces/Action';
-import { ClientEvents } from '../../lib/client/Client';
+import { Action, ClientEvents } from '@klasa/core';
 
 import type { GuildEmojisUpdateDispatch } from '@klasa/ws';
 

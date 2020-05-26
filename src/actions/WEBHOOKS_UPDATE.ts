@@ -1,8 +1,6 @@
-import { Action } from '../lib/pieces/Action';
+import { Action, TextChannel, NewsChannel } from '@klasa/core';
 
 import type { WebhooksUpdateDispatch } from '@klasa/ws';
-import type { TextChannel } from '../lib/caching/structures/channels/TextChannel';
-import type { NewsChannel } from '../lib/caching/structures/channels/NewsChannel';
 
 export default class CoreAction extends Action {
 

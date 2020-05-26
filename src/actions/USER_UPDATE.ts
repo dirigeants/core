@@ -1,8 +1,6 @@
-import { Action } from '../lib/pieces/Action';
-import { extender } from '../lib/util/Extender';
+import { Action, extender, User } from '@klasa/core';
 
 import type { UserUpdateDispatch } from '@klasa/ws';
-import type { User } from '../lib/caching/structures/User';
 
 export default class CoreAction extends Action {
 

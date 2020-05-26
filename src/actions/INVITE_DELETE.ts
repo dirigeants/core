@@ -1,8 +1,6 @@
-import { Action } from '../lib/pieces/Action';
-import { extender } from '../lib/util/Extender';
+import { Action, extender, Invite } from '@klasa/core';
 
 import type { InviteDeleteDispatch } from '@klasa/ws';
-import type { Invite } from '../lib/caching/structures/Invite';
 
 export default class CoreAction extends Action {
 

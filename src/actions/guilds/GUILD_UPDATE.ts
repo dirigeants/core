@@ -1,8 +1,6 @@
-import { Action } from '../../lib/pieces/Action';
-import { extender } from '../../lib/util/Extender';
+import { Action, extender, Guild } from '@klasa/core';
 
 import type { GuildCreateDispatch } from '@klasa/ws';
-import type { Guild } from '../../lib/caching/structures/guilds/Guild';
 
 export default class CoreAction extends Action {
 

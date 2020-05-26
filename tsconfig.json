@@ -14,7 +14,11 @@
     "removeComments": false,
     "target": "ES2019",
     "incremental": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "paths": {
+      "@klasa/core": ["src"]
+    }
   },
   "exclude": [
     "node_modules",
