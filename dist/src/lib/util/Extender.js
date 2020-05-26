@@ -81,7 +81,7 @@ class Extender extends cache_1.Cache {
         if (typeof structure === 'undefined')
             throw new TypeError(`The structure ${key} does not exist.`);
         const extended = fn(structure);
-        if (!(extended instanceof structure))
+        if (!(extended.prototype instanceof structure))
             throw new TypeError('The extended structure must extend the previous structure.');
         return super.set(key, extended);
     }
