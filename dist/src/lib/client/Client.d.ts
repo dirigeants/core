@@ -13,9 +13,24 @@ import type { Store } from '../pieces/base/Store';
 import type { Piece } from '../pieces/base/Piece';
 import type { ClientUser } from '../caching/structures/ClientUser';
 import type { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
+import type { ActionOptions } from '../pieces/Action';
+import type { EventOptions } from '../pieces/Event';
 export interface ClientPieceOptions {
+    defaults: PieceDefaults;
     createFolders: boolean;
     disabledCoreTypes: string[];
+}
+export interface PieceDefaults {
+    /**
+     * The default command options.
+     * @default {}
+     */
+    actions?: Partial<ActionOptions>;
+    /**
+     * The default event options.
+     * @default {}
+     */
+    events?: Partial<EventOptions>;
 }
 export interface CacheLimits {
     bans: number;

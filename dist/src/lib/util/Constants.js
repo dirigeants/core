@@ -10,6 +10,12 @@ exports.ClientOptionsDefaults = {
     ...exports.BaseClientOptionsDefaults,
     ws: ws_1.WSOptionsDefaults,
     pieces: {
+        defaults: {
+            events: {
+                enabled: true,
+                once: false
+            }
+        },
         createFolders: false,
         disabledCoreTypes: []
     },

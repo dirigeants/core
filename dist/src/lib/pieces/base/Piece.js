@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Piece = void 0;
 const path_1 = require("path");
+const utils_1 = require("@klasa/utils");
 /**
  * The common class for all pieces.
  */
@@ -15,6 +16,9 @@ class Piece {
      */
     constructor(store, directory, file, options = {}) {
         var _a, _b;
+        const defaults = Reflect.get(store.client.options.pieces.defaults, store.name);
+        if (defaults)
+            options = utils_1.mergeDefault(defaults, options);
         this.client = store.client;
         this.store = store;
         this.directory = directory;
