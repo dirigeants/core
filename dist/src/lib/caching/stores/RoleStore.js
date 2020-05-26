@@ -71,6 +71,12 @@ class RoleStore extends DataStore_1.DataStore {
         return this;
     }
     /**
+     * The JSON representation of this object.
+     */
+    toJSON() {
+        return [...this.keys()];
+    }
+    /**
      * Adds a new structure to this DataStore
      * @param data The data packet to add
      */

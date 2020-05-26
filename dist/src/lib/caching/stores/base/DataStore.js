@@ -88,6 +88,12 @@ class DataStore extends cache_1.Cache {
     static get [(_limit = new WeakMap(), Symbol.species)]() {
         return cache_1.Cache;
     }
+    /**
+     * The JSON representation of this object.
+     */
+    toJSON() {
+        return [...this.keys()];
+    }
 }
 exports.DataStore = DataStore;
 //# sourceMappingURL=DataStore.js.map

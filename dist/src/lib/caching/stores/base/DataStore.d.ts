@@ -36,4 +36,8 @@ export declare class DataStore<S extends Structure> extends Cache<string, S> {
      * Defines the extensibility of DataStores
      */
     static get [Symbol.species](): typeof Cache;
+    /**
+     * The JSON representation of this object.
+     */
+    toJSON(): string[];
 }

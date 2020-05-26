@@ -22,4 +22,8 @@ export declare abstract class Structure<T = Client> {
      * The basic value of this Structure
      */
     valueOf(): string;
+    /**
+     * The JSON representation of this object.
+     */
+    toJSON(): Record<string, any>;
 }
