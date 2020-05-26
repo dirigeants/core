@@ -58,4 +58,8 @@ export declare class GuildMemberRoleStore extends ProxyCache<string, Role> {
      * @param requestOptions The additional request options.
      */
     modify(roles: readonly string[], requestOptions?: RequestOptions): Promise<this>;
+    /**
+     * The JSON representation of this object.
+     */
+    toJSON(): string[];
 }

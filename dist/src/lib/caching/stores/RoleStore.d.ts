@@ -57,10 +57,6 @@ export declare class RoleStore extends DataStore<Role> {
      */
     fetch(): Promise<this>;
     /**
-     * The JSON representation of this object.
-     */
-    toJSON(): string[];
-    /**
      * Adds a new structure to this DataStore
      * @param data The data packet to add
      */

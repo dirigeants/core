@@ -64,6 +64,12 @@ class GuildMemberRoleStore extends cache_1.ProxyCache {
         await this.member.modify({ roles }, requestOptions);
         return this;
     }
+    /**
+     * The JSON representation of this object.
+     */
+    toJSON() {
+        return [...this.keys()];
+    }
 }
 exports.GuildMemberRoleStore = GuildMemberRoleStore;
 //# sourceMappingURL=GuildMemberRoleStore.js.map
