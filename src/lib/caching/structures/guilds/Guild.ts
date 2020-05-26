@@ -521,7 +521,7 @@ export class Guild extends Structure {
 		if (data.channels) {
 			this.channels.clear();
 			// eslint-disable-next-line dot-notation, @typescript-eslint/camelcase
-			for (const channel of data.channels) this.client.channels['_add'](channel);
+			for (const channel of data.channels) this.client.channels['_add']({ ...channel, guild_id: this.id });
 		}
 
 		this.features = data.features;
