@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Action_1 = require("../../lib/pieces/Action");
-const Util_1 = require("../../lib/util/Util");
-class CoreAction extends Action_1.Action {
+const core_1 = require("@klasa/core");
+class CoreAction extends core_1.Action {
     check(data) {
         var _a;
         const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : undefined;
@@ -14,7 +13,7 @@ class CoreAction extends Action_1.Action {
     cache(data) {
         data.deleted = true;
         this.client.channels.delete(data.id);
-        if (Util_1.isGuildChannel(data))
+        if (core_1.isGuildChannel(data))
             data.guild.channels.delete(data.id);
         else
             this.client.dms.delete(data.id);

@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Action_1 = require("../../lib/pieces/Action");
-const Util_1 = require("../../lib/util/Util");
-const Extender_1 = require("../../lib/util/Extender");
-class CoreAction extends Action_1.Action {
+const core_1 = require("@klasa/core");
+class CoreAction extends core_1.Action {
     /**
      * Processes the event data from the websocket.
      * @since 0.0.1
@@ -20,7 +18,7 @@ class CoreAction extends Action_1.Action {
         if (!user)
             return;
         const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id);
-        if (!channel || !Util_1.isTextBasedChannel(channel))
+        if (!channel || !core_1.isTextBasedChannel(channel))
             return;
         const message = channel.messages.get(data.d.message_id);
         if (!message)
@@ -45,7 +43,7 @@ class CoreAction extends Action_1.Action {
         const reaction = message.reactions.get(data.d.emoji.id || data.d.emoji.name);
         if (reaction)
             return reaction;
-        const built = new (Extender_1.extender.get('MessageReaction'))(this.client, data.d, message);
+        const built = new (core_1.extender.get('MessageReaction'))(this.client, data.d, message);
         message.reactions.set(built.id, built);
         return built;
     }

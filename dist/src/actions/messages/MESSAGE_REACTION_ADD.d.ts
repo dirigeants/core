@@ -1,4 +1,4 @@
-import { Action } from '../../lib/pieces/Action';
+import { Action } from '@klasa/core';
 import type { MessageReactionAddDispatch } from '@klasa/ws';
 export default class CoreAction extends Action {
     /**

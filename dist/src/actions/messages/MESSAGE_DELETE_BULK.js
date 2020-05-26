@@ -1,8 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Action_1 = require("../../lib/pieces/Action");
-const Util_1 = require("../../lib/util/Util");
-class CoreAction extends Action_1.Action {
+const core_1 = require("@klasa/core");
+class CoreAction extends core_1.Action {
     /**
      * Processes the event data from the websocket.
      * @since 0.0.1
@@ -11,7 +10,7 @@ class CoreAction extends Action_1.Action {
     run(data) {
         const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : null;
         const channel = guild ? guild.channels.get(data.d.channel_id) : this.client.dms.get(data.d.channel_id);
-        if (!channel || !Util_1.isTextBasedChannel(channel))
+        if (!channel || !core_1.isTextBasedChannel(channel))
             return;
         const messages = [];
         for (const id of data.d.ids) {

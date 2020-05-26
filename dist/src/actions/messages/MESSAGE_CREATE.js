@@ -1,13 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Action_1 = require("../../lib/pieces/Action");
-const Extender_1 = require("../../lib/util/Extender");
-class CoreAction extends Action_1.Action {
+const core_1 = require("@klasa/core");
+class CoreAction extends core_1.Action {
     check() {
         return null;
     }
     build(data) {
-        return new (Extender_1.extender.get('Message'))(this.client, data.d);
+        return new (core_1.extender.get('Message'))(this.client, data.d);
     }
     cache(data) {
         if (this.client.options.cache.enabled) {

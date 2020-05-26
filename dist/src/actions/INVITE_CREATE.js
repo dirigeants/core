@@ -1,15 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const Action_1 = require("../lib/pieces/Action");
-const Extender_1 = require("../lib/util/Extender");
-class CoreAction extends Action_1.Action {
+const core_1 = require("@klasa/core");
+class CoreAction extends core_1.Action {
     check() {
         return null;
     }
     build(data) {
         const guild = data.d.guild_id ? this.client.guilds.get(data.d.guild_id) : null;
         const channel = this.client.channels.get(data.d.channel_id);
-        return new (Extender_1.extender.get('Invite'))(this.client, data, channel, guild);
+        return new (core_1.extender.get('Invite'))(this.client, data, channel, guild);
     }
     cache(data) {
         if (this.client.options.cache.enabled) {
