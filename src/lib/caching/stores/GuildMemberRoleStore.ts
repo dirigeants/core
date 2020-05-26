@@ -86,4 +86,11 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 		return this;
 	}
 
+	/**
+	 * The JSON representation of this object.
+	 */
+	public toJSON(): string[] {
+		return [...this.keys()];
+	}
+
 }
