@@ -165,7 +165,7 @@ export class Message extends Structure {
 		this.attachments = new Cache();
 		this.reactions = new MessageReactionStore(client, this);
 		this.guild = guild || (data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null);
-		this.channel = this.guild ? this.guild.channels.get(data.channel_id) as TextChannel | NewsChannel : this.client.dms.get(data.channel_id) as DMChannel;
+		this.channel = this.client.channels.get(data.channel_id) as DMChannel | TextChannel | NewsChannel;
 		// eslint-disable-next-line dot-notation
 		this.author = this.client.users['_add'](data.author);
 		// eslint-disable-next-line dot-notation
