@@ -20,8 +20,6 @@ client.token = config.token;
 client.connect();
 ```
 
-*For compiling typescript, you will need `typescript` and the following types packages: `@klasa/dapi-types`, `@types/node`, `@types/node-fetch`; as dev dependencies.*
-
 Simple ping client in javascript
 ```javascript
 const { Client } = require('@klasa/core');
