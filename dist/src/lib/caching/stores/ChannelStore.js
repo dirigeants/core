@@ -50,11 +50,13 @@ class ChannelStore extends DataStore_1.DataStore {
      * Adds a new structure to this DataStore
      * @param data The data packet to add
      */
-    _add(data) {
+    _add(data, guild) {
         let entry;
-        console.log(data);
+        // eslint-disable-next-line dot-notation
+        if (guild)
+            entry = guild.channels['_add'](data);
         // eslint-disable-next-line dot-notation, @typescript-eslint/no-non-null-assertion
-        if (data.guild_id)
+        else if (data.guild_id)
             entry = this.client.guilds.get(data.guild_id).channels['_add'](data);
         // eslint-disable-next-line dot-notation
         else

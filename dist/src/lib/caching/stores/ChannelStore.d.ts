@@ -3,8 +3,9 @@ import { Channel } from '../structures/channels/Channel';
 import { DataStore } from './base/DataStore';
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
-import { GuildChannel } from '../structures/channels/GuildChannel';
-import { DMChannel } from '../structures/channels/DMChannel';
+import type { GuildChannel } from '../structures/channels/GuildChannel';
+import type { DMChannel } from '../structures/channels/DMChannel';
+import type { Guild } from '../structures/guilds/Guild';
 /**
  * The store for {@link GuildBasedChannel guild based channels}.
  * @since 0.0.1
@@ -36,5 +37,5 @@ export declare class ChannelStore extends DataStore<Channel> {
      * Adds a new structure to this DataStore
      * @param data The data packet to add
      */
-    protected _add(data: APIChannelData): DMChannel | GuildChannel;
+    protected _add(data: APIChannelData, guild?: Guild): DMChannel | GuildChannel;
 }
