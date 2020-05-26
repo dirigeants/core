@@ -5,8 +5,9 @@ import { extender, Constructor } from '../../util/Extender';
 
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
-import { GuildChannel } from '../structures/channels/GuildChannel';
-import { DMChannel } from '../structures/channels/DMChannel';
+import type { GuildChannel } from '../structures/channels/GuildChannel';
+import type { DMChannel } from '../structures/channels/DMChannel';
+import type { Guild } from '../structures/guilds/Guild';
 
 /**
  * The store for {@link GuildBasedChannel guild based channels}.
@@ -56,11 +57,12 @@ export class ChannelStore extends DataStore<Channel> {
 	 * Adds a new structure to this DataStore
 	 * @param data The data packet to add
 	 */
-	protected _add(data: APIChannelData): DMChannel | GuildChannel {
+	protected _add(data: APIChannelData, guild?: Guild): DMChannel | GuildChannel {
 		let entry: DMChannel | GuildChannel;
-		console.log(data);
+		// eslint-disable-next-line dot-notation
+		if (guild) entry = guild.channels['_add'](data);
 		// eslint-disable-next-line dot-notation, @typescript-eslint/no-non-null-assertion
-		if (data.guild_id) entry = this.client.guilds.get(data.guild_id)!.channels['_add'](data);
+		else if (data.guild_id) entry = this.client.guilds.get(data.guild_id)!.channels['_add'](data);
 		// eslint-disable-next-line dot-notation
 		else entry = this.client.dms['_add'](data);
 		if (this.client.options.cache.enabled) this.set(entry.id, entry);
