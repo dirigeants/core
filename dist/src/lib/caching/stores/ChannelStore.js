@@ -52,6 +52,7 @@ class ChannelStore extends DataStore_1.DataStore {
      */
     _add(data) {
         let entry;
+        console.log(data);
         // eslint-disable-next-line dot-notation, @typescript-eslint/no-non-null-assertion
         if (data.guild_id)
             entry = this.client.guilds.get(data.guild_id).channels['_add'](data);
