@@ -33,4 +33,13 @@ export abstract class Structure<T = Client> {
 		return this.id;
 	}
 
+	/**
+	 * The JSON representation of this object.
+	 */
+	public toJSON(): Record<string, any> {
+		const returnValue: Record<string, any> = {};
+		for (const [key, value] of Object.entries(this)) if (key !== 'client') Reflect.set(returnValue, key, value?.id || value);
+		return returnValue;
+	}
+
 }

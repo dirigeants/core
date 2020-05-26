@@ -86,6 +86,13 @@ export class RoleStore extends DataStore<Role> {
 	}
 
 	/**
+	 * The JSON representation of this object.
+	 */
+	public toJSON(): string[] {
+		return [...this.keys()];
+	}
+
+	/**
 	 * Adds a new structure to this DataStore
 	 * @param data The data packet to add
 	 */

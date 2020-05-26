@@ -73,4 +73,11 @@ export class DataStore<S extends Structure> extends Cache<string, S> {
 		return Cache;
 	}
 
+	/**
+	 * The JSON representation of this object.
+	 */
+	public toJSON(): string[] {
+		return [...this.keys()];
+	}
+
 }
