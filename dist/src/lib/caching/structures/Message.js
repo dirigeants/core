@@ -33,7 +33,7 @@ class Message extends Structure_1.Structure {
         this.attachments = new cache_1.Cache();
         this.reactions = new MessageReactionStore_1.MessageReactionStore(client, this);
         this.guild = guild || (data.guild_id ? (_a = this.client.guilds.get(data.guild_id)) !== null && _a !== void 0 ? _a : null : null);
-        this.channel = this.guild ? this.guild.channels.get(data.channel_id) : this.client.dms.get(data.channel_id);
+        this.channel = this.client.channels.get(data.channel_id);
         // eslint-disable-next-line dot-notation
         this.author = this.client.users['_add'](data.author);
         // eslint-disable-next-line dot-notation
