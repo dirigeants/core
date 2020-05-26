@@ -25,10 +25,11 @@ class Structure {
      * The JSON representation of this object.
      */
     toJSON() {
+        var _a;
         const returnValue = {};
         for (const [key, value] of Object.entries(this))
             if (key !== 'client')
-                Reflect.set(returnValue, key, (value === null || value === void 0 ? void 0 : value.id) || value);
+                Reflect.set(returnValue, key, (_a = value === null || value === void 0 ? void 0 : value.id) !== null && _a !== void 0 ? _a : value);
         return returnValue;
     }
 }
