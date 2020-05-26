@@ -12,6 +12,12 @@ export const ClientOptionsDefaults: Required<ClientOptions> = {
 	...BaseClientOptionsDefaults,
 	ws: WSOptionsDefaults,
 	pieces: {
+		defaults: {
+			events: {
+				enabled: true,
+				once: false
+			}
+		},
 		createFolders: false,
 		disabledCoreTypes: []
 	},

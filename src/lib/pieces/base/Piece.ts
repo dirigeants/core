@@ -2,6 +2,7 @@ import { join, basename, extname } from 'path';
 import { Client, ClientEvents } from '../../client/Client';
 
 import type { Store } from './Store';
+import { mergeDefault } from '@klasa/utils';
 
 /**
  * The common class for all pieces.
@@ -52,6 +53,8 @@ export class Piece {
 	 * @param options The options for this piece
 	 */
 	public constructor(store: Store<Piece>, directory: string, file: readonly string[], options: PieceOptions = {}) {
+		const defaults = Reflect.get(store.client.options.pieces.defaults, store.name) as Required<PieceOptions>;
+		if (defaults) options = mergeDefault(defaults, options);
 		this.client = store.client;
 		this.store = store as Store<this>;
 		this.directory = directory;
