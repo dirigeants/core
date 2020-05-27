@@ -8,6 +8,7 @@ import { MessageFlags } from '../../util/bitfields/MessageFlags';
 import { MessageMentions } from './messages/MessageMentions';
 import { MessageReaction } from './messages/reactions/MessageReaction';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
+import { NewsChannel } from './channels/NewsChannel';
 import { Structure } from './base/Structure';
 import { ReactionCollector, ReactionCollectorOptions } from '../../util/collectors/ReactionCollector';
 import { Permissions } from '../../util/bitfields/Permissions';
@@ -19,7 +20,6 @@ import type { Guild } from './guilds/Guild';
 import type { Client } from '../../client/Client';
 import type { DMChannel } from './channels/DMChannel';
 import type { TextChannel } from './channels/TextChannel';
-import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
 import type { GuildChannel } from './channels/GuildChannel';
 
@@ -259,8 +259,8 @@ export class Message extends Structure {
 	 * @since 0.0.1
 	 */
 	public async crosspost() {
-		const channel = this.channel as NewsChannel;
-		return channel.crosspost(this.id);
+		if(!(this.channel instanceof NewsChannel)) throw new Error('Messages can only be crossposted in NewsChannels.')
+		return this.channel.crosspost(this.id);
 	}
 
 	/**
