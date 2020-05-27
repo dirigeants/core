@@ -1,6 +1,44 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
 
-export type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | BitFieldObject | ((keyof typeof Permissions.FLAGS) | number | BitFieldObject)[];
+/* eslint-disable no-bitwise */
+
+export const enum PermissionsFlags {
+	CreateInstantInvite = 'CREATE_INSTANT_INVITE',
+	KickMembers = 'KICK_MEMBERS',
+	BanMembers = 'BAN_MEMBERS',
+	Administrator = 'ADMINISTRATOR',
+	ManageChannels = 'MANAGE_CHANNELS',
+	ManageGuild = 'MANAGE_GUILD',
+	AddReactions = 'ADD_REACTIONS',
+	ViewAuditLog = 'VIEW_AUDIT_LOG',
+	PrioritySpeaker = 'PRIORITY_SPEAKER',
+	Stream = 'STREAM',
+	ViewChannel = 'VIEW_CHANNEL',
+	SendMessages = 'SEND_MESSAGES',
+	SendTTSMessages = 'SEND_TTS_MESSAGES',
+	ManageMessages = 'MANAGE_MESSAGES',
+	EmbedLinks = 'EMBED_LINKS',
+	AttachFiles = 'ATTACH_FILES',
+	ReadMessageHistory = 'READ_MESSAGE_HISTORY',
+	MentionEveryone = 'MENTION_EVERYONE',
+	UseExternalEmojis = 'USE_EXTERNAL_EMOJIS',
+	ViewGuildInsights = 'VIEW_GUILD_INSIGHTS',
+
+	Connect = 'CONNECT',
+	Speak = 'SPEAK',
+	MuteMembers = 'MUTE_MEMBERS',
+	DeafenMembers = 'DEAFEN_MEMBERS',
+	MoveMembers = 'MOVE_MEMBERS',
+	UseVAD = 'USE_VAD',
+
+	ChangeNickname = 'CHANGE_NICKNAME',
+	ManageNicknames = 'MANAGE_NICKNAMES',
+	ManageRoles = 'MANAGE_ROLES',
+	ManageWebhooks = 'MANAGE_WEBHOOKS',
+	ManageEmojis = 'MANAGE_EMOJIS'
+}
+
+export type PermissionsResolvable = PermissionsFlags | number | BitFieldObject | (PermissionsFlags | number | BitFieldObject)[];
 
 /* eslint-disable no-bitwise */
 
@@ -13,39 +51,39 @@ export class Permissions extends BitField<PermissionsResolvable> {
 	 * The Permissions flags
 	 */
 	public static FLAGS = {
-		CREATE_INSTANT_INVITE: 1 << 0,
-		KICK_MEMBERS: 1 << 1,
-		BAN_MEMBERS: 1 << 2,
-		ADMINISTRATOR: 1 << 3,
-		MANAGE_CHANNELS: 1 << 4,
-		MANAGE_GUILD: 1 << 5,
-		ADD_REACTIONS: 1 << 6,
-		VIEW_AUDIT_LOG: 1 << 7,
-		PRIORITY_SPEAKER: 1 << 8,
-		STREAM: 1 << 9,
-		VIEW_CHANNEL: 1 << 10,
-		SEND_MESSAGES: 1 << 11,
-		SEND_TTS_MESSAGES: 1 << 12,
-		MANAGE_MESSAGES: 1 << 13,
-		EMBED_LINKS: 1 << 14,
-		ATTACH_FILES: 1 << 15,
-		READ_MESSAGE_HISTORY: 1 << 16,
-		MENTION_EVERYONE: 1 << 17,
-		USE_EXTERNAL_EMOJIS: 1 << 18,
-		VIEW_GUILD_INSIGHTS: 1 << 19,
+		[PermissionsFlags.CreateInstantInvite]: 1 << 0,
+		[PermissionsFlags.KickMembers]: 1 << 1,
+		[PermissionsFlags.BanMembers]: 1 << 2,
+		[PermissionsFlags.Administrator]: 1 << 3,
+		[PermissionsFlags.ManageChannels]: 1 << 4,
+		[PermissionsFlags.ManageGuild]: 1 << 5,
+		[PermissionsFlags.AddReactions]: 1 << 6,
+		[PermissionsFlags.ViewAuditLog]: 1 << 7,
+		[PermissionsFlags.PrioritySpeaker]: 1 << 8,
+		[PermissionsFlags.Stream]: 1 << 9,
+		[PermissionsFlags.ViewChannel]: 1 << 10,
+		[PermissionsFlags.SendMessages]: 1 << 11,
+		[PermissionsFlags.SendTTSMessages]: 1 << 12,
+		[PermissionsFlags.ManageMessages]: 1 << 13,
+		[PermissionsFlags.EmbedLinks]: 1 << 14,
+		[PermissionsFlags.AttachFiles]: 1 << 15,
+		[PermissionsFlags.ReadMessageHistory]: 1 << 16,
+		[PermissionsFlags.MentionEveryone]: 1 << 17,
+		[PermissionsFlags.UseExternalEmojis]: 1 << 18,
+		[PermissionsFlags.ViewGuildInsights]: 1 << 19,
 
-		CONNECT: 1 << 20,
-		SPEAK: 1 << 21,
-		MUTE_MEMBERS: 1 << 22,
-		DEAFEN_MEMBERS: 1 << 23,
-		MOVE_MEMBERS: 1 << 24,
-		USE_VAD: 1 << 25,
+		[PermissionsFlags.Connect]: 1 << 20,
+		[PermissionsFlags.Speak]: 1 << 21,
+		[PermissionsFlags.MuteMembers]: 1 << 22,
+		[PermissionsFlags.DeafenMembers]: 1 << 23,
+		[PermissionsFlags.MoveMembers]: 1 << 24,
+		[PermissionsFlags.UseVAD]: 1 << 25,
 
-		CHANGE_NICKNAME: 1 << 26,
-		MANAGE_NICKNAMES: 1 << 27,
-		MANAGE_ROLES: 1 << 28,
-		MANAGE_WEBHOOKS: 1 << 29,
-		MANAGE_EMOJIS: 1 << 30
+		[PermissionsFlags.ChangeNickname]: 1 << 26,
+		[PermissionsFlags.ManageNicknames]: 1 << 27,
+		[PermissionsFlags.ManageRoles]: 1 << 28,
+		[PermissionsFlags.ManageWebhooks]: 1 << 29,
+		[PermissionsFlags.ManageEmojis]: 1 << 30
 	} as const;
 
 	/**
@@ -54,5 +92,3 @@ export class Permissions extends BitField<PermissionsResolvable> {
 	public static DEFAULT = 104324673;
 
 }
-
-/* eslint-enable no-bitwise */

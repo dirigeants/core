@@ -11,7 +11,7 @@ import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { NewsChannel } from './channels/NewsChannel';
 import { Structure } from './base/Structure';
 import { ReactionCollector, ReactionCollectorOptions } from '../../util/collectors/ReactionCollector';
-import { Permissions } from '../../util/bitfields/Permissions';
+import { Permissions, PermissionsFlags } from '../../util/bitfields/Permissions';
 import { MessageBuilder, MessageOptions } from './messages/MessageBuilder';
 
 import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
@@ -206,7 +206,7 @@ export class Message extends Structure {
 	public get deletable(): boolean | null {
 		if (this.deleted) return false;
 		if (!this.guild) return this.editable;
-		return this.editable || (this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null);
+		return this.editable || (this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS[PermissionsFlags.ManageMessages]]) ?? null);
 	}
 
 	/**
@@ -224,7 +224,7 @@ export class Message extends Structure {
 	public get pinnable(): boolean | null {
 		if (this.deleted) return false;
 		if (!this.guild) return true;
-		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.MANAGE_MESSAGES]) ?? null;
+		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS[PermissionsFlags.ManageMessages]]) ?? null;
 	}
 
 	/**
@@ -234,7 +234,7 @@ export class Message extends Structure {
 	public get reactable(): boolean | null {
 		if (this.deleted) return false;
 		if (!this.guild) return true;
-		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS.ADD_REACTIONS]) ?? null;
+		return this.guild.me?.permissionsIn(this.channel as GuildChannel).has([Permissions.FLAGS[PermissionsFlags.AddReactions]]) ?? null;
 	}
 
 	/**
