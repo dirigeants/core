@@ -1,6 +1,6 @@
 import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
-import { Permissions } from '../../../util/bitfields/Permissions';
+import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 
 import type { APIRoleData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
@@ -87,7 +87,7 @@ export class Role extends Structure {
 	public permissionsIn(channel: GuildChannel): Readonly<Permissions> {
 		const { permissions } = this;
 
-		if (permissions.has(Permissions.FLAGS.ADMINISTRATOR)) return new Permissions(Permissions.ALL).freeze();
+		if (permissions.has(Permissions.FLAGS[PermissionsFlags.Administrator])) return new Permissions(Permissions.ALL).freeze();
 
 		const overwrites = channel.permissionOverwrites.for(this);
 

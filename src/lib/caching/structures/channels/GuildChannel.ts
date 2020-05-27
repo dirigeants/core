@@ -1,6 +1,6 @@
 import { Channel } from './Channel';
 import { OverwriteStore } from '../../stores/OverwriteStore';
-import { Permissions } from '../../../util/bitfields/Permissions';
+import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 import { Routes, RequestOptions } from '@klasa/rest';
 
 import type { APIChannelData, APIOverwriteData } from '@klasa/dapi-types';
@@ -78,7 +78,7 @@ export abstract class GuildChannel extends Channel {
 	 * @since 0.0.1
 	 */
 	public get deletable(): boolean | null {
-		return this.guild.me?.permissionsIn(this).has(Permissions.FLAGS.MANAGE_CHANNELS) ?? null;
+		return this.guild.me?.permissionsIn(this).has(Permissions.FLAGS[PermissionsFlags.ManageChannels]) ?? null;
 	}
 
 	/**
@@ -86,7 +86,7 @@ export abstract class GuildChannel extends Channel {
 	 * @since 0.0.1
 	 */
 	public get viewable(): boolean | null {
-		return this.guild.me?.permissionsIn(this).has(Permissions.FLAGS.VIEW_CHANNEL) ?? null;
+		return this.guild.me?.permissionsIn(this).has(Permissions.FLAGS[PermissionsFlags.ViewChannel]) ?? null;
 	}
 
 	/**
@@ -94,7 +94,7 @@ export abstract class GuildChannel extends Channel {
 	 * @since 0.0.1
 	 */
 	public get manageable(): boolean | null {
-		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]) ?? null;
+		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS[PermissionsFlags.ViewChannel], Permissions.FLAGS[PermissionsFlags.ManageChannels]]) ?? null;
 	}
 
 	/**

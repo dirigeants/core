@@ -153,10 +153,10 @@
   resolved "https://registry.yarnpkg.com/@klasa/async-queue/-/async-queue-0.0.1.tgz#0075c504781bae570ab4cd47ae58a12de67cc57d"
   integrity sha512-k3fPWnnRL4YB5u2w6KypXRL0NPjJSgnvzKsjCjGkfoyGKrGqS1L9VVbsrRpf8LuwLbP7tjmyCK5dxmmn1w4jng==
 
-"@klasa/bitfield@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@klasa/bitfield/-/bitfield-0.0.2.tgz#688a89e1464db3f2ffc1ea03b37c0efc6b604964"
-  integrity sha512-/uJVd4t9WREqYgAvdWudTpGd+VFsa33dXh0MjQx1caWh3WknNPZfmbLZ9y+Jxg0DgorKvIgUzjhF9BGi+BlMyw==
+"@klasa/bitfield@^0.0.3":
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/@klasa/bitfield/-/bitfield-0.0.3.tgz#8a3495b3600d6dd7066b770f05e250307b560890"
+  integrity sha512-U8xrqbfg8Eqq+IL4TMy7rDG+QlJjQPGVel1aqVcIqJV2/XpQvsqIBz0UMUO3mEw7UsLN5E3Z71QpSIDvCfJWrg==
 
 "@klasa/cache@^0.0.2":
   version "0.0.2"
@@ -207,25 +207,20 @@
   resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.4.tgz#4bf010b09d0f93b39245523ed22a09571d56508c"
   integrity sha512-9gZSGN/As3sxZumZ9ZwyQ+KcNSenzY8tR1orRakv8HKK0WH0gG7QrsP/1O2TD4uHxUyr8dysCjt73RYPfzuDWQ==
 
-"@klasa/utils@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.5.tgz#42891d2412f3e428e8e53af1227daedf78324b1a"
-  integrity sha512-5aZXx33QLGSAAGoCMghG2rQnk33r3aLZXrtPxpJl9AnIh5aI7HAIyuyJ/sHPfk9mOzCx/0NOaB+T8vOjiLD35g==
-
 "@klasa/utils@^0.0.8":
   version "0.0.8"
   resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.8.tgz#8b017d8f7a771e5c1894b85f8dafefc219fc9d76"
   integrity sha512-6G/P9/HM8fTanKUFPrODFmmD3ff8Jwr7gG//2BsTeWfGBBulDn/H8ObWRJjIu81nLKX1I4iQ1jNcK5uOfso6ug==
 
-"@klasa/ws@^0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.12.tgz#fe02f9a4fe1df5fe72dc06f467c51328816cdfc2"
-  integrity sha512-uUjjyufxQuW6atwKkMA8AQymCX94aRH0Qno8KslWpIzNDhEZeCdRCjp003FJnkuwi59indgCWwEf3biMhm48vw==
+"@klasa/ws@^0.0.13":
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/@klasa/ws/-/ws-0.0.13.tgz#82cb380baf591c35f48cf307b93d6a8c6103a2f5"
+  integrity sha512-RQQEuaAMP1HETBSpHNSeALSfH1gjnMYVlk82/CHfvLi5o8YFMjmILG8RGQs6WX9YvDxnPDLFCIQ6Dvt9GC+8cA==
   dependencies:
     "@klasa/async-queue" "^0.0.1"
-    "@klasa/bitfield" "^0.0.2"
+    "@klasa/bitfield" "^0.0.3"
     "@klasa/cache" "^0.0.3"
-    "@klasa/utils" "^0.0.5"
+    "@klasa/utils" "^0.0.8"
     ws "^7.3.0"
   optionalDependencies:
     bufferutil "^4.0.1"

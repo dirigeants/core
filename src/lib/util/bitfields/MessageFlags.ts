@@ -1,8 +1,16 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
 
-export type MessageFlagsResolvable = keyof typeof MessageFlags.FLAGS | number | BitFieldObject | ((keyof typeof MessageFlags.FLAGS) | number | BitFieldObject)[];
-
 /* eslint-disable no-bitwise */
+
+export const enum MessageFlagsFlags {
+	Crossposted = 'CROSSPOSTED',
+	IsCrosspost = 'IS_CROSSPOST',
+	SuppressEmbeds = 'SUPPRESS_EMBEDS',
+	SourceMessageDeleted = 'SOURCE_MESSAGE_DELETED',
+	Urgent = 'URGENT'
+}
+
+export type MessageFlagsResolvable = MessageFlagsFlags | number | BitFieldObject | (MessageFlagsFlags | number | BitFieldObject)[];
 
 /**
  * Handles MessageFlags BitFields in Klasa-Core
@@ -13,13 +21,11 @@ export class MessageFlags extends BitField<MessageFlagsResolvable> {
 	 * The MessageFlags flags
 	 */
 	public static FLAGS = {
-		CROSSPOSTED: 1 << 0,
-		IS_CROSSPOST: 1 << 1,
-		SUPPRESS_EMBEDS: 1 << 2,
-		SOURCE_MESSAGE_DELETED: 1 << 3,
-		URGENT: 1 << 4
+		[MessageFlagsFlags.Crossposted]: 1 << 0,
+		[MessageFlagsFlags.IsCrosspost]: 1 << 1,
+		[MessageFlagsFlags.SuppressEmbeds]: 1 << 2,
+		[MessageFlagsFlags.SourceMessageDeleted]: 1 << 3,
+		[MessageFlagsFlags.Urgent]: 1 << 4
 	} as const;
 
 }
-
-/* eslint-enable no-bitwise */

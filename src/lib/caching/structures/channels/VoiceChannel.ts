@@ -2,7 +2,7 @@ import { ChannelType, APIChannelData } from '@klasa/dapi-types';
 import { GuildChannel, ChannelModifyOptions } from './GuildChannel';
 
 import type { RequestOptions } from '@klasa/rest';
-import { Permissions } from '../../../util/bitfields/Permissions';
+import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -41,7 +41,11 @@ export class VoiceChannel extends GuildChannel {
 	 * @since 0.0.1
 	 */
 	public get manageable(): boolean | null {
-		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.CONNECT, Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.MANAGE_CHANNELS]) ?? null;
+		return this.guild.me?.permissionsIn(this).has([
+			Permissions.FLAGS[PermissionsFlags.Connect],
+			Permissions.FLAGS[PermissionsFlags.ViewChannel],
+			Permissions.FLAGS[PermissionsFlags.ManageChannels]
+		]) ?? null;
 	}
 
 	/**

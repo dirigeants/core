@@ -38,7 +38,7 @@
   },
   "homepage": "https://github.com/dirigeants/core#readme",
   "dependencies": {
-    "@klasa/bitfield": "^0.0.2",
+    "@klasa/bitfield": "^0.0.3",
     "@klasa/cache": "^0.0.3",
     "@klasa/dapi-types": "^0.1.1",
     "@klasa/event-iterator": "^0.0.8",
@@ -46,7 +46,7 @@
     "@klasa/snowflake": "^0.0.1",
     "@klasa/timer-manager": "^0.0.1",
     "@klasa/utils": "^0.0.8",
-    "@klasa/ws": "^0.0.12",
+    "@klasa/ws": "^0.0.13",
     "@types/node-fetch": "^2.5.7",
     "@types/node": "^14.0.0",
     "fs-nextra": "^0.5.1"

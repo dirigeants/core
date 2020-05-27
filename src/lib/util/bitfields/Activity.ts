@@ -1,8 +1,17 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
 
-export type ActivityResolvable = keyof typeof Activity.FLAGS | number | BitFieldObject | ((keyof typeof Activity.FLAGS) | number | BitFieldObject)[];
-
 /* eslint-disable no-bitwise */
+
+export const enum ActivityFlags {
+	Instance = 'INSTANCE',
+	Join = 'JOIN',
+	Spectate = 'SPECTATE',
+	JoinRequest = 'JOIN_REQUEST',
+	Sync = 'SYNC',
+	Play ='PLAY'
+}
+
+export type ActivityResolvable = ActivityFlags | number | BitFieldObject | (ActivityFlags | number | BitFieldObject)[];
 
 /**
  * Handles Activity BitFields in Klasa-Core
@@ -13,14 +22,12 @@ export class Activity extends BitField<ActivityResolvable> {
 	 * The Activity flags
 	 */
 	public static FLAGS = {
-		INSTANCE: 1 << 0,
-		JOIN: 1 << 1,
-		SPECTATE: 1 << 2,
-		JOIN_REQUEST: 1 << 3,
-		SYNC: 1 << 4,
-		PLAY: 1 << 5
+		[ActivityFlags.Instance]: 1 << 0,
+		[ActivityFlags.Join]: 1 << 1,
+		[ActivityFlags.Spectate]: 1 << 2,
+		[ActivityFlags.JoinRequest]: 1 << 3,
+		[ActivityFlags.Sync]: 1 << 4,
+		[ActivityFlags.Play]: 1 << 5
 	} as const;
 
 }
-
-/* eslint-enable no-bitwise */

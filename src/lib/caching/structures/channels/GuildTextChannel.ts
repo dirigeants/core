@@ -4,13 +4,13 @@ import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 import { MessageCollector, MessageCollectorOptions } from '../../../util/collectors/MessageCollector';
-import { Permissions } from '../../../util/bitfields/Permissions';
+import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 import { Typing } from '../Typing';
 
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
-import type { TextBasedChannel } from '../../../util/Util';
+import type { GuildTextBasedChannel } from '../../../util/Util';
 import type { Message } from '../Message';
 
 export interface SendOptions {
@@ -61,7 +61,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null) {
 		super(client, data, guild);
-		this.messages = new MessageStore(client, this as TextBasedChannel);
+		this.messages = new MessageStore(client, this as unknown as GuildTextBasedChannel);
 		this.typing = new Typing(this);
 	}
 
@@ -70,7 +70,11 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 * @since 0.0.1
 	 */
 	public get attachable(): boolean | null {
-		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.ATTACH_FILES]) ?? null;
+		return this.guild.me?.permissionsIn(this).has([
+			Permissions.FLAGS[PermissionsFlags.ViewChannel],
+			Permissions.FLAGS[PermissionsFlags.SendMessages],
+			Permissions.FLAGS[PermissionsFlags.AttachFiles]
+		]) ?? null;
 	}
 
 	/**
@@ -78,7 +82,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 * @since 0.0.1
 	 */
 	public get postable(): boolean | null {
-		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES]) ?? null;
+		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS[PermissionsFlags.ViewChannel], Permissions.FLAGS[PermissionsFlags.SendMessages]]) ?? null;
 	}
 
 	/**
@@ -86,7 +90,11 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 * @since 0.0.1
 	 */
 	public get embedable(): boolean | null {
-		return this.guild.me?.permissionsIn(this).has([Permissions.FLAGS.VIEW_CHANNEL, Permissions.FLAGS.SEND_MESSAGES, Permissions.FLAGS.EMBED_LINKS]) ?? null;
+		return this.guild.me?.permissionsIn(this).has([
+			Permissions.FLAGS[PermissionsFlags.ViewChannel],
+			Permissions.FLAGS[PermissionsFlags.SendMessages],
+			Permissions.FLAGS[PermissionsFlags.EmbedLinks]
+		]) ?? null;
 	}
 
 	/**
