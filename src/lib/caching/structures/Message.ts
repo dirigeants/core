@@ -1,4 +1,5 @@
 /* eslint-disable no-dupe-class-members */
+import { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType, ChannelType } from '@klasa/dapi-types';
 import { Cache } from '@klasa/cache';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { Embed } from './Embed';
@@ -13,7 +14,6 @@ import { ReactionCollector, ReactionCollectorOptions } from '../../util/collecto
 import { Permissions, PermissionsFlags } from '../../util/bitfields/Permissions';
 import { MessageBuilder, MessageOptions } from './messages/MessageBuilder';
 
-import { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType, ChannelType } from '@klasa/dapi-types';
 import type { User } from './User';
 import type { Guild } from './guilds/Guild';
 import type { Client } from '../../client/Client';
