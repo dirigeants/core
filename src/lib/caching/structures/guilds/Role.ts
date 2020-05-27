@@ -123,6 +123,14 @@ export class Role extends Structure {
 		return this;
 	}
 
+	/**
+	 * Defines the toString behavior of this structure.
+	 * @since 0.0.4
+	 */
+	public toString(): string {
+		return `<@&${this.id}>`;
+	}
+
 	protected _patch(data: APIRoleData): this {
 		this.name = data.name;
 		this.color = data.color;

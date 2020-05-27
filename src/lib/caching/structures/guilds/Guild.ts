@@ -488,6 +488,14 @@ export class Guild extends Structure {
 		return this.client.api.get(Routes.guildVanityURL(this.id)) as Promise<GuildVanityURL>;
 	}
 
+	/**
+	 * Defines the toString behavior of this structure.
+	 * @since 0.0.4
+	 */
+	public toString(): string {
+		return this.name;
+	}
+
 	protected _patch(data: APIGuildData): this {
 		this.name = data.name;
 		this.ownerID = data.owner_id;

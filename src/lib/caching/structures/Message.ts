@@ -238,6 +238,14 @@ export class Message extends Structure {
 	}
 
 	/**
+	 * The link to this message
+	 * @since 0.0.4
+	 */
+	get link(): string {
+		return `https://discord.com/channels/${this.guild ? this.guild.id : '@me'}/${this.channel.id}/${this.id}`;
+	}
+
+	/**
 	 * Awaits a group of messages.
 	 * @since 0.0.1
 	 * @param options The options to control what you receive.
@@ -290,6 +298,14 @@ export class Message extends Structure {
 		await this.channel.messages.remove(this.id, requestOptions);
 		this.deleted = true;
 		return this;
+	}
+
+	/**
+	 * Defines the toString behavior of this structure.
+	 * @since 0.0.4
+	 */
+	public toString(): string {
+		return this.content;
 	}
 
 	protected _patch(data: Partial<APIMessageData>): this {

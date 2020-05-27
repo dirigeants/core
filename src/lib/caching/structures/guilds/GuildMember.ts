@@ -86,6 +86,14 @@ export class GuildMember extends Structure {
 	}
 
 	/**
+	 * The displayed name for the member
+	 * @since 0.0.4
+	 */
+	public get displayName(): string | null {
+		return this.nick ?? this.user?.username ?? null;
+	}
+
+	/**
 	 * The calculated permissions from the member's {@link GuildMemberRoleStore roles}.
 	 * @since 0.0.1
 	 */
