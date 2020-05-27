@@ -1,7 +1,7 @@
 import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
 import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
-import { Permissions } from '../../../util/bitfields/Permissions';
+import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
@@ -101,7 +101,7 @@ export class GuildMember extends Structure {
 		if (this.id === this.guild.ownerID) return new Permissions(Permissions.ALL).freeze();
 
 		const permissions = new Permissions(this.roles.map(role => role.permissions));
-		return (permissions.has(Permissions.FLAGS.ADMINISTRATOR) ? permissions.add(Permissions.ALL) : permissions).freeze();
+		return (permissions.has(Permissions.FLAGS[PermissionsFlags.Administrator]) ? permissions.add(Permissions.ALL) : permissions).freeze();
 	}
 
 	/**
@@ -111,7 +111,7 @@ export class GuildMember extends Structure {
 	 * or a boolean specifying whether or not the conditions are met.
 	 */
 	public get kickable(): boolean | null {
-		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.KICK_MEMBERS)) ?? null;
+		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS[PermissionsFlags.KickMembers])) ?? null;
 	}
 
 	/**
@@ -121,7 +121,7 @@ export class GuildMember extends Structure {
 	 * or a boolean specifying whether or not the conditions are met.
 	 */
 	public get bannable(): boolean | null {
-		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.BAN_MEMBERS)) ?? null;
+		return (this.id !== this.client.user?.id && this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS[PermissionsFlags.BanMembers])) ?? null;
 	}
 
 	/**
@@ -131,7 +131,7 @@ export class GuildMember extends Structure {
 	 * or a boolean specifying whether or not the conditions are met.
 	 */
 	public get manageNicknames(): boolean | null {
-		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_NICKNAMES)) ?? null;
+		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS[PermissionsFlags.ManageNicknames])) ?? null;
 	}
 
 	/**
@@ -141,7 +141,7 @@ export class GuildMember extends Structure {
 	 * or a boolean specifying whether or not the conditions are met.
 	 */
 	public get manageRoles(): boolean | null {
-		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS.MANAGE_ROLES)) ?? null;
+		return (this._manageable && (this.guild.me as GuildMember).permissions.has(Permissions.FLAGS[PermissionsFlags.ManageRoles])) ?? null;
 	}
 
 	/**
