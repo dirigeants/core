@@ -124,6 +124,28 @@ export class Role extends Structure {
 	}
 
 	/**
+	 * Adds this role to a member by id.
+	 * @since 0.0.4
+	 * @param memberID The id of the member you want to add the role.
+	 * @see https://discord.com/developers/docs/resources/guild#add-guild-member-role
+	 */
+	public async addTo(memberID: string): Promise<this> {
+		await this.client.api.put(Routes.guildMemberRole(this.guild.id, memberID, this.id));
+		return this;
+	}
+
+	/**
+	 * Removes the role from a member by id.
+	 * @since 0.0.4
+	 * @param memberID The id of the member you want to remove the role.
+	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-member-role
+	 */
+	public async removeFrom(memberID: string): Promise<this> {
+		await this.client.api.delete(Routes.guildMemberRole(this.guild.id, memberID, this.id));
+		return this;
+	}
+
+	/**
 	 * Defines the toString behavior of this structure.
 	 * @since 0.0.4
 	 */
