@@ -1,9 +1,9 @@
 import { ChannelType, APIMessageData } from '@klasa/dapi-types';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { GuildTextChannel } from './GuildTextChannel';
-import { Message } from '../Message';
 
 import type { ChannelModifyOptions } from './GuildChannel';
+import type { Message } from '../Message';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
