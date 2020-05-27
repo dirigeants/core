@@ -1,0 +1,524 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>@klasa/core</title>
+	<meta name="description" content="Documentation for @klasa/core">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">@klasa/core</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+							<input type="checkbox" id="tsd-filter-only-exported" />
+							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>@klasa/core</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#klasacore" id="klasacore" style="color: inherit; text-decoration: none;">
+					<h1>@klasa/core</h1>
+				</a>
+				<p>This is an early alpha discord library which will be the future core of the Klasa Bot framework. This implements a high-level stateful interface over @klasa/rest and @klasa/ws. You are bound to come across missing or broken code/types using this alpha library. (I even found some unintended types while writing this!) Please make issues and pull requests to further the development.</p>
+				<p>Simple ping client in typescript</p>
+				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> { Client, ClientEvents, Message } <span class="hljs-keyword">from</span> <span class="hljs-string">'@klasa/core'</span>;
+<span class="hljs-keyword">import</span> * <span class="hljs-keyword">as</span> config <span class="hljs-keyword">from</span> <span class="hljs-string">'./config.json'</span>;
+
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client()
+    .on(ClientEvents.MessageCreate, <span class="hljs-keyword">async</span> (message: Message): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt; =&gt; {
+        <span class="hljs-keyword">if</span> (message.author.bot) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">if</span> (message.content.toLowerCase().startsWith(<span class="hljs-string">'ping'</span>)) {
+            <span class="hljs-keyword">const</span> [response] = <span class="hljs-keyword">await</span> message.channel.send(<span class="hljs-function"><span class="hljs-params">mb</span> =&gt;</span> mb.setContent(<span class="hljs-string">'ping?'</span>));
+            <span class="hljs-keyword">await</span> response.edit(<span class="hljs-function"><span class="hljs-params">mb</span> =&gt;</span> mb.setContent(<span class="hljs-string">`Pong! Took: <span class="hljs-subst">${response.createdTimestamp - message.createdTimestamp}</span>ms`</span>));
+        }
+    });
+
+client.token = config.token;
+
+client.connect();</code></pre>
+				<p>Simple ping client in javascript</p>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> { Client } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@klasa/core'</span>);
+<span class="hljs-keyword">const</span> { token } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'./config.json'</span>);
+
+<span class="hljs-keyword">const</span> client = <span class="hljs-keyword">new</span> Client()
+    .on(<span class="hljs-string">'messageCreate'</span>, <span class="hljs-keyword">async</span> (message) =&gt; {
+        <span class="hljs-keyword">if</span> (message.author.bot) <span class="hljs-keyword">return</span>;
+        <span class="hljs-keyword">if</span> (message.content.toLowerCase().startsWith(<span class="hljs-string">'ping'</span>)) {
+            <span class="hljs-keyword">const</span> [response] = <span class="hljs-keyword">await</span> message.channel.send(<span class="hljs-function"><span class="hljs-params">mb</span> =&gt;</span> mb.setContent(<span class="hljs-string">'ping?'</span>));
+            <span class="hljs-keyword">return</span> response.edit(<span class="hljs-function"><span class="hljs-params">mb</span> =&gt;</span> mb.setContent(<span class="hljs-string">`Pong! Took: <span class="hljs-subst">${response.createdTimestamp - message.createdTimestamp}</span>ms`</span>));
+        }
+    });
+
+client.token = token;
+
+client.connect();</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guild_integrations_update_.html">&quot;actions/GUILD_<wbr>INTEGRATIONS_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guild_role_create_.html">&quot;actions/GUILD_<wbr>ROLE_<wbr>CREATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guild_role_delete_.html">&quot;actions/GUILD_<wbr>ROLE_<wbr>DELETE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guild_role_update_.html">&quot;actions/GUILD_<wbr>ROLE_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_invite_create_.html">&quot;actions/INVITE_<wbr>CREATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_invite_delete_.html">&quot;actions/INVITE_<wbr>DELETE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_presence_update_.html">&quot;actions/PRESENCE_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_ready_.html">&quot;actions/READY&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_resumed_.html">&quot;actions/RESUMED&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_typing_start_.html">&quot;actions/TYPING_<wbr>START&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_user_update_.html">&quot;actions/USER_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_voice_server_update_.html">&quot;actions/VOICE_<wbr>SERVER_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_voice_state_update_.html">&quot;actions/VOICE_<wbr>STATE_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_webhooks_update_.html">&quot;actions/WEBHOOKS_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_channels_channel_create_.html">&quot;actions/channels/CHANNEL_<wbr>CREATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_channels_channel_delete_.html">&quot;actions/channels/CHANNEL_<wbr>DELETE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_channels_channel_pins_update_.html">&quot;actions/channels/CHANNEL_<wbr>PINS_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_channels_channel_update_.html">&quot;actions/channels/CHANNEL_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_guild_create_.html">&quot;actions/guilds/GUILD_<wbr>CREATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_guild_delete_.html">&quot;actions/guilds/GUILD_<wbr>DELETE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_guild_emojis_update_.html">&quot;actions/guilds/GUILD_<wbr>EMOJIS_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_guild_update_.html">&quot;actions/guilds/GUILD_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_bans_guild_ban_add_.html">&quot;actions/guilds/bans/GUILD_<wbr>BAN_<wbr>ADD&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_bans_guild_ban_remove_.html">&quot;actions/guilds/bans/GUILD_<wbr>BAN_<wbr>REMOVE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_members_guild_members_chunk_.html">&quot;actions/guilds/members/GUILD_<wbr>MEMBERS_<wbr>CHUNK&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_members_guild_member_add_.html">&quot;actions/guilds/members/GUILD_<wbr>MEMBER_<wbr>ADD&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_members_guild_member_remove_.html">&quot;actions/guilds/members/GUILD_<wbr>MEMBER_<wbr>REMOVE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_guilds_members_guild_member_update_.html">&quot;actions/guilds/members/GUILD_<wbr>MEMBER_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_messages_message_create_.html">&quot;actions/messages/MESSAGE_<wbr>CREATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_messages_message_delete_.html">&quot;actions/messages/MESSAGE_<wbr>DELETE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_messages_message_delete_bulk_.html">&quot;actions/messages/MESSAGE_<wbr>DELETE_<wbr>BULK&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_messages_message_reaction_add_.html">&quot;actions/messages/MESSAGE_<wbr>REACTION_<wbr>ADD&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_messages_message_reaction_remove_.html">&quot;actions/messages/MESSAGE_<wbr>REACTION_<wbr>REMOVE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_messages_message_reaction_remove_all_.html">&quot;actions/messages/MESSAGE_<wbr>REACTION_<wbr>REMOVE_<wbr>ALL&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_messages_message_reaction_remove_emoji_.html">&quot;actions/messages/MESSAGE_<wbr>REACTION_<wbr>REMOVE_<wbr>EMOJI&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_actions_messages_message_update_.html">&quot;actions/messages/MESSAGE_<wbr>UPDATE&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_index_.html">&quot;index&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_banstore_.html">&quot;lib/caching/stores/<wbr>Ban<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_channelstore_.html">&quot;lib/caching/stores/<wbr>Channel<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_dmchannelstore_.html">&quot;lib/caching/stores/DMChannel<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_guildchannelstore_.html">&quot;lib/caching/stores/<wbr>Guild<wbr>Channel<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_guildemojistore_.html">&quot;lib/caching/stores/<wbr>Guild<wbr>Emoji<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_guildinvitestore_.html">&quot;lib/caching/stores/<wbr>Guild<wbr>Invite<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_guildmemberrolestore_.html">&quot;lib/caching/stores/<wbr>Guild<wbr>Member<wbr>Role<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_guildmemberstore_.html">&quot;lib/caching/stores/<wbr>Guild<wbr>Member<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_guildstore_.html">&quot;lib/caching/stores/<wbr>Guild<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_integrationstore_.html">&quot;lib/caching/stores/<wbr>Integration<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_invitestore_.html">&quot;lib/caching/stores/<wbr>Invite<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_messagereactionstore_.html">&quot;lib/caching/stores/<wbr>Message<wbr>Reaction<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_messagereactionuserstore_.html">&quot;lib/caching/stores/<wbr>Message<wbr>Reaction<wbr>User<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_messagestore_.html">&quot;lib/caching/stores/<wbr>Message<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_overwritestore_.html">&quot;lib/caching/stores/<wbr>Overwrite<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_presencestore_.html">&quot;lib/caching/stores/<wbr>Presence<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_rolestore_.html">&quot;lib/caching/stores/<wbr>Role<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_userstore_.html">&quot;lib/caching/stores/<wbr>User<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_voicestatestore_.html">&quot;lib/caching/stores/<wbr>Voice<wbr>State<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_stores_base_datastore_.html">&quot;lib/caching/stores/base/<wbr>Data<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_attachment_.html">&quot;lib/caching/structures/<wbr>Attachment&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_clientuser_.html">&quot;lib/caching/structures/<wbr>Client<wbr>User&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_embed_.html">&quot;lib/caching/structures/<wbr>Embed&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_invite_.html">&quot;lib/caching/structures/<wbr>Invite&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_message_.html">&quot;lib/caching/structures/<wbr>Message&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_typing_.html">&quot;lib/caching/structures/<wbr>Typing&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_user_.html">&quot;lib/caching/structures/<wbr>User&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_webhook_.html">&quot;lib/caching/structures/<wbr>Webhook&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_base_structure_.html">&quot;lib/caching/structures/base/<wbr>Structure&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_channels_categorychannel_.html">&quot;lib/caching/structures/channels/<wbr>Category<wbr>Channel&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_channels_channel_.html">&quot;lib/caching/structures/channels/<wbr>Channel&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_channels_dmchannel_.html">&quot;lib/caching/structures/channels/DMChannel&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_channels_guildchannel_.html">&quot;lib/caching/structures/channels/<wbr>Guild<wbr>Channel&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_channels_guildtextchannel_.html">&quot;lib/caching/structures/channels/<wbr>Guild<wbr>Text<wbr>Channel&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_channels_newschannel_.html">&quot;lib/caching/structures/channels/<wbr>News<wbr>Channel&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_channels_storechannel_.html">&quot;lib/caching/structures/channels/<wbr>Store<wbr>Channel&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_channels_textchannel_.html">&quot;lib/caching/structures/channels/<wbr>Text<wbr>Channel&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_channels_voicechannel_.html">&quot;lib/caching/structures/channels/<wbr>Voice<wbr>Channel&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_auditlog_.html">&quot;lib/caching/structures/guilds/<wbr>Audit<wbr>Log&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_auditlogentry_.html">&quot;lib/caching/structures/guilds/<wbr>Audit<wbr>Log<wbr>Entry&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_ban_.html">&quot;lib/caching/structures/guilds/<wbr>Ban&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_guild_.html">&quot;lib/caching/structures/guilds/<wbr>Guild&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_guildemoji_.html">&quot;lib/caching/structures/guilds/<wbr>Guild<wbr>Emoji&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_guildmember_.html">&quot;lib/caching/structures/guilds/<wbr>Guild<wbr>Member&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_guildwidget_.html">&quot;lib/caching/structures/guilds/<wbr>Guild<wbr>Widget&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_integration_.html">&quot;lib/caching/structures/guilds/<wbr>Integration&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_overwrite_.html">&quot;lib/caching/structures/guilds/<wbr>Overwrite&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_presence_.html">&quot;lib/caching/structures/guilds/<wbr>Presence&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_role_.html">&quot;lib/caching/structures/guilds/<wbr>Role&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_guilds_voicestate_.html">&quot;lib/caching/structures/guilds/<wbr>Voice<wbr>State&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_messages_messageattachment_.html">&quot;lib/caching/structures/messages/<wbr>Message<wbr>Attachment&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_messages_messagebuilder_.html">&quot;lib/caching/structures/messages/<wbr>Message<wbr>Builder&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_messages_messagementions_.html">&quot;lib/caching/structures/messages/<wbr>Message<wbr>Mentions&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_messages_webhookmessagebuilder_.html">&quot;lib/caching/structures/messages/<wbr>Webhook<wbr>Message<wbr>Builder&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_messages_reactions_messagereaction_.html">&quot;lib/caching/structures/messages/reactions/<wbr>Message<wbr>Reaction&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_messages_reactions_messagereactionemoji_.html">&quot;lib/caching/structures/messages/reactions/<wbr>Message<wbr>Reaction<wbr>Emoji&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_oauth_application_.html">&quot;lib/caching/structures/oauth/<wbr>Application&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_oauth_team_.html">&quot;lib/caching/structures/oauth/<wbr>Team&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_oauth_teammember_.html">&quot;lib/caching/structures/oauth/<wbr>Team<wbr>Member&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_presences_clientpresence_.html">&quot;lib/caching/structures/presences/<wbr>Client<wbr>Presence&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_presences_presencebuilder_.html">&quot;lib/caching/structures/presences/<wbr>Presence<wbr>Builder&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_caching_structures_presences_presencegamebuilder_.html">&quot;lib/caching/structures/presences/<wbr>Presence<wbr>Game<wbr>Builder&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_client_baseclient_.html">&quot;lib/client/<wbr>Base<wbr>Client&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_client_client_.html">&quot;lib/client/<wbr>Client&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_client_webhookclient_.html">&quot;lib/client/<wbr>Webhook<wbr>Client&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_pieces_action_.html">&quot;lib/pieces/<wbr>Action&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_pieces_actionstore_.html">&quot;lib/pieces/<wbr>Action<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_pieces_event_.html">&quot;lib/pieces/<wbr>Event&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_pieces_eventstore_.html">&quot;lib/pieces/<wbr>Event<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_pieces_base_aliaspiece_.html">&quot;lib/pieces/base/<wbr>Alias<wbr>Piece&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_pieces_base_aliasstore_.html">&quot;lib/pieces/base/<wbr>Alias<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_pieces_base_piece_.html">&quot;lib/pieces/base/<wbr>Piece&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_pieces_base_store_.html">&quot;lib/pieces/base/<wbr>Store&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_constants_.html">&quot;lib/util/<wbr>Constants&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_extender_.html">&quot;lib/util/<wbr>Extender&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_imageutil_.html">&quot;lib/util/<wbr>Image<wbr>Util&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_util_.html">&quot;lib/util/<wbr>Util&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_bitfields_activity_.html">&quot;lib/util/bitfields/<wbr>Activity&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_bitfields_messageflags_.html">&quot;lib/util/bitfields/<wbr>Message<wbr>Flags&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_bitfields_permissions_.html">&quot;lib/util/bitfields/<wbr>Permissions&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_bitfields_speaking_.html">&quot;lib/util/bitfields/<wbr>Speaking&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_bitfields_userflags_.html">&quot;lib/util/bitfields/<wbr>User<wbr>Flags&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_collectors_messagecollector_.html">&quot;lib/util/collectors/<wbr>Message<wbr>Collector&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_collectors_reactioncollector_.html">&quot;lib/util/collectors/<wbr>Reaction<wbr>Collector&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_collectors_base_structurecollector_.html">&quot;lib/util/collectors/base/<wbr>Structure<wbr>Collector&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_iterators_messageiterator_.html">&quot;lib/util/iterators/<wbr>Message<wbr>Iterator&quot;</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/_lib_util_iterators_reactioniterator_.html">&quot;lib/util/iterators/<wbr>Reaction<wbr>Iterator&quot;</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
