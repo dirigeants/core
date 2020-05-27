@@ -20,7 +20,6 @@ export class NewsChannel extends GuildTextChannel {
 	 * Follows this channel.
 	 * @param webhookChannel
 	 * @since 0.0.1
-	 * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
 	 */
 	public async follow(webhookChannel: GuildTextChannel): Promise<APIChannelFollowResult> {
 		const reqData = {
