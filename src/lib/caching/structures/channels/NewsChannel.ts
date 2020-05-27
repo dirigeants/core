@@ -1,8 +1,8 @@
-import { ChannelType } from '@klasa/dapi-types';
+import { ChannelType, APIChannelFollowResult } from '@klasa/dapi-types';
 import { GuildTextChannel } from './GuildTextChannel';
 
 import type { ChannelModifyOptions } from './GuildChannel';
-import type { RequestOptions } from '@klasa/rest';
+import { RequestOptions, Routes } from '@klasa/rest';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -15,6 +15,21 @@ export class NewsChannel extends GuildTextChannel {
 	 * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
 	 */
 	public readonly type = ChannelType.GuildAnnouncement;
+
+	/**
+	 * Follows this channel.
+	 * @param webhookChannel
+	 * @since 0.0.1
+	 * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
+	 */
+	public async follow(webhookChannel: GuildTextChannel): Promise<APIChannelFollowResult> {
+		const reqData = {
+			data: {
+				webhook_channel_id: webhookChannel.id
+			}
+		};
+		return this.client.api.post(Routes.followChannel(this.id), reqData) as unknown as APIChannelFollowResult;
+	}
 
 	/**
 	 * Modifies this channel.
