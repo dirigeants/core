@@ -17,6 +17,16 @@ class NewsChannel extends GuildTextChannel_1.GuildTextChannel {
         this.type = 5 /* GuildAnnouncement */;
     }
     /**
+     * Crossposts a Message in this channel.
+     * @param messageID The ID of the {@link Message message} that should be crossposted.
+     * @since 0.0.1
+     */
+    async crosspost(messageID) {
+        const messageData = await this.client.api.post(rest_1.Routes.crosspostMessage(this.id, messageID));
+        // eslint-disable-next-line dot-notation
+        return this.messages['_add'](messageData);
+    }
+    /*
      * Subscribes a channel to crossposted messages from this channel.
      * @param channel The {@link GuildTextChannel channel} that should follow this NewsChannel.
      * @since 0.0.4

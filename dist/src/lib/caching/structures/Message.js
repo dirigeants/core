@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Message = void 0;
-/* eslint-disable no-dupe-class-members */
 const cache_1 = require("@klasa/cache");
 const rest_1 = require("@klasa/rest");
 const Embed_1 = require("./Embed");
@@ -124,6 +123,15 @@ class Message extends Structure_1.Structure {
      */
     awaitReactions(options = {}) {
         return new ReactionCollector_1.ReactionCollector(this, options).collect();
+    }
+    /**
+     * Crosspost this message.
+     * @since 0.0.4
+     */
+    crosspost() {
+        if (this.channel.type !== 5 /* GuildAnnouncement */)
+            return Promise.reject(new Error('Messages can only be crossposted if they are posted in a news channels.'));
+        return this.channel.crosspost(this.id);
     }
     /**
      * Edits the message.

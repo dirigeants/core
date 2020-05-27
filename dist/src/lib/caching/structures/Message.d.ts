@@ -1,6 +1,8 @@
+import { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import { Cache } from '@klasa/cache';
 import { RequestOptions } from '@klasa/rest';
 import { Embed } from './Embed';
+import { TextBasedChannel } from '../../util/Util';
 import { MessageAttachment } from './messages/MessageAttachment';
 import { MessageFlags } from '../../util/bitfields/MessageFlags';
 import { MessageMentions } from './messages/MessageMentions';
@@ -9,13 +11,9 @@ import { MessageReactionStore } from '../stores/MessageReactionStore';
 import { Structure } from './base/Structure';
 import { ReactionCollectorOptions } from '../../util/collectors/ReactionCollector';
 import { MessageBuilder, MessageOptions } from './messages/MessageBuilder';
-import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import type { User } from './User';
 import type { Guild } from './guilds/Guild';
 import type { Client } from '../../client/Client';
-import type { DMChannel } from './channels/DMChannel';
-import type { TextChannel } from './channels/TextChannel';
-import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
 export declare class Message extends Structure {
     /**
@@ -27,7 +25,7 @@ export declare class Message extends Structure {
      * The channel the message was sent in.
      * @since 0.0.1
      */
-    readonly channel: DMChannel | TextChannel | NewsChannel;
+    readonly channel: TextBasedChannel;
     /**
      * The guild the message was sent in.
      * @since 0.0.1
@@ -172,6 +170,11 @@ export declare class Message extends Structure {
      * @param options The options to control what you receive.
      */
     awaitReactions(options?: ReactionCollectorOptions): Promise<Cache<string, MessageReaction>>;
+    /**
+     * Crosspost this message.
+     * @since 0.0.4
+     */
+    crosspost(): Promise<this>;
     /**
      * Sends a message to the channel.
      * @param data The {@link MessageBuilder builder} to send.

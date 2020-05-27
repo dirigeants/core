@@ -2,6 +2,7 @@ import { ChannelType, APIChannelFollowResult } from '@klasa/dapi-types';
 import { RequestOptions } from '@klasa/rest';
 import { GuildTextChannel } from './GuildTextChannel';
 import type { ChannelModifyOptions } from './GuildChannel';
+import type { Message } from '../Message';
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
  */
@@ -13,10 +14,11 @@ export declare class NewsChannel extends GuildTextChannel {
      */
     readonly type = ChannelType.GuildAnnouncement;
     /**
-     * Subscribes a channel to crossposted messages from this channel.
-     * @param channel The {@link GuildTextChannel channel} that should follow this NewsChannel.
-     * @since 0.0.4
+     * Crossposts a Message in this channel.
+     * @param messageID The ID of the {@link Message message} that should be crossposted.
+     * @since 0.0.1
      */
+    crosspost(messageID: string): Promise<Message>;
     follow(channel: GuildTextChannel): Promise<APIChannelFollowResult>;
     /**
      * Modifies this channel.
