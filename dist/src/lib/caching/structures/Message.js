@@ -77,7 +77,7 @@ class Message extends Structure_1.Structure {
             return false;
         if (!this.guild)
             return this.editable;
-        return this.editable || ((_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this.channel).has([Permissions_1.Permissions.FLAGS.MANAGE_MESSAGES])) !== null && _b !== void 0 ? _b : null);
+        return this.editable || ((_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this.channel).has([Permissions_1.Permissions.FLAGS["MANAGE_MESSAGES" /* ManageMessages */]])) !== null && _b !== void 0 ? _b : null);
     }
     /**
      * If the client can react to this message.
@@ -96,7 +96,7 @@ class Message extends Structure_1.Structure {
             return false;
         if (!this.guild)
             return true;
-        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this.channel).has([Permissions_1.Permissions.FLAGS.MANAGE_MESSAGES])) !== null && _b !== void 0 ? _b : null;
+        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this.channel).has([Permissions_1.Permissions.FLAGS["MANAGE_MESSAGES" /* ManageMessages */]])) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * If the client can react to this message.
@@ -108,7 +108,7 @@ class Message extends Structure_1.Structure {
             return false;
         if (!this.guild)
             return true;
-        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this.channel).has([Permissions_1.Permissions.FLAGS.ADD_REACTIONS])) !== null && _b !== void 0 ? _b : null;
+        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this.channel).has([Permissions_1.Permissions.FLAGS["ADD_REACTIONS" /* AddReactions */]])) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * The link to this message

@@ -44,7 +44,7 @@ class GuildMember extends Structure_1.Structure {
         if (this.id === this.guild.ownerID)
             return new Permissions_1.Permissions(Permissions_1.Permissions.ALL).freeze();
         const permissions = new Permissions_1.Permissions(this.roles.map(role => role.permissions));
-        return (permissions.has(Permissions_1.Permissions.FLAGS.ADMINISTRATOR) ? permissions.add(Permissions_1.Permissions.ALL) : permissions).freeze();
+        return (permissions.has(Permissions_1.Permissions.FLAGS["ADMINISTRATOR" /* Administrator */]) ? permissions.add(Permissions_1.Permissions.ALL) : permissions).freeze();
     }
     /**
      * Whether or not the {@link ClientUser client user} can kick this member.
@@ -54,7 +54,7 @@ class GuildMember extends Structure_1.Structure {
      */
     get kickable() {
         var _a, _b;
-        return (_b = (this.id !== ((_a = this.client.user) === null || _a === void 0 ? void 0 : _a.id) && this._manageable && this.guild.me.permissions.has(Permissions_1.Permissions.FLAGS.KICK_MEMBERS))) !== null && _b !== void 0 ? _b : null;
+        return (_b = (this.id !== ((_a = this.client.user) === null || _a === void 0 ? void 0 : _a.id) && this._manageable && this.guild.me.permissions.has(Permissions_1.Permissions.FLAGS["KICK_MEMBERS" /* KickMembers */]))) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * Whether or not the {@link ClientUser client user} can ban this member.
@@ -64,7 +64,7 @@ class GuildMember extends Structure_1.Structure {
      */
     get bannable() {
         var _a, _b;
-        return (_b = (this.id !== ((_a = this.client.user) === null || _a === void 0 ? void 0 : _a.id) && this._manageable && this.guild.me.permissions.has(Permissions_1.Permissions.FLAGS.BAN_MEMBERS))) !== null && _b !== void 0 ? _b : null;
+        return (_b = (this.id !== ((_a = this.client.user) === null || _a === void 0 ? void 0 : _a.id) && this._manageable && this.guild.me.permissions.has(Permissions_1.Permissions.FLAGS["BAN_MEMBERS" /* BanMembers */]))) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * Whether or not the {@link ClientUser client user} can manage the member's nickname.
@@ -74,7 +74,7 @@ class GuildMember extends Structure_1.Structure {
      */
     get manageNicknames() {
         var _a;
-        return (_a = (this._manageable && this.guild.me.permissions.has(Permissions_1.Permissions.FLAGS.MANAGE_NICKNAMES))) !== null && _a !== void 0 ? _a : null;
+        return (_a = (this._manageable && this.guild.me.permissions.has(Permissions_1.Permissions.FLAGS["MANAGE_NICKNAMES" /* ManageNicknames */]))) !== null && _a !== void 0 ? _a : null;
     }
     /**
      * Whether or not the {@link ClientUser client user} can manage the member's roles.
@@ -84,7 +84,7 @@ class GuildMember extends Structure_1.Structure {
      */
     get manageRoles() {
         var _a;
-        return (_a = (this._manageable && this.guild.me.permissions.has(Permissions_1.Permissions.FLAGS.MANAGE_ROLES))) !== null && _a !== void 0 ? _a : null;
+        return (_a = (this._manageable && this.guild.me.permissions.has(Permissions_1.Permissions.FLAGS["MANAGE_ROLES" /* ManageRoles */]))) !== null && _a !== void 0 ? _a : null;
     }
     /**
      * Whether or not the {@link ClientUser client user} can manage this member. This is based on:

@@ -1,5 +1,18 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
-export declare type UserFlagsResolvable = keyof typeof UserFlags.FLAGS | number | BitFieldObject | ((keyof typeof UserFlags.FLAGS) | number | BitFieldObject)[];
+export declare const enum UserFlagsFlags {
+    DiscordEmployee = "DISCORD_EMPLOYEE",
+    DiscordPartner = "DISCORD_PARTNER",
+    HypesquadEvents = "HYPESQUAD_EVENTS",
+    BugHunterLevel1 = "BUG_HUNTER_LEVEL_1",
+    HouseBravery = "HOUSE_BRAVERY",
+    HouseBrilliance = "HOUSE_BRILLIANCE",
+    HouseBalance = "HOUSE_BALANCE",
+    EarlySupporter = "EARLY_SUPPORTER",
+    TeamUser = "TEAM_USER",
+    System = "SYSTEM",
+    BugHunterLevel2 = "BUG_HUNTER_LEVEL_2"
+}
+export declare type UserFlagsResolvable = UserFlagsFlags | number | BitFieldObject | (UserFlagsFlags | number | BitFieldObject)[];
 /**
  * Handles UserFlags BitFields in Klasa-Core
  */

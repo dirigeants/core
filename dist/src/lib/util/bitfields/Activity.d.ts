@@ -1,5 +1,13 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
-export declare type ActivityResolvable = keyof typeof Activity.FLAGS | number | BitFieldObject | ((keyof typeof Activity.FLAGS) | number | BitFieldObject)[];
+export declare const enum ActivityFlags {
+    Instance = "INSTANCE",
+    Join = "JOIN",
+    Spectate = "SPECTATE",
+    JoinRequest = "JOIN_REQUEST",
+    Sync = "SYNC",
+    Play = "PLAY"
+}
+export declare type ActivityResolvable = ActivityFlags | number | BitFieldObject | (ActivityFlags | number | BitFieldObject)[];
 /**
  * Handles Activity BitFields in Klasa-Core
  */

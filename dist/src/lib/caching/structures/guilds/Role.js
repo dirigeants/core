@@ -26,7 +26,7 @@ class Role extends Structure_1.Structure {
      */
     permissionsIn(channel) {
         const { permissions } = this;
-        if (permissions.has(Permissions_1.Permissions.FLAGS.ADMINISTRATOR))
+        if (permissions.has(Permissions_1.Permissions.FLAGS["ADMINISTRATOR" /* Administrator */]))
             return new Permissions_1.Permissions(Permissions_1.Permissions.ALL).freeze();
         const overwrites = channel.permissionOverwrites.for(this);
         return permissions

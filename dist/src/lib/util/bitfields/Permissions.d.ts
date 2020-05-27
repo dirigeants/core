@@ -1,5 +1,38 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
-export declare type PermissionsResolvable = keyof typeof Permissions.FLAGS | number | BitFieldObject | ((keyof typeof Permissions.FLAGS) | number | BitFieldObject)[];
+export declare const enum PermissionsFlags {
+    CreateInstantInvite = "CREATE_INSTANT_INVITE",
+    KickMembers = "KICK_MEMBERS",
+    BanMembers = "BAN_MEMBERS",
+    Administrator = "ADMINISTRATOR",
+    ManageChannels = "MANAGE_CHANNELS",
+    ManageGuild = "MANAGE_GUILD",
+    AddReactions = "ADD_REACTIONS",
+    ViewAuditLog = "VIEW_AUDIT_LOG",
+    PrioritySpeaker = "PRIORITY_SPEAKER",
+    Stream = "STREAM",
+    ViewChannel = "VIEW_CHANNEL",
+    SendMessages = "SEND_MESSAGES",
+    SendTTSMessages = "SEND_TTS_MESSAGES",
+    ManageMessages = "MANAGE_MESSAGES",
+    EmbedLinks = "EMBED_LINKS",
+    AttachFiles = "ATTACH_FILES",
+    ReadMessageHistory = "READ_MESSAGE_HISTORY",
+    MentionEveryone = "MENTION_EVERYONE",
+    UseExternalEmojis = "USE_EXTERNAL_EMOJIS",
+    ViewGuildInsights = "VIEW_GUILD_INSIGHTS",
+    Connect = "CONNECT",
+    Speak = "SPEAK",
+    MuteMembers = "MUTE_MEMBERS",
+    DeafenMembers = "DEAFEN_MEMBERS",
+    MoveMembers = "MOVE_MEMBERS",
+    UseVAD = "USE_VAD",
+    ChangeNickname = "CHANGE_NICKNAME",
+    ManageNicknames = "MANAGE_NICKNAMES",
+    ManageRoles = "MANAGE_ROLES",
+    ManageWebhooks = "MANAGE_WEBHOOKS",
+    ManageEmojis = "MANAGE_EMOJIS"
+}
+export declare type PermissionsResolvable = PermissionsFlags | number | BitFieldObject | (PermissionsFlags | number | BitFieldObject)[];
 /**
  * Handles Permission BitFields in Klasa-Core
  */

@@ -21,7 +21,11 @@ class GuildTextChannel extends GuildChannel_1.GuildChannel {
      */
     get attachable() {
         var _a, _b;
-        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has([Permissions_1.Permissions.FLAGS.VIEW_CHANNEL, Permissions_1.Permissions.FLAGS.SEND_MESSAGES, Permissions_1.Permissions.FLAGS.ATTACH_FILES])) !== null && _b !== void 0 ? _b : null;
+        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has([
+            Permissions_1.Permissions.FLAGS["VIEW_CHANNEL" /* ViewChannel */],
+            Permissions_1.Permissions.FLAGS["SEND_MESSAGES" /* SendMessages */],
+            Permissions_1.Permissions.FLAGS["ATTACH_FILES" /* AttachFiles */]
+        ])) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * If the client can send messages in the channel.
@@ -29,7 +33,7 @@ class GuildTextChannel extends GuildChannel_1.GuildChannel {
      */
     get postable() {
         var _a, _b;
-        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has([Permissions_1.Permissions.FLAGS.VIEW_CHANNEL, Permissions_1.Permissions.FLAGS.SEND_MESSAGES])) !== null && _b !== void 0 ? _b : null;
+        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has([Permissions_1.Permissions.FLAGS["VIEW_CHANNEL" /* ViewChannel */], Permissions_1.Permissions.FLAGS["SEND_MESSAGES" /* SendMessages */]])) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * If the client can send message embeds in the channel.
@@ -37,7 +41,11 @@ class GuildTextChannel extends GuildChannel_1.GuildChannel {
      */
     get embedable() {
         var _a, _b;
-        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has([Permissions_1.Permissions.FLAGS.VIEW_CHANNEL, Permissions_1.Permissions.FLAGS.SEND_MESSAGES, Permissions_1.Permissions.FLAGS.EMBED_LINKS])) !== null && _b !== void 0 ? _b : null;
+        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has([
+            Permissions_1.Permissions.FLAGS["VIEW_CHANNEL" /* ViewChannel */],
+            Permissions_1.Permissions.FLAGS["SEND_MESSAGES" /* SendMessages */],
+            Permissions_1.Permissions.FLAGS["EMBED_LINKS" /* EmbedLinks */]
+        ])) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * Awaits a group of messages.

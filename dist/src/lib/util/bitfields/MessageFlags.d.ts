@@ -1,5 +1,12 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
-export declare type MessageFlagsResolvable = keyof typeof MessageFlags.FLAGS | number | BitFieldObject | ((keyof typeof MessageFlags.FLAGS) | number | BitFieldObject)[];
+export declare const enum MessageFlagsFlags {
+    Crossposted = "CROSSPOSTED",
+    IsCrosspost = "IS_CROSSPOST",
+    SuppressEmbeds = "SUPPRESS_EMBEDS",
+    SourceMessageDeleted = "SOURCE_MESSAGE_DELETED",
+    Urgent = "URGENT"
+}
+export declare type MessageFlagsResolvable = MessageFlagsFlags | number | BitFieldObject | (MessageFlagsFlags | number | BitFieldObject)[];
 /**
  * Handles MessageFlags BitFields in Klasa-Core
  */

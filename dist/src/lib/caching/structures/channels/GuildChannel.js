@@ -41,7 +41,7 @@ class GuildChannel extends Channel_1.Channel {
      */
     get deletable() {
         var _a, _b;
-        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has(Permissions_1.Permissions.FLAGS.MANAGE_CHANNELS)) !== null && _b !== void 0 ? _b : null;
+        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has(Permissions_1.Permissions.FLAGS["MANAGE_CHANNELS" /* ManageChannels */])) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * If the client can view the channel.
@@ -49,7 +49,7 @@ class GuildChannel extends Channel_1.Channel {
      */
     get viewable() {
         var _a, _b;
-        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has(Permissions_1.Permissions.FLAGS.VIEW_CHANNEL)) !== null && _b !== void 0 ? _b : null;
+        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has(Permissions_1.Permissions.FLAGS["VIEW_CHANNEL" /* ViewChannel */])) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * If the client can manage the channel.
@@ -57,7 +57,7 @@ class GuildChannel extends Channel_1.Channel {
      */
     get manageable() {
         var _a, _b;
-        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has([Permissions_1.Permissions.FLAGS.VIEW_CHANNEL, Permissions_1.Permissions.FLAGS.MANAGE_CHANNELS])) !== null && _b !== void 0 ? _b : null;
+        return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this).has([Permissions_1.Permissions.FLAGS["VIEW_CHANNEL" /* ViewChannel */], Permissions_1.Permissions.FLAGS["MANAGE_CHANNELS" /* ManageChannels */]])) !== null && _b !== void 0 ? _b : null;
     }
     /**
      * Checks what permissions a {@link GuildMember member} or {@link Role role} has in this {@link GuildChannel channel}

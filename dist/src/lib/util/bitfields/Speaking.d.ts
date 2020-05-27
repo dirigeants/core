@@ -1,5 +1,9 @@
 import { BitField, BitFieldObject } from '@klasa/bitfield';
-export declare type SpeakingResolvable = keyof typeof Speaking.FLAGS | number | BitFieldObject | ((keyof typeof Speaking.FLAGS) | number | BitFieldObject)[];
+export declare const enum SpeakingFlags {
+    Speaking = "SPEAKING",
+    Soundshare = "SOUNDSHARE"
+}
+export declare type SpeakingResolvable = SpeakingFlags | number | BitFieldObject | (SpeakingFlags | number | BitFieldObject)[];
 /**
  * Handles Speaking BitFields in Klasa-Core
  */
