@@ -1,6 +1,7 @@
 import { ChannelType, APIMessageData } from '@klasa/dapi-types';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { GuildTextChannel } from './GuildTextChannel';
+import { Message } from '../Message';
 
 import type { ChannelModifyOptions } from './GuildChannel';
 
@@ -21,8 +22,10 @@ export class NewsChannel extends GuildTextChannel {
 	 * @param messageID The ID of the {@link Message message} that should be crossposted.
 	 * @since 0.0.1
 	 */
-	public async crosspost(messageID: string): Promise<APIMessageData> {
-		return this.client.api.post(Routes.crosspostMessage(this.id, messageID)) as Promise<APIMessageData>;
+	public async crosspost(messageID: string): Promise<Message> {
+		const messageData = await this.client.api.post(Routes.crosspostMessage(this.id, messageID)) as APIMessageData;
+		this.messages.set(messageID, new Message(this.client, messageData));
+		return new Message(this.client, messageData);
 	}
 
 	/**
