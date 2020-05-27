@@ -1,8 +1,8 @@
-import { ChannelType } from '@klasa/dapi-types';
+import { ChannelType, APIChannelFollowResult } from '@klasa/dapi-types';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { GuildTextChannel } from './GuildTextChannel';
 
 import type { ChannelModifyOptions } from './GuildChannel';
-import type { RequestOptions } from '@klasa/rest';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -15,6 +15,16 @@ export class NewsChannel extends GuildTextChannel {
 	 * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
 	 */
 	public readonly type = ChannelType.GuildAnnouncement;
+
+	/**
+	 * Subscribes a channel to crossposted messages from this channel.
+	 * @param channel The {@link GuildTextChannel channel} that should follow this NewsChannel.
+	 * @since 0.0.4
+	 */
+	public async follow(channel: GuildTextChannel): Promise<APIChannelFollowResult> {
+		// eslint-disable-next-line @typescript-eslint/camelcase
+		return this.client.api.post(Routes.followChannel(this.id), { data: { webhook_channel_id: channel.id } }) as Promise<APIChannelFollowResult>;
+	}
 
 	/**
 	 * Modifies this channel.
