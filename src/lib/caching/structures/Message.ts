@@ -256,11 +256,11 @@ export class Message extends Structure {
 
 	/**
 	 * Crosspost this message.
-	 * @since 0.0.1
+	 * @since 0.0.4
 	 */
 	public crosspost(): Promise<this> {
-		if (!(this.channel instanceof NewsChannel)) Promise.reject(new Error('Messages can only be crossposted in NewsChannels.'));
-		return this.channel.crosspost(this.id) as this;
+		if (!(this.channel instanceof NewsChannel)) return Promise.reject(new Error('Messages can only be crossposted in NewsChannels.'));
+		return this.channel.crosspost(this.id) as Promise<this>;
 	}
 
 	/**
