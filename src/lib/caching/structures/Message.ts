@@ -258,7 +258,7 @@ export class Message extends Structure {
 	 * Crosspost this message.
 	 * @since 0.0.1
 	 */
-	public async crosspost() {
+	public async crosspost(): Promise<this> {
 		if(!(this.channel instanceof NewsChannel)) throw new Error('Messages can only be crossposted in NewsChannels.')
 		return this.channel.crosspost(this.id);
 	}
