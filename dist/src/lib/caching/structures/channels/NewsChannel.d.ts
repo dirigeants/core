@@ -12,7 +12,7 @@ export declare class NewsChannel extends GuildTextChannel {
      * @since 0.0.1
      * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
      */
-    readonly type = ChannelType.GuildAnnouncement;
+    readonly type = ChannelType.GuildNews;
     /**
      * Crossposts a Message in this channel.
      * @param messageID The ID of the {@link Message message} that should be crossposted.
@@ -29,7 +29,7 @@ export declare class NewsChannel extends GuildTextChannel {
     modify(options: NewsChannelModifyOptions, requestOptions?: RequestOptions): Promise<this>;
 }
 export interface NewsChannelModifyOptions extends ChannelModifyOptions {
-    type?: ChannelType.GuildAnnouncement | ChannelType.GuildText;
+    type?: ChannelType.GuildNews | ChannelType.GuildText;
     topic?: string | null;
     nsfw?: boolean;
     parent_id?: string | null;

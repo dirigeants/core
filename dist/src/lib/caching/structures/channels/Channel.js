@@ -39,7 +39,7 @@ Channel.types = new Map([
     [2 /* GuildVoice */, 'VoiceChannel'],
     [3 /* GroupDM */, 'Channel'],
     [4 /* GuildCategory */, 'CategoryChannel'],
-    [5 /* GuildAnnouncement */, 'NewsChannel'],
+    [5 /* GuildNews */, 'NewsChannel'],
     [6 /* GuildStore */, 'StoreChannel']
 ]);
 //# sourceMappingURL=Channel.js.map

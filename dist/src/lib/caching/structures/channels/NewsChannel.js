@@ -14,7 +14,7 @@ class NewsChannel extends GuildTextChannel_1.GuildTextChannel {
          * @since 0.0.1
          * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
          */
-        this.type = 5 /* GuildAnnouncement */;
+        this.type = 5 /* GuildNews */;
     }
     /**
      * Crossposts a Message in this channel.

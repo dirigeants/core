@@ -129,7 +129,7 @@ class Message extends Structure_1.Structure {
      * @since 0.0.4
      */
     crosspost() {
-        if (this.channel.type !== 5 /* GuildAnnouncement */)
+        if (this.channel.type !== 5 /* GuildNews */)
             return Promise.reject(new Error('Messages can only be crossposted if they are posted in a news channels.'));
         return this.channel.crosspost(this.id);
     }
