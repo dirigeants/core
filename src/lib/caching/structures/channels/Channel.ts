@@ -42,6 +42,13 @@ export abstract class Channel extends Structure {
 	}
 
 	public static create(client: Client, data: APIChannelData, ...extra: readonly unknown[]): Channel | null {
+		const existing = client.channels.get(data.id);
+		if (existing) {
+			// eslint-disable-next-line dot-notation
+			existing['_patch'](data);
+			return existing;
+		}
+
 		const name = Channel.types.get(data.type);
 		if (name) return new (extender.get(name))(client, data, ...extra) as Channel;
 
