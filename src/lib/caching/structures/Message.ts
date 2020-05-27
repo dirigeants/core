@@ -256,7 +256,7 @@ export class Message extends Structure {
 	 * @since 0.0.4
 	 */
 	public crosspost(): Promise<this> {
-		if (this.channel.type !== ChannelType.GuildAnnouncement) return Promise.reject(new Error('Messages can only be crossposted in NewsChannels.'));
+		if (this.channel.type !== ChannelType.GuildAnnouncement) return Promise.reject(new Error('Messages can only be crossposted if they are posted in a news channels.'));
 		return this.channel.crosspost(this.id) as Promise<this>;
 	}
 
