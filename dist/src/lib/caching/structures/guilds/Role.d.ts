@@ -81,6 +81,20 @@ export declare class Role extends Structure {
      */
     delete(requestOptions?: RequestOptions): Promise<this>;
     /**
+     * Adds the role to a {@link GuildMember member} by its id.
+     * @since 0.0.4
+     * @param memberID The id of the member you want to add the role.
+     * @see https://discord.com/developers/docs/resources/guild#add-guild-member-role
+     */
+    addTo(memberID: string): Promise<this>;
+    /**
+     * Removes the role from a {@link GuildMember member} by its id.
+     * @since 0.0.4
+     * @param memberID The id of the member you want to remove the role.
+     * @see https://discord.com/developers/docs/resources/guild#remove-guild-member-role
+     */
+    removeFrom(memberID: string): Promise<this>;
+    /**
      * Defines the toString behavior of this structure.
      * @since 0.0.4
      */
