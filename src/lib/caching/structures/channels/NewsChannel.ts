@@ -22,12 +22,7 @@ export class NewsChannel extends GuildTextChannel {
 	 * @since 0.0.1
 	 */
 	public async follow(webhookChannel: GuildTextChannel): Promise<APIChannelFollowResult> {
-		const reqData = {
-			data: {
-				webhook_channel_id: webhookChannel.id
-			}
-		};
-		return this.client.api.post(Routes.followChannel(this.id), reqData) as unknown as APIChannelFollowResult;
+		return this.client.api.post(Routes.followChannel(this.id), { data: { webhook_channel_id: webhookChannel.id } }) as unknown as APIChannelFollowResult;
 	}
 
 	/**
