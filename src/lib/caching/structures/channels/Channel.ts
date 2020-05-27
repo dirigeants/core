@@ -55,7 +55,7 @@ export abstract class Channel extends Structure {
 		[ChannelType.GuildVoice, 'VoiceChannel'],
 		[ChannelType.GroupDM, 'Channel'],
 		[ChannelType.GuildCategory, 'CategoryChannel'],
-		[ChannelType.GuildAnnouncement, 'NewsChannel'],
+		[ChannelType.GuildNews, 'NewsChannel'],
 		[ChannelType.GuildStore, 'StoreChannel']
 	]);
 

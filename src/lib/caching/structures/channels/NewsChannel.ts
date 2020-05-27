@@ -15,7 +15,7 @@ export class NewsChannel extends GuildTextChannel {
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
 	 */
-	public readonly type = ChannelType.GuildAnnouncement;
+	public readonly type = ChannelType.GuildNews;
 
 	/**
 	 * Crossposts a Message in this channel.
@@ -51,7 +51,7 @@ export class NewsChannel extends GuildTextChannel {
 }
 
 export interface NewsChannelModifyOptions extends ChannelModifyOptions {
-	type?: ChannelType.GuildAnnouncement | ChannelType.GuildText;
+	type?: ChannelType.GuildNews | ChannelType.GuildText;
 	topic?: string | null;
 	nsfw?: boolean;
 	parent_id?: string | null;
