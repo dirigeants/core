@@ -1,8 +1,9 @@
 /* eslint-disable no-dupe-class-members */
+import { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType, ChannelType } from '@klasa/dapi-types';
 import { Cache } from '@klasa/cache';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { Embed } from './Embed';
-import { isSet } from '../../util/Util';
+import { isSet, TextBasedChannel } from '../../util/Util';
 import { MessageAttachment } from './messages/MessageAttachment';
 import { MessageFlags } from '../../util/bitfields/MessageFlags';
 import { MessageMentions } from './messages/MessageMentions';
@@ -13,13 +14,9 @@ import { ReactionCollector, ReactionCollectorOptions } from '../../util/collecto
 import { Permissions, PermissionsFlags } from '../../util/bitfields/Permissions';
 import { MessageBuilder, MessageOptions } from './messages/MessageBuilder';
 
-import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
 import type { User } from './User';
 import type { Guild } from './guilds/Guild';
 import type { Client } from '../../client/Client';
-import type { DMChannel } from './channels/DMChannel';
-import type { TextChannel } from './channels/TextChannel';
-import type { NewsChannel } from './channels/NewsChannel';
 import type { GuildMember } from './guilds/GuildMember';
 import type { GuildChannel } from './channels/GuildChannel';
 
@@ -35,7 +32,7 @@ export class Message extends Structure {
 	 * The channel the message was sent in.
 	 * @since 0.0.1
 	 */
-	public readonly channel: DMChannel | TextChannel | NewsChannel;
+	public readonly channel: TextBasedChannel;
 
 	/**
 	 * The guild the message was sent in.
@@ -165,7 +162,7 @@ export class Message extends Structure {
 		this.attachments = new Cache();
 		this.reactions = new MessageReactionStore(client, this);
 		this.guild = guild || (data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null);
-		this.channel = this.client.channels.get(data.channel_id) as DMChannel | TextChannel | NewsChannel;
+		this.channel = this.client.channels.get(data.channel_id) as TextBasedChannel;
 		// eslint-disable-next-line dot-notation
 		this.author = this.client.users['_add'](data.author);
 		// eslint-disable-next-line dot-notation
@@ -252,6 +249,15 @@ export class Message extends Structure {
 	 */
 	public awaitReactions(options: ReactionCollectorOptions = {}): Promise<Cache<string, MessageReaction>> {
 		return new ReactionCollector(this, options).collect();
+	}
+
+	/**
+	 * Crosspost this message.
+	 * @since 0.0.4
+	 */
+	public crosspost(): Promise<this> {
+		if (this.channel.type !== ChannelType.GuildAnnouncement) return Promise.reject(new Error('Messages can only be crossposted if they are posted in a news channels.'));
+		return this.channel.crosspost(this.id) as Promise<this>;
 	}
 
 	/**
