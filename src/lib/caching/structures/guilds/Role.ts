@@ -124,7 +124,7 @@ export class Role extends Structure {
 	}
 
 	/**
-	 * Adds this role to a member by id.
+	 * Adds the role to a {@link GuildMember member} by its id.
 	 * @since 0.0.4
 	 * @param memberID The id of the member you want to add the role.
 	 * @see https://discord.com/developers/docs/resources/guild#add-guild-member-role
@@ -135,7 +135,7 @@ export class Role extends Structure {
 	}
 
 	/**
-	 * Removes the role from a member by id.
+	 * Removes the role from a {@link GuildMember member} by its id.
 	 * @since 0.0.4
 	 * @param memberID The id of the member you want to remove the role.
 	 * @see https://discord.com/developers/docs/resources/guild#remove-guild-member-role
