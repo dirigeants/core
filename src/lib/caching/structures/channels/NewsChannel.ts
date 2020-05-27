@@ -22,7 +22,7 @@ export class NewsChannel extends GuildTextChannel {
 	 * @since 0.0.1
 	 */
 	public async follow(channel: GuildTextChannel): Promise<APIChannelFollowResult> {
-		return this.client.api.post(Routes.followChannel(this.id), { data: { webhook_channel_id: channel.id } }) as Promise<APIChannelFollowResult>;
+		return this.client.api.post(Routes.followChannel(this.id), { data: { webhook_channel_id: channel.id } }) as Promise<APIChannelFollowResult>; // eslint-disable-line @typescript-eslint/camelcase
 	}
 
 	/**
