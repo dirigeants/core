@@ -18,11 +18,11 @@ export class NewsChannel extends GuildTextChannel {
 
 	/**
 	 * Follows this channel.
-	 * @param webhookChannel
+	 * @param channel
 	 * @since 0.0.1
 	 */
-	public async follow(webhookChannel: GuildTextChannel): Promise<APIChannelFollowResult> {
-		return this.client.api.post(Routes.followChannel(this.id), { data: { webhook_channel_id: webhookChannel.id } }) as unknown as APIChannelFollowResult;
+	public async follow(channel: GuildTextChannel): Promise<APIChannelFollowResult> {
+		return this.client.api.post(Routes.followChannel(this.id), { data: { webhook_channel_id: channel.id } }) as unknown as APIChannelFollowResult;
 	}
 
 	/**
