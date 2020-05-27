@@ -25,6 +25,12 @@ class Channel extends Structure_1.Structure {
         return `<#${this.id}>`;
     }
     static create(client, data, ...extra) {
+        const existing = client.channels.get(data.id);
+        if (existing) {
+            // eslint-disable-next-line dot-notation
+            existing['_patch'](data);
+            return existing;
+        }
         const name = Channel.types.get(data.type);
         if (name)
             return new (Extender_1.extender.get(name))(client, data, ...extra);
