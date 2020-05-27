@@ -254,6 +254,10 @@ export class Message extends Structure {
 		return new ReactionCollector(this, options).collect();
 	}
 
+	/**
+	 * Crosspost this message.
+	 * @since 0.0.1
+	 */
 	public async crosspost() {
 		const channel = this.channel as NewsChannel;
 		return channel.crosspost(this.id);
