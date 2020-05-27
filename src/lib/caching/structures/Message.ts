@@ -8,7 +8,6 @@ import { MessageFlags } from '../../util/bitfields/MessageFlags';
 import { MessageMentions } from './messages/MessageMentions';
 import { MessageReaction } from './messages/reactions/MessageReaction';
 import { MessageReactionStore } from '../stores/MessageReactionStore';
-import { NewsChannel } from './channels/NewsChannel';
 import { Structure } from './base/Structure';
 import { ReactionCollector, ReactionCollectorOptions } from '../../util/collectors/ReactionCollector';
 import { Permissions, PermissionsFlags } from '../../util/bitfields/Permissions';
@@ -18,8 +17,6 @@ import { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIM
 import type { User } from './User';
 import type { Guild } from './guilds/Guild';
 import type { Client } from '../../client/Client';
-import type { DMChannel } from './channels/DMChannel';
-import type { TextChannel } from './channels/TextChannel';
 import type { GuildMember } from './guilds/GuildMember';
 import type { GuildChannel } from './channels/GuildChannel';
 
@@ -165,7 +162,7 @@ export class Message extends Structure {
 		this.attachments = new Cache();
 		this.reactions = new MessageReactionStore(client, this);
 		this.guild = guild || (data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null);
-		this.channel = this.client.channels.get(data.channel_id) as DMChannel | TextChannel | NewsChannel;
+		this.channel = this.client.channels.get(data.channel_id) as TextBasedChannel;
 		// eslint-disable-next-line dot-notation
 		this.author = this.client.users['_add'](data.author);
 		// eslint-disable-next-line dot-notation
