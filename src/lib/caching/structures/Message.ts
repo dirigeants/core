@@ -254,6 +254,11 @@ export class Message extends Structure {
 		return new ReactionCollector(this, options).collect();
 	}
 
+	public async crosspost() {
+		const channel = this.channel as NewsChannel;
+		return channel.crosspost(this.id);
+	}
+
 	/**
 	 * Sends a message to the channel.
 	 * @param data The {@link MessageBuilder builder} to send.
