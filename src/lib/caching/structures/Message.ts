@@ -2,7 +2,7 @@
 import { Cache } from '@klasa/cache';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { Embed } from './Embed';
-import { isSet } from '../../util/Util';
+import { isSet, TextBasedChannel } from '../../util/Util';
 import { MessageAttachment } from './messages/MessageAttachment';
 import { MessageFlags } from '../../util/bitfields/MessageFlags';
 import { MessageMentions } from './messages/MessageMentions';
@@ -14,7 +14,7 @@ import { ReactionCollector, ReactionCollectorOptions } from '../../util/collecto
 import { Permissions, PermissionsFlags } from '../../util/bitfields/Permissions';
 import { MessageBuilder, MessageOptions } from './messages/MessageBuilder';
 
-import type { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType } from '@klasa/dapi-types';
+import { APIMessageData, APIMessageActivityData, APIMessageApplicationData, APIMessageReferenceData, MessageType, ChannelType } from '@klasa/dapi-types';
 import type { User } from './User';
 import type { Guild } from './guilds/Guild';
 import type { Client } from '../../client/Client';
@@ -35,7 +35,7 @@ export class Message extends Structure {
 	 * The channel the message was sent in.
 	 * @since 0.0.1
 	 */
-	public readonly channel: DMChannel | TextChannel | NewsChannel;
+	public readonly channel: TextBasedChannel;
 
 	/**
 	 * The guild the message was sent in.
@@ -259,7 +259,7 @@ export class Message extends Structure {
 	 * @since 0.0.4
 	 */
 	public crosspost(): Promise<this> {
-		if (!(this.channel instanceof NewsChannel)) return Promise.reject(new Error('Messages can only be crossposted in NewsChannels.'));
+		if (this.channel.type !== ChannelType.GuildAnnouncement) return Promise.reject(new Error('Messages can only be crossposted in NewsChannels.'));
 		return this.channel.crosspost(this.id) as Promise<this>;
 	}
 

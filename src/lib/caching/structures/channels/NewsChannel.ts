@@ -26,9 +26,9 @@ export class NewsChannel extends GuildTextChannel {
 		const messageData = await this.client.api.post(Routes.crosspostMessage(this.id, messageID)) as APIMessageData;
 		// eslint-disable-next-line dot-notation
 		return this.messages['_add'](messageData);
-  }
+	}
 
-  /*
+	/*
 	 * Subscribes a channel to crossposted messages from this channel.
 	 * @param channel The {@link GuildTextChannel channel} that should follow this NewsChannel.
 	 * @since 0.0.4
