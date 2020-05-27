@@ -18,7 +18,7 @@ export class NewsChannel extends GuildTextChannel {
 
 	/**
 	 * Follows this channel.
-	 * @param channel
+	 * @param channel The {@link GuildTextChannel channel} that should follow the NewsChannel.
 	 * @since 0.0.1
 	 */
 	public async follow(channel: GuildTextChannel): Promise<APIChannelFollowResult> {
