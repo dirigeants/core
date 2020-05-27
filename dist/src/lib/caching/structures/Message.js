@@ -111,6 +111,13 @@ class Message extends Structure_1.Structure {
         return (_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this.channel).has([Permissions_1.Permissions.FLAGS.ADD_REACTIONS])) !== null && _b !== void 0 ? _b : null;
     }
     /**
+     * The link to this message
+     * @since 0.0.4
+     */
+    get link() {
+        return `https://discord.com/channels/${this.guild ? this.guild.id : '@me'}/${this.channel.id}/${this.id}`;
+    }
+    /**
      * Awaits a group of messages.
      * @since 0.0.1
      * @param options The options to control what you receive.
@@ -139,6 +146,13 @@ class Message extends Structure_1.Structure {
         await this.channel.messages.remove(this.id, requestOptions);
         this.deleted = true;
         return this;
+    }
+    /**
+     * Defines the toString behavior of this structure.
+     * @since 0.0.4
+     */
+    toString() {
+        return this.content;
     }
     _patch(data) {
         if (Util_1.isSet(data, 'content'))

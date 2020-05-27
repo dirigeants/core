@@ -162,6 +162,11 @@ export declare class Message extends Structure {
      */
     get reactable(): boolean | null;
     /**
+     * The link to this message
+     * @since 0.0.4
+     */
+    get link(): string;
+    /**
      * Awaits a group of messages.
      * @since 0.0.1
      * @param options The options to control what you receive.
@@ -196,5 +201,10 @@ export declare class Message extends Structure {
      * @see https://discord.com/developers/docs/resources/channel#delete-message
      */
     delete(requestOptions?: RequestOptions): Promise<this>;
+    /**
+     * Defines the toString behavior of this structure.
+     * @since 0.0.4
+     */
+    toString(): string;
     protected _patch(data: Partial<APIMessageData>): this;
 }

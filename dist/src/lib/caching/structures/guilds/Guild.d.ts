@@ -346,6 +346,11 @@ export declare class Guild extends Structure {
      * @see https://discord.com/developers/docs/resources/guild#get-guild-vanity-url
      */
     fetchVanityURL(): Promise<GuildVanityURL>;
+    /**
+     * Defines the toString behavior of this structure.
+     * @since 0.0.4
+     */
+    toString(): string;
     protected _patch(data: APIGuildData): this;
 }
 /**

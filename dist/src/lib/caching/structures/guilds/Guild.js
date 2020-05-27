@@ -151,6 +151,13 @@ class Guild extends Structure_1.Structure {
     async fetchVanityURL() {
         return this.client.api.get(rest_1.Routes.guildVanityURL(this.id));
     }
+    /**
+     * Defines the toString behavior of this structure.
+     * @since 0.0.4
+     */
+    toString() {
+        return this.name;
+    }
     _patch(data) {
         var _a, _b, _c;
         this.name = data.name;

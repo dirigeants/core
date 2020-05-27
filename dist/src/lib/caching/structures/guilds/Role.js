@@ -58,6 +58,13 @@ class Role extends Structure_1.Structure {
         this.deleted = true;
         return this;
     }
+    /**
+     * Defines the toString behavior of this structure.
+     * @since 0.0.4
+     */
+    toString() {
+        return `<@&${this.id}>`;
+    }
     _patch(data) {
         this.name = data.name;
         this.color = data.color;

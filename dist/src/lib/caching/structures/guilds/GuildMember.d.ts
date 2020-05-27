@@ -64,6 +64,11 @@ export declare class GuildMember extends Structure {
      */
     get user(): User | null;
     /**
+     * The displayed name for the member
+     * @since 0.0.4
+     */
+    get displayName(): string | null;
+    /**
      * The calculated permissions from the member's {@link GuildMemberRoleStore roles}.
      * @since 0.0.1
      */

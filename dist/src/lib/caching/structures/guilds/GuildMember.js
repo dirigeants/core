@@ -29,6 +29,14 @@ class GuildMember extends Structure_1.Structure {
         return (_a = this.client.users.get(this.id)) !== null && _a !== void 0 ? _a : null;
     }
     /**
+     * The displayed name for the member
+     * @since 0.0.4
+     */
+    get displayName() {
+        var _a, _b, _c;
+        return (_c = (_a = this.nick) !== null && _a !== void 0 ? _a : (_b = this.user) === null || _b === void 0 ? void 0 : _b.username) !== null && _c !== void 0 ? _c : null;
+    }
+    /**
      * The calculated permissions from the member's {@link GuildMemberRoleStore roles}.
      * @since 0.0.1
      */

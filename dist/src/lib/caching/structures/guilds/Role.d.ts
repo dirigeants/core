@@ -80,6 +80,11 @@ export declare class Role extends Structure {
      * @see https://discord.com/developers/docs/resources/guild#delete-guild-role
      */
     delete(requestOptions?: RequestOptions): Promise<this>;
+    /**
+     * Defines the toString behavior of this structure.
+     * @since 0.0.4
+     */
+    toString(): string;
     protected _patch(data: APIRoleData): this;
 }
 /**
