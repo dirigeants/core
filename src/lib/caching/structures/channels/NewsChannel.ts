@@ -17,9 +17,9 @@ export class NewsChannel extends GuildTextChannel {
 	public readonly type = ChannelType.GuildAnnouncement;
 
 	/**
-	 * Follows this channel.
-	 * @param channel The {@link GuildTextChannel channel} that should follow the NewsChannel.
-	 * @since 0.0.1
+	 * Subscribes a channel to crossposted messages from this channel.
+	 * @param channel The {@link GuildTextChannel channel} that should follow this NewsChannel.
+	 * @since 0.0.4
 	 */
 	public async follow(channel: GuildTextChannel): Promise<APIChannelFollowResult> {
 		// eslint-disable-next-line @typescript-eslint/camelcase
