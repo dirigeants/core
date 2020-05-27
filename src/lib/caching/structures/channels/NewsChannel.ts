@@ -24,8 +24,9 @@ export class NewsChannel extends GuildTextChannel {
 	 */
 	public async crosspost(messageID: string): Promise<Message> {
 		const messageData = await this.client.api.post(Routes.crosspostMessage(this.id, messageID)) as APIMessageData;
-		this.messages.set(messageID, new Message(this.client, messageData));
-		return new Message(this.client, messageData);
+		const newMsg = new Message(this.client, messageData);
+		this.messages.set(messageID, newMsg);
+		return newMsg;
 	}
 
 	/**
