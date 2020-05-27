@@ -10,7 +10,7 @@ import { Typing } from '../Typing';
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
-import type { TextBasedChannel } from '../../../util/Util';
+import type { GuildTextBasedChannel } from '../../../util/Util';
 import type { Message } from '../Message';
 
 export interface SendOptions {
@@ -61,7 +61,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null) {
 		super(client, data, guild);
-		this.messages = new MessageStore(client, this as TextBasedChannel);
+		this.messages = new MessageStore(client, this as unknown as GuildTextBasedChannel);
 		this.typing = new Typing(this);
 	}
 
