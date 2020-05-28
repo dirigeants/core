@@ -36,5 +36,5 @@ export declare class MessageCollector extends StructureCollector<Message, Messag
      * @param channel The channel to listen for messages.
      * @param options Any additional options to pass.
      */
-    constructor(channel: GuildTextChannel | DMChannel, options?: MessageCollectorOptions);
+    constructor(channel: GuildTextChannel | DMChannel, options: MessageCollectorOptions);
 }

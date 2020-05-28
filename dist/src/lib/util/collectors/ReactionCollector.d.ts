@@ -35,5 +35,5 @@ export declare class ReactionCollector extends StructureCollector<MessageReactio
      * @param message The message to listen for reactions.
      * @param options Any additional options to pass.
      */
-    constructor(message: Message, options?: ReactionCollectorOptions);
+    constructor(message: Message, options: ReactionCollectorOptions);
 }

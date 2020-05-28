@@ -14,7 +14,7 @@ class MessageCollector extends StructureCollector_1.StructureCollector {
      * @param channel The channel to listen for messages.
      * @param options Any additional options to pass.
      */
-    constructor(channel, options = {}) {
+    constructor(channel, options) {
         if (!options.limit && !options.idle)
             throw new Error('Collectors need either a limit or idle, or they will collect forever.');
         const { limit, idle, filter = () => true } = options;

@@ -169,7 +169,7 @@ export declare class Message extends Structure {
      * @since 0.0.1
      * @param options The options to control what you receive.
      */
-    awaitReactions(options?: ReactionCollectorOptions): Promise<Cache<string, MessageReaction>>;
+    awaitReactions(options: ReactionCollectorOptions): Promise<Cache<string, MessageReaction>>;
     /**
      * Crosspost this message.
      * @since 0.0.4

@@ -121,7 +121,7 @@ class Message extends Structure_1.Structure {
      * @since 0.0.1
      * @param options The options to control what you receive.
      */
-    awaitReactions(options = {}) {
+    awaitReactions(options) {
         return new ReactionCollector_1.ReactionCollector(this, options).collect();
     }
     /**

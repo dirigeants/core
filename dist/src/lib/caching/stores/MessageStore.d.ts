@@ -73,7 +73,7 @@ export declare class MessageStore extends DataStore<Message> {
      * @since 0.0.1
      * @param options Any options to pass to the iterator.
      */
-    iterate(options: EventIteratorOptions<Message>): AsyncIterableIterator<Message>;
+    iterate(options?: EventIteratorOptions<Message>): AsyncIterableIterator<Message>;
 }
 /**
  * The options for {@link MessageStore#fetch}
