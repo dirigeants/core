@@ -224,8 +224,8 @@ export declare class Client extends BaseClient {
      * Caches a plugin module to be used when creating a Client instance
      * @param mod The module of the plugin to use
      */
-    static use(mod: Plugin): typeof Client;
+    static use(mod: typeof Plugin): typeof Client;
 }
-export interface Plugin {
-    [Client.plugin]: Function;
+export declare abstract class Plugin {
+    static [Client.plugin]: Function;
 }

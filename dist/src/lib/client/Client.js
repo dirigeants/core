@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Client = void 0;
+exports.Plugin = exports.Client = void 0;
 const ws_1 = require("@klasa/ws");
 const utils_1 = require("@klasa/utils");
 const cache_1 = require("@klasa/cache");
@@ -156,4 +156,8 @@ Client.plugin = Symbol('KlasaCorePlugin');
  * The plugins to be used when creating a Client instance
  */
 Client.plugins = new Set();
+class Plugin {
+}
+exports.Plugin = Plugin;
+Client.plugin;
 //# sourceMappingURL=Client.js.map
