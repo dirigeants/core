@@ -7,7 +7,7 @@ import type { Structure } from '../../../caching/structures/base/Structure';
  * The base structure collector for asynchronously collecting values.
  * @since 0.0.1
  */
-export class StructureCollector<T extends Structure, I extends EventIterator<T>> {
+export class StructureCollector<T extends Structure, R extends [T, ...unknown[]], I extends EventIterator<R>> {
 
 	/**
 	 * The collected values.
@@ -34,7 +34,7 @@ export class StructureCollector<T extends Structure, I extends EventIterator<T>>
 	 * @since 0.0.1
 	 */
 	public async collect(): Promise<Cache<string, T>> {
-		for await (const struct of this.#iterator) this.collected.set(struct.id, struct);
+		for await (const [struct] of this.#iterator) this.collected.set(struct.id, struct);
 		return this.collected;
 	}
 

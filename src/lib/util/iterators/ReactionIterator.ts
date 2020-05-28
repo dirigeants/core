@@ -3,12 +3,13 @@ import { ClientEvents } from '../../client/Client';
 
 import type { Message } from '../../caching/structures/Message';
 import type { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
+import type { User } from 'src/lib/caching/structures/User';
 
 /**
  * An asynchronous iterator responsible for iterating over reactions.
  * @since 0.0.1
  */
-export class ReactionIterator extends EventIterator<MessageReaction> {
+export class ReactionIterator extends EventIterator<[MessageReaction, User]> {
 
 	/**
 	 * Construct's a new ReactionIterator.
@@ -16,13 +17,13 @@ export class ReactionIterator extends EventIterator<MessageReaction> {
 	 * @param channel The message to listen for reactions.
 	 * @param options Any additional options to pass.
 	 */
-	public constructor(message: Message, options: EventIteratorOptions<MessageReaction> = {}) {
+	public constructor(message: Message, options: EventIteratorOptions<[MessageReaction, User]> = {}) {
 		const { limit, idle, filter = (): boolean => true } = options;
 
 		super(message.client, ClientEvents.MessageReactionAdd, {
 			limit,
 			idle,
-			filter: (react): boolean => react.message === message && filter(react)
+			filter: ([reaction, user]): boolean => reaction.message === message && filter([reaction, user])
 		});
 	}
 

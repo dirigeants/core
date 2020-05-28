@@ -9,7 +9,7 @@ import type { Message } from '../../caching/structures/Message';
  * An asynchronous iterator responsible for iterating over messages.
  * @since 0.0.1
  */
-export class MessageIterator extends EventIterator<Message> {
+export class MessageIterator extends EventIterator<[Message]> {
 
 	/**
 	 * Construct's a new MessageIterator.
@@ -17,13 +17,13 @@ export class MessageIterator extends EventIterator<Message> {
 	 * @param channel The channel to listen for messages.
 	 * @param options Any additional options to pass.
 	 */
-	public constructor(channel: GuildTextChannel | DMChannel, options: EventIteratorOptions<Message> = {}) {
+	public constructor(channel: GuildTextChannel | DMChannel, options: EventIteratorOptions<[Message]> = {}) {
 		const { limit, idle, filter = (): boolean => true } = options;
 
 		super(channel.client, ClientEvents.MessageCreate, {
 			limit,
 			idle,
-			filter: (message): boolean => message.channel === channel && filter(message)
+			filter: ([message]): boolean => message.channel === channel && filter([message])
 		});
 	}
 
