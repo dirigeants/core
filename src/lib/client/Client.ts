@@ -333,7 +333,7 @@ export class Client extends BaseClient {
 	 * Caches a plugin module to be used when creating a Client instance
 	 * @param mod The module of the plugin to use
 	 */
-	public static use(mod: Plugin): typeof Client {
+	public static use(mod: typeof Plugin): typeof Client {
 		const plugin = mod[Client.plugin];
 		if (typeof plugin !== 'function') throw new TypeError('The provided module does not include a plugin function');
 		Client.plugins.add(plugin);
@@ -342,6 +342,8 @@ export class Client extends BaseClient {
 
 }
 
-export interface Plugin {
-	[Client.plugin]: Function;
+export abstract class Plugin {
+
+	static [Client.plugin]: Function;
+
 }
