@@ -21,7 +21,7 @@ class ReactionCollector extends StructureCollector_1.StructureCollector {
         super(new ReactionIterator_1.ReactionIterator(message, {
             limit,
             idle,
-            filter: (react) => react.message === message && filter(react, this.collected)
+            filter: ([reaction, user]) => reaction.message === message && filter([reaction, user], this.collected)
         }));
     }
 }

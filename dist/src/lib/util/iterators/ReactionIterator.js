@@ -18,7 +18,7 @@ class ReactionIterator extends event_iterator_1.EventIterator {
         super(message.client, "messageReactionAdd" /* MessageReactionAdd */, {
             limit,
             idle,
-            filter: (react) => react.message === message && filter(react)
+            filter: ([reaction, user]) => reaction.message === message && filter([reaction, user])
         });
     }
 }

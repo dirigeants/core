@@ -43,7 +43,7 @@ class StructureCollector {
      * @since 0.0.1
      */
     async collect() {
-        for await (const struct of __classPrivateFieldGet(this, _iterator))
+        for await (const [struct] of __classPrivateFieldGet(this, _iterator))
             this.collected.set(struct.id, struct);
         return this.collected;
     }

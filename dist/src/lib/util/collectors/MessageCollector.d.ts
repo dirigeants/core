@@ -23,13 +23,13 @@ export interface MessageCollectorOptions {
      * The filter used to filter out specific messages.
      * @since 0.0.1
      */
-    filter?: (message: Message, collected: Cache<string, Message>) => boolean;
+    filter?: (message: [Message], collected: Cache<string, Message>) => boolean;
 }
 /**
  * The MessageCollector class responsible for collecting a set of messages.
  * @since 0.0.1
  */
-export declare class MessageCollector extends StructureCollector<Message, MessageIterator> {
+export declare class MessageCollector extends StructureCollector<Message, [Message], MessageIterator> {
     /**
      * Construct's a new MessageCollector.
      * @since 0.0.1

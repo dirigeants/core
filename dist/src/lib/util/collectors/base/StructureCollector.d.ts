@@ -5,7 +5,7 @@ import type { Structure } from '../../../caching/structures/base/Structure';
  * The base structure collector for asynchronously collecting values.
  * @since 0.0.1
  */
-export declare class StructureCollector<T extends Structure, I extends EventIterator<T>> {
+export declare class StructureCollector<T extends Structure, R extends [T, ...unknown[]], I extends EventIterator<R>> {
     #private;
     /**
      * The collected values.

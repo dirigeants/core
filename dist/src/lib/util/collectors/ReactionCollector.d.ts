@@ -3,6 +3,7 @@ import { ReactionIterator } from '../iterators/ReactionIterator';
 import type { Cache } from '@klasa/cache';
 import type { Message } from '../../caching/structures/Message';
 import type { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
+import type { User } from 'src/lib/caching/structures/User';
 /**
  * Options for a ReactionCollector.
  * @since 0.0.1
@@ -22,13 +23,13 @@ export interface ReactionCollectorOptions {
      * The filter used to filter out specific reactions.
      * @since 0.0.1
      */
-    filter?: (reaction: MessageReaction, collected: Cache<string, MessageReaction>) => boolean;
+    filter?: ([reaction, user]: [MessageReaction, User], collected: Cache<string, MessageReaction>) => boolean;
 }
 /**
  * The ReactionCollector class responsible for collecting a set of reactions.
  * @since 0.0.1
  */
-export declare class ReactionCollector extends StructureCollector<MessageReaction, ReactionIterator> {
+export declare class ReactionCollector extends StructureCollector<MessageReaction, [MessageReaction, User], ReactionIterator> {
     /**
      * Construct's a new ReactionCollector.
      * @since 0.0.1

@@ -18,7 +18,7 @@ class MessageIterator extends event_iterator_1.EventIterator {
         super(channel.client, "messageCreate" /* MessageCreate */, {
             limit,
             idle,
-            filter: (message) => message.channel === channel && filter(message)
+            filter: ([message]) => message.channel === channel && filter([message])
         });
     }
 }

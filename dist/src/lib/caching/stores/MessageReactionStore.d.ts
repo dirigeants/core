@@ -4,6 +4,7 @@ import type { EventIteratorOptions } from '@klasa/event-iterator';
 import type { Client } from '../../client/Client';
 import type { MessageReaction } from '../structures/messages/reactions/MessageReaction';
 import type { Message } from '../structures/Message';
+import type { User } from '../structures/User';
 /**
  * The store for {@link MessageReaction message reactions}.
  * @since 0.0.1
@@ -46,5 +47,5 @@ export declare class MessageReactionStore extends DataStore<MessageReaction> {
      * @since 0.0.1
      * @param options Any options to pass to the iterator.
      */
-    iterate(options?: EventIteratorOptions<MessageReaction>): AsyncIterableIterator<MessageReaction>;
+    iterate(options?: EventIteratorOptions<[MessageReaction, User]>): AsyncIterableIterator<[MessageReaction, User]>;
 }
