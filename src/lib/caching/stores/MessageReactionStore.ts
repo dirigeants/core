@@ -69,7 +69,7 @@ export class MessageReactionStore extends DataStore<MessageReaction> {
 	 * @since 0.0.1
 	 * @param options Any options to pass to the iterator.
 	 */
-	public async *iterate(options: EventIteratorOptions<MessageReaction>): AsyncIterableIterator<MessageReaction> {
+	public async *iterate(options?: EventIteratorOptions<MessageReaction>): AsyncIterableIterator<MessageReaction> {
 		yield* new ReactionIterator(this.message, options);
 	}
 

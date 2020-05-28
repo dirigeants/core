@@ -109,7 +109,7 @@ export class MessageStore extends DataStore<Message> {
 	 * @since 0.0.1
 	 * @param options Any options to pass to the iterator.
 	 */
-	public async *iterate(options: EventIteratorOptions<Message>): AsyncIterableIterator<Message> {
+	public async *iterate(options?: EventIteratorOptions<Message>): AsyncIterableIterator<Message> {
 		yield* new MessageIterator(this.channel, options);
 	}
 

@@ -40,7 +40,7 @@ export class MessageCollector extends StructureCollector<Message, MessageIterato
 	 * @param channel The channel to listen for messages.
 	 * @param options Any additional options to pass.
 	 */
-	public constructor(channel: GuildTextChannel | DMChannel, options: MessageCollectorOptions = {}) {
+	public constructor(channel: GuildTextChannel | DMChannel, options: MessageCollectorOptions) {
 		if (!options.limit && !options.idle) throw new Error('Collectors need either a limit or idle, or they will collect forever.');
 		const { limit, idle, filter = (): boolean => true } = options;
 
