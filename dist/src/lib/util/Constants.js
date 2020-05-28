@@ -1,8 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ClientOptionsDefaults = exports.BaseClientOptionsDefaults = void 0;
+exports.ClientOptionsDefaults = exports.BaseClientOptionsDefaults = exports.version = void 0;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Package = require('../../../../package.json');
 const rest_1 = require("@klasa/rest");
 const ws_1 = require("@klasa/ws");
+exports.version = Package.version;
 exports.BaseClientOptionsDefaults = {
     rest: rest_1.RestOptionsDefaults
 };
