@@ -1,8 +1,13 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const Package = require('../../../../package.json');
+
 import { RestOptionsDefaults } from '@klasa/rest';
 import { WSOptionsDefaults } from '@klasa/ws';
 
 import type { ClientOptions } from '../client/Client';
 import type { BaseClientOptions } from '../client/BaseClient';
+
+export const { version } = Package;
 
 export const BaseClientOptionsDefaults: Required<BaseClientOptions> = {
 	rest: RestOptionsDefaults
