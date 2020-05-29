@@ -3,7 +3,7 @@ import { ReactionIterator } from '../iterators/ReactionIterator';
 import type { Cache } from '@klasa/cache';
 import type { Message } from '../../caching/structures/Message';
 import type { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
-import type { User } from 'src/lib/caching/structures/User';
+import type { User } from '../../../lib/caching/structures/User';
 /**
  * Options for a ReactionCollector.
  * @since 0.0.1
