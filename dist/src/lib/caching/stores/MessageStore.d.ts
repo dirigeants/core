@@ -2,7 +2,7 @@ import { Cache } from '@klasa/cache';
 import { RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { MessageOptions, SplitOptions, MessageBuilder } from '../structures/messages/MessageBuilder';
-import type { EventIteratorOptions } from '@klasa/event-iterator';
+import { MessageIteratorOptions } from '../../util/iterators/MessageIterator';
 import type { Client } from '../../client/Client';
 import type { Message } from '../structures/Message';
 import type { TextBasedChannel } from '../../util/Util';
@@ -73,7 +73,7 @@ export declare class MessageStore extends DataStore<Message> {
      * @since 0.0.1
      * @param options Any options to pass to the iterator.
      */
-    iterate(options?: EventIteratorOptions<[Message]>): AsyncIterableIterator<[Message]>;
+    iterate(options?: MessageIteratorOptions): AsyncIterableIterator<[Message]>;
 }
 /**
  * The options for {@link MessageStore#fetch}
