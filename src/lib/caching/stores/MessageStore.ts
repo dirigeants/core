@@ -4,9 +4,8 @@ import { Routes, RequestOptions } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../util/Extender';
 import { MessageOptions, SplitOptions, MessageBuilder } from '../structures/messages/MessageBuilder';
-import { MessageIterator } from '../../util/iterators/MessageIterator';
+import { MessageIterator, MessageIteratorOptions } from '../../util/iterators/MessageIterator';
 
-import type { EventIteratorOptions } from '@klasa/event-iterator';
 import type { APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
 import type { Message } from '../structures/Message';
@@ -109,7 +108,7 @@ export class MessageStore extends DataStore<Message> {
 	 * @since 0.0.1
 	 * @param options Any options to pass to the iterator.
 	 */
-	public async *iterate(options?: EventIteratorOptions<[Message]>): AsyncIterableIterator<[Message]> {
+	public async *iterate(options?: MessageIteratorOptions): AsyncIterableIterator<[Message]> {
 		yield* new MessageIterator(this.channel, options);
 	}
 
