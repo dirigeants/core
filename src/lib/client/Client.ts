@@ -61,7 +61,7 @@ export interface CacheLimits {
 
 export interface ClientCacheOptions {
 	enabled: boolean;
-	limits: CacheLimits;
+	limits: Partial<CacheLimits>;
 	messageLifetime: number;
 	messageSweepInterval: number;
 }
