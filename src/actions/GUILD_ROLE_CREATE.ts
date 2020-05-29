@@ -12,7 +12,7 @@ export default class CoreAction extends Action {
 		const guild = this.client.guilds.get(data.d.guild_id);
 		if (!guild) return null;
 
-		return new (extender.get('Role'))(this.client, data.d.role);
+		return new (extender.get('Role'))(this.client, data.d.role, guild);
 	}
 
 	public cache(data: Role): void {
