@@ -64,6 +64,9 @@ __exportStar(require("./lib/caching/structures/messages/WebhookMessageBuilder"),
 __exportStar(require("./lib/caching/structures/oauth/Application"), exports);
 __exportStar(require("./lib/caching/structures/oauth/Team"), exports);
 __exportStar(require("./lib/caching/structures/oauth/TeamMember"), exports);
+__exportStar(require("./lib/caching/structures/presences/ClientPresence"), exports);
+__exportStar(require("./lib/caching/structures/presences/PresenceBuilder"), exports);
+__exportStar(require("./lib/caching/structures/presences/PresenceGameBuilder"), exports);
 __exportStar(require("./lib/caching/structures/guilds/Overwrite"), exports);
 __exportStar(require("./lib/caching/structures/User"), exports);
 __exportStar(require("./lib/caching/structures/Webhook"), exports);
