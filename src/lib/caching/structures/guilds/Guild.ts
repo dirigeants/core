@@ -450,12 +450,12 @@ export class Guild extends Structure {
 		if (isSet(options, 'days')) query.append('days', options.days.toString());
 		if (isSet(options, 'includeRoles')) for (const role of options.includeRoles) query.append('include_roles', role);
 		if (options.dry) {
-			const result = await this.client.api.get(Routes.guildPrune(this.id), { ...requestOptions, query }) as { pruned: number };
+			const result = await this.client.api.get(Routes.guildPrune(this.id), { ...requestOptions, query: [...query] }) as { pruned: number };
 			return result.pruned;
 		}
 
 		if (isSet(options, 'computePruneCount')) query.append('compute_prune_count', options.computePruneCount.toString());
-		const result = await this.client.api.post(Routes.guildPrune(this.id), { ...requestOptions, query }) as { pruned: number | null };
+		const result = await this.client.api.post(Routes.guildPrune(this.id), { ...requestOptions, query: [...query] }) as { pruned: number | null };
 		return result.pruned;
 	}
 

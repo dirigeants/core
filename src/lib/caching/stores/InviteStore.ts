@@ -42,7 +42,7 @@ export class InviteStore extends DataStore<Invite> {
 	 * @see https://discord.com/developers/docs/resources/invite#get-invite
 	 */
 	public async fetch(code: string, options: InviteStoreFetchOptions = {}): Promise<Invite> {
-		const entry = await this.client.api.get(Routes.invite(code), { query: options }) as APIInviteData;
+		const entry = await this.client.api.get(Routes.invite(code), { query: Object.entries(options) }) as APIInviteData;
 		return this._add(entry);
 	}
 

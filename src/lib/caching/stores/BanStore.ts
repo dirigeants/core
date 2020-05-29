@@ -40,7 +40,7 @@ export class BanStore extends DataStore<Ban> {
 	 * @see https://discord.com/developers/docs/resources/guild#create-guild-ban
 	 */
 	public async add(userID: string, options: BanAddOptions = {}): Promise<this> {
-		await this.client.api.put(Routes.guildBan(this.guild.id, userID), { ...options, query: { 'delete-message-days': options.deleteMessageDays } });
+		await this.client.api.put(Routes.guildBan(this.guild.id, userID), { ...options, query: [['delete-message-days', options.deleteMessageDays]] });
 		return this;
 	}
 

@@ -97,7 +97,7 @@ export class MessageStore extends DataStore<Message> {
 			return this._add(entry);
 		}
 
-		const entries = await this.client.api.get(Routes.channelMessages(this.channel.id), { query: idOrOptions }) as APIMessageData[];
+		const entries = await this.client.api.get(Routes.channelMessages(this.channel.id), { query: idOrOptions && Object.entries(idOrOptions) }) as APIMessageData[];
 		const cache = new Cache<string, Message>();
 		for (const entry of entries) cache.set(entry.id, this._add(entry));
 		return cache;

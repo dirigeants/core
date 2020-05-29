@@ -158,11 +158,6 @@
   resolved "https://registry.yarnpkg.com/@klasa/bitfield/-/bitfield-0.0.3.tgz#8a3495b3600d6dd7066b770f05e250307b560890"
   integrity sha512-U8xrqbfg8Eqq+IL4TMy7rDG+QlJjQPGVel1aqVcIqJV2/XpQvsqIBz0UMUO3mEw7UsLN5E3Z71QpSIDvCfJWrg==
 
-"@klasa/cache@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.2.tgz#8e23691762f3a547370507f0617c69e7d18039a0"
-  integrity sha512-HmXjFOq1gSHxByBEKEIo7j5V63p12eYTSTAs6v0/qWKCUjemwSBadBg/nO0A8qZbP0sVyihk2BAsszPl+qhBDg==
-
 "@klasa/cache@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.3.tgz#824595f247fbd6204a6278eae988d22eb783d00b"
@@ -178,16 +173,16 @@
   resolved "https://registry.yarnpkg.com/@klasa/event-iterator/-/event-iterator-0.0.10.tgz#9805297be51ccb5767d31f700957ddb79ec4855b"
   integrity sha512-AUr8d9+4YeHN2/b1C8EVSZTfLut/+j2u8zcrKRt3BFP5kxdHSg+RSOJ7wP+gQ0dvrVZMQNwbIg/xFVr9G1EsLA==
 
-"@klasa/rest@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.4.0.tgz#e1165f4283131a05631313d7525474cbcf0a88d1"
-  integrity sha512-jF2QybJ7sCshQ6jb0RBpAL/cljzaGXJVS7V85RQCwbKO4CJFpKufOMHuTgAjUj9a6iWgXfNkpmftmkQJBUNpAw==
+"@klasa/rest@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.4.1.tgz#b1d6cbaa9a87bc1aa526a64c31bd5a2dc5a1a911"
+  integrity sha512-wGVVSlWMGo32GKZaU95v9KL9V3ED9/t0lPl8+bE/KBlotbaETkZk402Fh7Bj3UMD2NZGu4hObqIir2Q5vwZM7Q==
   dependencies:
     "@klasa/async-queue" "^0.0.1"
-    "@klasa/cache" "^0.0.2"
+    "@klasa/cache" "^0.0.3"
     "@klasa/snowflake" "^0.0.1"
     "@klasa/timer-manager" "^0.0.1"
-    "@klasa/utils" "^0.0.4"
+    "@klasa/utils" "^0.0.8"
     abort-controller "^3.0.0"
     form-data "^3.0.0"
     node-fetch "^2.6.0"
@@ -201,11 +196,6 @@
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@klasa/timer-manager/-/timer-manager-0.0.1.tgz#977903d92453e9602c1803af15f1713d5ca028b9"
   integrity sha512-1ElnhLXzqv4Iod/GS7+joZX71rhSxHBVDoTX8gnXF55BKXihv/p5tF3ddfx7Rn0kzUSQwJwJkyMO6QyaXMcB6A==
-
-"@klasa/utils@^0.0.4":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/@klasa/utils/-/utils-0.0.4.tgz#4bf010b09d0f93b39245523ed22a09571d56508c"
-  integrity sha512-9gZSGN/As3sxZumZ9ZwyQ+KcNSenzY8tR1orRakv8HKK0WH0gG7QrsP/1O2TD4uHxUyr8dysCjt73RYPfzuDWQ==
 
 "@klasa/utils@^0.0.8":
   version "0.0.8"

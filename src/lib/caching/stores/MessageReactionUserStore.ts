@@ -81,7 +81,7 @@ export class MessageReactionUserStore extends ProxyCache<string, User> {
 	 */
 	public async fetch(options?: MessageReactionFetchOptions): Promise<this> {
 		const users = await this.client.api.get(Routes.messageReaction(this.message.channel.id, this.message.id, this.reaction.emoji.identifier), {
-			query: options
+			query: options && Object.entries(options)
 		}) as APIUserData[];
 		for (const user of users) {
 			// eslint-disable-next-line dot-notation

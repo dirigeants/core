@@ -66,7 +66,7 @@ export class GuildStore extends DataStore<Guild> {
 	 */
 	public async fetch(guildID: string): Promise<Guild> {
 		// eslint-disable-next-line @typescript-eslint/camelcase
-		const entry = await this.client.api.get(Routes.guild(guildID), { query: { with_counts: true } }) as APIGuildData;
+		const entry = await this.client.api.get(Routes.guild(guildID), { query: [['with_counts', true]] }) as APIGuildData;
 		return this._add(entry);
 	}
 
