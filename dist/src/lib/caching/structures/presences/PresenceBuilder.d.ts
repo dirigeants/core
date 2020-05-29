@@ -48,7 +48,7 @@ export declare class PresenceBuilder implements PresenceUpdateData {
      * @since 0.0.1
      * @param builder The builder to aid building the game.
      */
-    setGame(builder: (game: APIActivityData) => PresenceGameBuilder): this;
+    setGame(game: (game: PresenceGameBuilder) => PresenceGameBuilder): this;
     /**
      * Modifies the presence and returns it.
      * @since 0.0.1
