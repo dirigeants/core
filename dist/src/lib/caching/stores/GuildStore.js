@@ -52,7 +52,7 @@ class GuildStore extends DataStore_1.DataStore {
      */
     async fetch(guildID) {
         // eslint-disable-next-line @typescript-eslint/camelcase
-        const entry = await this.client.api.get(rest_1.Routes.guild(guildID), { query: { with_counts: true } });
+        const entry = await this.client.api.get(rest_1.Routes.guild(guildID), { query: [['with_counts', true]] });
         return this._add(entry);
     }
 }

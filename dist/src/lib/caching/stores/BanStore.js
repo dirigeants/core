@@ -28,7 +28,7 @@ class BanStore extends DataStore_1.DataStore {
      * @see https://discord.com/developers/docs/resources/guild#create-guild-ban
      */
     async add(userID, options = {}) {
-        await this.client.api.put(rest_1.Routes.guildBan(this.guild.id, userID), { ...options, query: { 'delete-message-days': options.deleteMessageDays } });
+        await this.client.api.put(rest_1.Routes.guildBan(this.guild.id, userID), { ...options, query: [['delete-message-days', options.deleteMessageDays]] });
         return this;
     }
     /**

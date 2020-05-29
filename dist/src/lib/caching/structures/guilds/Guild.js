@@ -117,12 +117,12 @@ class Guild extends Structure_1.Structure {
             for (const role of options.includeRoles)
                 query.append('include_roles', role);
         if (options.dry) {
-            const result = await this.client.api.get(rest_1.Routes.guildPrune(this.id), { ...requestOptions, query });
+            const result = await this.client.api.get(rest_1.Routes.guildPrune(this.id), { ...requestOptions, query: [...query] });
             return result.pruned;
         }
         if (Util_1.isSet(options, 'computePruneCount'))
             query.append('compute_prune_count', options.computePruneCount.toString());
-        const result = await this.client.api.post(rest_1.Routes.guildPrune(this.id), { ...requestOptions, query });
+        const result = await this.client.api.post(rest_1.Routes.guildPrune(this.id), { ...requestOptions, query: [...query] });
         return result.pruned;
     }
     /**

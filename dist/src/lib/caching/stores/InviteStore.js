@@ -37,7 +37,7 @@ class InviteStore extends DataStore_1.DataStore {
      * @see https://discord.com/developers/docs/resources/invite#get-invite
      */
     async fetch(code, options = {}) {
-        const entry = await this.client.api.get(rest_1.Routes.invite(code), { query: options });
+        const entry = await this.client.api.get(rest_1.Routes.invite(code), { query: Object.entries(options) });
         return this._add(entry);
     }
     /**
