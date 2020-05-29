@@ -67,7 +67,7 @@ export class PresenceBuilder implements PresenceUpdateData {
 	 * @since 0.0.1
 	 * @param builder The builder to aid building the game.
 	 */
-	public setGame(builder: (game: APIActivityData) => PresenceGameBuilder): this;
+	public setGame(game: (game: PresenceGameBuilder) => PresenceGameBuilder): this;
 	public setGame(game: APIActivityData | null | ((game: PresenceGameBuilder) => PresenceGameBuilder)): this {
 		this.game = typeof game === 'function' ? game(new PresenceGameBuilder()) : game;
 		return this;
