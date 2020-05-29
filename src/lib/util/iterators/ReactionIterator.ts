@@ -3,7 +3,7 @@ import { ClientEvents } from '../../client/Client';
 
 import type { Message } from '../../caching/structures/Message';
 import type { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
-import type { User } from 'src/lib/caching/structures/User';
+import type { User } from '../../../lib/caching/structures/User';
 
 export type ReactionIteratorOptions = EventIteratorOptions<[MessageReaction, User]>;
 
