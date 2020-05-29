@@ -10,7 +10,7 @@ class CoreAction extends core_1.Action {
         const guild = this.client.guilds.get(data.d.guild_id);
         if (!guild)
             return null;
-        return new (core_1.extender.get('Role'))(this.client, data.d.role);
+        return new (core_1.extender.get('Role'))(this.client, data.d.role, guild);
     }
     cache(data) {
         if (this.client.options.cache.enabled) {
