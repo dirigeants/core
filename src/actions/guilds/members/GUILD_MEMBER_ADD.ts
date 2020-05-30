@@ -14,8 +14,10 @@ export default class CoreAction extends Action {
 	}
 
 	public cache(data: GuildMember): void {
-		data.guild.members.set(data.id, data);
-		++data.guild.memberCount;
+		if (data.guild) {
+			data.guild.members.set(data.id, data);
+			++data.guild.memberCount;
+		}
 	}
 
 }

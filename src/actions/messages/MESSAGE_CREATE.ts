@@ -14,8 +14,10 @@ export default class CoreAction extends Action {
 
 	public cache(data: Message): void {
 		if (this.client.options.cache.enabled) {
-			data.channel.messages.set(data.id, data);
-			data.channel.lastMessageID = data.id;
+			if (data.channel) {
+				data.channel.messages.set(data.id, data);
+				data.channel.lastMessageID = data.id;
+			}
 		}
 	}
 

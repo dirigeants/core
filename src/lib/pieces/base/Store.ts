@@ -30,7 +30,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * The type of structure this store holds.
 	 * @since 0.0.1
 	 */
-	public readonly holds: PieceConstructor<V>;
+	public readonly Holds: PieceConstructor<V>;
 
 	/**
 	 * The core directories pieces of this store can hold.
@@ -42,14 +42,14 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * @since 0.0.1
 	 * @param client The client this Store was created with
 	 * @param name The name of this store
-	 * @param holds The type of structure this store holds
+	 * @param Holds The type of structure this store holds
 	 */
-	public constructor(client: Client, name: string, holds: PieceConstructor<V>) {
+	public constructor(client: Client, name: string, Holds: PieceConstructor<V>) {
 		super();
 
 		this.client = client;
 		this.name = name;
-		this.holds = holds;
+		this.Holds = Holds;
 	}
 
 	/**
@@ -120,7 +120,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * @param piece The piece we are setting up
 	 */
 	public add(piece: V): V | null {
-		if (!(piece instanceof this.holds)) {
+		if (!(piece instanceof this.Holds)) {
 			this.client.emit(ClientEvents.Error, `Only ${this} may be stored in this Store.`);
 			return null;
 		}
@@ -169,7 +169,7 @@ export class Store<V extends Piece> extends Cache<string, V> {
 	 * @param name The piece object or a string representing a piece's name
 	 */
 	public resolve(name: V | string): V | null {
-		if (name instanceof this.holds) return name;
+		if (name instanceof this.Holds) return name;
 		return this.get(name as string) || null;
 	}
 

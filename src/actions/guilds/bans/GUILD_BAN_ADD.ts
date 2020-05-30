@@ -15,7 +15,7 @@ export default class CoreAction extends Action {
 
 	public cache(data: Ban): void {
 		if (this.client.options.cache.enabled) {
-			data.guild.bans.set(data.id, data);
+			if (data.guild) data.guild.bans.set(data.id, data);
 		}
 	}
 

@@ -17,7 +17,7 @@ export default class CoreAction extends Action {
 
 	public cache(data: Role): void {
 		if (this.client.options.cache.enabled) {
-			data.guild.roles.set(data.id, data);
+			if (data.guild) data.guild.roles.set(data.id, data);
 		}
 	}
 
