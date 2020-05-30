@@ -34,7 +34,7 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 	 * @since 0.0.1
 	 * @param data The raw data from {@link Client#ws}
 	 */
-	public run(data: T): unknown {
+	public async run(data: T): Promise<void> {
 		const struct = this.check(data);
 		if (struct) {
 			const previous = struct.clone();
@@ -48,7 +48,7 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 			return;
 		}
 
-		const built = this.build(data);
+		const built = await this.build(data);
 		if (built) {
 			this.cache(built);
 			this.client.emit(this.clientEvent, built);
