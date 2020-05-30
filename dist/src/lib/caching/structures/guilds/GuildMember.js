@@ -161,7 +161,7 @@ class GuildMember extends Structure_1.Structure {
         this.mute = 'mute' in data ? data.mute : null;
         this.nick = 'nick' in data ? data.nick : null;
         this.premiumSince = data.premium_since ? new Date(data.premium_since).getTime() : null;
-        this.roles = new GuildMemberRoleStore_1.GuildMemberRoleStore(this, data.roles);
+        this.roles = new GuildMemberRoleStore_1.GuildMemberRoleStore(this, [this.guild.id, ...data.roles]);
         return this;
     }
 }
