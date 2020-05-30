@@ -168,7 +168,7 @@ export class GuildMember extends Structure {
 		if (!me.roles.highest || !this.roles.highest) return false;
 
 		// If the clients highest role is higher than this roles highest role
-		return me.roles.highest > this.roles.highest;
+		return me.roles.highest.position > this.roles.highest.position;
 	}
 
 	/**
