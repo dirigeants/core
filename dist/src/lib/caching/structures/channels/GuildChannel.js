@@ -119,9 +119,8 @@ class GuildChannel extends Channel_1.Channel {
             // eslint-disable-next-line dot-notation
             this.permissionOverwrites['_add'](overwrite);
         }
-        existingOverwrites.forEach(overwrite => {
+        for (const overwrite of existingOverwrites.values())
             overwrite.deleted = true;
-        });
         return this;
     }
 }
