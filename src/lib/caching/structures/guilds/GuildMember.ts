@@ -164,6 +164,9 @@ export class GuildMember extends Structure {
 		// If this is the owner (and we have already determined we are not the owner), then it can't manage
 		if (this.id === this.guild.ownerID) return false;
 
+		// If these are undefined or null, there is no role hierarchy and it can't manage
+		if (!me.roles.highest || !this.roles.highest) return false;
+
 		// If the clients highest role is higher than this roles highest role
 		return me.roles.highest > this.roles.highest;
 	}
