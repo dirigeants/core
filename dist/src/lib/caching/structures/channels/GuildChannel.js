@@ -108,16 +108,20 @@ class GuildChannel extends Channel_1.Channel {
         if (!this.permissionOverwrites)
             this.permissionOverwrites = new OverwriteStore_1.OverwriteStore(this.client, this);
         const overwrites = (_a = data.permission_overwrites) !== null && _a !== void 0 ? _a : [];
-        for (const overwrite of this.permissionOverwrites.values()) {
-            const apiOverwrite = overwrites.find((ovr) => ovr.id === overwrite.id);
-            if (typeof apiOverwrite === 'undefined') {
-                overwrite.deleted = true;
-                this.permissionOverwrites.delete(overwrite.id);
-                continue;
+        const existingOverwrites = this.permissionOverwrites.clone();
+        this.permissionOverwrites.clear();
+        for (const overwrite of overwrites) {
+            const existing = existingOverwrites.findValue((ovr) => ovr.id === overwrite.id);
+            if (existing) {
+                this.permissionOverwrites.set(existing.id, existing);
+                existingOverwrites.delete(existing.id);
             }
             // eslint-disable-next-line dot-notation
-            this.permissionOverwrites['_add'](apiOverwrite);
+            this.permissionOverwrites['_add'](overwrite);
         }
+        existingOverwrites.forEach(overwrite => {
+            overwrite.deleted = true;
+        });
         return this;
     }
 }
