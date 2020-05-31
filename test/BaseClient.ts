@@ -12,7 +12,7 @@ TimerManager.setTimeout(() => {
 	// Bar
 }, 600000);
 
-ava('update webhook w/ token', async (test): Promise<void> => {
+ava('destroy', async (test): Promise<void> => {
 	test.plan(4);
 
 	// eslint-disable-next-line dot-notation
