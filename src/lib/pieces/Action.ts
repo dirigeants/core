@@ -34,7 +34,7 @@ export abstract class Action<T extends DispatchPayload = DispatchPayload, S exte
 	 * @since 0.0.1
 	 * @param data The raw data from {@link Client#ws}
 	 */
-	run(data: T): unknown {
+	public run(data: T): unknown {
 		const struct = this.check(data);
 		if (struct) {
 			const previous = struct.clone();
