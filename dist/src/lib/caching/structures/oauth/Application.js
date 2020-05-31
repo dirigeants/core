@@ -9,6 +9,7 @@ const Util_1 = require("../../../util/Util");
  */
 class Application {
     constructor(client, data) {
+        var _a, _b, _c, _d;
         this.client = client;
         this.id = data.id;
         this.name = data.name;
@@ -18,18 +19,23 @@ class Application {
             this.rpcOrigins = data.rpc_origins;
         this.botPublic = data.bot_public;
         this.botRequireCodeGrant = data.bot_require_code_grant;
-        this.owner = data.owner;
+        // eslint-disable-next-line dot-notation
+        this.owner = this.client.users['_add'](data.owner);
         this.summary = data.summary;
         this.verifyKey = data.verify_key;
         this.team = data.team ? new Team_1.Team(client, data.team) : null;
-        if (Util_1.isSet(data, 'guild_id'))
-            this.guildID = data.guild_id;
-        if (Util_1.isSet(data, 'primary_sku_id'))
-            this.primarySkuID = data.primary_sku_id;
-        if (Util_1.isSet(data, 'slug'))
-            this.slug = data.slug;
-        if (Util_1.isSet(data, 'cover_image'))
-            this.coverImage = data.cover_image;
+        this.guildID = (_a = data.guild_id) !== null && _a !== void 0 ? _a : null;
+        this.primarySkuID = (_b = data.primary_sku_id) !== null && _b !== void 0 ? _b : null;
+        this.slug = (_c = data.slug) !== null && _c !== void 0 ? _c : null;
+        this.coverImage = (_d = data.cover_image) !== null && _d !== void 0 ? _d : null;
+    }
+    /**
+     * The guild for this application if applicable.
+     * @since 0.0.4
+     */
+    get guild() {
+        var _a;
+        return this.guildID !== null ? (_a = this.client.guilds.get(this.guildID)) !== null && _a !== void 0 ? _a : null : null;
     }
     /**
      * Returns an {@link Application application}.

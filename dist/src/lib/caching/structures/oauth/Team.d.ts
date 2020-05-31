@@ -28,4 +28,9 @@ export declare class Team {
      */
     ownerID: string;
     constructor(client: Client, data: APITeamData);
+    /**
+     * The owner of this Team
+     * @since 0.0.4
+     */
+    get owner(): TeamMember;
 }

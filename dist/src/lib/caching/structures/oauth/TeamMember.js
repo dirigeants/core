@@ -9,22 +9,22 @@ class TeamMember {
         this.client = client;
         this.membershipState = data.membership_state;
         this.permissions = data.permissions;
-        this.id = data.user.id;
+        // eslint-disable-next-line dot-notation
+        this.user = this.client.users['_add'](data.user);
     }
     /**
-     * The {@link User} this represents.
+     * The {@link User} ID.
      * @since 0.0.1
      */
-    get user() {
-        var _a;
-        return (_a = this.client.users.get(this.id)) !== null && _a !== void 0 ? _a : null;
+    get id() {
+        return this.user.id;
     }
     /**
-     * Defines toString behavior for members.
+     * Defines toString behavior for team members.
      * @since 0.0.1
      */
     toString() {
-        return `<@${this.id}>`;
+        return this.user.toString();
     }
 }
 exports.TeamMember = TeamMember;

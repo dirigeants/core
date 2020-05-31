@@ -1,6 +1,8 @@
 import { Team } from './Team';
-import type { APIOauthData, APIUserData } from '@klasa/dapi-types';
+import type { APIOauthData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
+import type { Guild } from '../guilds/Guild';
+import type { User } from '../User';
 /**
  * @see https://discord.com/developers/docs/topics/oauth2#get-current-application-information-response-structure
  */
@@ -45,7 +47,7 @@ export declare class Application {
      * Partial user object containing info on the owner of the application.
      * @since 0.0.1
      */
-    owner: APIUserData;
+    owner: User;
     /**
      * If this application is a game sold on Discord, this field will be the summary field for the store page of its primary sku.
      * @since 0.0.1
@@ -66,23 +68,28 @@ export declare class Application {
      * If this application is a game sold on Discord, this field will be the guild to which it has been linked.
      * @since 0.0.1
      */
-    guildID?: string;
+    guildID: string | null;
     /**
      * If this application is a game sold on Discord, this field will be the id of the "Game SKU" that is created, if exists.
      * @since 0.0.1
      */
-    primarySkuID?: string;
+    primarySkuID: string | null;
     /**
      * If this application is a game sold on Discord, this field will be the URL slug that links to the store page.
      * @since 0.0.1
      */
-    slug?: string;
+    slug: string | null;
     /**
      * If this application is a game sold on Discord, this field will be the hash of the image on store embeds.
      * @since 0.0.1
      */
-    coverImage?: string;
+    coverImage: string | null;
     constructor(client: Client, data: APIOauthData);
+    /**
+     * The guild for this application if applicable.
+     * @since 0.0.4
+     */
+    get guild(): Guild | null;
     /**
      * Returns an {@link Application application}.
      * @since 0.0.1

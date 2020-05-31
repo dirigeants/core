@@ -14,6 +14,13 @@ class Team {
         this.members = new cache_1.Cache(data.members.map(member => [member.user.id, new TeamMember_1.TeamMember(client, member)]));
         this.ownerID = data.owner_user_id;
     }
+    /**
+     * The owner of this Team
+     * @since 0.0.4
+     */
+    get owner() {
+        return this.members.get(this.ownerID);
+    }
 }
 exports.Team = Team;
 //# sourceMappingURL=Team.js.map
