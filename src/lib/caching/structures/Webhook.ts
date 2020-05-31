@@ -99,14 +99,14 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	 * The guild that this webhook is in
 	 */
 	get guild(): Guild | null {
-		return (this.guildID && (this.client as Client).guilds.get(this.guildID)) || null;
+		return (this.guildID && (this.client as Client).guilds?.get(this.guildID)) || null;
 	}
 
 	/**
 	 * The channel of this webhook
 	 */
 	get channel(): Channel | null {
-		return (this.client as Client)?.channels.get(this.channelID) ?? null;
+		return (this.client as Client).channels?.get(this.channelID) ?? null;
 	}
 
 	/**
@@ -146,10 +146,10 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	}
 
 	/**
-	 * Updates the webhook properties
+	 * Modifies the webhook properties
 	 * @param webhookUpdateData Data to update the webhook with
 	 */
-	public async update({ name, avatar, channelID }: WebhookUpdateData): Promise<this> {
+	public async modify({ name, avatar, channelID }: WebhookUpdateData): Promise<this> {
 		const updateData = await (channelID || !this.token ?
 			// Requires MANAGE_WEBHOOKS permission to update channelID or to update without the token
 			// eslint-disable-next-line @typescript-eslint/camelcase

@@ -1,11 +1,13 @@
 import ava from 'ava';
 import nock = require('nock');
 import { RestOptionsDefaults, Routes } from '@klasa/rest';
+import { Snowflake } from '@klasa/snowflake';
 import { WebhookClient, User, MessageBuilder } from '../src';
 
 import { APIWebhookData, WebhookType, APIUserData } from '@klasa/dapi-types';
 
-const id = '123456';
+const date = new Date();
+const id = Snowflake.generate(date).toString();
 const token = 'abcdef';
 
 const rawWebhook: APIWebhookData = {
@@ -89,7 +91,7 @@ const client = new WebhookClient();
 client.token = 'Not-A-Real-Token';
 
 ava('fetch webhook', async (test): Promise<void> => {
-	test.plan(11);
+	test.plan(15);
 
 	const webhook = await client.fetch(id);
 	test.is(webhook.id, id);
@@ -100,19 +102,27 @@ ava('fetch webhook', async (test): Promise<void> => {
 	test.is(webhook.user?.avatar, null);
 	test.is(webhook.user?.discriminator, '0000');
 	test.is(webhook.user?.username, 'Spidey Bot');
+	test.deepEqual(webhook.createdAt, date);
+	test.is(webhook.createdTimestamp, date.valueOf());
+	test.is(webhook.guild, null);
+	test.is(webhook.channel, null);
 	test.is(webhook.name, 'Spidey Bot');
 	test.is(webhook.channelID, '9463781');
 	test.is(webhook.token, token);
 });
 
 ava('fetch webhook w/ token', async (test): Promise<void> => {
-	test.plan(7);
+	test.plan(11);
 
 	const webhook = await client.fetch(id, token);
 	test.is(webhook.id, id);
 	test.is(webhook.type, WebhookType.Incoming);
 	test.is(webhook.guildID, null);
 	test.is(webhook.user, null);
+	test.deepEqual(webhook.createdAt, date);
+	test.is(webhook.createdTimestamp, date.valueOf());
+	test.is(webhook.guild, null);
+	test.is(webhook.channel, null);
 	test.is(webhook.name, 'Spidey Bot');
 	test.is(webhook.channelID, '9463781');
 	test.is(webhook.token, token);
@@ -157,7 +167,7 @@ ava('update webhook', async (test): Promise<void> => {
 	test.is(webhook.name, 'Spidey Bot');
 	test.is(webhook.avatar, null);
 	test.is(webhook.channelID, '9463781');
-	await webhook.update({ name: 'TestWebhook', avatar: 'a_whatatest', channelID: '74108520963' });
+	await webhook.modify({ name: 'TestWebhook', avatar: 'a_whatatest', channelID: '74108520963' });
 	test.is(webhook.name, 'TestWebhook');
 	test.is(webhook.avatar, 'a_whatatest');
 	test.is(webhook.channelID, '74108520963');
@@ -170,7 +180,7 @@ ava('update webhook w/ token', async (test): Promise<void> => {
 	test.is(webhook.name, 'Spidey Bot');
 	test.is(webhook.avatar, null);
 	test.is(webhook.channelID, '9463781');
-	await webhook.update({ name: 'TestWebhook', avatar: 'a_whatatest' });
+	await webhook.modify({ name: 'TestWebhook', avatar: 'a_whatatest' });
 	test.is(webhook.name, 'TestWebhook');
 	test.is(webhook.avatar, 'a_whatatest');
 	test.is(webhook.channelID, '9463781');
