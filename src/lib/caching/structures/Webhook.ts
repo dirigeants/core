@@ -35,7 +35,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	/**
 	 * The guildID this webhook is for
 	 */
-	public guildID?: string;
+	public guildID: string | null;
 
 	/**
 	 * The channelID this webhook is for
@@ -45,7 +45,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	/**
 	 * The "user" of the webhook displayed on the webhook messages
 	 */
-	public user?: User<Client | WebhookClient>;
+	public user: User<Client | WebhookClient> | null = null;
 
 	/**
 	 * The name of the webhook
@@ -60,26 +60,31 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	/**
 	 * The token for this webhook
 	 */
-	public token?: string;
+	public token: string | null;
+
+	/**
+	 * If the webhook has been deleted
+	 */
+	public deleted = false;
 
 	/**
 	 * @param client The client to manage this webhook
 	 * @param data The webhook data
 	 */
-	public constructor(client: Client | WebhookClient, data: APIWebhookData) {
+	public constructor(client: Client | WebhookClient, data: APIWebhookData, token?: string) {
 		super(client);
 		this.id = data.id;
 		this.type = data.type;
-		this.guildID = data.guild_id;
-
+		this.guildID = data.guild_id ?? null;
+		this.token = token ?? null;
 		this._patch(data);
 	}
 
 	public _patch(data: APIWebhookData): this {
-		this.token = data.token || this.token;
-		this.name = data.name || this.name;
-		this.avatar = data.avatar || this.avatar;
-		this.channelID = data.channel_id || this.channelID;
+		this.token = data.token ?? this.token;
+		this.name = data.name ?? this.name;
+		this.avatar = data.avatar ?? this.avatar;
+		this.channelID = data.channel_id ?? this.channelID;
 
 		if (data.user) {
 			// eslint-disable-next-line dot-notation
@@ -164,6 +169,8 @@ export class Webhook extends Structure<Client | WebhookClient> {
 			this.client.api.delete(Routes.webhookTokened(this.id, this.token), { auth: false }) :
 			// Requires MANAGE_WEBHOOKS permission
 			this.client.api.delete(Routes.webhook(this.id)));
+
+		this.deleted = true;
 	}
 
 	/**
@@ -188,7 +195,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 			client.api.get(Routes.webhookTokened(id, token), { auth: false }) :
 			client.api.get(Routes.webhook(id)));
 
-		return new this(client, webhookData as APIWebhookData);
+		return new this(client, webhookData as APIWebhookData, token);
 	}
 
 }
