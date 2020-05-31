@@ -8,12 +8,6 @@ import type { User } from '../User';
 export class TeamMember {
 
 	/**
-	 * The {@link User} ID.
-	 * @since 0.0.1
-	 */
-	public readonly id: string;
-
-	/**
 	 * The user's membership state on the team.
 	 * @since 0.0.1
 	 */
@@ -25,26 +19,33 @@ export class TeamMember {
 	 */
 	public permissions: string[];
 
+	/**
+	 * The {@link User} this represents.
+	 * @since 0.0.4
+	 */
+	public user: User;
+
 	public constructor(public readonly client: Client, data: APITeamMember) {
 		this.membershipState = data.membership_state;
 		this.permissions = data.permissions;
-		this.id = data.user.id;
+		// eslint-disable-next-line dot-notation
+		this.user = this.client.users['_add'](data.user);
 	}
 
 	/**
-	 * The {@link User} this represents.
+	 * The {@link User} ID.
 	 * @since 0.0.1
 	 */
-	public get user(): User | null {
-		return this.client.users.get(this.id) ?? null;
+	public get id(): string {
+		return this.user.id;
 	}
 
 	/**
-	 * Defines toString behavior for members.
+	 * Defines toString behavior for team members.
 	 * @since 0.0.1
 	 */
 	public toString(): string {
-		return `<@${this.id}>`;
+		return this.user.toString();
 	}
 
 }

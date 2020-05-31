@@ -2,8 +2,10 @@ import { Routes } from '@klasa/rest';
 import { Team } from './Team';
 import { isSet } from '../../../util/Util';
 
-import type { APIOauthData, APIUserData } from '@klasa/dapi-types';
+import type { APIOauthData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
+import type { Guild } from '../guilds/Guild';
+import type { User } from '../User';
 
 /**
  * @see https://discord.com/developers/docs/topics/oauth2#get-current-application-information-response-structure
@@ -56,7 +58,7 @@ export class Application {
 	 * Partial user object containing info on the owner of the application.
 	 * @since 0.0.1
 	 */
-	public owner: APIUserData;
+	public owner: User;
 
 	/**
 	 * If this application is a game sold on Discord, this field will be the summary field for the store page of its primary sku.
@@ -81,25 +83,25 @@ export class Application {
 	 * If this application is a game sold on Discord, this field will be the guild to which it has been linked.
 	 * @since 0.0.1
 	 */
-	public guildID?: string;
+	public guildID: string | null;
 
 	/**
 	 * If this application is a game sold on Discord, this field will be the id of the "Game SKU" that is created, if exists.
 	 * @since 0.0.1
 	 */
-	public primarySkuID?: string;
+	public primarySkuID: string | null;
 
 	/**
 	 * If this application is a game sold on Discord, this field will be the URL slug that links to the store page.
 	 * @since 0.0.1
 	 */
-	public slug?: string;
+	public slug: string | null;
 
 	/**
 	 * If this application is a game sold on Discord, this field will be the hash of the image on store embeds.
 	 * @since 0.0.1
 	 */
-	public coverImage?: string;
+	public coverImage: string | null;
 
 	public constructor(public readonly client: Client, data: APIOauthData) {
 		this.id = data.id;
@@ -109,14 +111,23 @@ export class Application {
 		if (isSet(data, 'rpc_origins')) this.rpcOrigins = data.rpc_origins;
 		this.botPublic = data.bot_public;
 		this.botRequireCodeGrant = data.bot_require_code_grant;
-		this.owner = data.owner;
+		// eslint-disable-next-line dot-notation
+		this.owner = this.client.users['_add'](data.owner);
 		this.summary = data.summary;
 		this.verifyKey = data.verify_key;
 		this.team = data.team ? new Team(client, data.team) : null;
-		if (isSet(data, 'guild_id')) this.guildID = data.guild_id;
-		if (isSet(data, 'primary_sku_id')) this.primarySkuID = data.primary_sku_id;
-		if (isSet(data, 'slug')) this.slug = data.slug;
-		if (isSet(data, 'cover_image')) this.coverImage = data.cover_image;
+		this.guildID = data.guild_id ?? null;
+		this.primarySkuID = data.primary_sku_id ?? null;
+		this.slug = data.slug ?? null;
+		this.coverImage = data.cover_image ?? null;
+	}
+
+	/**
+	 * The guild for this application if applicable.
+	 * @since 0.0.4
+	 */
+	public get guild(): Guild | null {
+		return this.guildID !== null ? this.client.guilds.get(this.guildID) ?? null : null;
 	}
 
 	/**
