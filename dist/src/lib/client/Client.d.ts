@@ -219,7 +219,7 @@ export declare class Client extends BaseClient {
     /**
      * The plugins to be used when creating a Client instance
      */
-    private static readonly plugins;
+    protected static readonly plugins: Set<Function>;
     /**
      * Caches a plugin module to be used when creating a Client instance
      * @param mod The module of the plugin to use
