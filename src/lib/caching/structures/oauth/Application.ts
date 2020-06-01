@@ -1,6 +1,5 @@
 import { Routes } from '@klasa/rest';
 import { Team } from './Team';
-import { isSet } from '../../../util/Util';
 
 import type { APIOauthData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
