@@ -6,7 +6,7 @@ import { WebhookClient, User } from '../src';
 
 import { APIWebhookData, WebhookType, APIUserData, APIMessageData, MessageType } from '@klasa/dapi-types';
 
-const date = new Date();
+const date = new Date(new Date().toString());
 const id = Snowflake.generate(date).toString();
 const token = 'abcdef';
 
