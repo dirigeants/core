@@ -1,20 +1,52 @@
 import ava from 'ava';
 import nock = require('nock');
 import { RestOptionsDefaults, Routes } from '@klasa/rest';
-import { Client, Application } from '../src';
+import { Client, Application, Team, TeamMember } from '../src';
 
-import { APIUserData, APIOauthData } from '@klasa/dapi-types';
+import type { APIUserData, APIOauthData, APITeamData, APITeamMember } from '@klasa/dapi-types';
 
 const rawOwner: APIUserData = {
-
+	id: '339942739275677726',
+	username: 'team339942739275677726',
+	avatar: null,
+	discriminator: '0000',
+	public_flags: 1024,
+	flags: 1024
 };
 
-const rawMember: APIUserData = {
+const rawTeamMemberUser: APIUserData = {
+	id: '167383252271628288',
+	username: 'Owner',
+	avatar: '6b26b2972fe980d745dcced464dc7cff',
+	discriminator: '0001',
+	public_flags: 131840
+};
 
+const rawTeamMember: APITeamMember = {
+	user: rawTeamMemberUser,
+	team_id: '339942739275677726',
+	membership_state: 2,
+	permissions: ['*']
+};
+
+const rawTeam: APITeamData = {
+	id: '339942739275677726',
+	icon: '5decfa5644c11081120c2f1b032d7c67',
+	owner_user_id: '167383252271628288',
+	members: [rawTeamMember]
 };
 
 const rawApplication: APIOauthData = {
-
+	id: '228831628164566615',
+	name: 'Klasa',
+	icon: '5decfa5644c11081120c2f1b032d7c67',
+	description: '',
+	summary: '',
+	bot_public: true,
+	bot_require_code_grant: false,
+	verify_key: 'You-Do-Not-Want-This',
+	owner: rawOwner,
+	team: rawTeam
 };
 
 nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
@@ -26,6 +58,30 @@ const client = new Client();
 
 client.token = 'Not-A-Real-Token';
 
-ava('fetch application with team', async (test): Promise<void> => {
+ava('fetch application', async (test): Promise<void> => {
 	const application = await Application.fetch(client);
+
+	test.not(application.team, null);
+	const team = application.team as Team;
+	test.is(team.client, client);
+	test.is(team.id, rawTeam.id);
+	test.is(team.icon, rawTeam.icon);
+	test.is(team.ownerID, rawTeam.owner_user_id);
+	test.is(team.members.size, 1);
+
+	const teamMember = team.members.get(rawTeamMember.user.id) as TeamMember;
+	test.truthy(teamMember);
+	test.is(team.owner, teamMember);
+	test.is(teamMember.client, client);
+	test.is(teamMember.membershipState, rawTeamMember.membership_state);
+	test.is(teamMember.id, rawTeamMemberUser.id);
+	test.is(teamMember.toString(), `<@${rawTeamMemberUser.id}>`);
+	test.deepEqual(teamMember.permissions, rawTeamMember.permissions);
+
+	const teamMemberUser = teamMember.user;
+	test.is(teamMemberUser.id, rawTeamMemberUser.id);
+	test.is(teamMemberUser.username, rawTeamMemberUser.username);
+	test.is(teamMemberUser.avatar, rawTeamMemberUser.avatar);
+	test.is(teamMemberUser.discriminator, rawTeamMemberUser.discriminator);
+	test.is(teamMemberUser.publicFlags, rawTeamMemberUser.public_flags);
 });
