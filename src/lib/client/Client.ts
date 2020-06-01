@@ -195,6 +195,11 @@ export class Client extends BaseClient {
 	public readonly actions: ActionStore;
 
 	/**
+	 * The number of plugins loaded.
+	 */
+	private pluginLoadedCount = 0;
+
+	/**
 	 * @param options All of your preferences on how Klasa-Core should work for you
 	 */
 	public constructor(options: Partial<ClientOptions> = {}) {
@@ -270,6 +275,10 @@ export class Client extends BaseClient {
 	 * Connects the client to the websocket
 	 */
 	public async connect(): Promise<void> {
+		const numberOfPlugins = (this.constructor as typeof Client).plugins.size;
+		if (numberOfPlugins && this.pluginLoadedCount < numberOfPlugins) {
+			throw new Error('It appears plugins were not loaded. You must call this.loadPlugins() at the end of your Constructor');
+		}
 		await Promise.all(this.pieceStores.map(store => store.loadAll()));
 		try {
 			await this.ws.spawn();
@@ -289,6 +298,15 @@ export class Client extends BaseClient {
 		this.ws.destroy();
 	}
 
+	/**
+	 * Loads all plugins to your Client/Extended Client
+	 */
+	protected loadPlugins(): void {
+		for (const plugin of Client.plugins) {
+			plugin.call(this);
+			this.pluginLoadedCount++;
+		}
+	}
 
 	/**
 	 * Sweeps all text-based channels' messages and removes the ones older than the max message or command message lifetime.
@@ -327,7 +345,7 @@ export class Client extends BaseClient {
 	/**
 	 * The plugins to be used when creating a Client instance
 	 */
-	protected static readonly plugins = new Set<Function>();
+	private static readonly plugins = new Set<Function>();
 
 	/**
 	 * Caches a plugin module to be used when creating a Client instance
