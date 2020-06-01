@@ -23,11 +23,12 @@ export default class CoreAction extends Action {
 			return;
 		}
 
-		if (data.d.unavailable) {
-			guild.unavailable = true;
+		const { unavailable } = data.d;
+		guild.unavailable = unavailable;
+
+		if (unavailable) {
 			this.client.emit(ClientEvents.GuildUnavailable, guild);
 		} else {
-			guild.unavailable = false;
 			guild.deleted = true;
 			this.client.guilds.delete(guild.id);
 			this.client.emit(ClientEvents.GuildDelete, guild);
