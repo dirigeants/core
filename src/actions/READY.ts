@@ -13,7 +13,6 @@ export default class CoreAction extends Action {
 		for (const guild of data.d.guilds) {
 			// eslint-disable-next-line dot-notation
 			const created = new (extender.get('Guild'))(this.client, guild, data.shard_id);
-			
 			if (this.client.options.cache.enabled) {
 				this.client.guilds.set(created.id, created);
 			}
