@@ -12,7 +12,11 @@ export default class CoreAction extends Action {
 	public run(data: ReadyDispatch): void {
 		for (const guild of data.d.guilds) {
 			// eslint-disable-next-line dot-notation
-			this.client.guilds['_add'](guild);
+			const created = new (extender.get('Guild'))(this.client, guild, data.shard_id);
+			
+			if (this.client.options.cache.enabled) {
+				this.client.guilds.set(created.id, created);
+			}
 		}
 
 		const ClientUser = extender.get('ClientUser');
