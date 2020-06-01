@@ -327,7 +327,7 @@ export class Client extends BaseClient {
 	/**
 	 * The plugins to be used when creating a Client instance
 	 */
-	private static readonly plugins = new Set<Function>();
+	protected static readonly plugins = new Set<Function>();
 
 	/**
 	 * Caches a plugin module to be used when creating a Client instance
