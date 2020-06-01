@@ -48,6 +48,7 @@ export * from './lib/caching/structures/messages/MessageBuilder';
 export * from './lib/caching/structures/messages/MessageMentions';
 export * from './lib/caching/structures/messages/reactions/MessageReaction';
 export * from './lib/caching/structures/messages/reactions/MessageReactionEmoji';
+export * from './lib/caching/structures/messages/WebhookMessage';
 export * from './lib/caching/structures/messages/WebhookMessageBuilder';
 export * from './lib/caching/structures/oauth/Application';
 export * from './lib/caching/structures/oauth/Team';
