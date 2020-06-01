@@ -1,4 +1,4 @@
-import { Action, extender, Guild, ClientEvents } from '@klasa/core';
+import { Action, ClientEvents, extender } from '@klasa/core';
 
 import type { GuildCreateDispatch } from '@klasa/ws';
 
