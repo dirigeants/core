@@ -60,6 +60,7 @@ __exportStar(require("./lib/caching/structures/messages/MessageBuilder"), export
 __exportStar(require("./lib/caching/structures/messages/MessageMentions"), exports);
 __exportStar(require("./lib/caching/structures/messages/reactions/MessageReaction"), exports);
 __exportStar(require("./lib/caching/structures/messages/reactions/MessageReactionEmoji"), exports);
+__exportStar(require("./lib/caching/structures/messages/WebhookMessage"), exports);
 __exportStar(require("./lib/caching/structures/messages/WebhookMessageBuilder"), exports);
 __exportStar(require("./lib/caching/structures/oauth/Application"), exports);
 __exportStar(require("./lib/caching/structures/oauth/Team"), exports);
