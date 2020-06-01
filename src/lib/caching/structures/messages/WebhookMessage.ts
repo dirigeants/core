@@ -4,7 +4,7 @@ import { Structure } from '../base/Structure';
 import { extender } from '../../../util/Extender';
 
 import type { User } from '../User';
-import type { WebhookClient } from 'src/lib/client/WebhookClient';
+import type { WebhookClient } from '../../../client/WebhookClient';
 
 export class WebhookMessage<T = WebhookClient> extends Structure<T> {
 
