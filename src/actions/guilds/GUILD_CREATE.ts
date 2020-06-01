@@ -23,6 +23,8 @@ export default class CoreAction extends Action {
 		}
 
 		const { unavailable } = guild;
+
+		// eslint-disable-next-line dot-notation
 		guild['_patch'](data.d);
 
 		// If it was unavailable and switches to available, emit GuildAvailable
