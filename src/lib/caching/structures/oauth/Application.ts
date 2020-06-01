@@ -1,6 +1,5 @@
 import { Routes } from '@klasa/rest';
 import { Team } from './Team';
-import { isSet } from '../../../util/Util';
 
 import type { APIOauthData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
@@ -40,7 +39,7 @@ export class Application {
 	 * An array of rpc origin urls, if rpc is enabled.
 	 * @since 0.0.1
 	 */
-	public rpcOrigins?: string[];
+	public rpcOrigins: string[];
 
 	/**
 	 * When false only app owner can join the app's bot to guilds.
@@ -108,7 +107,7 @@ export class Application {
 		this.name = data.name;
 		this.icon = data.icon;
 		this.description = data.description;
-		if (isSet(data, 'rpc_origins')) this.rpcOrigins = data.rpc_origins;
+		this.rpcOrigins = data.rpc_origins ?? [];
 		this.botPublic = data.bot_public;
 		this.botRequireCodeGrant = data.bot_require_code_grant;
 		// eslint-disable-next-line dot-notation
