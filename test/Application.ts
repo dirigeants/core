@@ -77,7 +77,6 @@ client.token = 'Not-A-Real-Token';
 
 ava('fetch application', async (test): Promise<void> => {
 	const application = await Application.fetch(client);
-	const guild = client.guilds['_add'](rawGuild);
 
 	test.is(application.client, client);
 	test.is(application.id, rawApplication.id);
@@ -90,10 +89,10 @@ ava('fetch application', async (test): Promise<void> => {
 	test.is(application.summary, rawApplication.summary);
 	test.is(application.verifyKey, rawApplication.verify_key);
 	test.is(application.guildID, rawApplication.guild_id);
-	test.is(application.guild, guild);
 	test.is(application.primarySkuID, rawApplication.primary_sku_id);
 	test.is(application.slug, rawApplication.slug);
 	test.is(application.coverImage, rawApplication.cover_image);
+	test.is(application.team, null);
 
 	test.not(application.owner, null);
 	const { owner } = application;
@@ -104,5 +103,8 @@ ava('fetch application', async (test): Promise<void> => {
 	test.is(owner.publicFlags, rawOwner.public_flags);
 	test.is(owner.flags, rawOwner.flags);
 
-	test.is(application.team, null);
+	// Test guild availability
+	test.is(application.guild, null);
+	const guild = client.guilds['_add'](rawGuild);
+	test.is(application.guild, guild);
 });
