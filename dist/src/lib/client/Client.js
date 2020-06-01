@@ -30,6 +30,10 @@ let Client = /** @class */ (() => {
              * The directory where the user files are at.
              */
             this.userBaseDirectory = path_1.dirname(require.main.filename);
+            /**
+             * The number of plugins loaded.
+             */
+            this.pluginLoadedCount = 0;
             this.options = utils_1.mergeDefault(Constants_1.ClientOptionsDefaults, options);
             this.ws = new ws_1.WebSocketManager(this.api, this.options.ws)
                 .on("debug" /* Debug */, this.emit.bind(this, "wsDebug" /* WSDebug */));
@@ -93,6 +97,10 @@ let Client = /** @class */ (() => {
          * Connects the client to the websocket
          */
         async connect() {
+            const numberOfPlugins = this.constructor.plugins.size;
+            if (numberOfPlugins && this.pluginLoadedCount < numberOfPlugins) {
+                throw new Error('It appears plugins were not loaded. You must call this.loadPlugins() at the end of your Constructor');
+            }
             await Promise.all(this.pieceStores.map(store => store.loadAll()));
             try {
                 await this.ws.spawn();
@@ -110,6 +118,15 @@ let Client = /** @class */ (() => {
         async destroy() {
             await super.destroy();
             this.ws.destroy();
+        }
+        /**
+         * Loads all plugins to your Client/Extended Client
+         */
+        loadPlugins() {
+            for (const plugin of Client.plugins) {
+                plugin.call(this);
+                this.pluginLoadedCount++;
+            }
         }
         /**
          * Sweeps all text-based channels' messages and removes the ones older than the max message or command message lifetime.

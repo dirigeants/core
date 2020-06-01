@@ -169,6 +169,10 @@ export declare class Client extends BaseClient {
      */
     readonly actions: ActionStore;
     /**
+     * The number of plugins loaded.
+     */
+    private pluginLoadedCount;
+    /**
      * @param options All of your preferences on how Klasa-Core should work for you
      */
     constructor(options?: Partial<ClientOptions>);
@@ -205,6 +209,10 @@ export declare class Client extends BaseClient {
      */
     destroy(): Promise<void>;
     /**
+     * Loads all plugins to your Client/Extended Client
+     */
+    protected loadPlugins(): void;
+    /**
      * Sweeps all text-based channels' messages and removes the ones older than the max message or command message lifetime.
      * If the message has been edited, the time of the edit is used rather than the time of the original message.
      * @since 0.5.0
@@ -219,7 +227,7 @@ export declare class Client extends BaseClient {
     /**
      * The plugins to be used when creating a Client instance
      */
-    protected static readonly plugins: Set<Function>;
+    private static readonly plugins;
     /**
      * Caches a plugin module to be used when creating a Client instance
      * @param mod The module of the plugin to use
