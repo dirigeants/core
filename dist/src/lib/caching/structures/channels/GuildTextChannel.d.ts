@@ -7,7 +7,7 @@ import { Typing } from '../Typing';
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
-import type { Message } from '../Message';
+import type { Message } from '../messages/Message';
 export interface SendOptions {
     split?: SplitOptions;
     cache?: boolean;

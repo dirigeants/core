@@ -9,7 +9,7 @@ import { GuildEmoji } from '../caching/structures/guilds/GuildEmoji';
 import { GuildMember } from '../caching/structures/guilds/GuildMember';
 import { Integration } from '../caching/structures/guilds/Integration';
 import { Invite } from '../caching/structures/Invite';
-import { Message } from '../caching/structures/Message';
+import { Message } from '../caching/structures/messages/Message';
 import { MessageReaction } from '../caching/structures/messages/reactions/MessageReaction';
 import { NewsChannel } from '../caching/structures/channels/NewsChannel';
 import { Overwrite } from '../caching/structures/guilds/Overwrite';

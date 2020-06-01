@@ -2,7 +2,7 @@ import { ChannelType, APIChannelFollowResult } from '@klasa/dapi-types';
 import { RequestOptions } from '@klasa/rest';
 import { GuildTextChannel } from './GuildTextChannel';
 import type { ChannelModifyOptions } from './GuildChannel';
-import type { Message } from '../Message';
+import type { Message } from '../messages/Message';
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
  */

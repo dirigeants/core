@@ -1,7 +1,7 @@
 import { StructureCollector } from './base/StructureCollector';
 import { ReactionIterator } from '../iterators/ReactionIterator';
 import type { Cache } from '@klasa/cache';
-import type { Message } from '../../caching/structures/Message';
+import type { Message } from '../../caching/structures/messages/Message';
 import type { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
 import type { User } from '../../../lib/caching/structures/User';
 /**

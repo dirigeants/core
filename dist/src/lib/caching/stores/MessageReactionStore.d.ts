@@ -3,7 +3,7 @@ import { ReactionIteratorOptions } from '../../util/iterators/ReactionIterator';
 import { EmojiResolvable } from '../../util/Util';
 import type { Client } from '../../client/Client';
 import type { MessageReaction } from '../structures/messages/reactions/MessageReaction';
-import type { Message } from '../structures/Message';
+import type { Message } from '../structures/messages/Message';
 import type { User } from '../structures/User';
 /**
  * The store for {@link MessageReaction message reactions}.

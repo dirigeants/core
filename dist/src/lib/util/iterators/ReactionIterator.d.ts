@@ -1,5 +1,5 @@
 import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
-import type { Message } from '../../caching/structures/Message';
+import type { Message } from '../../caching/structures/messages/Message';
 import type { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
 import type { User } from '../../../lib/caching/structures/User';
 export declare type ReactionIteratorOptions = EventIteratorOptions<[MessageReaction, User]>;

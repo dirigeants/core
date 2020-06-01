@@ -1,10 +1,10 @@
 import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
 import { Structure } from './base/Structure';
+import { WebhookMessage } from './messages/WebhookMessage';
 import type { APIWebhookData, WebhookType } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
 import type { WebhookClient } from '../../client/WebhookClient';
 import type { SplitOptions } from './messages/MessageBuilder';
-import type { Message } from './Message';
 import type { User } from './User';
 import type { Guild } from './guilds/Guild';
 import type { Channel } from './channels/Channel';
@@ -25,7 +25,7 @@ export declare class Webhook extends Structure<Client | WebhookClient> {
     /**
      * The guildID this webhook is for
      */
-    guildID?: string;
+    guildID: string | null;
     /**
      * The channelID this webhook is for
      */
@@ -33,7 +33,7 @@ export declare class Webhook extends Structure<Client | WebhookClient> {
     /**
      * The "user" of the webhook displayed on the webhook messages
      */
-    user?: User<Client | WebhookClient>;
+    user: User<Client | WebhookClient> | null;
     /**
      * The name of the webhook
      */
@@ -45,12 +45,16 @@ export declare class Webhook extends Structure<Client | WebhookClient> {
     /**
      * The token for this webhook
      */
-    token?: string;
+    token: string | null;
+    /**
+     * If the webhook has been deleted
+     */
+    deleted: boolean;
     /**
      * @param client The client to manage this webhook
      * @param data The webhook data
      */
-    constructor(client: Client | WebhookClient, data: APIWebhookData);
+    constructor(client: Client | WebhookClient, data: APIWebhookData, token?: string);
     _patch(data: APIWebhookData): this;
     /**
      * The guild that this webhook is in
@@ -72,13 +76,13 @@ export declare class Webhook extends Structure<Client | WebhookClient> {
      * Sends a message over the webhook
      * @param data Message data
      */
-    send(data: WebhookMessageOptions, splitOptions?: SplitOptions): Promise<Message[]>;
-    send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>, splitOptions?: SplitOptions): Promise<Message[]>;
+    send(data: WebhookMessageOptions, splitOptions?: SplitOptions): Promise<WebhookMessage<Client | WebhookClient>[]>;
+    send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>, splitOptions?: SplitOptions): Promise<WebhookMessage<Client | WebhookClient>[]>;
     /**
-     * Updates the webhook properties
+     * Modifies the webhook properties
      * @param webhookUpdateData Data to update the webhook with
      */
-    update({ name, avatar, channelID }: WebhookUpdateData): Promise<this>;
+    modify({ name, avatar, channelID }: WebhookUpdateData): Promise<this>;
     /**
      * Delete this webhook from the api
      */

@@ -19,7 +19,7 @@ export declare class BaseClient extends EventEmitter {
     /**
      * @param options All of your preferences on how Klasa-Core should work for you
      */
-    constructor(options: Partial<BaseClientOptions>);
+    constructor(options?: Partial<BaseClientOptions>);
     /**
      * Sets the token to use for the api.
      */

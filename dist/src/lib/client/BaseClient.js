@@ -13,7 +13,7 @@ class BaseClient extends events_1.EventEmitter {
     /**
      * @param options All of your preferences on how Klasa-Core should work for you
      */
-    constructor(options) {
+    constructor(options = {}) {
         super();
         this.options = utils_1.mergeDefault(Constants_1.BaseClientOptionsDefaults, options);
         this.api = new rest_1.REST(this.options.rest)

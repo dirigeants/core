@@ -1,7 +1,7 @@
 import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
 import type { DMChannel } from '../../caching/structures/channels/DMChannel';
 import type { GuildTextChannel } from '../../caching/structures/channels/GuildTextChannel';
-import type { Message } from '../../caching/structures/Message';
+import type { Message } from '../../caching/structures/messages/Message';
 export declare type MessageIteratorOptions = EventIteratorOptions<[Message]>;
 /**
  * An asynchronous iterator responsible for iterating over messages.

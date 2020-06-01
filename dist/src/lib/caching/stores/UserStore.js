@@ -6,7 +6,7 @@ const rest_1 = require("@klasa/rest");
 const DataStore_1 = require("./base/DataStore");
 const Extender_1 = require("../../util/Extender");
 const GuildMember_1 = require("../structures/guilds/GuildMember");
-const Message_1 = require("../structures/Message");
+const Message_1 = require("../structures/messages/Message");
 /**
  * The store for {@link User users}.
  * @since 0.0.1

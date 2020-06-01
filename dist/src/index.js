@@ -54,7 +54,7 @@ __exportStar(require("./lib/caching/structures/guilds/Presence"), exports);
 __exportStar(require("./lib/caching/structures/guilds/Role"), exports);
 __exportStar(require("./lib/caching/structures/guilds/VoiceState"), exports);
 __exportStar(require("./lib/caching/structures/Invite"), exports);
-__exportStar(require("./lib/caching/structures/Message"), exports);
+__exportStar(require("./lib/caching/structures/messages/Message"), exports);
 __exportStar(require("./lib/caching/structures/messages/MessageAttachment"), exports);
 __exportStar(require("./lib/caching/structures/messages/MessageBuilder"), exports);
 __exportStar(require("./lib/caching/structures/messages/MessageMentions"), exports);

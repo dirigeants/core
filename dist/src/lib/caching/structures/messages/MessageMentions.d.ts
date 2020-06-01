@@ -1,5 +1,5 @@
 import { Cache } from '@klasa/cache';
-import type { Message } from '../Message';
+import type { Message } from './Message';
 import type { APIMessageMentionChannelData, APIChannelData, APIMessageMentionData } from '@klasa/dapi-types';
 import type { User } from '../User';
 export declare class MessageMentions {

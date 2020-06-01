@@ -2,7 +2,7 @@ import { MessageReactionEmoji } from './MessageReactionEmoji';
 import { Structure } from '../../base/Structure';
 import { MessageReactionUserStore } from '../../../stores/MessageReactionUserStore';
 import type { APIReactionData } from '@klasa/dapi-types';
-import type { Message } from '../../Message';
+import type { Message } from '../Message';
 import type { Client } from '../../../../client/Client';
 /**
  * @see https://discord.com/developers/docs/resources/channel#reaction-object
