@@ -61,6 +61,22 @@ client.token = 'Not-A-Real-Token';
 ava('fetch application', async (test): Promise<void> => {
 	const application = await Application.fetch(client);
 
+	test.is(application.client, client);
+	test.is(application.id, rawApplication.id);
+	test.is(application.name, rawApplication.name);
+	test.is(application.icon, rawApplication.icon);
+	test.is(application.description, rawApplication.description);
+	test.deepEqual(application.rpcOrigins, []);
+	test.is(application.botPublic, rawApplication.bot_public);
+	test.is(application.botRequireCodeGrant, rawApplication.bot_require_code_grant);
+	test.is(application.summary, rawApplication.summary);
+	test.is(application.verifyKey, rawApplication.verify_key);
+	test.is(application.guildID, null);
+	test.is(application.guild, null);
+	test.is(application.primarySkuID, null);
+	test.is(application.slug, null);
+	test.is(application.coverImage, null);
+
 	test.not(application.team, null);
 	const team = application.team as Team;
 	test.is(team.client, client);
