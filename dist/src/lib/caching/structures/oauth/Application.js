@@ -3,20 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Application = void 0;
 const rest_1 = require("@klasa/rest");
 const Team_1 = require("./Team");
-const Util_1 = require("../../../util/Util");
 /**
  * @see https://discord.com/developers/docs/topics/oauth2#get-current-application-information-response-structure
  */
 class Application {
     constructor(client, data) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e;
         this.client = client;
         this.id = data.id;
         this.name = data.name;
         this.icon = data.icon;
         this.description = data.description;
-        if (Util_1.isSet(data, 'rpc_origins'))
-            this.rpcOrigins = data.rpc_origins;
+        this.rpcOrigins = (_a = data.rpc_origins) !== null && _a !== void 0 ? _a : [];
         this.botPublic = data.bot_public;
         this.botRequireCodeGrant = data.bot_require_code_grant;
         // eslint-disable-next-line dot-notation
@@ -24,10 +22,10 @@ class Application {
         this.summary = data.summary;
         this.verifyKey = data.verify_key;
         this.team = data.team ? new Team_1.Team(client, data.team) : null;
-        this.guildID = (_a = data.guild_id) !== null && _a !== void 0 ? _a : null;
-        this.primarySkuID = (_b = data.primary_sku_id) !== null && _b !== void 0 ? _b : null;
-        this.slug = (_c = data.slug) !== null && _c !== void 0 ? _c : null;
-        this.coverImage = (_d = data.cover_image) !== null && _d !== void 0 ? _d : null;
+        this.guildID = (_b = data.guild_id) !== null && _b !== void 0 ? _b : null;
+        this.primarySkuID = (_c = data.primary_sku_id) !== null && _c !== void 0 ? _c : null;
+        this.slug = (_d = data.slug) !== null && _d !== void 0 ? _d : null;
+        this.coverImage = (_e = data.cover_image) !== null && _e !== void 0 ? _e : null;
     }
     /**
      * The guild for this application if applicable.

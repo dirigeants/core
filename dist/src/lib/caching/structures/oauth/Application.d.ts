@@ -32,7 +32,7 @@ export declare class Application {
      * An array of rpc origin urls, if rpc is enabled.
      * @since 0.0.1
      */
-    rpcOrigins?: string[];
+    rpcOrigins: string[];
     /**
      * When false only app owner can join the app's bot to guilds.
      * @since 0.0.1
