@@ -302,6 +302,7 @@ export class Client extends BaseClient {
 	 * Loads all plugins to your Client/Extended Client
 	 */
 	protected loadPlugins(): void {
+		if (this.pluginLoadedCount) throw new Error('Plugins have already been loaded for this client.');
 		for (const plugin of Client.plugins) {
 			plugin.call(this);
 			this.pluginLoadedCount++;
