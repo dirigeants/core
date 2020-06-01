@@ -2,7 +2,7 @@ import ava from 'ava';
 import nock = require('nock');
 import { RestOptionsDefaults, Routes } from '@klasa/rest';
 import { Snowflake } from '@klasa/snowflake';
-import { WebhookClient, User } from '../src';
+import { WebhookClient, User, WebhookMessageBuilder, Embed } from '../src';
 
 import { APIWebhookData, WebhookType, APIUserData, APIMessageData, MessageType } from '@klasa/dapi-types';
 
@@ -213,4 +213,65 @@ ava('update webhook w/ token', async (test): Promise<void> => {
 	test.is(webhook.name, 'TestWebhook');
 	test.is(webhook.avatar, 'a_whatatest');
 	test.is(webhook.channelID, '9463781');
+});
+
+ava('WebhookMessageBuilder throws on setEmbed', async (test): Promise<void> => {
+	test.throws(() => new WebhookMessageBuilder().setEmbed(), { instanceOf: Error });
+});
+
+ava('WebhookMessageBuilder add Embed callback', async (test): Promise<void> => {
+	test.plan(2);
+
+	const message = new WebhookMessageBuilder();
+	test.is(message.data.embeds, undefined);
+	message.addEmbed(em => em.setTitle('test'));
+	test.deepEqual(message.data.embeds?.[0], new Embed().setTitle('test'));
+});
+
+ava('WebhookMessageBuilder add Embed raw', async (test): Promise<void> => {
+	const message = new WebhookMessageBuilder();
+	test.is(message.data.embeds, undefined);
+	message.addEmbed({ title: 'test' });
+	test.deepEqual(message.data.embeds?.[0], { title: 'test' });
+});
+
+ava('WebhookMessageBuilder embed only split', async (test): Promise<void> => {
+	const message = new WebhookMessageBuilder();
+	const messages = message.addEmbed(em => em.setTitle('test')).split();
+	test.deepEqual(messages, [message]);
+});
+
+ava('WebhookMessageBuilder long message split', async (test): Promise<void> => {
+	const [message] = new WebhookMessageBuilder().setContent('a'.repeat(1500)).split();
+	const second = { ...message, data: { ...message.data, embeds: null }, files: undefined };
+	delete second.files;
+	const messages = new WebhookMessageBuilder().setContent(`${'a'.repeat(1500)}\n${'a'.repeat(1500)}`).split();
+	test.deepEqual(messages, [message, second]);
+});
+
+ava('WebhookMessageBuilder delete embed', async (test): Promise<void> => {
+	test.plan(3);
+
+	const message = new WebhookMessageBuilder();
+	test.is(message.data.embeds, undefined);
+	message.addEmbed(em => em.setTitle('test'));
+	test.deepEqual(message.data.embeds?.[0], new Embed().setTitle('test'));
+	message.spliceEmbed(0, 1);
+	test.deepEqual(message.data.embeds, []);
+});
+
+ava('WebhookMessageBuilder insert embed', async (test): Promise<void> => {
+	const message = new WebhookMessageBuilder();
+	message.addEmbed(em => em.setTitle('test1'));
+	message.addEmbed(em => em.setTitle('test2'));
+	message.spliceEmbed(1, 0, em => em.setTitle('test3'));
+	test.deepEqual(message.data.embeds?.[1], new Embed().setTitle('test3'));
+});
+
+ava('WebhookMessageBuilder insert raw embed', async (test): Promise<void> => {
+	const message = new WebhookMessageBuilder();
+	message.addEmbed(em => em.setTitle('test1'));
+	message.addEmbed(em => em.setTitle('test2'));
+	message.spliceEmbed(1, 0, { title: 'test3' });
+	test.deepEqual(message.data.embeds?.[1], { title: 'test3' });
 });
