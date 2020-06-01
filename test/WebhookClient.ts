@@ -169,18 +169,24 @@ ava('delete webhook w/ token', async (test): Promise<void> => {
 	test.is(webhook.deleted, true);
 });
 
-// Message#reactions, Message#channel, Message#author throwing errors since no cache options, channels store, and users store
 ava('send webhook', async (test): Promise<void> => {
+	test.plan(3);
+
 	const webhook = await client.fetch(id);
 	const [message] = await webhook.send(mb => mb.setContent('FooBar'));
 	test.is(message.content, 'FooBar');
+	test.is(message.toString(), 'FooBar');
+	test.deepEqual(message.createdAt, date);
 });
 
-// Message#reactions, Message#channel, Message#author throwing errors since no cache options, channels store, and users store
 ava('send webhook w/ token', async (test): Promise<void> => {
+	test.plan(3);
+
 	const webhook = await client.fetch(id, token);
 	const [message] = await webhook.send(mb => mb.setContent('FooBar'));
 	test.is(message.content, 'FooBar');
+	test.is(message.toString(), 'FooBar');
+	test.deepEqual(message.createdAt, date);
 });
 
 ava('update webhook', async (test): Promise<void> => {
