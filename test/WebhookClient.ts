@@ -268,10 +268,34 @@ ava('WebhookMessageBuilder insert embed', async (test): Promise<void> => {
 	test.deepEqual(message.data.embeds?.[1], new Embed().setTitle('test3'));
 });
 
+ava('WebhookMessageBuilder insert embed with none', async (test): Promise<void> => {
+	const message = new WebhookMessageBuilder();
+	message.spliceEmbed(0, 0, em => em.setTitle('test3'));
+	test.deepEqual(message.data.embeds?.[0], new Embed().setTitle('test3'));
+});
+
 ava('WebhookMessageBuilder insert raw embed', async (test): Promise<void> => {
 	const message = new WebhookMessageBuilder();
 	message.addEmbed(em => em.setTitle('test1'));
 	message.addEmbed(em => em.setTitle('test2'));
 	message.spliceEmbed(1, 0, { title: 'test3' });
 	test.deepEqual(message.data.embeds?.[1], { title: 'test3' });
+});
+
+ava('WebhookMessageBuilder set username', async (test): Promise<void> => {
+	test.plan(2);
+
+	const message = new WebhookMessageBuilder();
+	test.is(message.data.username, undefined);
+	message.setUsername('test');
+	test.is(message.data.username, 'test');
+});
+
+ava('WebhookMessageBuilder set avatar', async (test): Promise<void> => {
+	test.plan(2);
+
+	const message = new WebhookMessageBuilder();
+	test.is(message.data.avatar_url, undefined);
+	message.setAvatar('test');
+	test.is(message.data.avatar_url, 'test');
 });
