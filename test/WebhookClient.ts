@@ -2,9 +2,9 @@ import ava from 'ava';
 import nock = require('nock');
 import { RestOptionsDefaults, Routes } from '@klasa/rest';
 import { Snowflake } from '@klasa/snowflake';
-import { WebhookClient, User, MessageBuilder } from '../src';
+import { WebhookClient, User } from '../src';
 
-import { APIWebhookData, WebhookType, APIUserData } from '@klasa/dapi-types';
+import { APIWebhookData, WebhookType, APIUserData, APIMessageData, MessageType } from '@klasa/dapi-types';
 
 const date = new Date();
 const id = Snowflake.generate(date).toString();
@@ -26,7 +26,30 @@ const rawUser: APIUserData = {
 	discriminator: '0000'
 };
 
-const rawMessage = JSON.parse(JSON.stringify(new MessageBuilder().setContent('FooBar')));
+const rawMessage: APIMessageData = {
+	id: '123789852963',
+	// eslint-disable-next-line @typescript-eslint/camelcase
+	channel_id: '9463781',
+	author: rawUser,
+	content: 'FooBar',
+	timestamp: date.toString(),
+	// eslint-disable-next-line @typescript-eslint/camelcase
+	edited_timestamp: null,
+	tts: false,
+	// eslint-disable-next-line @typescript-eslint/camelcase
+	mention_everyone: false,
+	mentions: [],
+	// eslint-disable-next-line @typescript-eslint/camelcase
+	mention_roles: [],
+	// eslint-disable-next-line @typescript-eslint/camelcase
+	mention_channels: [],
+	attachments: [],
+	embeds: [],
+	pinned: false,
+	type: MessageType.Default,
+	// eslint-disable-next-line @typescript-eslint/camelcase
+	webhook_id: id
+};
 
 nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
 	.get(Routes.webhookTokened(id, token))
@@ -147,14 +170,14 @@ ava('delete webhook w/ token', async (test): Promise<void> => {
 });
 
 // Message#reactions, Message#channel, Message#author throwing errors since no cache options, channels store, and users store
-ava.skip('send webhook', async (test): Promise<void> => {
+ava('send webhook', async (test): Promise<void> => {
 	const webhook = await client.fetch(id);
 	const [message] = await webhook.send(mb => mb.setContent('FooBar'));
 	test.is(message.content, 'FooBar');
 });
 
 // Message#reactions, Message#channel, Message#author throwing errors since no cache options, channels store, and users store
-ava.skip('send webhook w/ token', async (test): Promise<void> => {
+ava('send webhook w/ token', async (test): Promise<void> => {
 	const webhook = await client.fetch(id, token);
 	const [message] = await webhook.send(mb => mb.setContent('FooBar'));
 	test.is(message.content, 'FooBar');

@@ -4,12 +4,12 @@ import { Routes } from '@klasa/rest';
 import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
 import { Structure } from './base/Structure';
 import { extender } from '../../util/Extender';
+import { WebhookMessage } from './messages/WebhookMessage';
 
 import type { APIWebhookData, WebhookType, APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
 import type { WebhookClient } from '../../client/WebhookClient';
 import type { SplitOptions } from './messages/MessageBuilder';
-import type { Message } from './Message';
 import type { User } from './User';
 import type { Guild } from './guilds/Guild';
 import type { Channel } from './channels/Channel';
@@ -127,9 +127,10 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	 * Sends a message over the webhook
 	 * @param data Message data
 	 */
-	public async send(data: WebhookMessageOptions, splitOptions?: SplitOptions): Promise<Message[]>
-	public async send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>, splitOptions?: SplitOptions): Promise<Message[]>
-	public async send(data: WebhookMessageOptions | ((message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>), splitOptions?: SplitOptions): Promise<Message[]> {
+	public async send(data: WebhookMessageOptions, splitOptions?: SplitOptions): Promise<WebhookMessage<Client | WebhookClient>[]>
+	public async send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>, splitOptions?: SplitOptions): Promise<WebhookMessage<Client | WebhookClient>[]>
+	// eslint-disable-next-line max-len
+	public async send(data: WebhookMessageOptions | ((message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>), splitOptions?: SplitOptions): Promise<WebhookMessage<Client | WebhookClient>[]> {
 		if (!this.token) throw new Error('The token on this webhook is unknown. You cannot send messages.');
 
 		const split = new WebhookMessageBuilder(typeof data === 'function' ? await data(new WebhookMessageBuilder()) : data).split(splitOptions);
@@ -141,8 +142,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 
 		const rawMessages = await Promise.all(responses);
 
-		const MessageConstructor = extender.get('Message');
-		return rawMessages.map(msg => new MessageConstructor(this.client, msg as APIMessageData));
+		return rawMessages.map(msg => new WebhookMessage<Client | WebhookClient>(this.client, msg as APIMessageData));
 	}
 
 	/**

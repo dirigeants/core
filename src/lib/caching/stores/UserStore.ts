@@ -3,7 +3,7 @@ import { Routes } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../util/Extender';
 import { GuildMember } from '../structures/guilds/GuildMember';
-import { Message } from '../structures/Message';
+import { Message } from '../structures/messages/Message';
 
 import type { APIUserData } from '@klasa/dapi-types';
 import type { User } from '../structures/User';
