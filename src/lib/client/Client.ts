@@ -223,7 +223,7 @@ export class Client extends BaseClient {
 			TimerManager.setInterval(this._sweepMessages.bind(this), this.options.cache.messageSweepInterval);
 		}
 
-		for (const plugin of Client.plugins) plugin.call(this);
+		if (this.constructor === Client) for (const plugin of Client.plugins) plugin.call(this);
 	}
 
 	/**
