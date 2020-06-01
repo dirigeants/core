@@ -11,7 +11,7 @@ import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
 import type { GuildTextBasedChannel } from '../../../util/Util';
-import type { Message } from '../Message';
+import type { Message } from '../messages/Message';
 
 export interface SendOptions {
 	split?: SplitOptions;

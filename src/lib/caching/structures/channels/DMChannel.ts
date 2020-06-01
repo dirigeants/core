@@ -10,7 +10,7 @@ import { Typing } from '../Typing';
 
 import type { User } from '../User';
 import type { Client } from '../../../client/Client';
-import type { Message } from '../Message';
+import type { Message } from '../messages/Message';
 
 
 /**

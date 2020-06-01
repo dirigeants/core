@@ -27,7 +27,7 @@ export class BaseClient extends EventEmitter {
 	/**
 	 * @param options All of your preferences on how Klasa-Core should work for you
 	 */
-	public constructor(options: Partial<BaseClientOptions>) {
+	public constructor(options: Partial<BaseClientOptions> = {}) {
 		super();
 		this.options = mergeDefault(BaseClientOptionsDefaults, options);
 		this.api = new REST(this.options.rest)

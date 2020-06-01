@@ -1,7 +1,7 @@
 import { EventIterator, EventIteratorOptions } from '@klasa/event-iterator';
 import { ClientEvents } from '../../client/Client';
 
-import type { Message } from '../../caching/structures/Message';
+import type { Message } from '../../caching/structures/messages/Message';
 import type { MessageReaction } from '../../caching/structures/messages/reactions/MessageReaction';
 import type { User } from '../../../lib/caching/structures/User';
 

@@ -42,7 +42,7 @@ export * from './lib/caching/structures/guilds/Presence';
 export * from './lib/caching/structures/guilds/Role';
 export * from './lib/caching/structures/guilds/VoiceState';
 export * from './lib/caching/structures/Invite';
-export * from './lib/caching/structures/Message';
+export * from './lib/caching/structures/messages/Message';
 export * from './lib/caching/structures/messages/MessageAttachment';
 export * from './lib/caching/structures/messages/MessageBuilder';
 export * from './lib/caching/structures/messages/MessageMentions';

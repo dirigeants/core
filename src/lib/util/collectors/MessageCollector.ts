@@ -4,7 +4,7 @@ import { StructureCollector } from './base/StructureCollector';
 import type { Cache } from '@klasa/cache';
 import type { DMChannel } from '../../caching/structures/channels/DMChannel';
 import type { GuildTextChannel } from '../../caching/structures/channels/GuildTextChannel';
-import type { Message } from '../../caching/structures/Message';
+import type { Message } from '../../caching/structures/messages/Message';
 
 /**
  * Options for a MessageCollector.

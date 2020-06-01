@@ -4,7 +4,7 @@ import { Routes } from '@klasa/rest';
 
 import type { APIUserData } from '@klasa/dapi-types';
 import type { MessageReaction } from '../structures/messages/reactions/MessageReaction';
-import type { Message } from '../structures/Message';
+import type { Message } from '../structures/messages/Message';
 import type { User } from '../structures/User';
 import type { Client } from '../../client/Client';
 

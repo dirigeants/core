@@ -4,12 +4,12 @@ import { Routes } from '@klasa/rest';
 import { WebhookMessageBuilder, WebhookMessageOptions } from './messages/WebhookMessageBuilder';
 import { Structure } from './base/Structure';
 import { extender } from '../../util/Extender';
+import { WebhookMessage } from './messages/WebhookMessage';
 
 import type { APIWebhookData, WebhookType, APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
 import type { WebhookClient } from '../../client/WebhookClient';
 import type { SplitOptions } from './messages/MessageBuilder';
-import type { Message } from './Message';
 import type { User } from './User';
 import type { Guild } from './guilds/Guild';
 import type { Channel } from './channels/Channel';
@@ -35,7 +35,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	/**
 	 * The guildID this webhook is for
 	 */
-	public guildID?: string;
+	public guildID: string | null;
 
 	/**
 	 * The channelID this webhook is for
@@ -45,7 +45,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	/**
 	 * The "user" of the webhook displayed on the webhook messages
 	 */
-	public user?: User<Client | WebhookClient>;
+	public user: User<Client | WebhookClient> | null = null;
 
 	/**
 	 * The name of the webhook
@@ -60,26 +60,31 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	/**
 	 * The token for this webhook
 	 */
-	public token?: string;
+	public token: string | null;
+
+	/**
+	 * If the webhook has been deleted
+	 */
+	public deleted = false;
 
 	/**
 	 * @param client The client to manage this webhook
 	 * @param data The webhook data
 	 */
-	public constructor(client: Client | WebhookClient, data: APIWebhookData) {
+	public constructor(client: Client | WebhookClient, data: APIWebhookData, token?: string) {
 		super(client);
 		this.id = data.id;
 		this.type = data.type;
-		this.guildID = data.guild_id;
-
+		this.guildID = data.guild_id ?? null;
+		this.token = token ?? null;
 		this._patch(data);
 	}
 
 	public _patch(data: APIWebhookData): this {
-		this.token = data.token || this.token;
-		this.name = data.name || this.name;
-		this.avatar = data.avatar || this.avatar;
-		this.channelID = data.channel_id || this.channelID;
+		this.token = data.token ?? this.token;
+		this.name = data.name ?? this.name;
+		this.avatar = data.avatar ?? this.avatar;
+		this.channelID = data.channel_id ?? this.channelID;
 
 		if (data.user) {
 			// eslint-disable-next-line dot-notation
@@ -94,14 +99,14 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	 * The guild that this webhook is in
 	 */
 	get guild(): Guild | null {
-		return (this.guildID && (this.client as Client).guilds.get(this.guildID)) || null;
+		return (this.guildID && (this.client as Client).guilds?.get(this.guildID)) || null;
 	}
 
 	/**
 	 * The channel of this webhook
 	 */
 	get channel(): Channel | null {
-		return (this.client as Client)?.channels.get(this.channelID) ?? null;
+		return (this.client as Client).channels?.get(this.channelID) ?? null;
 	}
 
 	/**
@@ -122,9 +127,10 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	 * Sends a message over the webhook
 	 * @param data Message data
 	 */
-	public async send(data: WebhookMessageOptions, splitOptions?: SplitOptions): Promise<Message[]>
-	public async send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>, splitOptions?: SplitOptions): Promise<Message[]>
-	public async send(data: WebhookMessageOptions | ((message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>), splitOptions?: SplitOptions): Promise<Message[]> {
+	public async send(data: WebhookMessageOptions, splitOptions?: SplitOptions): Promise<WebhookMessage<Client | WebhookClient>[]>
+	public async send(data: (message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>, splitOptions?: SplitOptions): Promise<WebhookMessage<Client | WebhookClient>[]>
+	// eslint-disable-next-line max-len
+	public async send(data: WebhookMessageOptions | ((message: WebhookMessageBuilder) => WebhookMessageBuilder | Promise<WebhookMessageBuilder>), splitOptions?: SplitOptions): Promise<WebhookMessage<Client | WebhookClient>[]> {
 		if (!this.token) throw new Error('The token on this webhook is unknown. You cannot send messages.');
 
 		const split = new WebhookMessageBuilder(typeof data === 'function' ? await data(new WebhookMessageBuilder()) : data).split(splitOptions);
@@ -136,15 +142,14 @@ export class Webhook extends Structure<Client | WebhookClient> {
 
 		const rawMessages = await Promise.all(responses);
 
-		const MessageConstructor = extender.get('Message');
-		return rawMessages.map(msg => new MessageConstructor(this.client, msg as APIMessageData));
+		return rawMessages.map(msg => new WebhookMessage<Client | WebhookClient>(this.client, msg as APIMessageData));
 	}
 
 	/**
-	 * Updates the webhook properties
+	 * Modifies the webhook properties
 	 * @param webhookUpdateData Data to update the webhook with
 	 */
-	public async update({ name, avatar, channelID }: WebhookUpdateData): Promise<this> {
+	public async modify({ name, avatar, channelID }: WebhookUpdateData): Promise<this> {
 		const updateData = await (channelID || !this.token ?
 			// Requires MANAGE_WEBHOOKS permission to update channelID or to update without the token
 			// eslint-disable-next-line @typescript-eslint/camelcase
@@ -164,6 +169,8 @@ export class Webhook extends Structure<Client | WebhookClient> {
 			this.client.api.delete(Routes.webhookTokened(this.id, this.token), { auth: false }) :
 			// Requires MANAGE_WEBHOOKS permission
 			this.client.api.delete(Routes.webhook(this.id)));
+
+		this.deleted = true;
 	}
 
 	/**
@@ -188,7 +195,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 			client.api.get(Routes.webhookTokened(id, token), { auth: false }) :
 			client.api.get(Routes.webhook(id)));
 
-		return new this(client, webhookData as APIWebhookData);
+		return new this(client, webhookData as APIWebhookData, token);
 	}
 
 }
