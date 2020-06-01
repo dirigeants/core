@@ -50,8 +50,9 @@ let Client = /** @class */ (() => {
             if (this.options.cache.messageSweepInterval > 0) {
                 timer_manager_1.TimerManager.setInterval(this._sweepMessages.bind(this), this.options.cache.messageSweepInterval);
             }
-            for (const plugin of Client.plugins)
-                plugin.call(this);
+            if (this.constructor === Client)
+                for (const plugin of Client.plugins)
+                    plugin.call(this);
         }
         /**
          * Returns a new Cache of all guild emojis.
