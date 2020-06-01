@@ -10,7 +10,10 @@ class CoreAction extends core_1.Action {
     run(data) {
         for (const guild of data.d.guilds) {
             // eslint-disable-next-line dot-notation
-            this.client.guilds['_add'](guild);
+            const created = new (core_1.extender.get('Guild'))(this.client, guild, data.shard_id);
+            if (this.client.options.cache.enabled) {
+                this.client.guilds.set(created.id, created);
+            }
         }
         const ClientUser = core_1.extender.get('ClientUser');
         this.client.user = new ClientUser(this.client, data.d.user);
