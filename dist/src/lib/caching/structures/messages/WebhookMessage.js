@@ -21,7 +21,6 @@ class WebhookMessage extends Structure_1.Structure {
         this.type = data.type;
         this.nonce = (_a = data.nonce) !== null && _a !== void 0 ? _a : null;
         this.webhookID = (_b = data.webhook_id) !== null && _b !== void 0 ? _b : null;
-        this._patch(data);
     }
     /**
      * When this message was sent.
