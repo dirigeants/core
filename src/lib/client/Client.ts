@@ -355,7 +355,7 @@ export class Client extends BaseClient {
 	 * @param mod The module of the plugin to use
 	 */
 	public static use(mod: Plugin | typeof Plugin): typeof Client {
-		const plugin = mod[Client.plugin];
+		const plugin = typeof mod === 'function' ? (mod as typeof Plugin)[Client.plugin] : (mod.constructor as typeof Plugin)[Client.plugin];
 		if (typeof plugin !== 'function') throw new TypeError('The provided module does not include a plugin function');
 		Client.plugins.add(plugin);
 		return Client;
