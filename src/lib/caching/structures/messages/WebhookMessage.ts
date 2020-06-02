@@ -75,7 +75,6 @@ export class WebhookMessage<T = WebhookClient> extends Structure<T> {
 
 		this.nonce = data.nonce ?? null;
 		this.webhookID = data.webhook_id ?? null;
-		this._patch(data);
 	}
 
 	/**
