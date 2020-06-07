@@ -141,7 +141,7 @@ export const enum ClientEvents {
 	VoiceStateUpdate = 'voiceStateUpdate',
 	WebhooksUpdate = 'webhooksUpdate',
 	WSDebug = 'wsDebug',
-	WTF = 'wtf'
+	WTF = 'wtf',
 }
 
 /**
@@ -383,59 +383,61 @@ export abstract class Plugin {
 }
 
 interface ClientEventsMap {
-	[ClientEvents.ChannelCreate](channel: GuildBasedChannel | DMChannel | null): void;
-	[ClientEvents.ChannelDelete](channel: GuildBasedChannel | DMChannel): void;
-	[ClientEvents.ChannelPinsUpdate](channel: TextBasedChannel, updatedAt: Date | null): void;
-	[ClientEvents.ChannelUpdate](channel: Channel): void;
-	[ClientEvents.Debug](message: string): void;
-	[ClientEvents.Error](error: Error): void;
-	[ClientEvents.EventError](eventClass: Event, args: unknown[], error: Error): void;
-	[ClientEvents.GuildBanAdd](ban: Ban): void;
-	[ClientEvents.GuildBanRemove](ban: Ban): void;
-	[ClientEvents.GuildCreate](guild: Guild): void;
-	[ClientEvents.GuildDelete](guild: Guild): void;
-	[ClientEvents.GuildEmojiCreate](emoji: GuildEmoji, guild: Guild): void;
-	[ClientEvents.GuildEmojiDelete](emoji: GuildEmoji, guild: Guild): void;
-	[ClientEvents.GuildEmojiUpdate](emoji: GuildEmoji, previousEmoji: GuildEmoji, guild: Guild): void;
-	[ClientEvents.GuildIntegrationsUpdate](guild: Guild, previousGuild: Guild): void;
-	[ClientEvents.GuildMemberAdd](guildMember: GuildMember): void;
-	[ClientEvents.GuildMemberRemove](guildMember: GuildMember): void;
-	[ClientEvents.GuildMembersChunk](members: GuildMember[], guild: Guild, extraData: { chunkCount?: number, chunkIndex?: number, nonce?: number }): void;
-	[ClientEvents.GuildMemberUpdate](guildMember: GuildMember, previousGuildMember: GuildMember): void;
-	[ClientEvents.GuildRoleCreate](role: Role): void;
-	[ClientEvents.GuildRoleDelete](role: Role): void;
-	[ClientEvents.GuildRoleUpdate](role: Role, previousRole?: Role): void;
-	[ClientEvents.GuildUpdate](guild: Guild, previousGuild?: Guild): void;
-	[ClientEvents.InviteCreate](invite: Invite): void;
-	[ClientEvents.InviteDelete](invite: Invite): void;
-	[ClientEvents.MessageCreate](message: Message): void;
-	[ClientEvents.MessageDelete](message: Message, previousMessage?: Message): void;
-	[ClientEvents.MessageDeleteBulk](messages: ({ id: string } | Message)[], channel: TextBasedChannel): void;
-	[ClientEvents.MessageReactionAdd](reaction: MessageReaction, user: User): void;
-	[ClientEvents.MessageReactionRemove](reaction: MessageReaction, user: User): void;
-	[ClientEvents.MessageReactionRemoveAll](message: Message, reactions: Cache<string, MessageReaction>): void;
-	[ClientEvents.MessageReactionRemoveEmoji](reaction: MessageReaction): void;
-	[ClientEvents.MessageUpdate](message: Message, previousMessage: Message): void;
-	[ClientEvents.PieceDisabled](piece: Piece): void;
-	[ClientEvents.PieceEnabled](piece: Piece): void;
-	[ClientEvents.PieceLoaded](piece: Piece): void;
-	[ClientEvents.PieceReloaded](piece: Piece): void;
-	[ClientEvents.PieceUnloaded](piece: Piece): void;
-	[ClientEvents.PresenceUpdate](presence: Presence, previousPresence: Presence | null): void;
-	[ClientEvents.Ratelimited](...args: unknown[]): void;
-	[ClientEvents.Ready](): void;
-	[ClientEvents.RESTDebug](message: string): void;
-	[ClientEvents.Resumed](): void;
-	[ClientEvents.ShardOnline](): void;
-	[ClientEvents.ShardReady](shard: WebSocketShard): void;
-	[ClientEvents.ShardResumed](shard: WebSocketShard): void;
-	[ClientEvents.TypingStart](channel: GuildBasedChannel | DMChannel, user: User): void;
-	[ClientEvents.UserUpdate](user: User): void;
-	[ClientEvents.VoiceServerUpdate](voiceServerData: VoiceServerUpdateDispatch): void;
-	[ClientEvents.VoiceStateUpdate](voiceState: VoiceState): void;
-	[ClientEvents.WebhooksUpdate](channel: TextChannel | NewsChannel, previousChannel: TextChannel | NewsChannel): void;
-	[ClientEvents.WSDebug](message: string): void;
-	[ClientEvents.WTF](message: string): void;
+	'channelCreate'(channel: GuildBasedChannel | DMChannel | null): void;
+	'channelDelete'(channel: GuildBasedChannel | DMChannel): void;
+	'channelPinsUpdate'(channel: TextBasedChannel, updatedAt: Date | null): void;
+	'channelUpdate'(channel: Channel): void;
+	'debug'(message: string): void;
+	'error'(error: Error): void;
+	'eventError'(eventClass: Event, args: unknown[], error: Error): void;
+	'guildAvailable'(guild: Guild): void;
+	'guildBanAdd'(ban: Ban): void;
+	'guildBanRemove'(ban: Ban): void;
+	'guildCreate'(guild: Guild): void;
+	'guildDelete'(guild: Guild): void;
+	'guildEmojiCreate'(emoji: GuildEmoji, guild: Guild): void;
+	'guildEmojiDelete'(emoji: GuildEmoji, guild: Guild): void;
+	'guildEmojiUpdate'(emoji: GuildEmoji, previousEmoji: GuildEmoji, guild: Guild): void;
+	'guildIntegrationsUpdate'(guild: Guild, previousGuild: Guild): void;
+	'guildMemberAdd'(guildMember: GuildMember): void;
+	'guildMemberRemove'(guildMember: GuildMember): void;
+	'guildMembersChunk'(members: GuildMember[], guild: Guild, extraData: { chunkCount?: number, chunkIndex?: number, nonce?: number }): void;
+	'guildMemberUpdate'(guildMember: GuildMember, previousGuildMember: GuildMember): void;
+	'guildRoleCreate'(role: Role): void;
+	'guildRoleDelete'(role: Role): void;
+	'guildRoleUpdate'(role: Role, previousRole?: Role): void;
+	'guildUnavailable'(guild: Guild): void;
+	'guildUpdate'(guild: Guild, previousGuild?: Guild): void;
+	'inviteCreate'(invite: Invite): void;
+	'inviteDelete'(invite: Invite): void;
+	'messageCreate'(message: Message): void;
+	'messageDelete'(message: Message, previousMessage?: Message): void;
+	'messageDeleteBulk'(messages: ({ id: string } | Message)[], channel: TextBasedChannel): void;
+	'messageReactionAdd'(reaction: MessageReaction, user: User): void;
+	'messageReactionRemove'(reaction: MessageReaction, user: User): void;
+	'messageReactionRemoveAll'(message: Message, reactions: Cache<string, MessageReaction>): void;
+	'messageReactionRemoveEmoji'(reaction: MessageReaction): void;
+	'messageUpdate'(message: Message, previousMessage: Message): void;
+	'pieceDisabled'(piece: Piece): void;
+	'pieceEnabled'(piece: Piece): void;
+	'pieceLoaded'(piece: Piece): void;
+	'pieceReloaded'(piece: Piece): void;
+	'pieceUnloaded'(piece: Piece): void;
+	'presenceUpdate'(presence: Presence, previousPresence: Presence | null): void;
+	'ratelimited'(...args: unknown[]): void;
+	'ready'(): void;
+	'restDebug'(message: string): void;
+	'resumed'(): void;
+	'shardOnline'(): void;
+	'shardReady'(shard: WebSocketShard): void;
+	'shardResumed'(shard: WebSocketShard): void;
+	'typingStart'(channel: GuildBasedChannel | DMChannel, user: User): void;
+	'userUpdate'(user: User): void;
+	'voiceServerUpdate'(voiceServerData: VoiceServerUpdateDispatch): void;
+	'voiceStateUpdate'(voiceState: VoiceState): void;
+	'webhooksUpdate'(channel: TextChannel | NewsChannel, previousChannel: TextChannel | NewsChannel): void;
+	'wsDebug'(message: string): void;
+	'wtf'(message: string): void;
 }
 
 export declare interface Client {
