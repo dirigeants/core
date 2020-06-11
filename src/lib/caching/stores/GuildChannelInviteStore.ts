@@ -2,10 +2,10 @@ import type { Client } from '../../client/Client';
 import { ProxyCache } from '@klasa/cache';
 import { Invite } from '../structures/Invite';
 import { GuildChannel } from '../structures/channels/GuildChannel';
-import { Guild } from '../structures/guilds/Guild';
 import { RequestOptions, Routes } from '@klasa/rest';
 import { APIInviteData } from '@klasa/dapi-types';
 import { Channel } from '../structures/channels/Channel';
+import { TextChannel } from '../structures/channels/TextChannel';
 /**
  * The store for {@link Invite guild invites the channel has}.
  * @since 0.0.3
@@ -19,10 +19,10 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	public readonly client: Client;
 
 	/**
-	 * The {@link Invite guild invite} this store belongs to.
+	 * The {@link Channel guild invite} this store belongs to.
 	 * @since 0.0.3
 	 */
-	public readonly invite: Invite;
+	public readonly channel: Channel;
 
 	/**
 	 * Builds the store.
@@ -32,7 +32,7 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	public constructor(invite: Invite, keys: string[]) {
 		super((invite.channel as GuildChannel).invites, keys);
 		this.client = invite.client;
-		this.invite = invite;
+		this.channel = invite.channel;
 	}
 
 	/**
@@ -42,7 +42,7 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	 * @see https://discord.com/developers/docs/resources/channel#create-channel-invite
 	 */
 	public async create(requestOptions: RequestOptions = {}): Promise<this> {
-		const entry = await this.client.api.post(Routes.channelInvites(this.invite.channel.id), requestOptions) as APIInviteData;
+		const entry = await this.client.api.post(Routes.channelInvites(this.channel.id), requestOptions) as APIInviteData;
 		this.set(entry.code);
 		return this;
 	}
@@ -66,29 +66,13 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	 */
 	public async fetch(): Promise<this> {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const entries = await this.client.api.get(Routes.guildInvites(this.guild!.id)) as APIInviteData[];
+		const entries = await this.client.api.get(Routes.guildInvites((this.channel as TextChannel).guild.id)) as APIInviteData[];
 		for (const entry of entries) {
 			// eslint-disable-next-line dot-notation
 			this.client.invites['_add'](entry);
 			this.set(entry.code);
 		}
 		return this;
-	}
-
-	/**
-	 * The {@link Guild guild} this store belongs to.
-	 * @since 0.0.3
-	 */
-	public get guild(): Guild | null{
-		return this.invite.guild;
-	}
-
-	/**
-	 * The {@link Channel channel} this store belongs to.
-	 * @since 0.0.3
-	 */
-	public get channel(): Channel | null{
-		return this.invite.channel;
 	}
 
 }
