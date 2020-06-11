@@ -1,11 +1,11 @@
 import type { Client } from '../../client/Client';
 import { ProxyCache } from '@klasa/cache';
-import { Invite } from '../structures/Invite';
-import { GuildChannel } from '../structures/channels/GuildChannel';
+import type { Invite } from '../structures/Invite';
+import type { GuildChannel } from '../structures/channels/GuildChannel';
 import { RequestOptions, Routes } from '@klasa/rest';
-import { APIInviteData } from '@klasa/dapi-types';
-import { Channel } from '../structures/channels/Channel';
-import { TextChannel } from '../structures/channels/TextChannel';
+import type { APIInviteData } from '@klasa/dapi-types';
+import type { Channel } from '../structures/channels/Channel';
+import type { TextChannel } from '../structures/channels/TextChannel';
 /**
  * The store for {@link Invite guild invites} the channel has.
  * @since 0.0.3
