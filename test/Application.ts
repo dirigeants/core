@@ -105,6 +105,6 @@ ava('fetch application', async (test): Promise<void> => {
 
 	// Test guild availability
 	test.is(application.guild, null);
-	const guild = client.guilds._add(rawGuild);
+	const guild = client.guilds['_add'](rawGuild);
 	test.is(application.guild, guild);
 });
