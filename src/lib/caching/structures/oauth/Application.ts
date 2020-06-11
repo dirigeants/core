@@ -144,8 +144,9 @@ export class Application {
 	 * Returns the teams icon url if available.
 	 * @param options The image size, format, and other image url options.
 	 */
-  public iconURL(options?: ImageURLOptions): string | null {
-    if (!this.icon) return null;
-    return this.client.api.cdn.appIcon(this.id, this.icon, options);
-  }
+	public iconURL(options?: ImageURLOptions): string | null {
+		if (!this.icon) return null;
+		return this.client.api.cdn.appIcon(this.id, this.icon, options);
+	}
+
 }
