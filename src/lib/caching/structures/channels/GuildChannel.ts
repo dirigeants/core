@@ -42,7 +42,7 @@ export abstract class GuildChannel extends Channel {
 	public permissionOverwrites!: OverwriteStore;
 
 	/**
-	 * The {@link Invite invite} this channel belongs to.
+	 * The {@link GuildChannelInviteStore invites} store for this channel.
 	 * @since 0.0.3
 	 */
 	public readonly invites!: GuildChannelInviteStore;

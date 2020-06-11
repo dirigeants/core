@@ -7,7 +7,7 @@ import { APIInviteData } from '@klasa/dapi-types';
 import { Channel } from '../structures/channels/Channel';
 import { TextChannel } from '../structures/channels/TextChannel';
 /**
- * The store for {@link Invite guild invites the channel has}.
+ * The store for {@link Invite guild invites} the channel has.
  * @since 0.0.3
  */
 export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
@@ -27,12 +27,12 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	/**
 	 * Builds the store.
 	 * @since 0.0.3
-	 * @param invite The {@link Invite guild invite} this store belongs to.
+	 * @param channel The {@link GuildChannel guild channel} this store belongs to.
 	 */
-	public constructor(invite: Invite, keys: string[]) {
-		super((invite.channel as GuildChannel).invites, keys);
-		this.client = invite.client;
-		this.channel = invite.channel;
+	public constructor(channel: GuildChannel, keys: string[]) {
+		super(channel.invites, keys);
+		this.client = channel.client;
+		this.channel = channel;
 	}
 
 	/**
