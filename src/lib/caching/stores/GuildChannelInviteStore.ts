@@ -42,7 +42,8 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	 * @see https://discord.com/developers/docs/resources/channel#create-channel-invite
 	 */
 	public async create(requestOptions: RequestOptions = {}): Promise<this> {
-		await this.client.api.post(Routes.channelInvites(this.invite.channel.id), requestOptions);
+		const entry = await this.client.api.post(Routes.channelInvites(this.invite.channel.id), requestOptions) as APIInviteData;
+		this.set(entry.code);
 		return this;
 	}
 
@@ -54,8 +55,7 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	 * @see https://discord.com/developers/docs/resources/invite#delete-invite
 	 */
 	public async remove(code: string, requestOptions: RequestOptions = {}): Promise<this> {
-		const entry = await this.client.api.delete(Routes.invite(code), requestOptions) as APIInviteData;
-		this.set(entry.code);
+		await this.client.api.delete(Routes.invite(code), requestOptions);
 		return this;
 	}
 
