@@ -9,6 +9,7 @@ import type { Guild } from '../guilds/Guild';
 import type { GuildMember } from '../guilds/GuildMember';
 import type { CategoryChannel } from './CategoryChannel';
 import type { Role } from '../guilds/Role';
+import { GuildChannelInviteStore } from '../../stores/GuildChannelInviteStore';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -39,6 +40,12 @@ export abstract class GuildChannel extends Channel {
 	 * @see https://discord.com/developers/docs/resources/channel#overwrite-object
 	 */
 	public permissionOverwrites!: OverwriteStore;
+
+	/**
+	 * The {@link Invite invite} this channel belongs to.
+	 * @since 0.0.3
+	 */
+	public readonly invites!: GuildChannelInviteStore;
 
 	/**
 	 * The {@link Guild guild} this channel belongs to.
