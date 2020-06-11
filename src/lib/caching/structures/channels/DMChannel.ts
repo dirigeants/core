@@ -1,15 +1,15 @@
 /* eslint-disable no-dupe-class-members */
 import { APIChannelData, ChannelType, APIUserData } from '@klasa/dapi-types';
-import { RequestOptions } from '@klasa/rest';
-import { Cache } from '@klasa/cache';
 import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
-import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 import { MessageCollectorOptions, MessageCollector } from '../../../util/collectors/MessageCollector';
 import { Typing } from '../Typing';
 
+import type { RequestOptions } from '@klasa/rest';
+import type { Cache } from '@klasa/cache';
 import type { User } from '../User';
 import type { Client } from '../../../client/Client';
+import type { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 import type { Message } from '../messages/Message';
 
 

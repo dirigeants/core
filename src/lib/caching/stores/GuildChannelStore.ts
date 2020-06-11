@@ -2,12 +2,12 @@ import { Routes, RequestOptions } from '@klasa/rest';
 import { Channel } from '../structures/channels/Channel';
 import { DataStore } from './base/DataStore';
 import { extender, Constructor } from '../../util/Extender';
-import { Structure } from '../structures/base/Structure';
 
 import type { APIChannelData, APIOverwriteData, ChannelType } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
 import type { Guild } from '../structures/guilds/Guild';
 import type { GuildBasedChannel } from '../../util/Util';
+import type { Structure } from '../structures/base/Structure';
 
 /**
  * The store for {@link GuildBasedChannel guild based channels}.
