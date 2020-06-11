@@ -183,7 +183,7 @@ export class GuildMember extends Structure {
 	 * Returns the users avatar url.
 	 * @param options The image size, format and other options.
 	 */
-	public avatarURL(options: ImageURLOptions): string | null {
+	public avatarURL(options?: ImageURLOptions): string | null {
 		return this.user?.avatar ? this.client.api.cdn.userAvatar(this.id, this.user.avatar, options) : null;
 	}
 
@@ -191,7 +191,7 @@ export class GuildMember extends Structure {
 	 * Returns the users avatar url or the default discord avatar url if they don't have a avatar.
 	 * @param options The image size, format and other options.
 	 */
-	public displayAvatarURL(options: ImageURLOptions): string {
+	public displayAvatarURL(options?: ImageURLOptions): string {
 		return this.avatarURL(options) || this.client.api.cdn.defaultAvatar(Number(this.user?.discriminator));
 	}
 
