@@ -1,6 +1,5 @@
 /* eslint-disable no-dupe-class-members */
 import { URLSearchParams } from 'url';
-import { WebSocketShard } from '@klasa/ws';
 import { Routes, RequestOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
@@ -10,7 +9,6 @@ import { GuildMemberStore } from '../../stores/GuildMemberStore';
 import { GuildWidget } from './GuildWidget';
 import { IntegrationStore } from '../../stores/IntegrationStore';
 import { isSet } from '../../../util/Util';
-import { Permissions } from '../../../util/bitfields/Permissions';
 import { PresenceStore } from '../../stores/PresenceStore';
 import { RoleStore } from '../../stores/RoleStore';
 import { Structure } from '../base/Structure';
@@ -29,8 +27,10 @@ import type {
 	GuildVerificationLevel,
 	APIGuildPreviewData
 } from '@klasa/dapi-types';
+import type { WebSocketShard } from '@klasa/ws';
 import type { Client } from '../../../client/Client';
 import type { GuildMember } from './GuildMember';
+import type { Permissions } from '../../../util/bitfields/Permissions';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-object
