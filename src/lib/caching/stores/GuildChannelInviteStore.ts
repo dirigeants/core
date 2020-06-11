@@ -19,7 +19,7 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	public readonly client: Client;
 
 	/**
-	 * The {@link Channel guild invite} this store belongs to.
+	 * The {@link Channel channel} this store belongs to.
 	 * @since 0.0.3
 	 */
 	public readonly channel: Channel;
