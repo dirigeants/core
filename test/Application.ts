@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import ava from 'ava';
 import nock = require('nock');
 import { RestOptionsDefaults, Routes } from '@klasa/rest';
@@ -105,6 +106,6 @@ ava('fetch application', async (test): Promise<void> => {
 
 	// Test guild availability
 	test.is(application.guild, null);
-	const guild = client.guilds['_add'](rawGuild);
+	const guild = client.guilds._add(rawGuild);
 	test.is(application.guild, guild);
 });

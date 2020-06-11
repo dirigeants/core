@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import ava from 'ava';
 import nock = require('nock');
 import { RestOptionsDefaults, Routes } from '@klasa/rest';
