@@ -66,7 +66,7 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	 */
 	public async fetch(): Promise<this> {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const entries = await this.client.api.get(Routes.guildInvites((this.channel as TextChannel).guild.id)) as APIInviteData[];
+		const entries = await this.client.api.get(Routes.channelInvites((this.channel as TextChannel).id)) as APIInviteData[];
 		for (const entry of entries) {
 			// eslint-disable-next-line dot-notation
 			this.client.invites['_add'](entry);
