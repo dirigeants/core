@@ -3,8 +3,8 @@ import { Embed } from '../Embed';
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
 export interface MessageData {
-    content?: string;
-    embed?: APIEmbedData;
+    content?: string | null;
+    embed?: APIEmbedData | null;
     nonce?: number | string;
     tts?: boolean;
     allowed_mentions?: Required<AllowedMentions>;
@@ -40,12 +40,12 @@ export declare class MessageBuilder implements RequiredExcept<MessageOptions, 'a
      * Sets content of this message
      * @param content The content to set
      */
-    setContent(content?: string): this;
+    setContent(content?: string | null): this;
     /**
      * Sets the embed of this message
      * @param embed The embed to set
      */
-    setEmbed(embed?: APIEmbedData): this;
+    setEmbed(embed?: APIEmbedData | null): this;
     setEmbed(embed?: (embed: Embed) => Embed): this;
     /**
      * Sets the nonce of this message
