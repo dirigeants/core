@@ -1,8 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Channel = void 0;
+require("@klasa/dapi-types");
 const Structure_1 = require("../base/Structure");
 const Extender_1 = require("../../../util/Extender");
+require("../../../client/Client");
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
  */

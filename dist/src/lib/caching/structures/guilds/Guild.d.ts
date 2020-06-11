@@ -1,4 +1,3 @@
-import { WebSocketShard } from '@klasa/ws';
 import { RequestOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
@@ -7,15 +6,16 @@ import { GuildInviteStore } from '../../stores/GuildInviteStore';
 import { GuildMemberStore } from '../../stores/GuildMemberStore';
 import { GuildWidget } from './GuildWidget';
 import { IntegrationStore } from '../../stores/IntegrationStore';
-import { Permissions } from '../../../util/bitfields/Permissions';
 import { PresenceStore } from '../../stores/PresenceStore';
 import { RoleStore } from '../../stores/RoleStore';
 import { Structure } from '../base/Structure';
 import { VoiceStateStore } from '../../stores/VoiceStateStore';
 import { ImageBufferResolvable } from '../../../util/ImageUtil';
 import type { APIGuildData, APIVoiceRegionData, GuildDefaultMessageNotifications, GuildExplicitContentFilterLevel, GuildFeatures, GuildMFALevel, GuildPremiumTier, GuildSystemChannelFlags, GuildVerificationLevel, APIGuildPreviewData } from '@klasa/dapi-types';
+import type { WebSocketShard } from '@klasa/ws';
 import type { Client } from '../../../client/Client';
 import type { GuildMember } from './GuildMember';
+import type { Permissions } from '../../../util/bitfields/Permissions';
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-object
  */

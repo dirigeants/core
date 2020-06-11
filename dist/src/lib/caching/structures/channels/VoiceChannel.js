@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.VoiceChannel = void 0;
+require("@klasa/dapi-types");
 const GuildChannel_1 = require("./GuildChannel");
 const Permissions_1 = require("../../../util/bitfields/Permissions");
 /**

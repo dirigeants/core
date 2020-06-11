@@ -1,6 +1,6 @@
-import { APIMessageData, MessageType } from '@klasa/dapi-types';
-import { Embed } from '../Embed';
 import { Structure } from '../base/Structure';
+import type { APIMessageData, MessageType } from '@klasa/dapi-types';
+import type { Embed } from '../Embed';
 import type { User } from '../User';
 import type { WebhookClient } from '../../../client/WebhookClient';
 export declare class WebhookMessage<T = WebhookClient> extends Structure<T> {

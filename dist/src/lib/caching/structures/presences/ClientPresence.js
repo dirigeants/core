@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ClientPresence = void 0;
+/* eslint-disable no-dupe-class-members */
+require("@klasa/ws");
 const Presence_1 = require("../guilds/Presence");
 const PresenceBuilder_1 = require("./PresenceBuilder");
 /**

@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.StoreChannel = void 0;
+require("@klasa/dapi-types");
 const GuildChannel_1 = require("./GuildChannel");
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object

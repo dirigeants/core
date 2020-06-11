@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.TextChannel = void 0;
+require("@klasa/dapi-types");
 const GuildTextChannel_1 = require("./GuildTextChannel");
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object

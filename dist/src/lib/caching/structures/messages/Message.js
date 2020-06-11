@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Message = void 0;
+/* eslint-disable no-dupe-class-members */
+require("@klasa/dapi-types");
 const cache_1 = require("@klasa/cache");
 const rest_1 = require("@klasa/rest");
 const Embed_1 = require("../Embed");

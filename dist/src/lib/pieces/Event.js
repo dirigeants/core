@@ -16,6 +16,7 @@ var _listener;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Event = void 0;
 const Piece_1 = require("./base/Piece");
+require("../client/Client");
 /**
  * The common class for all events.
  */

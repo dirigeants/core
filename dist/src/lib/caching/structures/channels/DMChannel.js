@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DMChannel = void 0;
+/* eslint-disable no-dupe-class-members */
+require("@klasa/dapi-types");
 const Channel_1 = require("./Channel");
 const MessageStore_1 = require("../../stores/MessageStore");
 const MessageCollector_1 = require("../../../util/collectors/MessageCollector");

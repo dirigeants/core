@@ -1,4 +1,4 @@
-import { APIMessageAttachmentData } from '@klasa/dapi-types';
+import type { APIMessageAttachmentData } from '@klasa/dapi-types';
 /**
  * @see https://discord.com/developers/docs/resources/channel#attachment-object
  */

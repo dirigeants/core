@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReactionIterator = void 0;
 const event_iterator_1 = require("@klasa/event-iterator");
+require("../../client/Client");
 /**
  * An asynchronous iterator responsible for iterating over reactions.
  * @since 0.0.1

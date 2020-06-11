@@ -1,6 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PresenceGameBuilder = void 0;
+/* eslint-disable @typescript-eslint/camelcase */
+require("@klasa/dapi-types");
 const Activity_1 = require("../../../util/bitfields/Activity");
 /**
  * The presence game builder.

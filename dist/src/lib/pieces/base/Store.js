@@ -5,6 +5,7 @@ const path_1 = require("path");
 const fs_nextra_1 = require("fs-nextra");
 const utils_1 = require("@klasa/utils");
 const cache_1 = require("@klasa/cache");
+require("../../client/Client");
 /**
  * @since 0.0.1
  * The common base for all stores.

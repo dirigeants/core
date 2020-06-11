@@ -6,6 +6,7 @@ const utils_1 = require("@klasa/utils");
 const rest_1 = require("@klasa/rest");
 const timer_manager_1 = require("@klasa/timer-manager");
 const Constants_1 = require("../util/Constants");
+require("../client/Client");
 /**
  * The Klasa-Core Base Client used to wrap the Discord API
  */

@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Piece = void 0;
 const path_1 = require("path");
+require("../../client/Client");
 const utils_1 = require("@klasa/utils");
 /**
  * The common class for all pieces.

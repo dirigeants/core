@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NewsChannel = void 0;
+require("@klasa/dapi-types");
 const rest_1 = require("@klasa/rest");
 const GuildTextChannel_1 = require("./GuildTextChannel");
 /**
