@@ -3,7 +3,7 @@ import { ProxyCache } from '@klasa/cache';
 import type { Invite } from '../structures/Invite';
 import type { GuildChannel } from '../structures/channels/GuildChannel';
 import { RequestOptions, Routes } from '@klasa/rest';
-import type { APIInviteData } from '@klasa/dapi-types';
+import type { APIInviteData, InviteTargetUserType } from '@klasa/dapi-types';
 import type { Channel } from '../structures/channels/Channel';
 import type { TextChannel } from '../structures/channels/TextChannel';
 /**
@@ -38,13 +38,16 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	/**
 	 * Creates an invite to the channel.
 	 * @since 0.0.3
+	 * @param data The invite options
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/channel#create-channel-invite
 	 */
-	public async create(requestOptions: RequestOptions = {}): Promise<this> {
-		const entry = await this.client.api.post(Routes.channelInvites(this.channel.id), requestOptions) as APIInviteData;
+	public async add(data: GuildChannelInviteStoreAddData, requestOptions: RequestOptions = {}): Promise<Invite> {
+		const entry = await this.client.api.post(Routes.channelInvites(this.channel.id), { ...requestOptions, data }) as APIInviteData;
 		this.set(entry.code);
-		return this;
+
+		// eslint-disable-next-line dot-notation
+		return this.client.invites['_add'](entry);
 	}
 
 	/**
@@ -76,3 +79,52 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	}
 
 }
+
+/**
+ * The data for {@link GuildChannelInviteStore#add}.
+ * @since 0.0.3
+ * @see https://discord.com/developers/docs/resources/channel#create-channel-invite-json-params
+ */
+export interface GuildChannelInviteStoreAddData {
+	/**
+	 * Duration of the invite (0 for it to never expire).
+	 * @since 0.0.3
+	 * @default 86400 (24 hours)
+	 */
+	max_age?: number;
+
+	/**
+	 * Max number of uses (0 for unlimited).
+	 * @since 0.0.3
+	 * @default 0
+	 */
+	max_uses?: number;
+
+	/**
+	 * Whether this invite only grants temporary membership.
+	 * @since 0.0.3
+	 * @default false
+	 */
+	temporary?: boolean;
+
+	/**
+	 * If true, don't try to reuse a similar invite (useful for creating many unique one time use invites).
+	 * @since 0.0.3
+	 * @default false
+	 */
+	unique?: boolean;
+
+	/**
+	 * the target user id for this invite.
+	 * @since 0.0.3
+	 */
+	target_user?: string;
+
+	/**
+	 * The type of target user for this invite.
+	 * @since 0.0.3
+	 * @see https://discord.com/developers/docs/resources/invite#invite-object-target-user-types
+	 */
+	target_user_type?: InviteTargetUserType;
+}
+
