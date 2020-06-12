@@ -9,7 +9,7 @@ import type { Guild } from '../guilds/Guild';
 import type { GuildMember } from '../guilds/GuildMember';
 import type { CategoryChannel } from './CategoryChannel';
 import type { Role } from '../guilds/Role';
-import type { GuildChannelInviteStore } from '../../stores/GuildChannelInviteStore';
+import { GuildChannelInviteStore } from '../../stores/GuildChannelInviteStore';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -45,7 +45,7 @@ export abstract class GuildChannel extends Channel {
 	 * The {@link GuildChannelInviteStore invites} store for this channel.
 	 * @since 0.0.3
 	 */
-	public readonly invites!: GuildChannelInviteStore;
+	public readonly invites: GuildChannelInviteStore;
 
 	/**
 	 * The {@link Guild guild} this channel belongs to.
@@ -56,6 +56,10 @@ export abstract class GuildChannel extends Channel {
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null = null) {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
+
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const filterGuildInvites = guild!.invites.filter(i => i.channel.id === this.id).keys();
+		this.invites = new GuildChannelInviteStore(this, [...filterGuildInvites]);
 	}
 
 	/**
