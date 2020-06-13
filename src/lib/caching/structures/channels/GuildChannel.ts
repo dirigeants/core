@@ -2,6 +2,7 @@ import { Channel } from './Channel';
 import { OverwriteStore } from '../../stores/OverwriteStore';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 import { Routes, RequestOptions } from '@klasa/rest';
+import { GuildChannelInviteStore } from '../../stores/GuildChannelInviteStore';
 
 import type { APIChannelData, APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
@@ -9,7 +10,6 @@ import type { Guild } from '../guilds/Guild';
 import type { GuildMember } from '../guilds/GuildMember';
 import type { CategoryChannel } from './CategoryChannel';
 import type { Role } from '../guilds/Role';
-import { GuildChannelInviteStore } from '../../stores/GuildChannelInviteStore';
 
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
@@ -57,8 +57,7 @@ export abstract class GuildChannel extends Channel {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
 
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const filterGuildInvites = guild!.invites.filter(i => i.channel.id === this.id).keys();
+		const filterGuildInvites = this.guild.invites.filter(i => i.channel.id === this.id).keys();
 		this.invites = new GuildChannelInviteStore(this, [...filterGuildInvites]);
 	}
 

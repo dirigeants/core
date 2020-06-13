@@ -1,8 +1,9 @@
-import type { Client } from '../../client/Client';
+import { RequestOptions, Routes } from '@klasa/rest';
 import { ProxyCache } from '@klasa/cache';
+
+import type { Client } from '../../client/Client';
 import type { Invite } from '../structures/Invite';
 import type { GuildChannel } from '../structures/channels/GuildChannel';
-import { RequestOptions, Routes } from '@klasa/rest';
 import type { APIInviteData, InviteTargetUserType } from '@klasa/dapi-types';
 import type { Channel } from '../structures/channels/Channel';
 import type { TextChannel } from '../structures/channels/TextChannel';
@@ -68,7 +69,6 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-invites
 	 */
 	public async fetch(): Promise<this> {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const entries = await this.client.api.get(Routes.channelInvites((this.channel as TextChannel).id)) as APIInviteData[];
 		for (const entry of entries) {
 			// eslint-disable-next-line dot-notation
