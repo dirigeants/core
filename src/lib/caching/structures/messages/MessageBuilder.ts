@@ -7,8 +7,8 @@ import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
 
 export interface MessageData {
-	content?: string;
-	embed?: APIEmbedData;
+	content?: string | null;
+	embed?: APIEmbedData | null;
 	nonce?: number | string;
 	tts?: boolean;
 	allowed_mentions?: Required<AllowedMentions>;
@@ -64,7 +64,7 @@ export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | '
 	 * Sets content of this message
 	 * @param content The content to set
 	 */
-	public setContent(content?: string): this {
+	public setContent(content?: string | null): this {
 		this.data.content = content;
 		return this;
 	}
@@ -73,9 +73,9 @@ export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | '
 	 * Sets the embed of this message
 	 * @param embed The embed to set
 	 */
-	public setEmbed(embed?: APIEmbedData): this
+	public setEmbed(embed?: APIEmbedData | null): this
 	public setEmbed(embed?: (embed: Embed) => Embed): this
-	public setEmbed(embed?: APIEmbedData | ((embed: Embed) => Embed)): this {
+	public setEmbed(embed?: APIEmbedData | null | ((embed: Embed) => Embed)): this {
 		this.data.embed = typeof embed === 'function' ? embed(new Embed()) : embed;
 		return this;
 	}
