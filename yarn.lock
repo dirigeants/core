@@ -173,10 +173,10 @@
   resolved "https://registry.yarnpkg.com/@klasa/event-iterator/-/event-iterator-0.0.10.tgz#9805297be51ccb5767d31f700957ddb79ec4855b"
   integrity sha512-AUr8d9+4YeHN2/b1C8EVSZTfLut/+j2u8zcrKRt3BFP5kxdHSg+RSOJ7wP+gQ0dvrVZMQNwbIg/xFVr9G1EsLA==
 
-"@klasa/rest@^0.4.5":
-  version "0.4.5"
-  resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.4.5.tgz#ec537082fceb7dc99c3c4f8e3db1ea9b4f694b3c"
-  integrity sha512-I3dyDqPdTd4c/CJHGXnM6gjpX6qrNBjVKrqrAgbGpiqIXIVyRoZBfEWhaQz7OmdnoMkQtyUIco2DWQgfKg3wKQ==
+"@klasa/rest@^0.5.3":
+  version "0.5.3"
+  resolved "https://registry.yarnpkg.com/@klasa/rest/-/rest-0.5.3.tgz#0eddaeec7b5029de268c61d6a0602e61bb6803ed"
+  integrity sha512-WWlFnbf1oCwNxERI6+b4WNxjXFDw5RKzPQLVyY+h0xR2yzJq64I/FRC39ZKe8yYonFs91oI5Dny3pNxcxBxFGQ==
   dependencies:
     "@klasa/async-queue" "^0.0.1"
     "@klasa/cache" "^0.0.3"
