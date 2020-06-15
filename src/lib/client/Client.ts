@@ -141,7 +141,7 @@ export const enum ClientEvents {
 	VoiceStateUpdate = 'voiceStateUpdate',
 	WebhooksUpdate = 'webhooksUpdate',
 	WSDebug = 'wsDebug',
-	WTF = 'wtf',
+	WTF = 'wtf'
 }
 
 /**
