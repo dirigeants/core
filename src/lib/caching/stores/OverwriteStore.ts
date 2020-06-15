@@ -3,10 +3,10 @@ import { RequestOptions, Routes } from '@klasa/rest';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../util/Extender';
 import { GuildMember } from '../structures/guilds/GuildMember';
-import { Role } from '../structures/guilds/Role';
 
 import type { APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
+import type { Role } from '../structures/guilds/Role';
 import type { Overwrite, OverwriteData } from '../structures/guilds/Overwrite';
 import type { GuildChannel } from '../structures/channels/GuildChannel';
 
