@@ -31,7 +31,7 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	 * @param channel The {@link GuildChannel guild channel} this store belongs to.
 	 */
 	public constructor(channel: GuildChannel, keys: string[]) {
-		super(channel.invites, keys);
+		super(channel.client.invites, keys);
 		this.client = channel.client;
 		this.channel = channel;
 	}
