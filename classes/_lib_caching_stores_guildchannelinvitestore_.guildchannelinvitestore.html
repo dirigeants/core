@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>GuildMemberRoleStore | @klasa/core</title>
+	<title>GuildChannelInviteStore | @klasa/core</title>
 	<meta name="description" content="Documentation for @klasa/core">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,13 +56,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_lib_caching_stores_guildmemberrolestore_.html">&quot;lib/caching/stores/GuildMemberRoleStore&quot;</a>
+					<a href="../modules/_lib_caching_stores_guildchannelinvitestore_.html">&quot;lib/caching/stores/GuildChannelInviteStore&quot;</a>
 				</li>
 				<li>
-					<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html">GuildMemberRoleStore</a>
+					<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html">GuildChannelInviteStore</a>
 				</li>
 			</ul>
-			<h1>Class GuildMemberRoleStore</h1>
+			<h1>Class GuildChannelInviteStore</h1>
 		</div>
 	</div>
 </header>
@@ -72,11 +72,11 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The store for <a href="_lib_caching_structures_guilds_role_.role.html">member roles</a>.</p>
+						<p>The store for <a href="_lib_caching_structures_invite_.invite.html">guild invites</a> the channel has.</p>
 					</div>
 					<dl class="tsd-comment-tags">
 						<dt>since</dt>
-						<dd><p>0.0.1</p>
+						<dd><p>0.0.3</p>
 						</dd>
 					</dl>
 				</div>
@@ -85,10 +85,10 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">ProxyCache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span>
+						<span class="tsd-signature-type">ProxyCache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span>
 						<ul class="tsd-hierarchy">
 							<li>
-								<span class="target">GuildMemberRoleStore</span>
+								<span class="target">GuildChannelInviteStore</span>
 							</li>
 						</ul>
 					</li>
@@ -97,7 +97,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -107,64 +107,61 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-private"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#_private" class="tsd-kind-icon">#private</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#client" class="tsd-kind-icon">client</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#member" class="tsd-kind-icon">member</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-private"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#_private" class="tsd-kind-icon">#private</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#channel" class="tsd-kind-icon">channel</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#client" class="tsd-kind-icon">client</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section ">
+						<section class="tsd-index-section tsd-is-inherited">
 							<h3>Accessors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#_symbol_tostringtag_" class="tsd-kind-icon">[<wbr>Symbol.to<wbr>String<wbr>Tag]</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#first" class="tsd-kind-icon">first</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#firstkey" class="tsd-kind-icon">first<wbr>Key</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#firstvalue" class="tsd-kind-icon">first<wbr>Value</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#guild" class="tsd-kind-icon">guild</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#last" class="tsd-kind-icon">last</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#lastkey" class="tsd-kind-icon">last<wbr>Key</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#lastvalue" class="tsd-kind-icon">last<wbr>Value</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#size" class="tsd-kind-icon">size</a></li>
-								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#_symbol_species_" class="tsd-kind-icon">[<wbr>Symbol.species]</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#_symbol_tostringtag_" class="tsd-kind-icon">[<wbr>Symbol.to<wbr>String<wbr>Tag]</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#first" class="tsd-kind-icon">first</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#firstkey" class="tsd-kind-icon">first<wbr>Key</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#firstvalue" class="tsd-kind-icon">first<wbr>Value</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#last" class="tsd-kind-icon">last</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#lastkey" class="tsd-kind-icon">last<wbr>Key</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#lastvalue" class="tsd-kind-icon">last<wbr>Value</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#size" class="tsd-kind-icon">size</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited tsd-is-static"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#_symbol_species_" class="tsd-kind-icon">[<wbr>Symbol.species]</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#add" class="tsd-kind-icon">add</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#clear" class="tsd-kind-icon">clear</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#clone" class="tsd-kind-icon">clone</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#concat" class="tsd-kind-icon">concat</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#delete" class="tsd-kind-icon">delete</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#entries" class="tsd-kind-icon">entries</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#equals" class="tsd-kind-icon">equals</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#every" class="tsd-kind-icon">every</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#filter" class="tsd-kind-icon">filter</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#find" class="tsd-kind-icon">find</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#findkey" class="tsd-kind-icon">find<wbr>Key</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#findvalue" class="tsd-kind-icon">find<wbr>Value</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#foreach" class="tsd-kind-icon">for<wbr>Each</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#get" class="tsd-kind-icon">get</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#has" class="tsd-kind-icon">has</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#highest" class="tsd-kind-icon">highest</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#keys" class="tsd-kind-icon">keys</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#map" class="tsd-kind-icon">map</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#modify" class="tsd-kind-icon">modify</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#reduce" class="tsd-kind-icon">reduce</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#remove" class="tsd-kind-icon">remove</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#set" class="tsd-kind-icon">set</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#some" class="tsd-kind-icon">some</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#sort" class="tsd-kind-icon">sort</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#sorted" class="tsd-kind-icon">sorted</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#sweep" class="tsd-kind-icon">sweep</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#tojson" class="tsd-kind-icon">toJSON</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#values" class="tsd-kind-icon">values</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#add" class="tsd-kind-icon">add</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#clear" class="tsd-kind-icon">clear</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#clone" class="tsd-kind-icon">clone</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#concat" class="tsd-kind-icon">concat</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#delete" class="tsd-kind-icon">delete</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#entries" class="tsd-kind-icon">entries</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#equals" class="tsd-kind-icon">equals</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#every" class="tsd-kind-icon">every</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#fetch" class="tsd-kind-icon">fetch</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#filter" class="tsd-kind-icon">filter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#find" class="tsd-kind-icon">find</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#findkey" class="tsd-kind-icon">find<wbr>Key</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#findvalue" class="tsd-kind-icon">find<wbr>Value</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#foreach" class="tsd-kind-icon">for<wbr>Each</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#get" class="tsd-kind-icon">get</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#has" class="tsd-kind-icon">has</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#keys" class="tsd-kind-icon">keys</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#map" class="tsd-kind-icon">map</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#reduce" class="tsd-kind-icon">reduce</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#remove" class="tsd-kind-icon">remove</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#set" class="tsd-kind-icon">set</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#some" class="tsd-kind-icon">some</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#sort" class="tsd-kind-icon">sort</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#sorted" class="tsd-kind-icon">sorted</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#sweep" class="tsd-kind-icon">sweep</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#values" class="tsd-kind-icon">values</a></li>
 							</ul>
 						</section>
 					</div>
@@ -176,14 +173,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Guild<wbr>Member<wbr>Role<wbr>Store<span class="tsd-signature-symbol">(</span>member<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_guildmember_.guildmember.html" class="tsd-signature-type">GuildMember</a>, keys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html" class="tsd-signature-type">GuildMemberRoleStore</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Guild<wbr>Channel<wbr>Invite<wbr>Store<span class="tsd-signature-symbol">(</span>channel<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_channels_guildchannel_.guildchannel.html" class="tsd-signature-type">GuildChannel</a>, keys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html" class="tsd-signature-type">GuildChannelInviteStore</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides ProxyCache.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildMemberRoleStore.ts#L25">src/lib/caching/stores/GuildMemberRoleStore.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildChannelInviteStore.ts#L25">src/lib/caching/stores/GuildChannelInviteStore.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -192,17 +189,17 @@
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>since</dt>
-									<dd><p>0.0.1</p>
+									<dd><p>0.0.3</p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>member: <a href="_lib_caching_structures_guilds_guildmember_.guildmember.html" class="tsd-signature-type">GuildMember</a></h5>
+									<h5>channel: <a href="_lib_caching_structures_channels_guildchannel_.guildchannel.html" class="tsd-signature-type">GuildChannel</a></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
-											<p>The <a href="_lib_caching_structures_guilds_guildmember_.guildmember.html">guild member</a> this store belongs to.</p>
+											<p>The <a href="_lib_caching_structures_channels_guildchannel_.guildchannel.html">guild channel</a> this store belongs to.</p>
 										</div>
 									</div>
 								</li>
@@ -210,7 +207,7 @@
 									<h5>keys: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html" class="tsd-signature-type">GuildMemberRoleStore</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html" class="tsd-signature-type">GuildChannelInviteStore</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -229,12 +226,32 @@
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="channel" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> channel</h3>
+					<div class="tsd-signature tsd-kind-icon">channel<span class="tsd-signature-symbol">:</span> <a href="_lib_caching_structures_channels_guildchannel_.guildchannel.html" class="tsd-signature-type">GuildChannel</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildChannelInviteStore.ts#L25">src/lib/caching/stores/GuildChannelInviteStore.ts:25</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The <a href="_lib_caching_structures_channels_guildchannel_.guildchannel.html">guild channel</a> this store belongs to.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>0.0.3</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="client" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> client</h3>
 					<div class="tsd-signature tsd-kind-icon">client<span class="tsd-signature-symbol">:</span> <a href="_lib_client_client_.client.html" class="tsd-signature-type">Client</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildMemberRoleStore.ts#L19">src/lib/caching/stores/GuildMemberRoleStore.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildChannelInviteStore.ts#L19">src/lib/caching/stores/GuildChannelInviteStore.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -243,33 +260,13 @@
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>since</dt>
-							<dd><p>0.0.1</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="member" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> member</h3>
-					<div class="tsd-signature tsd-kind-icon">member<span class="tsd-signature-symbol">:</span> <a href="_lib_caching_structures_guilds_guildmember_.guildmember.html" class="tsd-signature-type">GuildMember</a></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildMemberRoleStore.ts#L25">src/lib/caching/stores/GuildMemberRoleStore.ts:25</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The <a href="_lib_caching_structures_guilds_guildmember_.guildmember.html">guild member</a> this store belongs to.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>since</dt>
-							<dd><p>0.0.1</p>
+							<dd><p>0.0.3</p>
 							</dd>
 						</dl>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group ">
+			<section class="tsd-panel-group tsd-member-group tsd-is-inherited">
 				<h2>Accessors</h2>
 				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 					<a name="_symbol_tostringtag_" class="tsd-anchor"></a>
@@ -298,7 +295,7 @@
 					<a name="first" class="tsd-anchor"></a>
 					<h3>first</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> first<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> first<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -313,7 +310,7 @@
 									<p>The first item in this Cache</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -344,7 +341,7 @@
 					<a name="firstvalue" class="tsd-anchor"></a>
 					<h3>first<wbr>Value</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> firstValue<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> firstValue<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -359,34 +356,7 @@
 									<p>The first value of this cache</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
-					<a name="guild" class="tsd-anchor"></a>
-					<h3>guild</h3>
-					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> guild<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_guild_.guild.html" class="tsd-signature-type">Guild</a></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildMemberRoleStore.ts#L50">src/lib/caching/stores/GuildMemberRoleStore.ts:50</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The <a href="_lib_caching_structures_guilds_guild_.guild.html">guild</a> this store belongs to.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>since</dt>
-									<dd><p>0.0.1</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_guilds_guild_.guild.html" class="tsd-signature-type">Guild</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -394,7 +364,7 @@
 					<a name="last" class="tsd-anchor"></a>
 					<h3>last</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> last<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> last<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -409,7 +379,7 @@
 									<p>The last item in this cache</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -440,7 +410,7 @@
 					<a name="lastvalue" class="tsd-anchor"></a>
 					<h3>last<wbr>Value</h3>
 					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> lastValue<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> lastValue<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -455,7 +425,7 @@
 									<p>The last value of this cache</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -508,7 +478,7 @@
 					<a name="_symbol_iterator_" class="tsd-anchor"></a>
 					<h3>[<wbr>Symbol.iterator]</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">[<wbr>Symbol.iterator]<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">[<wbr>Symbol.iterator]<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -524,7 +494,7 @@
 									contained in the proxy in insertion order.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -532,34 +502,34 @@
 					<a name="add" class="tsd-anchor"></a>
 					<h3>add</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>roleID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, requestOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">add<span class="tsd-signature-symbol">(</span>data<span class="tsd-signature-symbol">: </span><a href="../interfaces/_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestoreadddata.html" class="tsd-signature-type">GuildChannelInviteStoreAddData</a>, requestOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildMemberRoleStore.ts#L61">src/lib/caching/stores/GuildMemberRoleStore.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildChannelInviteStore.ts#L45">src/lib/caching/stores/GuildChannelInviteStore.ts:45</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Adds a <a href="_lib_caching_structures_guilds_role_.role.html">role</a> to the <a href="_lib_caching_structures_guilds_guildmember_.guildmember.html">member</a>.</p>
+									<p>Creates an invite to the channel.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>since</dt>
-									<dd><p>0.0.1</p>
+									<dd><p>0.0.3</p>
 									</dd>
 									<dt>see</dt>
-									<dd><p><a href="https://discord.com/developers/docs/resources/guild#add-guild-member-role">https://discord.com/developers/docs/resources/guild#add-guild-member-role</a></p>
+									<dd><p><a href="https://discord.com/developers/docs/resources/channel#create-channel-invite">https://discord.com/developers/docs/resources/channel#create-channel-invite</a></p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>roleID: <span class="tsd-signature-type">string</span></h5>
+									<h5>data: <a href="../interfaces/_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestoreadddata.html" class="tsd-signature-type">GuildChannelInviteStoreAddData</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The <a href="_lib_caching_structures_guilds_role_.role.html">role</a> ID to add.</p>
+										<p>The invite options</p>
 									</div>
 								</li>
 								<li>
@@ -569,7 +539,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -601,7 +571,7 @@
 					<a name="clone" class="tsd-anchor"></a>
 					<h3>clone</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ProxyCache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">clone<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ProxyCache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -612,7 +582,7 @@
 									<li>Defined in node_modules/@klasa/cache/dist/ProxyCache.d.ts:77</li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ProxyCache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ProxyCache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -620,7 +590,7 @@
 					<a name="concat" class="tsd-anchor"></a>
 					<h3>concat</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">concat<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>caches<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">concat<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>caches<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -638,13 +608,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>caches: <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>caches: <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Other caches to include in the new cache</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -686,7 +656,7 @@
 					<a name="entries" class="tsd-anchor"></a>
 					<h3>entries</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">entries<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">entries<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -702,7 +672,7 @@
 									contained in the proxy in insertion order.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -710,7 +680,7 @@
 					<a name="equals" class="tsd-anchor"></a>
 					<h3>equals</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">equals<span class="tsd-signature-symbol">(</span>cache<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">equals<span class="tsd-signature-symbol">(</span>cache<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -728,7 +698,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>cache: <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>cache: <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The cache to compare this against</p>
 									</div>
@@ -742,7 +712,7 @@
 					<a name="every" class="tsd-anchor"></a>
 					<h3>every</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">every<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">every<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -760,21 +730,21 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The function to test the condition</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
@@ -800,11 +770,41 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="fetch" class="tsd-anchor"></a>
+					<h3>fetch</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">fetch<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildChannelInviteStore.ts#L70">src/lib/caching/stores/GuildChannelInviteStore.ts:70</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a list of <a href="_lib_caching_structures_invite_.invite.html">invite</a>s with their metadata.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>0.0.3</p>
+									</dd>
+									<dt>see</dt>
+									<dd><p><a href="https://discord.com/developers/docs/resources/guild#get-guild-invites">https://discord.com/developers/docs/resources/guild#get-guild-invites</a></p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="filter" class="tsd-anchor"></a>
 					<h3>filter</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -822,21 +822,21 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function used to determine what entries are in the new Cache</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
@@ -858,7 +858,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -866,7 +866,7 @@
 					<a name="find" class="tsd-anchor"></a>
 					<h3>find</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">find<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">find<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -884,21 +884,21 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function used to find what you are looking for</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
@@ -920,7 +920,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -928,7 +928,7 @@
 					<a name="findkey" class="tsd-anchor"></a>
 					<h3>find<wbr>Key</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">find<wbr>Key<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Key<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -946,21 +946,21 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function used to find what you are looking for</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
@@ -990,7 +990,7 @@
 					<a name="findvalue" class="tsd-anchor"></a>
 					<h3>find<wbr>Value</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">find<wbr>Value<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Value<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1008,21 +1008,21 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function used to find what you are looking for</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
@@ -1044,7 +1044,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1052,7 +1052,7 @@
 					<a name="foreach" class="tsd-anchor"></a>
 					<h3>for<wbr>Each</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">for<wbr>Each<span class="tsd-signature-symbol">(</span>callbackfn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">for<wbr>Each<span class="tsd-signature-symbol">(</span>callbackfn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1071,27 +1071,27 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>callbackfn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<h5>callbackfn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function to execute for each element.</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
 														</li>
 														<li>
-															<h5>map: <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></h5>
+															<h5>map: <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></h5>
 														</li>
 													</ul>
 													<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -1115,7 +1115,7 @@
 					<a name="get" class="tsd-anchor"></a>
 					<h3>get</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1142,7 +1142,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h4>
 							<p>The element associated with the specified key, or <code>undefined</code> if the key can&#39;t be found in the {@link Map} object.</p>
 						</li>
 					</ul>
@@ -1181,33 +1181,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="highest" class="tsd-anchor"></a>
-					<h3>highest</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">highest<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildMemberRoleStore.ts#L42">src/lib/caching/stores/GuildMemberRoleStore.ts:42</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the highest role from this store.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>since</dt>
-									<dd><p>0.0.1</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="keys" class="tsd-anchor"></a>
 					<h3>keys</h3>
@@ -1236,7 +1209,7 @@
 					<a name="map" class="tsd-anchor"></a>
 					<h3>map</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">map&lt;T&gt;<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">map&lt;T&gt;<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1260,21 +1233,21 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span></h5>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function to determine what is mapped to the new Array</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
@@ -1300,53 +1273,11 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="modify" class="tsd-anchor"></a>
-					<h3>modify</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">modify<span class="tsd-signature-symbol">(</span>roles<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, requestOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildMemberRoleStore.ts#L84">src/lib/caching/stores/GuildMemberRoleStore.ts:84</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Modifies all the roles for the <a href="_lib_caching_structures_guilds_guildmember_.guildmember.html">member</a>.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>since</dt>
-									<dd><p>0.0.1</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>roles: <span class="tsd-signature-symbol">keyof </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>A collection of <a href="_lib_caching_structures_guilds_role_.role.html">role</a> IDs.</p>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> requestOptions: <span class="tsd-signature-type">RequestOptions</span><span class="tsd-signature-symbol"> = {}</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The additional request options.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
 					<a name="reduce" class="tsd-anchor"></a>
 					<h3>reduce</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">reduce&lt;I&gt;<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>accumulator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span>, value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">I</span>, initialValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span></li>
+						<li class="tsd-signature tsd-kind-icon">reduce&lt;I&gt;<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>accumulator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span>, value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">I</span>, initialValue<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1370,14 +1301,14 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fn: <span class="tsd-signature-symbol">(</span>accumulator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span>, value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">I</span></h5>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>accumulator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span>, value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">I</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The function to determine how this Cache is reduced</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>accumulator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span>, value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>accumulator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span>, value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">I</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
@@ -1387,7 +1318,7 @@
 															<h5>accumulator: <span class="tsd-signature-type">I</span></h5>
 														</li>
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
@@ -1423,34 +1354,34 @@
 					<a name="remove" class="tsd-anchor"></a>
 					<h3>remove</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">remove<span class="tsd-signature-symbol">(</span>roleID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, requestOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">remove<span class="tsd-signature-symbol">(</span>code<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, requestOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildMemberRoleStore.ts#L73">src/lib/caching/stores/GuildMemberRoleStore.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildChannelInviteStore.ts#L60">src/lib/caching/stores/GuildChannelInviteStore.ts:60</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Removes a <a href="_lib_caching_structures_guilds_role_.role.html">role</a> from the <a href="_lib_caching_structures_guilds_guildmember_.guildmember.html">member</a>.</p>
+									<p>Deletes an invite given its code.</p>
 								</div>
 								<dl class="tsd-comment-tags">
 									<dt>since</dt>
-									<dd><p>0.0.1</p>
+									<dd><p>0.0.3</p>
 									</dd>
 									<dt>see</dt>
-									<dd><p><a href="https://discord.com/developers/docs/resources/guild#remove-guild-member-role">https://discord.com/developers/docs/resources/guild#remove-guild-member-role</a></p>
+									<dd><p><a href="https://discord.com/developers/docs/resources/invite#delete-invite">https://discord.com/developers/docs/resources/invite#delete-invite</a></p>
 									</dd>
 								</dl>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>roleID: <span class="tsd-signature-type">string</span></h5>
+									<h5>code: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The <a href="_lib_caching_structures_guilds_role_.role.html">role</a> ID to remove.</p>
+										<p>The {@link Invite#code invite code}.</p>
 									</div>
 								</li>
 								<li>
@@ -1502,7 +1433,7 @@
 					<a name="some" class="tsd-anchor"></a>
 					<h3>some</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">some<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">some<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1520,21 +1451,21 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>The function to test the condition</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
@@ -1564,7 +1495,7 @@
 					<a name="sort" class="tsd-anchor"></a>
 					<h3>sort</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">(</span>compareFunction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>v0<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, v1<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, k0<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a>, k1<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+						<li class="tsd-signature tsd-kind-icon">sort<span class="tsd-signature-symbol">(</span>compareFunction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>v0<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, v1<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, k0<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a>, k1<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1582,7 +1513,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> compareFunction: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>v0<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, v1<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, k0<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a>, k1<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> compareFunction: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>v0<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, v1<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, k0<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a>, k1<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function to determine how this Cache should be sorted</p>
 									</div>
@@ -1596,7 +1527,7 @@
 					<a name="sorted" class="tsd-anchor"></a>
 					<h3>sorted</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">sorted<span class="tsd-signature-symbol">(</span>compareFunction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>v0<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, v1<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, k0<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a>, k1<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">sorted<span class="tsd-signature-symbol">(</span>compareFunction<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>v0<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, v1<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, k0<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a>, k1<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1614,13 +1545,13 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> compareFunction: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>v0<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, v1<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, k0<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a>, k1<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> compareFunction: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">(</span>v0<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, v1<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, k0<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a>, k1<span class="tsd-signature-symbol">?: </span><a href="" class="tsd-signature-type">K</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function to determine how the resulting Cache should be sorted</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1628,7 +1559,7 @@
 					<a name="sweep" class="tsd-anchor"></a>
 					<h3>sweep</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">sweep<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">sweep<span class="tsd-signature-symbol">(</span>fn<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span>, thisArg<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1646,21 +1577,21 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
+									<h5>fn: <span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">boolean</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Function used to determine what entries are swept</p>
 									</div>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a>, key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, map<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>value: <a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a></h5>
+															<h5>value: <a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a></h5>
 														</li>
 														<li>
 															<h5>key: <span class="tsd-signature-type">string</span></h5>
@@ -1686,33 +1617,11 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="tojson" class="tsd-anchor"></a>
-					<h3>toJSON</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">toJSON<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/dc3caa3/src/lib/caching/stores/GuildMemberRoleStore.ts#L92">src/lib/caching/stores/GuildMemberRoleStore.ts:92</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>The JSON representation of this object.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="values" class="tsd-anchor"></a>
 					<h3>values</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">values<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">values<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
@@ -1728,7 +1637,7 @@
 									the proxy in insertion order</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_caching_structures_guilds_role_.role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">IterableIterator</span><span class="tsd-signature-symbol">&lt;</span><a href="_lib_caching_structures_invite_.invite.html" class="tsd-signature-type">Invite</a><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1741,7 +1650,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/_lib_caching_stores_guildmemberrolestore_.html">&quot;lib/caching/stores/<wbr>Guild<wbr>Member<wbr>Role<wbr>Store&quot;</a>
+						<a href="../modules/_lib_caching_stores_guildchannelinvitestore_.html">&quot;lib/caching/stores/<wbr>Guild<wbr>Channel<wbr>Invite<wbr>Store&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -1750,141 +1659,135 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class tsd-parent-kind-module">
-						<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html" class="tsd-kind-icon">Guild<wbr>Member<wbr>Role<wbr>Store</a>
+						<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html" class="tsd-kind-icon">Guild<wbr>Channel<wbr>Invite<wbr>Store</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-private">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#_private" class="tsd-kind-icon">#private</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#_private" class="tsd-kind-icon">#private</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#client" class="tsd-kind-icon">client</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#channel" class="tsd-kind-icon">channel</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#member" class="tsd-kind-icon">member</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#client" class="tsd-kind-icon">client</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#_symbol_tostringtag_" class="tsd-kind-icon">[<wbr>Symbol.to<wbr>String<wbr>Tag]</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#_symbol_tostringtag_" class="tsd-kind-icon">[<wbr>Symbol.to<wbr>String<wbr>Tag]</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#first" class="tsd-kind-icon">first</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#first" class="tsd-kind-icon">first</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#firstkey" class="tsd-kind-icon">first<wbr>Key</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#firstkey" class="tsd-kind-icon">first<wbr>Key</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#firstvalue" class="tsd-kind-icon">first<wbr>Value</a>
-							</li>
-							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#guild" class="tsd-kind-icon">guild</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#firstvalue" class="tsd-kind-icon">first<wbr>Value</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#last" class="tsd-kind-icon">last</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#last" class="tsd-kind-icon">last</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#lastkey" class="tsd-kind-icon">last<wbr>Key</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#lastkey" class="tsd-kind-icon">last<wbr>Key</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#lastvalue" class="tsd-kind-icon">last<wbr>Value</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#lastvalue" class="tsd-kind-icon">last<wbr>Value</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#size" class="tsd-kind-icon">size</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#size" class="tsd-kind-icon">size</a>
 							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited tsd-is-static">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#_symbol_species_" class="tsd-kind-icon">[<wbr>Symbol.species]</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#_symbol_species_" class="tsd-kind-icon">[<wbr>Symbol.species]</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#_symbol_iterator_" class="tsd-kind-icon">[<wbr>Symbol.iterator]</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#add" class="tsd-kind-icon">add</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#add" class="tsd-kind-icon">add</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#clear" class="tsd-kind-icon">clear</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#clear" class="tsd-kind-icon">clear</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#clone" class="tsd-kind-icon">clone</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#clone" class="tsd-kind-icon">clone</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#concat" class="tsd-kind-icon">concat</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#concat" class="tsd-kind-icon">concat</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#delete" class="tsd-kind-icon">delete</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#delete" class="tsd-kind-icon">delete</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#entries" class="tsd-kind-icon">entries</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#entries" class="tsd-kind-icon">entries</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#equals" class="tsd-kind-icon">equals</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#equals" class="tsd-kind-icon">equals</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#every" class="tsd-kind-icon">every</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#filter" class="tsd-kind-icon">filter</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#find" class="tsd-kind-icon">find</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#findkey" class="tsd-kind-icon">find<wbr>Key</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#findvalue" class="tsd-kind-icon">find<wbr>Value</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#foreach" class="tsd-kind-icon">for<wbr>Each</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#get" class="tsd-kind-icon">get</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#has" class="tsd-kind-icon">has</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#every" class="tsd-kind-icon">every</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#highest" class="tsd-kind-icon">highest</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#fetch" class="tsd-kind-icon">fetch</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#keys" class="tsd-kind-icon">keys</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#filter" class="tsd-kind-icon">filter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#find" class="tsd-kind-icon">find</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#findkey" class="tsd-kind-icon">find<wbr>Key</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#findvalue" class="tsd-kind-icon">find<wbr>Value</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#foreach" class="tsd-kind-icon">for<wbr>Each</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#get" class="tsd-kind-icon">get</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#has" class="tsd-kind-icon">has</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#keys" class="tsd-kind-icon">keys</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#map" class="tsd-kind-icon">map</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#modify" class="tsd-kind-icon">modify</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#map" class="tsd-kind-icon">map</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#reduce" class="tsd-kind-icon">reduce</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#reduce" class="tsd-kind-icon">reduce</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#remove" class="tsd-kind-icon">remove</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#remove" class="tsd-kind-icon">remove</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#set" class="tsd-kind-icon">set</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#set" class="tsd-kind-icon">set</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#some" class="tsd-kind-icon">some</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#some" class="tsd-kind-icon">some</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#sort" class="tsd-kind-icon">sort</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#sort" class="tsd-kind-icon">sort</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#sorted" class="tsd-kind-icon">sorted</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#sorted" class="tsd-kind-icon">sorted</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#sweep" class="tsd-kind-icon">sweep</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#tojson" class="tsd-kind-icon">toJSON</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#sweep" class="tsd-kind-icon">sweep</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
-								<a href="_lib_caching_stores_guildmemberrolestore_.guildmemberrolestore.html#values" class="tsd-kind-icon">values</a>
+								<a href="_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestore.html#values" class="tsd-kind-icon">values</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="../interfaces/_lib_caching_stores_guildchannelinvitestore_.guildchannelinvitestoreadddata.html" class="tsd-kind-icon">Guild<wbr>Channel<wbr>Invite<wbr>Store<wbr>Add<wbr>Data</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
