@@ -1,7 +1,7 @@
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Channel } from './Channel';
 import { OverwriteStore } from '../../stores/OverwriteStore';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
-import { Routes, RequestOptions } from '@klasa/rest';
 import { GuildChannelInviteStore } from '../../stores/GuildChannelInviteStore';
 
 import type { APIChannelData, APIOverwriteData } from '@klasa/dapi-types';

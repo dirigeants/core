@@ -86,7 +86,7 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
  */
 export interface GuildChannelInviteStoreAddData {
 	/**
-	 * Duration of the invite (0 for it to never expire).
+	 * Duration of the invite in seconds (0 for it to never expire).
 	 * @since 0.0.3
 	 * @default 86400 (24 hours)
 	 */
@@ -114,7 +114,7 @@ export interface GuildChannelInviteStoreAddData {
 	unique?: boolean;
 
 	/**
-	 * the target user id for this invite.
+	 * The target user id for this invite.
 	 * @since 0.0.3
 	 */
 	target_user?: string;
