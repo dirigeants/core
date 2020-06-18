@@ -7,6 +7,7 @@ import type { GuildChannel } from '../structures/channels/GuildChannel';
 import type { APIInviteData, InviteTargetUserType } from '@klasa/dapi-types';
 import type { Channel } from '../structures/channels/Channel';
 import type { TextChannel } from '../structures/channels/TextChannel';
+
 /**
  * The store for {@link Invite guild invites} the channel has.
  * @since 0.0.3
