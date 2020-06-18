@@ -2,6 +2,7 @@ import { Cache } from '@klasa/cache';
 import { TeamMember } from './TeamMember';
 
 import type { APITeamData } from '@klasa/dapi-types';
+import type { ImageURLOptions } from '@klasa/rest';
 import type { Client } from '../../../client/Client';
 
 /**
@@ -46,6 +47,15 @@ export class Team {
 	 */
 	public get owner(): TeamMember {
 		return this.members.get(this.ownerID) as TeamMember;
+	}
+
+	/**
+	 * Returns the teams icon url if available.
+	 * @param options The image size, format, and other image url options.
+	 */
+	public iconURL(options?: ImageURLOptions): string | null {
+		if (!this.icon) return null;
+		return this.client.api.cdn.teamIcon(this.id, this.icon, options);
 	}
 
 }

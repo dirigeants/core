@@ -1,6 +1,6 @@
 /* eslint-disable no-dupe-class-members */
 import { URLSearchParams } from 'url';
-import { Routes, RequestOptions } from '@klasa/rest';
+import { Routes, RequestOptions, ImageURLOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
 import { GuildEmojiStore } from '../../stores/GuildEmojiStore';
@@ -487,6 +487,15 @@ export class Guild extends Structure {
 	public async fetchVanityURL(): Promise<GuildVanityURL> {
 		return this.client.api.get(Routes.guildVanityURL(this.id)) as Promise<GuildVanityURL>;
 	}
+
+	/**
+	 * Returns the icon url for the guild if one is available.
+   * @param options The image size and format options.
+   */
+	public iconURL(options?: ImageURLOptions): string | null {
+		return this.icon ? this.client.api.cdn.guildIcon(this.id, this.icon, options) : null;
+	}
+
 
 	/**
 	 * Defines the toString behavior of this structure.
