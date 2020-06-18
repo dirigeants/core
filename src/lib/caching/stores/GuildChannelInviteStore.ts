@@ -1,12 +1,10 @@
 import { RequestOptions, Routes } from '@klasa/rest';
 import { ProxyCache } from '@klasa/cache';
 
+import type { APIInviteData, InviteTargetUserType } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
 import type { Invite } from '../structures/Invite';
 import type { GuildChannel } from '../structures/channels/GuildChannel';
-import type { APIInviteData, InviteTargetUserType } from '@klasa/dapi-types';
-import type { Channel } from '../structures/channels/Channel';
-import type { TextChannel } from '../structures/channels/TextChannel';
 
 /**
  * The store for {@link Invite guild invites} the channel has.
@@ -21,10 +19,10 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	public readonly client: Client;
 
 	/**
-	 * The {@link Channel channel} this store belongs to.
+	 * The {@link GuildChannel guild channel} this store belongs to.
 	 * @since 0.0.3
 	 */
-	public readonly channel: Channel;
+	public readonly channel: GuildChannel;
 
 	/**
 	 * Builds the store.
