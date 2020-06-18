@@ -14,6 +14,7 @@ __exportStar(require("./lib/caching/stores/BanStore"), exports);
 __exportStar(require("./lib/caching/stores/base/DataStore"), exports);
 __exportStar(require("./lib/caching/stores/DMChannelStore"), exports);
 __exportStar(require("./lib/caching/stores/ChannelStore"), exports);
+__exportStar(require("./lib/caching/stores/GuildChannelInviteStore"), exports);
 __exportStar(require("./lib/caching/stores/GuildChannelStore"), exports);
 __exportStar(require("./lib/caching/stores/GuildEmojiStore"), exports);
 __exportStar(require("./lib/caching/stores/GuildInviteStore"), exports);

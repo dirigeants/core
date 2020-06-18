@@ -1,10 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GuildChannel = void 0;
+const rest_1 = require("@klasa/rest");
 const Channel_1 = require("./Channel");
 const OverwriteStore_1 = require("../../stores/OverwriteStore");
 const Permissions_1 = require("../../../util/bitfields/Permissions");
-const rest_1 = require("@klasa/rest");
+const GuildChannelInviteStore_1 = require("../../stores/GuildChannelInviteStore");
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
  */
@@ -12,6 +13,8 @@ class GuildChannel extends Channel_1.Channel {
     constructor(client, data, guild = null) {
         super(client, data);
         this.guild = guild !== null && guild !== void 0 ? guild : client.guilds.get(data.guild_id);
+        const filterGuildInvites = this.guild.invites.filter(i => i.channel.id === this.id).keys();
+        this.invites = new GuildChannelInviteStore_1.GuildChannelInviteStore(this, [...filterGuildInvites]);
     }
     /**
      * The parent {@type CategoryChannel channel} for this channel.

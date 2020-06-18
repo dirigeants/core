@@ -1,7 +1,8 @@
+import { RequestOptions } from '@klasa/rest';
 import { Channel } from './Channel';
 import { OverwriteStore } from '../../stores/OverwriteStore';
 import { Permissions } from '../../../util/bitfields/Permissions';
-import { RequestOptions } from '@klasa/rest';
+import { GuildChannelInviteStore } from '../../stores/GuildChannelInviteStore';
 import type { APIChannelData, APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
@@ -33,6 +34,11 @@ export declare abstract class GuildChannel extends Channel {
      * @see https://discord.com/developers/docs/resources/channel#overwrite-object
      */
     permissionOverwrites: OverwriteStore;
+    /**
+     * The {@link GuildChannelInviteStore invites} store for this channel.
+     * @since 0.0.3
+     */
+    readonly invites: GuildChannelInviteStore;
     /**
      * The {@link Guild guild} this channel belongs to.
      * @since 0.0.1
