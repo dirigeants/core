@@ -69,7 +69,7 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-invites
 	 */
 	public async fetch(): Promise<this> {
-		const entries = await this.client.api.get(Routes.channelInvites((this.channel as TextChannel).id)) as APIInviteData[];
+		const entries = await this.client.api.get(Routes.channelInvites(this.channel.id)) as APIInviteData[];
 		for (const entry of entries) {
 			// eslint-disable-next-line dot-notation
 			this.client.invites['_add'](entry);
@@ -127,4 +127,3 @@ export interface GuildChannelInviteStoreAddData {
 	 */
 	target_user_type?: InviteTargetUserType;
 }
-
