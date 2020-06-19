@@ -57,32 +57,36 @@ class MessageBuilder {
     }
     /**
      * Allows User mentions to ping
+     * @param ids user ids you want to mention
+     * @example
+     * messageBuilder.parseUsers();
+     * // All users will be mentionable.
+     * @example
+     * messageBuilder.parseUsers('167383252271628289', '242043489611808769')
+     * // Only those two users will be mentioned even if you mention other users in your message.
      */
-    parseUsers() {
-        this.data.allowed_mentions.parse.push('users');
+    parseUsers(...ids) {
+        if (ids.length)
+            this.data.allowed_mentions.users.push(...ids);
+        else
+            this.data.allowed_mentions.parse.push('users');
         return this;
     }
     /**
      * Allows Role mentions to ping
-     */
-    parseRoles() {
-        this.data.allowed_mentions.parse.push('roles');
-        return this;
-    }
-    /**
-     * Allows a set of users to be mentioned in a message (do not use with parseUsers())
-     * @param ids user ids you want to mention
-     */
-    addUserMentions(...ids) {
-        this.data.allowed_mentions.users.push(...ids);
-        return this;
-    }
-    /**
-     * Allows a set of roles to be mentioned in a message (do not use with parseRoles())
      * @param ids role ids you want to mention
+     * @example
+     * messageBuilder.parseRoles();
+     * // All roles will be mentionable.
+     * @example
+     * messageBuilder.parseRoles('339959033937264641', '339947394726625300')
+     * // Only those two roles will be mentioned even if you mention other roles in your message.
      */
-    addRoleMentions(...ids) {
-        this.data.allowed_mentions.roles.push(...ids);
+    parseRoles(...ids) {
+        if (ids.length)
+            this.data.allowed_mentions.roles.push(...ids);
+        else
+            this.data.allowed_mentions.parse.push('roles');
         return this;
     }
     /**
