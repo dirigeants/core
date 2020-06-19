@@ -94,5 +94,4 @@ export class PresenceBuilder implements PresenceUpdateData {
 		return this;
 	}
 
-
 }

@@ -12,7 +12,6 @@ import type { Client } from '../../../client/Client';
 import type { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 import type { Message } from '../messages/Message';
 
-
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
  */
