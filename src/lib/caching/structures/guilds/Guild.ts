@@ -496,7 +496,6 @@ export class Guild extends Structure {
 		return this.icon ? this.client.api.cdn.guildIcon(this.id, this.icon, options) : null;
 	}
 
-
 	/**
 	 * Defines the toString behavior of this structure.
 	 * @since 0.0.4
