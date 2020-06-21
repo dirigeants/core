@@ -490,8 +490,8 @@ export class Guild extends Structure {
 
 	/**
 	 * Returns the icon url for the guild if one is available.
-   * @param options The image size and format options.
-   */
+	 * @param options The image size and format options.
+	 */
 	public iconURL(options?: ImageURLOptions): string | null {
 		return this.icon ? this.client.api.cdn.guildIcon(this.id, this.icon, options) : null;
 	}
