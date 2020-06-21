@@ -124,7 +124,6 @@ export class Piece {
 		return this;
 	}
 
-
 	/**
 	 * The init method to be optionally overwritten in actual pieces
 	 * @since 0.0.1

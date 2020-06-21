@@ -272,7 +272,6 @@ export class Client extends BaseClient {
 		return this;
 	}
 
-
 	/**
 	 * Connects the client to the websocket
 	 */
