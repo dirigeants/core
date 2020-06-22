@@ -153,7 +153,7 @@ export class User<T = Client> extends Structure<T> {
 	 */
 	public displayAvatarURL(options?: ImageURLOptions): T extends Client ? string : null {
 		if (!(this.client instanceof Client)) return null as T extends Client ? string : null;
-		return (this.avatar ? 
+		return (this.avatar ?
 			this.avatarURL(options) :
 			this.client.api.cdn.defaultAvatar(Number(this.discriminator))) as T extends Client ? string : null;
 	}
