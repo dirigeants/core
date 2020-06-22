@@ -159,6 +159,14 @@ export class User<T = Client> extends Structure<T> {
 	}
 
 	/**
+	 * Returns the default discord avatar url for the user's discriminator.
+	 */
+	public defaultAvatarURL(): T extends Client ? string : null {
+		if (!(this.client instanceof Client)) return null as T extends Client ? string : null;
+		return this.client.api.cdn.defaultAvatar(Number(this.discriminator)) as T extends Client ? string : null;
+	}
+
+	/**
 	 * Defines toString behavior for members.
 	 * @since 0.0.1
 	 */
