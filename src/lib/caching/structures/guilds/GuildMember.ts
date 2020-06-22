@@ -225,7 +225,7 @@ export class GuildMember extends Structure {
 	 * @param options The image size, format and other options.
 	 */
 	public displayAvatarURL(options?: ImageURLOptions): string {
-		return this.avatarURL(options) || this.client.api.cdn.defaultAvatar(Number(this.user?.discriminator));
+		return this.avatarURL(options) ?? this.client.api.cdn.defaultAvatar(Number(this.user?.discriminator));
 	}
 
 	/**
