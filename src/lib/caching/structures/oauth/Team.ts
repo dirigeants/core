@@ -54,8 +54,7 @@ export class Team {
 	 * @param options The image size, format, and other image url options.
 	 */
 	public iconURL(options?: ImageURLOptions): string | null {
-		if (!this.icon) return null;
-		return this.client.api.cdn.teamIcon(this.id, this.icon, options);
+		return this.icon ? this.client.api.cdn.teamIcon(this.id, this.icon, options) : null;
 	}
 
 }
