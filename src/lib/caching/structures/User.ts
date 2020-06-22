@@ -151,11 +151,11 @@ export class User<T = Client> extends Structure<T> {
 	 * Returns the users avatar url or the default discord avatar url if they don't have a avatar.
 	 * @param options The image size, format and other options.
 	 */
-	public displayAvatarURL(options?: ImageURLOptions): T extends Client ? string : null {
-		if (!(this.client instanceof Client)) return null as T extends Client ? string : null;
+	public displayAvatarURL<K = T extends Client ? string : null>(options?: ImageURLOptions): K {
+		if (!(this.client instanceof Client)) return null as unknown as K;
 		return (this.avatar ?
 			this.avatarURL(options) :
-			this.defaultAvatarURL()) as T extends Client ? string : null;
+			this.defaultAvatarURL()) as unknown as K;
 	}
 
 	/**

@@ -4,9 +4,9 @@ import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
-import type { Client } from '../../../client/Client';
 import type { Guild } from './Guild';
 import type { User } from '../User';
+import type { Client } from '../../../client/Client';
 import type { GuildChannel } from '../channels/GuildChannel';
 
 /**
@@ -217,7 +217,7 @@ export class GuildMember extends Structure {
 	 * @param options The image size, format and other options.
 	 */
 	public avatarURL(options?: ImageURLOptions): string | null {
-		return this.user?.avatar ? this.client.api.cdn.userAvatar(this.id, this.user.avatar, options) : null;
+		return this.user?.avatarURL(options) ?? null;
 	}
 
 	/**
@@ -225,7 +225,16 @@ export class GuildMember extends Structure {
 	 * @param options The image size, format and other options.
 	 */
 	public displayAvatarURL(options?: ImageURLOptions): string {
-		return this.avatarURL(options) ?? this.client.api.cdn.defaultAvatar(Number(this.user?.discriminator));
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		return this.user!.displayAvatarURL(options);
+	}
+
+	/**
+	 * Returns the default discord avatar url for the user's discriminator.
+	 */
+	public defaultAvatarURL(): string {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		return this.user!.defaultAvatarURL();
 	}
 
 	/**
