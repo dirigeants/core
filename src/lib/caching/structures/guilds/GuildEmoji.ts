@@ -1,8 +1,8 @@
-import { RequestOptions } from '@klasa/rest';
-import { Guild } from './Guild';
 import { Structure } from '../base/Structure';
 
 import type { APIEmojiData } from '@klasa/dapi-types';
+import type { RequestOptions } from '@klasa/rest';
+import type { Guild } from './Guild';
 import type { Client } from '../../../client/Client';
 
 /**

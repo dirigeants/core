@@ -3,7 +3,7 @@ import { ClientEvents } from '../../client/Client';
 
 import type { DMChannel } from '../../caching/structures/channels/DMChannel';
 import type { GuildTextChannel } from '../../caching/structures/channels/GuildTextChannel';
-import type { Message } from '../../caching/structures/Message';
+import type { Message } from '../../caching/structures/messages/Message';
 
 export type MessageIteratorOptions = EventIteratorOptions<[Message]>;
 

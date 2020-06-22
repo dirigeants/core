@@ -1,7 +1,8 @@
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Channel } from './Channel';
 import { OverwriteStore } from '../../stores/OverwriteStore';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
-import { Routes, RequestOptions } from '@klasa/rest';
+import { GuildChannelInviteStore } from '../../stores/GuildChannelInviteStore';
 
 import type { APIChannelData, APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
@@ -41,6 +42,12 @@ export abstract class GuildChannel extends Channel {
 	public permissionOverwrites!: OverwriteStore;
 
 	/**
+	 * The {@link GuildChannelInviteStore invites} store for this channel.
+	 * @since 0.0.3
+	 */
+	public readonly invites: GuildChannelInviteStore;
+
+	/**
 	 * The {@link Guild guild} this channel belongs to.
 	 * @since 0.0.1
 	 */
@@ -49,6 +56,9 @@ export abstract class GuildChannel extends Channel {
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null = null) {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
+
+		const filterGuildInvites = this.guild.invites.filter(i => i.channel.id === this.id).keys();
+		this.invites = new GuildChannelInviteStore(this, [...filterGuildInvites]);
 	}
 
 	/**
@@ -145,19 +155,25 @@ export abstract class GuildChannel extends Channel {
 		this.name = data.name as string;
 		this.position = data.position as number;
 		this.parentID = data.parent_id as string | null;
-		if (!this.permissionOverwrites) this.permissionOverwrites = new OverwriteStore(this.client, this);
-		const overwrites = data.permission_overwrites ?? [];
-		for (const overwrite of this.permissionOverwrites.values()) {
-			const apiOverwrite = overwrites.find((ovr) => ovr.id === overwrite.id);
 
-			if (typeof apiOverwrite === 'undefined') {
-				overwrite.deleted = true;
-				this.permissionOverwrites.delete(overwrite.id);
-				continue;
+		if (!this.permissionOverwrites) this.permissionOverwrites = new OverwriteStore(this.client, this);
+
+		const overwrites = data.permission_overwrites ?? [];
+		const existingOverwrites = this.permissionOverwrites.clone();
+		this.permissionOverwrites.clear();
+
+		for (const overwrite of overwrites) {
+			const existing = existingOverwrites.findValue((ovr) => ovr.id === overwrite.id);
+
+			if (existing) {
+				this.permissionOverwrites.set(existing.id, existing);
+				existingOverwrites.delete(existing.id);
 			}
 			// eslint-disable-next-line dot-notation
-			this.permissionOverwrites['_add'](apiOverwrite);
+			this.permissionOverwrites['_add'](overwrite);
 		}
+
+		for (const overwrite of existingOverwrites.values()) overwrite.deleted = true;
 
 		return this;
 	}

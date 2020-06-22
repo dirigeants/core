@@ -8,7 +8,7 @@ import { MessageIterator, MessageIteratorOptions } from '../../util/iterators/Me
 
 import type { APIMessageData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
-import type { Message } from '../structures/Message';
+import type { Message } from '../structures/messages/Message';
 import type { TextBasedChannel } from '../../util/Util';
 
 /**

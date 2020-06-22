@@ -80,6 +80,7 @@ export const enum ClientEvents {
 	Debug = 'debug',
 	Error = 'error',
 	EventError = 'eventError',
+	GuildAvailable = 'guildAvailable',
 	GuildBanAdd = 'guildBanAdd',
 	GuildBanRemove = 'guildBanRemove',
 	GuildCreate = 'guildCreate',
@@ -96,6 +97,7 @@ export const enum ClientEvents {
 	GuildRoleCreate = 'guildRoleCreate',
 	GuildRoleDelete = 'guildRoleDelete',
 	GuildRoleUpdate = 'guildRoleUpdate',
+	GuildUnavailable = 'guildUnavailable',
 	GuildUpdate = 'guildUpdate',
 	InviteCreate = 'inviteCreate',
 	InviteDelete = 'inviteDelete',
@@ -195,6 +197,11 @@ export class Client extends BaseClient {
 	public readonly actions: ActionStore;
 
 	/**
+	 * The number of plugins loaded.
+	 */
+	private pluginLoadedCount = 0;
+
+	/**
 	 * @param options All of your preferences on how Klasa-Core should work for you
 	 */
 	public constructor(options: Partial<ClientOptions> = {}) {
@@ -223,7 +230,7 @@ export class Client extends BaseClient {
 			TimerManager.setInterval(this._sweepMessages.bind(this), this.options.cache.messageSweepInterval);
 		}
 
-		for (const plugin of Client.plugins) plugin.call(this);
+		if (this.constructor === Client) for (const plugin of Client.plugins) plugin.call(this);
 	}
 
 	/**
@@ -265,11 +272,14 @@ export class Client extends BaseClient {
 		return this;
 	}
 
-
 	/**
 	 * Connects the client to the websocket
 	 */
 	public async connect(): Promise<void> {
+		const numberOfPlugins = (this.constructor as typeof Client).plugins.size;
+		if (numberOfPlugins && this.pluginLoadedCount < numberOfPlugins) {
+			throw new Error('It appears plugins were not loaded. You must call this.loadPlugins() at the end of your Constructor');
+		}
 		await Promise.all(this.pieceStores.map(store => store.loadAll()));
 		try {
 			await this.ws.spawn();
@@ -289,6 +299,16 @@ export class Client extends BaseClient {
 		this.ws.destroy();
 	}
 
+	/**
+	 * Loads all plugins to your Client/Extended Client
+	 */
+	protected loadPlugins(): void {
+		if (this.pluginLoadedCount) throw new Error('Plugins have already been loaded for this client.');
+		for (const plugin of Client.plugins) {
+			plugin.call(this);
+			this.pluginLoadedCount++;
+		}
+	}
 
 	/**
 	 * Sweeps all text-based channels' messages and removes the ones older than the max message or command message lifetime.

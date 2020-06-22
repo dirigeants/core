@@ -40,4 +40,12 @@ export class Team {
 		this.ownerID = data.owner_user_id;
 	}
 
+	/**
+	 * The owner of this Team
+	 * @since 0.0.4
+	 */
+	public get owner(): TeamMember {
+		return this.members.get(this.ownerID) as TeamMember;
+	}
+
 }

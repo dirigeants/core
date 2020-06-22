@@ -1,17 +1,17 @@
 /* eslint-disable no-dupe-class-members */
-import { Cache } from '@klasa/cache';
 import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../stores/MessageStore';
-import { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 import { MessageCollector, MessageCollectorOptions } from '../../../util/collectors/MessageCollector';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 import { Typing } from '../Typing';
 
+import type { Cache } from '@klasa/cache';
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
 import type { Guild } from '../guilds/Guild';
 import type { GuildTextBasedChannel } from '../../../util/Util';
-import type { Message } from '../Message';
+import type { Message } from '../messages/Message';
+import type { MessageBuilder, MessageOptions, SplitOptions } from '../messages/MessageBuilder';
 
 export interface SendOptions {
 	split?: SplitOptions;
