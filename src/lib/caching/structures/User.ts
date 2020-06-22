@@ -155,7 +155,7 @@ export class User<T = Client> extends Structure<T> {
 		if (!(this.client instanceof Client)) return null as T extends Client ? string : null;
 		return (this.avatar ?
 			this.avatarURL(options) :
-			this.client.api.cdn.defaultAvatar(Number(this.discriminator))) as T extends Client ? string : null;
+			this.defaultAvatarURL()) as T extends Client ? string : null;
 	}
 
 	/**
