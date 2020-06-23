@@ -19,6 +19,7 @@ import type { Guild } from '../guilds/Guild';
 import type { Client } from '../../../client/Client';
 import type { GuildMember } from '../guilds/GuildMember';
 import type { GuildChannel } from '../channels/GuildChannel';
+import type { ChannelPinsStore } from '../../stores/ChannelPinsStore';
 
 export class Message extends WebhookMessage<Client> {
 
@@ -276,6 +277,22 @@ export class Message extends WebhookMessage<Client> {
 	 */
 	public toString(): string {
 		return this.content;
+	}
+
+	/**
+	 * Pins the message to the channel
+	 * @since 0.0.4
+	 */
+	public async pin(): Promise<Message> {
+		return this.channel.pins.add(this.id);
+	}
+
+	/**
+	 * Unpins the message to the channel
+	 * @since 0.0.4
+	 */
+	public async unpin(): Promise<ChannelPinsStore> {
+		return this.channel.pins.remove(this.id);
 	}
 
 	protected _patch(data: Partial<APIMessageData>): this {
