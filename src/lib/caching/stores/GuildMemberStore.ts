@@ -1,5 +1,5 @@
 /* eslint-disable no-dupe-class-members */
-import { Cache } from '@klasa/cache';
+import { ProxyCache } from '@klasa/cache';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../util/Extender';
 import { Routes, RequestOptions } from '@klasa/rest';
@@ -72,8 +72,8 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	 * @param options The {@link GuildMemberStoreFetchOptions options} used to fetch.
 	 * @see https://discord.com/developers/docs/topics/gateway#request-guild-members
 	 */
-	public fetch(options?: GuildMemberStoreFetchOptions): Promise<Cache<string, GuildMember>>;
-	public async fetch(idOrOptions?: string | GuildMemberStoreFetchOptions): Promise<GuildMember | Cache<string, GuildMember>> {
+	public fetch(options?: GuildMemberStoreFetchOptions): Promise<ProxyCache<string, GuildMember>>;
+	public async fetch(idOrOptions?: string | GuildMemberStoreFetchOptions): Promise<GuildMember | ProxyCache<string, GuildMember>> {
 		if (typeof idOrOptions === 'string') {
 			const previous = this.get(idOrOptions);
 			if (previous) return previous;
@@ -107,7 +107,8 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 		this.guild.shard.send(options);
 
 		let i = 0;
-		const cache = new Cache<string, GuildMember>();
+		// const cache = new Cache<string, GuildMember>();
+		const cache = new ProxyCache<string, GuildMember>(this);
 		for await (const [{ d }] of new EventIterator<[GuildMembersChunkDispatch]>(this.client.ws, 'GUILD_MEMBERS_CHUNK', {
 			filter: ([{ d: data }]): boolean => data.nonce === nonce && data.guild_id === this.guild.id
 		})) {
@@ -115,7 +116,7 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 			i++;
 			for (const rawMember of d.members) {
 				const member = this._add(rawMember);
-				cache.set(member.id, member);
+				cache.set(member.id);
 			}
 		}
 		/* eslint-enable id-length */
@@ -127,12 +128,12 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	 * TBD
 	 * @param options
 	 */
-	public async search(data: GuildMemberStoreSearchOptions): Promise<Cache<string, GuildMember>> {
+	public async search(data: GuildMemberStoreSearchOptions): Promise<ProxyCache<string, GuildMember>> {
 		const members = await this.client.api.get(Routes.guildMembersSearch(this.guild.id), { data }) as APIGuildMemberData[];
-		const cache = new Cache<string, GuildMember>();
+		const cache = new ProxyCache<string, GuildMember>(this);
 		for (const rawMember of members) {
 			const member = this._add(rawMember);
-			cache.set(member.id, member);
+			cache.set(member.id);
 		}
 
 		return cache;
@@ -144,13 +145,13 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	 * @param options The {@link GuildMemberStoreListOptions options} used to fetch.
 	 * @see https://discord.com/developers/docs/resources/guild#list-guild-members
 	 */
-	public async list(options: GuildMemberStoreListOptions): Promise<Cache<string, GuildMember>> {
+	public async list(options: GuildMemberStoreListOptions): Promise<ProxyCache<string, GuildMember>> {
 		const entries = await this.client.api.get(Routes.guildMembers(this.guild.id), { data: options }) as APIGuildMemberData[];
 
-		const cache = new Cache<string, GuildMember>();
+		const cache = new ProxyCache<string, GuildMember>(this);
 		for (const entry of entries) {
 			const member = this._add(entry);
-			cache.set(member.id, member);
+			cache.set(member.id);
 		}
 
 		return cache;
