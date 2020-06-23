@@ -1,4 +1,4 @@
-import { Routes, RequestOptions, ImageURLOptions } from '@klasa/rest';
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Structure } from '../base/Structure';
 import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
@@ -210,21 +210,6 @@ export class GuildMember extends Structure {
 		await this.guild.members.remove(this.id, requestOptions);
 		this.deleted = true;
 		return this;
-	}
-
-	/**
-	 * Returns the users avatar url or the default discord avatar url if they don't have a avatar.
-	 * @param options The image size, format and other options.
-	 */
-	public displayAvatarURL(options?: ImageURLOptions): string | null {
-		return this.user?.displayAvatarURL(options) ?? null;
-	}
-
-	/**
-	 * Returns the default discord avatar url for the user's discriminator.
-	 */
-	public get defaultAvatarURL(): string | null {
-		return this.user?.defaultAvatarURL ?? null;
 	}
 
 	/**
