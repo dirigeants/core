@@ -123,6 +123,7 @@
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="guildmemberrolestore.html#firstkey" class="tsd-kind-icon">first<wbr>Key</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="guildmemberrolestore.html#firstvalue" class="tsd-kind-icon">first<wbr>Value</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="guildmemberrolestore.html#guild" class="tsd-kind-icon">guild</a></li>
+								<li class="tsd-kind-get-signature tsd-parent-kind-class"><a href="guildmemberrolestore.html#highest" class="tsd-kind-icon">highest</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="guildmemberrolestore.html#last" class="tsd-kind-icon">last</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="guildmemberrolestore.html#lastkey" class="tsd-kind-icon">last<wbr>Key</a></li>
 								<li class="tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited"><a href="guildmemberrolestore.html#lastvalue" class="tsd-kind-icon">last<wbr>Value</a></li>
@@ -149,7 +150,6 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="guildmemberrolestore.html#foreach" class="tsd-kind-icon">for<wbr>Each</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="guildmemberrolestore.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="guildmemberrolestore.html#has" class="tsd-kind-icon">has</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="guildmemberrolestore.html#highest" class="tsd-kind-icon">highest</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="guildmemberrolestore.html#keys" class="tsd-kind-icon">keys</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter tsd-is-inherited"><a href="guildmemberrolestore.html#map" class="tsd-kind-icon">map</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="guildmemberrolestore.html#modify" class="tsd-kind-icon">modify</a></li>
@@ -180,7 +180,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides ProxyCache.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/caching/stores/GuildMemberRoleStore.ts#L25">src/lib/caching/stores/GuildMemberRoleStore.ts:25</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/caching/stores/GuildMemberRoleStore.ts#L25">src/lib/caching/stores/GuildMemberRoleStore.ts:25</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -231,7 +231,7 @@
 					<div class="tsd-signature tsd-kind-icon">client<span class="tsd-signature-symbol">:</span> <a href="client.html" class="tsd-signature-type">Client</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/caching/stores/GuildMemberRoleStore.ts#L19">src/lib/caching/stores/GuildMemberRoleStore.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/caching/stores/GuildMemberRoleStore.ts#L19">src/lib/caching/stores/GuildMemberRoleStore.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -251,7 +251,7 @@
 					<div class="tsd-signature tsd-kind-icon">member<span class="tsd-signature-symbol">:</span> <a href="guildmember.html" class="tsd-signature-type">GuildMember</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/caching/stores/GuildMemberRoleStore.ts#L25">src/lib/caching/stores/GuildMemberRoleStore.ts:25</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/caching/stores/GuildMemberRoleStore.ts#L25">src/lib/caching/stores/GuildMemberRoleStore.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -370,7 +370,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/caching/stores/GuildMemberRoleStore.ts#L50">src/lib/caching/stores/GuildMemberRoleStore.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/caching/stores/GuildMemberRoleStore.ts#L50">src/lib/caching/stores/GuildMemberRoleStore.ts:50</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -384,6 +384,33 @@
 								</dl>
 							</div>
 							<h4 class="tsd-returns-title">Returns <a href="guild.html" class="tsd-signature-type">Guild</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-get-signature tsd-parent-kind-class">
+					<a name="highest" class="tsd-anchor"></a>
+					<h3>highest</h3>
+					<ul class="tsd-signatures tsd-kind-get-signature tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">get</span> highest<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/caching/stores/GuildMemberRoleStore.ts#L42">src/lib/caching/stores/GuildMemberRoleStore.ts:42</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets the highest role from this store.</p>
+								</div>
+								<dl class="tsd-comment-tags">
+									<dt>since</dt>
+									<dd><p>0.0.1</p>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-returns-title">Returns <a href="role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -535,7 +562,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/caching/stores/GuildMemberRoleStore.ts#L61">src/lib/caching/stores/GuildMemberRoleStore.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/caching/stores/GuildMemberRoleStore.ts#L61">src/lib/caching/stores/GuildMemberRoleStore.ts:61</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1178,33 +1205,6 @@
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="highest" class="tsd-anchor"></a>
-					<h3>highest</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">highest<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/caching/stores/GuildMemberRoleStore.ts#L42">src/lib/caching/stores/GuildMemberRoleStore.ts:42</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the highest role from this store.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>since</dt>
-									<dd><p>0.0.1</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-returns-title">Returns <a href="role.html" class="tsd-signature-type">Role</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
-						</li>
-					</ul>
-				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="keys" class="tsd-anchor"></a>
 					<h3>keys</h3>
@@ -1307,7 +1307,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/caching/stores/GuildMemberRoleStore.ts#L84">src/lib/caching/stores/GuildMemberRoleStore.ts:84</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/caching/stores/GuildMemberRoleStore.ts#L84">src/lib/caching/stores/GuildMemberRoleStore.ts:84</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1426,7 +1426,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/caching/stores/GuildMemberRoleStore.ts#L73">src/lib/caching/stores/GuildMemberRoleStore.ts:73</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/caching/stores/GuildMemberRoleStore.ts#L73">src/lib/caching/stores/GuildMemberRoleStore.ts:73</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1693,7 +1693,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/caching/stores/GuildMemberRoleStore.ts#L92">src/lib/caching/stores/GuildMemberRoleStore.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/caching/stores/GuildMemberRoleStore.ts#L92">src/lib/caching/stores/GuildMemberRoleStore.ts:92</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1773,6 +1773,9 @@
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
 								<a href="guildmemberrolestore.html#guild" class="tsd-kind-icon">guild</a>
 							</li>
+							<li class=" tsd-kind-get-signature tsd-parent-kind-class">
+								<a href="guildmemberrolestore.html#highest" class="tsd-kind-icon">highest</a>
+							</li>
 							<li class=" tsd-kind-get-signature tsd-parent-kind-class tsd-is-inherited">
 								<a href="guildmemberrolestore.html#last" class="tsd-kind-icon">last</a>
 							</li>
@@ -1835,9 +1838,6 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited">
 								<a href="guildmemberrolestore.html#has" class="tsd-kind-icon">has</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="guildmemberrolestore.html#highest" class="tsd-kind-icon">highest</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="guildmemberrolestore.html#keys" class="tsd-kind-icon">keys</a>

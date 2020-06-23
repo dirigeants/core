@@ -110,10 +110,10 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="aliasstore.html#holds" class="tsd-kind-icon">Holds</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="aliasstore.html#aliases" class="tsd-kind-icon">aliases</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="aliasstore.html#client" class="tsd-kind-icon">client</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected"><a href="aliasstore.html#coredirectories" class="tsd-kind-icon">core<wbr>Directories</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="aliasstore.html#holds" class="tsd-kind-icon">holds</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="aliasstore.html#name" class="tsd-kind-icon">name</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><a href="aliasstore.html#size" class="tsd-kind-icon">size</a></li>
 							</ul>
@@ -173,14 +173,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Alias<wbr>Store<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="client.html" class="tsd-signature-type">Client</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, holds<span class="tsd-signature-symbol">: </span><a href="../globals.html#piececonstructor" class="tsd-signature-type">PieceConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="aliasstore.html" class="tsd-signature-type">AliasStore</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Alias<wbr>Store<span class="tsd-signature-symbol">(</span>client<span class="tsd-signature-symbol">: </span><a href="client.html" class="tsd-signature-type">Client</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, Holds<span class="tsd-signature-symbol">: </span><a href="../globals.html#piececonstructor" class="tsd-signature-type">PieceConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="aliasstore.html" class="tsd-signature-type">AliasStore</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L39">src/lib/pieces/base/Store.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L39">src/lib/pieces/base/Store.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -209,7 +209,7 @@
 									</div>
 								</li>
 								<li>
-									<h5>holds: <a href="../globals.html#piececonstructor" class="tsd-signature-type">PieceConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>Holds: <a href="../globals.html#piececonstructor" class="tsd-signature-type">PieceConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>The type of structure this store holds</p>
@@ -224,13 +224,34 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+					<a name="holds" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> Holds</h3>
+					<div class="tsd-signature tsd-kind-icon">Holds<span class="tsd-signature-symbol">:</span> <a href="../globals.html#piececonstructor" class="tsd-signature-type">PieceConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<aside class="tsd-sources">
+						<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#holds">Holds</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L33">src/lib/pieces/base/Store.ts:33</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The type of structure this store holds.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>0.0.1</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="aliases" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> aliases</h3>
 					<div class="tsd-signature tsd-kind-icon">aliases<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Cache</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = new Cache&lt;string, V&gt;()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/AliasStore.ts#L16">src/lib/pieces/base/AliasStore.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/AliasStore.ts#L16">src/lib/pieces/base/AliasStore.ts:16</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -251,7 +272,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#client">client</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L21">src/lib/pieces/base/Store.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L21">src/lib/pieces/base/Store.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -272,33 +293,12 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#coredirectories">coreDirectories</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L39">src/lib/pieces/base/Store.ts:39</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L39">src/lib/pieces/base/Store.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>The core directories pieces of this store can hold.</p>
-						</div>
-						<dl class="tsd-comment-tags">
-							<dt>since</dt>
-							<dd><p>0.0.1</p>
-							</dd>
-						</dl>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-					<a name="holds" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> holds</h3>
-					<div class="tsd-signature tsd-kind-icon">holds<span class="tsd-signature-symbol">:</span> <a href="../globals.html#piececonstructor" class="tsd-signature-type">PieceConstructor</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">V</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#holds">holds</a></p>
-						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L33">src/lib/pieces/base/Store.ts:33</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>The type of structure this store holds.</p>
 						</div>
 						<dl class="tsd-comment-tags">
 							<dt>since</dt>
@@ -314,7 +314,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#name">name</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L27">src/lib/pieces/base/Store.ts:27</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L27">src/lib/pieces/base/Store.ts:27</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -491,7 +491,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#userdirectory">userDirectory</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L59">src/lib/pieces/base/Store.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L59">src/lib/pieces/base/Store.ts:59</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -519,7 +519,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#_symbol_species_">[Symbol.species]</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L204">src/lib/pieces/base/Store.ts:204</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L204">src/lib/pieces/base/Store.ts:204</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">typeof </span><span class="tsd-signature-type">Cache</span></h4>
@@ -540,7 +540,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="store.html">Store</a>.<a href="store.html#add">add</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/AliasStore.ts#L41">src/lib/pieces/base/AliasStore.ts:41</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/AliasStore.ts#L41">src/lib/pieces/base/AliasStore.ts:41</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -577,7 +577,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="store.html">Store</a>.<a href="store.html#clear">clear</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/AliasStore.ts#L65">src/lib/pieces/base/AliasStore.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/AliasStore.ts#L65">src/lib/pieces/base/AliasStore.ts:65</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -661,7 +661,7 @@
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#delete">delete</a></p>
 								<p>Overrides <a href="guildchannelstore.html">GuildChannelStore</a>.<a href="guildchannelstore.html#delete">delete</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L162">src/lib/pieces/base/Store.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L162">src/lib/pieces/base/Store.ts:162</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1081,7 +1081,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="store.html">Store</a>.<a href="store.html#get">get</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/AliasStore.ts#L23">src/lib/pieces/base/AliasStore.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/AliasStore.ts#L23">src/lib/pieces/base/AliasStore.ts:23</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1118,7 +1118,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="store.html">Store</a>.<a href="store.html#has">has</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/AliasStore.ts#L32">src/lib/pieces/base/AliasStore.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/AliasStore.ts#L32">src/lib/pieces/base/AliasStore.ts:32</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1155,7 +1155,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#init">init</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L77">src/lib/pieces/base/Store.ts:77</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L77">src/lib/pieces/base/Store.ts:77</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1183,7 +1183,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#load">load</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L87">src/lib/pieces/base/Store.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L87">src/lib/pieces/base/Store.ts:87</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1226,7 +1226,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#loadall">loadAll</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L108">src/lib/pieces/base/Store.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L108">src/lib/pieces/base/Store.ts:108</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1400,7 +1400,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#registercoredirectory">registerCoreDirectory</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L68">src/lib/pieces/base/Store.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L68">src/lib/pieces/base/Store.ts:68</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1437,7 +1437,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="store.html">Store</a>.<a href="store.html#remove">remove</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/AliasStore.ts#L54">src/lib/pieces/base/AliasStore.ts:54</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/AliasStore.ts#L54">src/lib/pieces/base/AliasStore.ts:54</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1475,7 +1475,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#resolve">resolve</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L171">src/lib/pieces/base/Store.ts:171</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L171">src/lib/pieces/base/Store.ts:171</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1513,7 +1513,7 @@
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#set">set</a></p>
 								<p>Overrides Map.set</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L154">src/lib/pieces/base/Store.ts:154</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L154">src/lib/pieces/base/Store.ts:154</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1728,7 +1728,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="store.html">Store</a>.<a href="store.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/cd7d8e0/src/lib/pieces/base/Store.ts#L181">src/lib/pieces/base/Store.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/9c7c9717/src/lib/pieces/base/Store.ts#L181">src/lib/pieces/base/Store.ts:181</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1766,6 +1766,9 @@
 							<li class=" tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited">
 								<a href="aliasstore.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
+								<a href="aliasstore.html#holds" class="tsd-kind-icon">Holds</a>
+							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="aliasstore.html#aliases" class="tsd-kind-icon">aliases</a>
 							</li>
@@ -1774,9 +1777,6 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited tsd-is-protected">
 								<a href="aliasstore.html#coredirectories" class="tsd-kind-icon">core<wbr>Directories</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
-								<a href="aliasstore.html#holds" class="tsd-kind-icon">holds</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-inherited">
 								<a href="aliasstore.html#name" class="tsd-kind-icon">name</a>
