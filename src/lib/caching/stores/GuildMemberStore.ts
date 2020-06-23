@@ -84,13 +84,16 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 
 		if (typeof idOrOptions === 'undefined') idOrOptions = {};
 
-		let { query = '', userIDs, presences, limit = 0, nonce = Date.now().toString(16) } = idOrOptions;
+		const { query = '', userIDs, presences, limit = 0, nonce = Date.now().toString(16) } = idOrOptions;
 
+		/* eslint-disable id-length */
 		const options: RequestGuildMembers = {
 			op: OpCodes.REQUEST_GUILD_MEMBERS,
 			d: {
+				// eslint-disable-next-line @typescript-eslint/camelcase
 				guild_id: this.guild.id,
 				query,
+				// eslint-disable-next-line @typescript-eslint/camelcase
 				user_ids: userIDs,
 				presences,
 				limit,
@@ -99,14 +102,14 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 				// @ts-expect-error
 				nonce
 			}
-		}
+		};
 
 		this.guild.shard.send(options);
 
 		let i = 0;
 		const cache = new Cache<string, GuildMember>();
 		for await (const [{ d }] of new EventIterator<[GuildMembersChunkDispatch]>(this.client.ws, 'GUILD_MEMBERS_CHUNK', {
-			filter: ([{ d }]): boolean => d.nonce === nonce && d.guild_id === this.guild.id
+			filter: ([{ d: data }]): boolean => data.nonce === nonce && data.guild_id === this.guild.id
 		})) {
 			if (i === d.chunk_count) break;
 			i++;
@@ -115,16 +118,17 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 				cache.set(member.id, member);
 			}
 		}
+		/* eslint-enable id-length */
 
 		return cache;
 	}
 
 	/**
 	 * TBD
-	 * @param options 
+	 * @param options
 	 */
 	public async search(data: GuildMemberStoreSearchOptions): Promise<Cache<string, GuildMember>> {
-		const members = await this.client.api.get(Routes.guildMembersSearch(this.guild.id), {data}) as APIGuildMemberData[];
+		const members = await this.client.api.get(Routes.guildMembersSearch(this.guild.id), { data }) as APIGuildMemberData[];
 		const cache = new Cache<string, GuildMember>();
 		for (const rawMember of members) {
 			const member = this._add(rawMember);
