@@ -120,6 +120,21 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	}
 
 	/**
+	 * TBD
+	 * @param options 
+	 */
+	public async search(data: GuildMemberStoreSearchOptions): Promise<Cache<string, GuildMember>> {
+		const members = await this.client.api.get(Routes.guildMembersSearch(this.guild.id), {data}) as APIGuildMemberData[];
+		const cache = new Cache<string, GuildMember>();
+		for (const rawMember of members) {
+			const member = this._add(rawMember);
+			cache.set(member.id, member);
+		}
+
+		return cache;
+	}
+
+	/**
 	 * Returns up to 1000 {@link GuildMember members}.
 	 * @since 0.0.3
 	 * @param options The {@link GuildMemberStoreListOptions options} used to fetch.
@@ -239,4 +254,9 @@ export interface GuildMemberStoreFetchOptions {
 	presences?: boolean;
 	userIDs?: string | string[];
 	nonce?: string;
+}
+
+export interface GuildMemberStoreSearchOptions {
+	query: string;
+	limit?: number;
 }
