@@ -25,7 +25,8 @@ import type {
 	GuildPremiumTier,
 	GuildSystemChannelFlags,
 	GuildVerificationLevel,
-	APIGuildPreviewData
+	APIGuildPreviewData,
+	APIWebhookData
 } from '@klasa/dapi-types';
 import type { WebSocketShard } from '@klasa/ws';
 import type { Client } from '../../../client/Client';
@@ -494,6 +495,14 @@ export class Guild extends Structure {
 	 */
 	public iconURL(options?: ImageURLOptions): string | null {
 		return this.icon ? this.client.api.cdn.guildIcon(this.id, this.icon, options) : null;
+	}
+
+	/**
+	 * Fetches the webhooks the guild has
+	 * @since 0.0.4
+	 */
+	public async fetchWebhooks(options: RequestOptions = {}): Promise<APIWebhookData[]> {
+		return this.client.api.get(Routes.guildWebhooks(this.id), options) as Promise<APIWebhookData[]>;
 	}
 
 	/**
