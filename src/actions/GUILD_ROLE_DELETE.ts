@@ -14,7 +14,7 @@ export default class CoreAction extends Action {
 
 	public cache(data: Role): void {
 		data.deleted = true;
-		data.guild.roles.delete(data.id);
+		if (data.guild) data.guild.roles.delete(data.id);
 	}
 
 }

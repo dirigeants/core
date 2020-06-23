@@ -15,8 +15,11 @@ export default class CoreAction extends Action {
 	public cache(data: GuildBasedChannel | DMChannel): void {
 		if (this.client.options.cache.enabled) {
 			this.client.channels.set(data.id, data);
-			if (isGuildChannel(data)) data.guild.channels.set(data.id, data);
-			else this.client.dms.set(data.id, data);
+			if (isGuildChannel(data)) {
+				if (data.guild) data.guild.channels.set(data.id, data);
+			} else {
+				this.client.dms.set(data.id, data);
+			}
 		}
 	}
 
