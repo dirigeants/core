@@ -213,28 +213,18 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * Returns the users avatar url.
-	 * @param options The image size, format and other options.
-	 */
-	public avatarURL(options?: ImageURLOptions): string | null {
-		return this.user?.avatarURL(options) ?? null;
-	}
-
-	/**
 	 * Returns the users avatar url or the default discord avatar url if they don't have a avatar.
 	 * @param options The image size, format and other options.
 	 */
-	public displayAvatarURL(options?: ImageURLOptions): string {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		return this.user!.displayAvatarURL(options);
+	public displayAvatarURL(options?: ImageURLOptions): string | null {
+		return this.user?.displayAvatarURL(options) ?? null;
 	}
 
 	/**
 	 * Returns the default discord avatar url for the user's discriminator.
 	 */
-	public defaultAvatarURL(): string {
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		return this.user!.defaultAvatarURL();
+	public get defaultAvatarURL(): string | null {
+		return this.user?.defaultAvatarURL ?? null;
 	}
 
 	/**
