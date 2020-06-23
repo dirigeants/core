@@ -3,6 +3,8 @@ import { Cache } from '@klasa/cache';
 import { DataStore } from './base/DataStore';
 import { extender } from '../../util/Extender';
 import { Routes, RequestOptions } from '@klasa/rest';
+import { RequestGuildMembers, OpCodes, GuildMembersChunkDispatch } from '@klasa/ws';
+import { EventIterator } from '@klasa/event-iterator';
 
 import type { APIUserData, APIGuildMemberData } from '@klasa/dapi-types';
 import type { Client } from '../../client/Client';
@@ -67,8 +69,8 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 	/**
 	 * Returns up to 1000 {@link GuildMember members}.
 	 * @since 0.0.1
-	 * @param userID The {@link User user} ID to fetch.
-	 * @see https://discord.com/developers/docs/resources/guild#list-guild-members
+	 * @param options The {@link GuildMemberStoreFetchOptions options} used to fetch.
+	 * @see https://discord.com/developers/docs/topics/gateway#request-guild-members
 	 */
 	public fetch(options?: GuildMemberStoreFetchOptions): Promise<Cache<string, GuildMember>>;
 	public async fetch(idOrOptions?: string | GuildMemberStoreFetchOptions): Promise<GuildMember | Cache<string, GuildMember>> {
@@ -80,13 +82,58 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 			return this._add(member);
 		}
 
-		const entries = await this.client.api.get(Routes.guildMembers(this.guild.id), { data: idOrOptions }) as APIGuildMemberData[];
+		if (typeof idOrOptions === 'undefined') idOrOptions = {};
+
+		let { query = '', userIDs, presences, limit = 0, nonce = Date.now().toString(16) } = idOrOptions;
+
+		const options: RequestGuildMembers = {
+			op: OpCodes.REQUEST_GUILD_MEMBERS,
+			d: {
+				guild_id: this.guild.id,
+				query,
+				user_ids: userIDs,
+				presences,
+				limit,
+				// This is ignored until the send options for RequestGuildMembers are fixed.
+				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+				// @ts-expect-error
+				nonce
+			}
+		}
+
+		this.guild.shard.send(options);
+
+		let i = 0;
+		const cache = new Cache<string, GuildMember>();
+		for await (const [{ d }] of new EventIterator<[GuildMembersChunkDispatch]>(this.client.ws, 'GUILD_MEMBERS_CHUNK', {
+			filter: ([{ d }]): boolean => d.nonce === nonce && d.guild_id === this.guild.id
+		})) {
+			if (i === d.chunk_count) break;
+			i++;
+			for (const rawMember of d.members) {
+				const member = this._add(rawMember);
+				cache.set(member.id, member);
+			}
+		}
+
+		return cache;
+	}
+
+	/**
+	 * Returns up to 1000 {@link GuildMember members}.
+	 * @since 0.0.3
+	 * @param options The {@link GuildMemberStoreListOptions options} used to fetch.
+	 * @see https://discord.com/developers/docs/resources/guild#list-guild-members
+	 */
+	public async list(options: GuildMemberStoreListOptions): Promise<Cache<string, GuildMember>> {
+		const entries = await this.client.api.get(Routes.guildMembers(this.guild.id), { data: options }) as APIGuildMemberData[];
 
 		const cache = new Cache<string, GuildMember>();
 		for (const entry of entries) {
 			const member = this._add(entry);
 			cache.set(member.id, member);
 		}
+
 		return cache;
 	}
 
@@ -168,11 +215,11 @@ export interface GuildMemberStoreAddData {
 }
 
 /**
- * The options for {@link GuildMemberStore#fetch}.
+ * The options for {@link GuildMemberStore#list}.
  * @since 0.0.1
  * @see https://discord.com/developers/docs/resources/guild#list-guild-members-query-string-params
  */
-export interface GuildMemberStoreFetchOptions {
+export interface GuildMemberStoreListOptions {
 	/**
 	 * Max number of members to return (1-1000).
 	 * @since 0.0.1
@@ -184,4 +231,12 @@ export interface GuildMemberStoreFetchOptions {
 	 * @since 0.0.1
 	 */
 	after?: string;
+}
+
+export interface GuildMemberStoreFetchOptions {
+	query?: string;
+	limit?: number;
+	presences?: boolean;
+	userIDs?: string | string[];
+	nonce?: string;
 }
