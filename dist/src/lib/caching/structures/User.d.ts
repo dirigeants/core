@@ -1,7 +1,8 @@
 import { Structure } from './base/Structure';
 import { Client } from '../../client/Client';
-import type { DMChannel } from './channels/DMChannel';
 import type { APIUserData, APIUserFlags, PremiumType } from '@klasa/dapi-types';
+import type { ImageURLOptions } from '@klasa/rest';
+import type { DMChannel } from './channels/DMChannel';
 /**
  * @see https://discord.com/developers/docs/resources/user#user-object
  */
@@ -98,6 +99,20 @@ export declare class User<T = Client> extends Structure<T> {
      * @see https://discord.com/developers/docs/resources/channel#deleteclose-channel
      */
     closeDM(): Promise<DMChannel | null>;
+    /**
+     * Returns the users avatar url.
+     * @param options The image size, format and other options.
+     */
+    avatarURL(options?: ImageURLOptions): string | null;
+    /**
+     * Returns the users avatar url or the default discord avatar url if they don't have a avatar.
+     * @param options The image size, format and other options.
+     */
+    displayAvatarURL(options?: ImageURLOptions): string | null;
+    /**
+     * Returns the default discord avatar url for the user's discriminator.
+     */
+    get defaultAvatarURL(): string | null;
     /**
      * Defines toString behavior for members.
      * @since 0.0.1

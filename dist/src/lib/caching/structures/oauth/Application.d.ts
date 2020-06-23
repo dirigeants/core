@@ -1,3 +1,4 @@
+import { ImageURLOptions } from '@klasa/rest';
 import { Team } from './Team';
 import type { APIOauthData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
@@ -90,6 +91,11 @@ export declare class Application {
      * @since 0.0.4
      */
     get guild(): Guild | null;
+    /**
+     * Returns the application icon url if available.
+     * @param options The image size, format, and other image url options.
+     */
+    iconURL(options?: ImageURLOptions): string | null;
     /**
      * Returns an {@link Application application}.
      * @since 0.0.1

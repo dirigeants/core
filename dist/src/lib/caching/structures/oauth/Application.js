@@ -36,6 +36,13 @@ class Application {
         return this.guildID !== null ? (_a = this.client.guilds.get(this.guildID)) !== null && _a !== void 0 ? _a : null : null;
     }
     /**
+     * Returns the application icon url if available.
+     * @param options The image size, format, and other image url options.
+     */
+    iconURL(options) {
+        return this.icon ? this.client.api.cdn.appIcon(this.id, this.icon, options) : null;
+    }
+    /**
      * Returns an {@link Application application}.
      * @since 0.0.1
      * @param client The {@link Client client} that will manage the created object.

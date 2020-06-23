@@ -152,6 +152,13 @@ class Guild extends Structure_1.Structure {
         return this.client.api.get(rest_1.Routes.guildVanityURL(this.id));
     }
     /**
+     * Returns the icon url for the guild if one is available.
+     * @param options The image size and format options.
+     */
+    iconURL(options) {
+        return this.icon ? this.client.api.cdn.guildIcon(this.id, this.icon, options) : null;
+    }
+    /**
      * Defines the toString behavior of this structure.
      * @since 0.0.4
      */

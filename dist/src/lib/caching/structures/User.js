@@ -53,6 +53,34 @@ class User extends Structure_1.Structure {
         return existing ? existing.delete() : Promise.resolve(null);
     }
     /**
+     * Returns the users avatar url.
+     * @param options The image size, format and other options.
+     */
+    avatarURL(options) {
+        if (!this.avatar || !(this.client instanceof Client_1.Client))
+            return null;
+        return this.client.api.cdn.userAvatar(this.id, this.avatar, options);
+    }
+    /**
+     * Returns the users avatar url or the default discord avatar url if they don't have a avatar.
+     * @param options The image size, format and other options.
+     */
+    displayAvatarURL(options) {
+        if (!(this.client instanceof Client_1.Client))
+            return null;
+        return this.avatar ?
+            this.avatarURL(options) :
+            this.defaultAvatarURL;
+    }
+    /**
+     * Returns the default discord avatar url for the user's discriminator.
+     */
+    get defaultAvatarURL() {
+        if (!(this.client instanceof Client_1.Client))
+            return null;
+        return this.client.api.cdn.defaultAvatar(Number(this.discriminator));
+    }
+    /**
      * Defines toString behavior for members.
      * @since 0.0.1
      */

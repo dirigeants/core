@@ -1,6 +1,7 @@
 import { Cache } from '@klasa/cache';
 import { TeamMember } from './TeamMember';
 import type { APITeamData } from '@klasa/dapi-types';
+import type { ImageURLOptions } from '@klasa/rest';
 import type { Client } from '../../../client/Client';
 /**
  * @see https://discord.com/developers/docs/topics/teams#data-models-team-object
@@ -33,4 +34,9 @@ export declare class Team {
      * @since 0.0.4
      */
     get owner(): TeamMember;
+    /**
+     * Returns the teams icon url if available.
+     * @param options The image size, format, and other image url options.
+     */
+    iconURL(options?: ImageURLOptions): string | null;
 }

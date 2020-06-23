@@ -21,6 +21,13 @@ class Team {
     get owner() {
         return this.members.get(this.ownerID);
     }
+    /**
+     * Returns the teams icon url if available.
+     * @param options The image size, format, and other image url options.
+     */
+    iconURL(options) {
+        return this.icon ? this.client.api.cdn.teamIcon(this.id, this.icon, options) : null;
+    }
 }
 exports.Team = Team;
 //# sourceMappingURL=Team.js.map

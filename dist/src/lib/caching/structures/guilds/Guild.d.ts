@@ -1,4 +1,4 @@
-import { RequestOptions } from '@klasa/rest';
+import { RequestOptions, ImageURLOptions } from '@klasa/rest';
 import { BanStore } from '../../stores/BanStore';
 import { GuildChannelStore } from '../../stores/GuildChannelStore';
 import { GuildEmojiStore } from '../../stores/GuildEmojiStore';
@@ -346,6 +346,11 @@ export declare class Guild extends Structure {
      * @see https://discord.com/developers/docs/resources/guild#get-guild-vanity-url
      */
     fetchVanityURL(): Promise<GuildVanityURL>;
+    /**
+     * Returns the icon url for the guild if one is available.
+     * @param options The image size and format options.
+     */
+    iconURL(options?: ImageURLOptions): string | null;
     /**
      * Defines the toString behavior of this structure.
      * @since 0.0.4
