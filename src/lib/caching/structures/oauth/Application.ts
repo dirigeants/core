@@ -1,4 +1,4 @@
-import { Routes } from '@klasa/rest';
+import { Routes, ImageURLOptions } from '@klasa/rest';
 import { Team } from './Team';
 
 import type { APIOauthData } from '@klasa/dapi-types';
@@ -127,6 +127,14 @@ export class Application {
 	 */
 	public get guild(): Guild | null {
 		return this.guildID !== null ? this.client.guilds.get(this.guildID) ?? null : null;
+	}
+
+	/**
+	 * Returns the application icon url if available.
+	 * @param options The image size, format, and other image url options.
+	 */
+	public iconURL(options?: ImageURLOptions): string | null {
+		return this.icon ? this.client.api.cdn.appIcon(this.id, this.icon, options) : null;
 	}
 
 	/**

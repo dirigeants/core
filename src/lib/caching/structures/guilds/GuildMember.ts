@@ -4,9 +4,9 @@ import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
-import type { Client } from '../../../client/Client';
 import type { Guild } from './Guild';
 import type { User } from '../User';
+import type { Client } from '../../../client/Client';
 import type { GuildChannel } from '../channels/GuildChannel';
 
 /**
