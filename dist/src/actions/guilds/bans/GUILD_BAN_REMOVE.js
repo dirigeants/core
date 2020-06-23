@@ -10,7 +10,8 @@ class CoreAction extends core_1.Action {
         return guild ? new (core_1.extender.get('Ban'))(this.client, data.d, guild) : null;
     }
     cache(data) {
-        data.guild.bans.delete(data.id);
+        if (data.guild)
+            data.guild.bans.delete(data.id);
     }
 }
 exports.default = CoreAction;

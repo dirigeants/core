@@ -22,7 +22,7 @@ class GuildMemberRoleStore extends cache_1.ProxyCache {
      * Gets the highest role from this store.
      * @since 0.0.1
      */
-    highest() {
+    get highest() {
         return this.reduce((highest, role) => highest.position > role.position ? highest : role, this.firstValue);
     }
     /**

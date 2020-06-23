@@ -15,7 +15,8 @@ class CoreAction extends core_1.Action {
     }
     cache(data) {
         data.deleted = true;
-        data.channel.messages.delete(data.id);
+        if (data.channel)
+            data.channel.messages.delete(data.id);
     }
 }
 exports.default = CoreAction;

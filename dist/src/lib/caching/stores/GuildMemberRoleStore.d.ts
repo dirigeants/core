@@ -29,7 +29,7 @@ export declare class GuildMemberRoleStore extends ProxyCache<string, Role> {
      * Gets the highest role from this store.
      * @since 0.0.1
      */
-    highest(): Role | undefined;
+    get highest(): Role | undefined;
     /**
      * The {@link Guild guild} this store belongs to.
      * @since 0.0.1

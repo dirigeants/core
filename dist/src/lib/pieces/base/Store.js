@@ -15,9 +15,9 @@ class Store extends cache_1.Cache {
      * @since 0.0.1
      * @param client The client this Store was created with
      * @param name The name of this store
-     * @param holds The type of structure this store holds
+     * @param Holds The type of structure this store holds
      */
-    constructor(client, name, holds) {
+    constructor(client, name, Holds) {
         super();
         /**
          * The core directories pieces of this store can hold.
@@ -26,7 +26,7 @@ class Store extends cache_1.Cache {
         this.coreDirectories = new Set();
         this.client = client;
         this.name = name;
-        this.holds = holds;
+        this.Holds = Holds;
     }
     /**
      * The directory of local pieces relative to where you run Klasa from.
@@ -94,7 +94,7 @@ class Store extends cache_1.Cache {
      * @param piece The piece we are setting up
      */
     add(piece) {
-        if (!(piece instanceof this.holds)) {
+        if (!(piece instanceof this.Holds)) {
             this.client.emit("error" /* Error */, `Only ${this} may be stored in this Store.`);
             return null;
         }
@@ -138,7 +138,7 @@ class Store extends cache_1.Cache {
      * @param name The piece object or a string representing a piece's name
      */
     resolve(name) {
-        if (name instanceof this.holds)
+        if (name instanceof this.Holds)
             return name;
         return this.get(name) || null;
     }

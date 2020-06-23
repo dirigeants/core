@@ -11,10 +11,13 @@ class CoreAction extends core_1.Action {
     cache(data) {
         if (this.client.options.cache.enabled) {
             this.client.channels.set(data.id, data);
-            if (core_1.isGuildChannel(data))
-                data.guild.channels.set(data.id, data);
-            else
+            if (core_1.isGuildChannel(data)) {
+                if (data.guild)
+                    data.guild.channels.set(data.id, data);
+            }
+            else {
                 this.client.dms.set(data.id, data);
+            }
         }
     }
 }

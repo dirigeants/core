@@ -21,7 +21,7 @@ export declare class Store<V extends Piece> extends Cache<string, V> {
      * The type of structure this store holds.
      * @since 0.0.1
      */
-    readonly holds: PieceConstructor<V>;
+    readonly Holds: PieceConstructor<V>;
     /**
      * The core directories pieces of this store can hold.
      * @since 0.0.1
@@ -31,9 +31,9 @@ export declare class Store<V extends Piece> extends Cache<string, V> {
      * @since 0.0.1
      * @param client The client this Store was created with
      * @param name The name of this store
-     * @param holds The type of structure this store holds
+     * @param Holds The type of structure this store holds
      */
-    constructor(client: Client, name: string, holds: PieceConstructor<V>);
+    constructor(client: Client, name: string, Holds: PieceConstructor<V>);
     /**
      * The directory of local pieces relative to where you run Klasa from.
      * @since 0.0.1

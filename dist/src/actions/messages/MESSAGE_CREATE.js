@@ -9,7 +9,7 @@ class CoreAction extends core_1.Action {
         return new (core_1.extender.get('Message'))(this.client, data.d);
     }
     cache(data) {
-        if (this.client.options.cache.enabled) {
+        if (this.client.options.cache.enabled && data.channel) {
             data.channel.messages.set(data.id, data);
             data.channel.lastMessageID = data.id;
         }

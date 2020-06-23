@@ -11,7 +11,8 @@ class CoreAction extends core_1.Action {
     }
     cache(data) {
         data.deleted = true;
-        data.guild.roles.delete(data.id);
+        if (data.guild)
+            data.guild.roles.delete(data.id);
     }
 }
 exports.default = CoreAction;

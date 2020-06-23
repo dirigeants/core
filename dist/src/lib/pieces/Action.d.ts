@@ -24,7 +24,7 @@ export declare abstract class Action<T extends DispatchPayload = DispatchPayload
      * @since 0.0.1
      * @param data The raw data from {@link Client#ws}
      */
-    run(data: T): void;
+    run(data: T): unknown;
     /**
      * Checks whether or not the data structure was already cached, returning it if it was.
      * @since 0.0.1

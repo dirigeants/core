@@ -13,7 +13,7 @@ class CoreAction extends core_1.Action {
         return new (core_1.extender.get('Role'))(this.client, data.d.role, guild);
     }
     cache(data) {
-        if (this.client.options.cache.enabled) {
+        if (this.client.options.cache.enabled && data.guild) {
             data.guild.roles.set(data.id, data);
         }
     }

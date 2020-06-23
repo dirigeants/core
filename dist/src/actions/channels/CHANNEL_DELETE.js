@@ -13,10 +13,13 @@ class CoreAction extends core_1.Action {
     cache(data) {
         data.deleted = true;
         this.client.channels.delete(data.id);
-        if (core_1.isGuildChannel(data))
-            data.guild.channels.delete(data.id);
-        else
+        if (core_1.isGuildChannel(data)) {
+            if (data.guild)
+                data.guild.channels.delete(data.id);
+        }
+        else {
             this.client.dms.delete(data.id);
+        }
     }
 }
 exports.default = CoreAction;

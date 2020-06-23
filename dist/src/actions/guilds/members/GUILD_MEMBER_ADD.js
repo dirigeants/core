@@ -10,8 +10,10 @@ class CoreAction extends core_1.Action {
         return guild ? new (core_1.extender.get('GuildMember'))(this.client, data.d, guild) : null;
     }
     cache(data) {
-        data.guild.members.set(data.id, data);
-        ++data.guild.memberCount;
+        if (data.guild) {
+            data.guild.members.set(data.id, data);
+            ++data.guild.memberCount;
+        }
     }
 }
 exports.default = CoreAction;
