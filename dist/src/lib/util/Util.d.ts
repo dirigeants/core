@@ -13,6 +13,7 @@ export declare type GuildTextBasedChannel = TextChannel | NewsChannel;
 export declare type TextBasedChannel = DMChannel | GuildTextBasedChannel;
 export declare type Channels = DMChannel | GuildBasedChannel;
 export declare function isTextBasedChannel(channel: Channel): channel is TextBasedChannel;
+export declare function isGuildTextBasedChannel(channel: Channel): channel is GuildTextBasedChannel;
 export declare function isGuildChannel(channel: Channel): channel is GuildBasedChannel;
 export declare function isSet<V extends {}, K extends keyof V>(value: V, key: K): value is V & Required<Pick<V, K>>;
 export declare type EmojiResolvable = string | MessageReactionEmoji | GuildEmoji;

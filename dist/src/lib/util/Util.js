@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.resolveEmoji = exports.isSet = exports.isGuildChannel = exports.isTextBasedChannel = exports.snakeToCamel = void 0;
+exports.resolveEmoji = exports.isSet = exports.isGuildChannel = exports.isGuildTextBasedChannel = exports.isTextBasedChannel = exports.snakeToCamel = void 0;
 function snakeToCamel(input) {
     const [first, ...parts] = input.split('_');
     let output = first.toLowerCase();
@@ -14,6 +14,10 @@ function isTextBasedChannel(channel) {
     return Reflect.has(channel, 'messages');
 }
 exports.isTextBasedChannel = isTextBasedChannel;
+function isGuildTextBasedChannel(channel) {
+    return isTextBasedChannel(channel) && isGuildChannel(channel);
+}
+exports.isGuildTextBasedChannel = isGuildTextBasedChannel;
 function isGuildChannel(channel) {
     return Reflect.has(channel, 'guild');
 }
