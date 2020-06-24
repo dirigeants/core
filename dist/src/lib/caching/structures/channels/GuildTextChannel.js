@@ -57,6 +57,7 @@ class GuildTextChannel extends GuildChannel_1.GuildChannel {
         return new MessageCollector_1.MessageCollector(this, options).collect();
     }
     async send(data, options = {}) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         return this.messages.add(data, options);
     }

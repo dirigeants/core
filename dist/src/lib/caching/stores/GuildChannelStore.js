@@ -84,4 +84,5 @@ class GuildChannelStore extends DataStore_1.DataStore {
     }
 }
 exports.GuildChannelStore = GuildChannelStore;
+/* eslint-enable camelcase */
 //# sourceMappingURL=GuildChannelStore.js.map

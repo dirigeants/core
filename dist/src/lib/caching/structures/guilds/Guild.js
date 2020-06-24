@@ -41,7 +41,7 @@ class Guild extends Structure_1.Structure {
         this.presences = new PresenceStore_1.PresenceStore(client, this);
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         this.shard = this.client.ws.shards.get(shardID);
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         this.widget = new GuildWidget_1.GuildWidget({ enabled: null, channel_id: null }, this);
         this.unavailable = (_a = data.unavailable) !== null && _a !== void 0 ? _a : false;
         if (!this.unavailable) {
@@ -197,7 +197,7 @@ class Guild extends Structure_1.Structure {
         }
         if (data.channels) {
             this.channels.clear();
-            // eslint-disable-next-line dot-notation, @typescript-eslint/camelcase
+            // eslint-disable-next-line dot-notation, camelcase
             for (const channel of data.channels)
                 this.client.channels['_add'](channel, this);
         }
@@ -223,4 +223,5 @@ class Guild extends Structure_1.Structure {
     }
 }
 exports.Guild = Guild;
+/* eslint-enable camelcase */
 //# sourceMappingURL=Guild.js.map

@@ -31,4 +31,5 @@ class StoreChannel extends GuildChannel_1.GuildChannel {
     }
 }
 exports.StoreChannel = StoreChannel;
+/* eslint-enable camelcase */
 //# sourceMappingURL=StoreChannel.js.map

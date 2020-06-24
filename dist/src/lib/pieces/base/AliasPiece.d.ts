@@ -21,7 +21,7 @@ export declare class AliasPiece extends Piece {
      * Defines the JSON.stringify behavior of this argument.
      * @since 0.0.1
      */
-    toJSON(): object;
+    toJSON(): Record<string, unknown>;
 }
 /**
  * The base piece options for all {@link AliasPiece} instances.

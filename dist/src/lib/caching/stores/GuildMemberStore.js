@@ -102,4 +102,5 @@ class GuildMemberStore extends DataStore_1.DataStore {
     }
 }
 exports.GuildMemberStore = GuildMemberStore;
+/* eslint-enable camelcase */
 //# sourceMappingURL=GuildMemberStore.js.map

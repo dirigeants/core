@@ -69,7 +69,7 @@ export declare abstract class Event extends Piece {
     /**
      * Defines the JSON.stringify behavior of this event.
      */
-    toJSON(): object;
+    toJSON(): Record<string, unknown>;
 }
 export interface Event {
     store: EventStore;

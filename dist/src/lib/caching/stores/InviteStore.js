@@ -59,4 +59,5 @@ class InviteStore extends DataStore_1.DataStore {
     }
 }
 exports.InviteStore = InviteStore;
+/* eslint-enable camelcase */
 //# sourceMappingURL=InviteStore.js.map

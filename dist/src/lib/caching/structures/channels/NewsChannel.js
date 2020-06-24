@@ -33,7 +33,7 @@ class NewsChannel extends GuildTextChannel_1.GuildTextChannel {
      * @since 0.0.4
      */
     async follow(channel) {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         return this.client.api.post(rest_1.Routes.followChannel(this.id), { data: { webhook_channel_id: channel.id } });
     }
     /**
@@ -47,4 +47,5 @@ class NewsChannel extends GuildTextChannel_1.GuildTextChannel {
     }
 }
 exports.NewsChannel = NewsChannel;
+/* eslint-enable camelcase */
 //# sourceMappingURL=NewsChannel.js.map

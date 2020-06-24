@@ -31,4 +31,5 @@ class TextChannel extends GuildTextChannel_1.GuildTextChannel {
     }
 }
 exports.TextChannel = TextChannel;
+/* eslint-enable camelcase */
 //# sourceMappingURL=TextChannel.js.map

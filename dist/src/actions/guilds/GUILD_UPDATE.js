@@ -7,7 +7,7 @@ class CoreAction extends core_1.Action {
         return (_a = this.client.guilds.get(data.d.id)) !== null && _a !== void 0 ? _a : null;
     }
     build(data) {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         return new (core_1.extender.get('Guild'))(this.client, data.d, data.shard_id);
     }
     cache(data) {

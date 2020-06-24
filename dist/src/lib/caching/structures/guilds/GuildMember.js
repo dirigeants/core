@@ -171,4 +171,5 @@ class GuildMember extends Structure_1.Structure {
     }
 }
 exports.GuildMember = GuildMember;
+/* eslint-enable camelcase */
 //# sourceMappingURL=GuildMember.js.map

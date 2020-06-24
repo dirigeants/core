@@ -4,13 +4,14 @@ exports.MessageBuilder = void 0;
 /* eslint-disable no-dupe-class-members */
 const utils_1 = require("@klasa/utils");
 const Embed_1 = require("../Embed");
+/* eslint-enable camelcase */
 class MessageBuilder {
     /**
      * @param messageOptions The options to create this
      */
     constructor({ data = {}, files = [] } = {}) {
         const defaultedData = utils_1.mergeDefault({
-            // eslint-disable-next-line @typescript-eslint/camelcase
+            // eslint-disable-next-line camelcase
             allowed_mentions: {
                 parse: [],
                 roles: [],

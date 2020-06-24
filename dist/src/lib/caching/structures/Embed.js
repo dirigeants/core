@@ -16,14 +16,14 @@ class Embed {
         this.fields = data.fields ? data.fields.map(utils_1.deepClone) : [];
         this.thumbnail = data.thumbnail ? {
             url: data.thumbnail.url,
-            // eslint-disable-next-line @typescript-eslint/camelcase
+            // eslint-disable-next-line camelcase
             proxy_url: data.thumbnail.proxy_url,
             height: data.thumbnail.height,
             width: data.thumbnail.width
         } : undefined;
         this.image = data.image ? {
             url: data.image.url,
-            // eslint-disable-next-line @typescript-eslint/camelcase
+            // eslint-disable-next-line camelcase
             proxy_url: data.image.proxy_url,
             height: data.image.height,
             width: data.image.width
@@ -36,17 +36,17 @@ class Embed {
         this.author = data.author ? {
             name: data.author.name,
             url: data.author.url,
-            // eslint-disable-next-line @typescript-eslint/camelcase
+            // eslint-disable-next-line camelcase
             icon_url: data.author.icon_url,
-            // eslint-disable-next-line @typescript-eslint/camelcase
+            // eslint-disable-next-line camelcase
             proxy_icon_url: data.author.proxy_icon_url
         } : undefined;
         this.provider = data.provider;
         this.footer = data.footer ? {
             text: data.footer.text,
-            // eslint-disable-next-line @typescript-eslint/camelcase
+            // eslint-disable-next-line camelcase
             icon_url: data.footer.icon_url,
-            // eslint-disable-next-line @typescript-eslint/camelcase
+            // eslint-disable-next-line camelcase
             proxy_icon_url: data.footer.proxy_icon_url
         } : undefined;
     }
@@ -103,7 +103,7 @@ class Embed {
     setAuthor(name, iconURL, url) {
         const icon = iconURL === undefined ? undefined : String(iconURL);
         const link = url === undefined ? undefined : String(url);
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         this.author = name === undefined ? undefined : { name: String(name), icon_url: icon, url: link };
         return this;
     }
@@ -130,7 +130,7 @@ class Embed {
      */
     setFooter(text, iconURL) {
         const icon = iconURL === undefined ? undefined : String(iconURL);
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         this.footer = text === undefined ? undefined : { text: String(text), icon_url: icon };
         return this;
     }

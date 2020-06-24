@@ -51,10 +51,11 @@ class GuildStore extends DataStore_1.DataStore {
      * @see https://discord.com/developers/docs/resources/guild#get-guild
      */
     async fetch(guildID) {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         const entry = await this.client.api.get(rest_1.Routes.guild(guildID), { query: [['with_counts', true]] });
         return this._add(entry);
     }
 }
 exports.GuildStore = GuildStore;
+/* eslint-enable camelcase */
 //# sourceMappingURL=GuildStore.js.map

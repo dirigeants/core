@@ -35,5 +35,5 @@ export declare class MessageReactionEmoji implements APIEmojiPartial {
      * Defines the JSON.stringify behavior of this structure.
      * @since 0.0.1
      */
-    toJSON(): object;
+    toJSON(): Record<string, unknown>;
 }

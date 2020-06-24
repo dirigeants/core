@@ -100,7 +100,7 @@ class GuildChannel extends Channel_1.Channel {
         if (!parent)
             return Promise.reject(new Error('This channel does not have a parent channel to sync permissions from.'));
         const overwrites = parent.permissionOverwrites.map(({ id, type, allow, deny }) => ({ id, type, allow: allow.bitfield, deny: deny.bitfield }));
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         return this.modify({ permission_overwrites: overwrites }, requestOptions);
     }
     _patch(data) {
@@ -128,4 +128,5 @@ class GuildChannel extends Channel_1.Channel {
     }
 }
 exports.GuildChannel = GuildChannel;
+/* eslint-disable camelcase */
 //# sourceMappingURL=GuildChannel.js.map

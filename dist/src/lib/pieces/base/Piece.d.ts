@@ -89,7 +89,7 @@ export declare class Piece {
     /**
      * Defines the JSON.stringify behavior of this piece.
      */
-    toJSON(): object;
+    toJSON(): Record<string, unknown>;
 }
 /**
  * The base piece options for all {@link Piece} instances.

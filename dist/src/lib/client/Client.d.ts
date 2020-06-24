@@ -237,5 +237,5 @@ export declare class Client extends BaseClient {
     static use(mod: typeof Plugin): typeof Client;
 }
 export declare abstract class Plugin {
-    static [Client.plugin]: Function;
+    static [Client.plugin]: (this: Client) => void;
 }

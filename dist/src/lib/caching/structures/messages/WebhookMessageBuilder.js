@@ -5,6 +5,7 @@ exports.WebhookMessageBuilder = void 0;
 const utils_1 = require("@klasa/utils");
 const MessageBuilder_1 = require("./MessageBuilder");
 const Embed_1 = require("../Embed");
+/* eslint-enable camelcase */
 class WebhookMessageBuilder extends MessageBuilder_1.MessageBuilder {
     /**
      * @param webhookMessageOptions The options to create this
@@ -16,7 +17,7 @@ class WebhookMessageBuilder extends MessageBuilder_1.MessageBuilder {
          */
         this.auth = false;
         const defaultedData = utils_1.mergeDefault({
-            // eslint-disable-next-line @typescript-eslint/camelcase
+            // eslint-disable-next-line camelcase
             allowed_mentions: {
                 parse: [],
                 roles: [],
@@ -60,7 +61,7 @@ class WebhookMessageBuilder extends MessageBuilder_1.MessageBuilder {
      * @param avatar The avatar for the webhook message
      */
     setAvatar(avatar) {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+        // eslint-disable-next-line camelcase
         this.data.avatar_url = avatar;
         return this;
     }

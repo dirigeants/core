@@ -48,6 +48,6 @@ export declare class MessageReaction extends Structure {
      * Defines the JSON.stringify behavior of this structure.
      * @since 0.0.1
      */
-    toJSON(): object;
+    toJSON(): Record<string, unknown>;
     protected _patch(data: APIReactionData): this;
 }

@@ -87,4 +87,5 @@ class Integration extends Structure_1.Structure {
     }
 }
 exports.Integration = Integration;
+/* eslint-enable camelcase */
 //# sourceMappingURL=Integration.js.map

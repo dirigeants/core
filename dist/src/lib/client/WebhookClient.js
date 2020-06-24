@@ -21,6 +21,7 @@ class WebhookClient extends BaseClient_1.BaseClient {
      * @param token The webhook token
      */
     async fetch(id, token) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
         const webhook = await Webhook_1.Webhook.fetch(this, id, token);
         this.webhooks.set(id, webhook);

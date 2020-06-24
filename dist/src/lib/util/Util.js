@@ -18,6 +18,7 @@ function isGuildChannel(channel) {
     return Reflect.has(channel, 'guild');
 }
 exports.isGuildChannel = isGuildChannel;
+// eslint-disable-next-line @typescript-eslint/ban-types
 function isSet(value, key) {
     return Reflect.has(value, key);
 }

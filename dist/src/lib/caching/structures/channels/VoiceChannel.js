@@ -52,4 +52,5 @@ class VoiceChannel extends GuildChannel_1.GuildChannel {
     }
 }
 exports.VoiceChannel = VoiceChannel;
+/* eslint-enable camelcase */
 //# sourceMappingURL=VoiceChannel.js.map
