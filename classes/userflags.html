@@ -124,6 +124,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="userflags.html#equals" class="tsd-kind-icon">equals</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="userflags.html#freeze" class="tsd-kind-icon">freeze</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="userflags.html#has" class="tsd-kind-icon">has</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="userflags.html#mask" class="tsd-kind-icon">mask</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="userflags.html#missing" class="tsd-kind-icon">missing</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="userflags.html#remove" class="tsd-kind-icon">remove</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><a href="userflags.html#serialize" class="tsd-kind-icon">serialize</a></li>
@@ -188,7 +189,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="messageflags.html">MessageFlags</a>.<a href="messageflags.html#default">DEFAULT</a></p>
 						<ul>
-							<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:70</li>
+							<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:75</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -204,7 +205,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides BitField.FLAGS</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/575d09c6/src/lib/util/bitfields/UserFlags.ts#L29">src/lib/util/bitfields/UserFlags.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/0cc56d6d/src/lib/util/bitfields/UserFlags.ts#L29">src/lib/util/bitfields/UserFlags.ts:29</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -265,7 +266,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="permissions.html">Permissions</a>.<a href="permissions.html#all">ALL</a></p>
 								<ul>
-									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:74</li>
+									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:79</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -291,7 +292,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="permissions.html">Permissions</a>.<a href="permissions.html#_symbol_iterator_">[Symbol.iterator]</a></p>
 								<ul>
-									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:62</li>
+									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:67</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -423,6 +424,38 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+					<a name="mask" class="tsd-anchor"></a>
+					<h3>mask</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+						<li class="tsd-signature tsd-kind-icon">mask<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>bits<span class="tsd-signature-symbol">: </span><a href="../globals.html#userflagsresolvable" class="tsd-signature-type">UserFlagsResolvable</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">BitField</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#userflagsresolvable" class="tsd-signature-type">UserFlagsResolvable</a><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<p>Inherited from <a href="permissions.html">Permissions</a>.<a href="permissions.html#mask">mask</a></p>
+								<ul>
+									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:47</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns only the bits in common between this bitfield and the passed bits.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>bits: <a href="../globals.html#userflagsresolvable" class="tsd-signature-type">UserFlagsResolvable</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>The bit/s to mask</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">BitField</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#userflagsresolvable" class="tsd-signature-type">UserFlagsResolvable</a><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 					<a name="missing" class="tsd-anchor"></a>
 					<h3>missing</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
@@ -497,7 +530,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="permissions.html">Permissions</a>.<a href="permissions.html#serialize">serialize</a></p>
 								<ul>
-									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:46</li>
+									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:51</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -520,7 +553,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="permissions.html">Permissions</a>.<a href="permissions.html#toarray">toArray</a></p>
 								<ul>
-									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:50</li>
+									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:55</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -543,7 +576,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="permissions.html">Permissions</a>.<a href="permissions.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:54</li>
+									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:59</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -566,7 +599,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="permissions.html">Permissions</a>.<a href="permissions.html#valueof">valueOf</a></p>
 								<ul>
-									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:58</li>
+									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:63</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -589,7 +622,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="permissions.html">Permissions</a>.<a href="permissions.html#resolve">resolve</a></p>
 								<ul>
-									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:79</li>
+									<li>Defined in node_modules/@klasa/bitfield/dist/src/index.d.ts:84</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -662,6 +695,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="userflags.html#has" class="tsd-kind-icon">has</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
+								<a href="userflags.html#mask" class="tsd-kind-icon">mask</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-inherited">
 								<a href="userflags.html#missing" class="tsd-kind-icon">missing</a>
