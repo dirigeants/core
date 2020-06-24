@@ -110,9 +110,10 @@ export abstract class GuildChannel extends Channel {
 	/**
 	 * Checks what permissions a {@link GuildMember member} or {@link Role role} has in this {@link GuildChannel channel}
 	 * @param target The guild member you are checking permissions for
+	 * @param guildScope If we should take into account guild scoped permissions, or just overwrites
 	 */
-	public permissionsFor(target: GuildMember | Role): Readonly<Permissions> {
-		return target.permissionsIn(this);
+	public permissionsFor(target: GuildMember | Role, guildScope = true): Readonly<Permissions> {
+		return target.permissionsIn(this, guildScope);
 	}
 
 	/**
