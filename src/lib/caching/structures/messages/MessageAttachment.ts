@@ -1,5 +1,7 @@
 import type { APIMessageAttachmentData } from '@klasa/dapi-types';
 
+/* eslint-disable camelcase */
+
 /**
  * @see https://discord.com/developers/docs/resources/channel#attachment-object
  */
@@ -56,7 +58,7 @@ export class MessageAttachment implements APIMessageAttachmentData {
 
 		this.url = attachment.url;
 
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		this.proxy_url = attachment.proxy_url;
 
 		this.height = attachment.height || null;
@@ -65,3 +67,5 @@ export class MessageAttachment implements APIMessageAttachmentData {
 	}
 
 }
+
+/* eslint-enable camelcase */

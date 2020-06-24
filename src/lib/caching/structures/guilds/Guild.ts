@@ -356,7 +356,7 @@ export class Guild extends Structure {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		this.shard = this.client.ws.shards.get(shardID)!;
 
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		this.widget = new GuildWidget({ enabled: null, channel_id: null }, this);
 
 		this.unavailable = data.unavailable ?? false;
@@ -536,7 +536,7 @@ export class Guild extends Structure {
 
 		if (data.channels) {
 			this.channels.clear();
-			// eslint-disable-next-line dot-notation, @typescript-eslint/camelcase
+			// eslint-disable-next-line dot-notation, camelcase
 			for (const channel of data.channels) this.client.channels['_add'](channel, this);
 		}
 
@@ -563,6 +563,8 @@ export class Guild extends Structure {
 	}
 
 }
+
+/* eslint-disable camelcase */
 
 /**
  * The options for {@link Guild#modify}.
@@ -736,3 +738,5 @@ export interface GuildVanityURL {
 	 */
 	uses: number;
 }
+
+/* eslint-enable camelcase */

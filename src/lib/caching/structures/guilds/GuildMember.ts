@@ -238,6 +238,8 @@ export class GuildMember extends Structure {
 
 }
 
+/* eslint-disable camelcase */
+
 export type MemberData = APIGuildMemberData | Omit<APIGuildMemberData, 'deaf' | 'mute' | 'nick' | 'joined_at'>;
 
 /**
@@ -276,3 +278,5 @@ export interface GuildMemberModifyOptions {
 	 */
 	channel_id?: string | null;
 }
+
+/* eslint-enable camelcase */

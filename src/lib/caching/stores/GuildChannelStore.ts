@@ -99,6 +99,8 @@ export class GuildChannelStore extends DataStore<GuildBasedChannel> {
 
 }
 
+/* eslint-disable camelcase */
+
 /**
  * The data for {@link GuildChannelStore#add}.
  * @since 0.0.1
@@ -186,3 +188,5 @@ export interface GuildChannelStorePositionData {
 	 */
 	position: number | null;
 }
+
+/* eslint-enable camelcase */

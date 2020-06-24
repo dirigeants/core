@@ -130,6 +130,8 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 
 }
 
+/* eslint-disable camelcase */
+
 /**
  * The data for {@link GuildMemberStore#add}.
  * @since 0.0.1
@@ -185,3 +187,5 @@ export interface GuildMemberStoreFetchOptions {
 	 */
 	after?: string;
 }
+
+/* eslint-enable camelcase */

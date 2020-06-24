@@ -5,6 +5,8 @@ import { Client, Application } from '../src';
 
 import type { APIUserData, APIOauthData, APIGuildData } from '@klasa/dapi-types';
 
+/* eslint-disable camelcase */
+
 const rawGuild: APIGuildData = {
 	id: '551164951497899949',
 	name: 'Some Guild Headquarters',
@@ -66,6 +68,8 @@ const rawApplication: APIOauthData = {
 	cover_image: '5higje5644g11081120g2j1f032h7g67'
 };
 
+/* eslint-enable camelcase */
+
 nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
 	.get(Routes.oauthApplication())
 	.times(Infinity)
@@ -105,6 +109,7 @@ ava('fetch application', async (test): Promise<void> => {
 
 	// Test guild availability
 	test.is(application.guild, null);
+	// eslint-disable-next-line dot-notation
 	const guild = client.guilds['_add'](rawGuild);
 	test.is(application.guild, guild);
 });

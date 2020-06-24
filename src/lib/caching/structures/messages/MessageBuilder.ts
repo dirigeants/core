@@ -6,6 +6,8 @@ import { Embed } from '../Embed';
 import type { File, RequestOptions } from '@klasa/rest';
 import type { APIEmbedData } from '@klasa/dapi-types';
 
+/* eslint-disable camelcase */
+
 export interface MessageData {
 	content?: string | null;
 	embed?: APIEmbedData | null;
@@ -31,6 +33,8 @@ export interface SplitOptions {
 	append?: string;
 }
 
+/* eslint-enable camelcase */
+
 export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | 'query' | 'headers' | 'reason'> {
 
 	/**
@@ -48,7 +52,7 @@ export class MessageBuilder implements RequiredExcept<MessageOptions, 'auth' | '
 	 */
 	public constructor({ data = {}, files = [] }: MessageOptions = {}) {
 		const defaultedData = mergeDefault({
-			// eslint-disable-next-line @typescript-eslint/camelcase
+			// eslint-disable-next-line camelcase
 			allowed_mentions: {
 				parse: [] as ('users' | 'roles' | 'everyone')[],
 				roles: [] as string[],

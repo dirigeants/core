@@ -115,7 +115,7 @@ export class Embed implements APIEmbedData {
 
 		this.thumbnail = data.thumbnail ? {
 			url: data.thumbnail.url,
-			// eslint-disable-next-line @typescript-eslint/camelcase
+			// eslint-disable-next-line camelcase
 			proxy_url: data.thumbnail.proxy_url,
 			height: data.thumbnail.height,
 			width: data.thumbnail.width
@@ -123,7 +123,7 @@ export class Embed implements APIEmbedData {
 
 		this.image = data.image ? {
 			url: data.image.url,
-			// eslint-disable-next-line @typescript-eslint/camelcase
+			// eslint-disable-next-line camelcase
 			proxy_url: data.image.proxy_url,
 			height: data.image.height,
 			width: data.image.width
@@ -138,9 +138,9 @@ export class Embed implements APIEmbedData {
 		this.author = data.author ? {
 			name: data.author.name,
 			url: data.author.url,
-			// eslint-disable-next-line @typescript-eslint/camelcase
+			// eslint-disable-next-line camelcase
 			icon_url: data.author.icon_url,
-			// eslint-disable-next-line @typescript-eslint/camelcase
+			// eslint-disable-next-line camelcase
 			proxy_icon_url: data.author.proxy_icon_url
 		} : undefined;
 
@@ -148,9 +148,9 @@ export class Embed implements APIEmbedData {
 
 		this.footer = data.footer ? {
 			text: data.footer.text,
-			// eslint-disable-next-line @typescript-eslint/camelcase
+			// eslint-disable-next-line camelcase
 			icon_url: data.footer.icon_url,
-			// eslint-disable-next-line @typescript-eslint/camelcase
+			// eslint-disable-next-line camelcase
 			proxy_icon_url: data.footer.proxy_icon_url
 		} : undefined;
 	}
@@ -211,7 +211,7 @@ export class Embed implements APIEmbedData {
 	public setAuthor(name?: StringResolvable, iconURL?: StringResolvable, url?: StringResolvable): this {
 		const icon = iconURL === undefined ? undefined : String(iconURL);
 		const link = url === undefined ? undefined : String(url);
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		this.author = name === undefined ? undefined : { name: String(name), icon_url: icon, url: link };
 		return this;
 	}
@@ -241,7 +241,7 @@ export class Embed implements APIEmbedData {
 	 */
 	public setFooter(text?: StringResolvable, iconURL?: StringResolvable): this {
 		const icon = iconURL === undefined ? undefined : String(iconURL);
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		this.footer = text === undefined ? undefined : { text: String(text), icon_url: icon };
 		return this;
 	}
