@@ -127,11 +127,13 @@ class GuildMember extends Structure_1.Structure {
     /**
      * Checks permissions for this member in a given channel.
      * @param channel The channel to check permissions in
+     * @param guildScope If we should take into account guild scoped permissions, or just overwrites
      */
-    permissionsIn(channel) {
+    permissionsIn(channel, guildScope = true) {
         const { permissions } = this;
         if (permissions.equals(Permissions_1.Permissions.ALL))
             return permissions;
+        const guildScopePermissions = guildScope ? permissions.mask(Permissions_1.Permissions.GUILD_SCOPE_PERMISSIONS) : 0;
         const overwrites = channel.permissionOverwrites.for(this);
         return permissions
             .remove(overwrites.everyone ? overwrites.everyone.deny : 0)
@@ -140,6 +142,7 @@ class GuildMember extends Structure_1.Structure {
             .add(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.allow) : 0)
             .remove(overwrites.member ? overwrites.member.deny : 0)
             .add(overwrites.member ? overwrites.member.allow : 0)
+            .add(guildScopePermissions)
             .freeze();
     }
     /**

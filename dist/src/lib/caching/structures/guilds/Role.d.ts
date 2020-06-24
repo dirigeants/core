@@ -63,8 +63,9 @@ export declare class Role extends Structure {
     /**
      * Checks permissions for this member in a given channel.
      * @param channel The channel to check permissions in
+     * @param guildScope If we should take into account guild scoped permissions, or just overwrites
      */
-    permissionsIn(channel: GuildChannel): Readonly<Permissions>;
+    permissionsIn(channel: GuildChannel, guildScope?: boolean): Readonly<Permissions>;
     /**
      * Modifies the role's settings.
      * @since 0.0.1

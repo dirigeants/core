@@ -77,4 +77,8 @@ export declare class Permissions extends BitField<PermissionsResolvable> {
      * The default permissions granted
      */
     static DEFAULT: number;
+    /**
+     * Permissions that cannot be influenced by channel overwrites, even if explicitly set.
+     */
+    static GUILD_SCOPE_PERMISSIONS: number;
 }

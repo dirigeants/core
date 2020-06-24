@@ -23,17 +23,20 @@ class Role extends Structure_1.Structure {
     /**
      * Checks permissions for this member in a given channel.
      * @param channel The channel to check permissions in
+     * @param guildScope If we should take into account guild scoped permissions, or just overwrites
      */
-    permissionsIn(channel) {
+    permissionsIn(channel, guildScope = true) {
         const { permissions } = this;
         if (permissions.has(Permissions_1.Permissions.FLAGS["ADMINISTRATOR" /* Administrator */]))
             return new Permissions_1.Permissions(Permissions_1.Permissions.ALL).freeze();
+        const guildScopePermissions = guildScope ? permissions.mask(Permissions_1.Permissions.GUILD_SCOPE_PERMISSIONS) : 0;
         const overwrites = channel.permissionOverwrites.for(this);
         return permissions
             .remove(overwrites.everyone ? overwrites.everyone.deny : 0)
             .add(overwrites.everyone ? overwrites.everyone.allow : 0)
             .remove(overwrites.role ? overwrites.role.deny : 0)
             .add(overwrites.role ? overwrites.role.allow : 0)
+            .add(guildScopePermissions)
             .freeze();
     }
     /**

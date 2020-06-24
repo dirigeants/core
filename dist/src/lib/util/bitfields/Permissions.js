@@ -49,4 +49,8 @@ Permissions.FLAGS = {
  * The default permissions granted
  */
 Permissions.DEFAULT = 104324673;
+/**
+ * Permissions that cannot be influenced by channel overwrites, even if explicitly set.
+ */
+Permissions.GUILD_SCOPE_PERMISSIONS = 1275592878;
 //# sourceMappingURL=Permissions.js.map

@@ -121,8 +121,9 @@ export declare class GuildMember extends Structure {
     /**
      * Checks permissions for this member in a given channel.
      * @param channel The channel to check permissions in
+     * @param guildScope If we should take into account guild scoped permissions, or just overwrites
      */
-    permissionsIn(channel: GuildChannel): Readonly<Permissions>;
+    permissionsIn(channel: GuildChannel, guildScope?: boolean): Readonly<Permissions>;
     /**
      * Kicks a member from the {@link Guild guild}.
      * @since 0.0.1

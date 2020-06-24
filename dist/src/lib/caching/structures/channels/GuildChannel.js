@@ -65,9 +65,10 @@ class GuildChannel extends Channel_1.Channel {
     /**
      * Checks what permissions a {@link GuildMember member} or {@link Role role} has in this {@link GuildChannel channel}
      * @param target The guild member you are checking permissions for
+     * @param guildScope If we should take into account guild scoped permissions, or just overwrites
      */
-    permissionsFor(target) {
-        return target.permissionsIn(this);
+    permissionsFor(target, guildScope = true) {
+        return target.permissionsIn(this, guildScope);
     }
     /**
      * Deletes the channel from the {@link Guild guild}.
