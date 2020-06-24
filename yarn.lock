@@ -158,6 +158,11 @@
   resolved "https://registry.yarnpkg.com/@klasa/bitfield/-/bitfield-0.0.3.tgz#8a3495b3600d6dd7066b770f05e250307b560890"
   integrity sha512-U8xrqbfg8Eqq+IL4TMy7rDG+QlJjQPGVel1aqVcIqJV2/XpQvsqIBz0UMUO3mEw7UsLN5E3Z71QpSIDvCfJWrg==
 
+"@klasa/bitfield@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@klasa/bitfield/-/bitfield-0.0.4.tgz#3025a9dbe397c3ed7a709cfb1d59bba50e6ad8db"
+  integrity sha512-2xuWtdseJyaSxJx5hlUMx2ESs42zJLTIHpurs2SeEZJq5Ve04jY7eQdelLB70cDgxGYOkdSIEgiK04SrD293sA==
+
 "@klasa/cache@^0.0.3":
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/@klasa/cache/-/cache-0.0.3.tgz#824595f247fbd6204a6278eae988d22eb783d00b"
