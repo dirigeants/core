@@ -43,16 +43,14 @@ export class ChannelPinsStore extends ProxyCache<string, Message> {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/channel#add-pinned-channel-message
 	 */
-	public async add(id: string, requestOptions: RequestOptions = {}): Promise<Message> {
-		const entry = await this.client.api.put(Routes.channelPin(this.channel.id, id), { ...requestOptions }) as APIMessageData;
-		this.set(entry.id);
-
-		// eslint-disable-next-line dot-notation
-		return this.channel.messages['_add'](entry);
+	public async add(id: string, requestOptions: RequestOptions = {}): Promise<void> {
+		await this.client.api.put(Routes.channelPin(this.channel.id, id), { ...requestOptions });
+		this.set(id);
+		return;
 	}
 
 	/**
-	 * Deletes an invite given its code.
+	 * Removes a pin from the channel given the message ID.
 	 * @since 0.0.4
 	 * @param id The {@link Message#id message id}.
 	 * @param requestOptions The additional request options.
