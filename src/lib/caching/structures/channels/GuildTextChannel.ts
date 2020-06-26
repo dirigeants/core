@@ -71,8 +71,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 		this.messages = new MessageStore(client, this as unknown as GuildTextBasedChannel);
 		this.typing = new Typing(this);
 
-		const filterMessagePins = this.messages.filter(msg => msg.pinned).keys();
-		this.pins = new ChannelPinsStore(this, [...filterMessagePins]);
+		this.pins = new ChannelPinsStore(this, []);
 	}
 
 	/**

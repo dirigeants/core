@@ -66,8 +66,7 @@ export class DMChannel extends Channel {
 		this.messages = new MessageStore(client, this);
 		this.typing = new Typing(this);
 
-		const filterMessagePins = this.messages.filter(msg => msg.pinned).keys();
-		this.pins = new ChannelPinsStore(this, [...filterMessagePins]);
+		this.pins = new ChannelPinsStore(this, []);
 	}
 
 	/**

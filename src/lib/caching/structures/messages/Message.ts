@@ -312,7 +312,13 @@ export class Message extends WebhookMessage<Client> {
 		if (data.attachments) for (const attachment of data.attachments) this.attachments.set(attachment.id, new MessageAttachment(attachment));
 		if (data.embeds) for (const embed of data.embeds) this.embeds.push(new Embed(embed));
 
-		if (isSet(data, 'pinned')) this.pinned = data.pinned;
+		if (isSet(data, 'pinned')) {
+			this.pinned = data.pinned;
+
+			// eslint-disable-next-line no-unused-expressions
+			this.pinned ? this.channel.pins.set(this.id) : this.channel.pins.delete(this.id);
+		}
+
 		if (isSet(data, 'flags')) this.flags = new MessageFlags(data.flags);
 		return this;
 	}
