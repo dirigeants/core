@@ -161,7 +161,7 @@ export class Message extends WebhookMessage<Client> {
 	}
 
 	/**
-	 * If the client can react to this message.
+	 * If the client can delete this message.
 	 * @since 0.0.1
 	 */
 	public get deletable(): boolean | null {
@@ -171,7 +171,7 @@ export class Message extends WebhookMessage<Client> {
 	}
 
 	/**
-	 * If the client can react to this message.
+	 * If the client can edit this message.
 	 * @since 0.0.1
 	 */
 	public get editable(): boolean {
@@ -179,7 +179,7 @@ export class Message extends WebhookMessage<Client> {
 	}
 
 	/**
-	 * If the client can react to this message.
+	 * If the client can pin this message.
 	 * @since 0.0.1
 	 */
 	public get pinnable(): boolean | null {
