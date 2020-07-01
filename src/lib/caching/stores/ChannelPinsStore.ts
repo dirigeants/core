@@ -43,10 +43,10 @@ export class ChannelPinsStore extends ProxyCache<string, Message> {
 	 * @param requestOptions The additional request options.
 	 * @see https://discord.com/developers/docs/resources/channel#add-pinned-channel-message
 	 */
-	public async add(id: string, requestOptions: RequestOptions = {}): Promise<void> {
+	public async add(id: string, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.put(Routes.channelPin(this.channel.id, id), { ...requestOptions });
 		this.set(id);
-		return;
+		return this;
 	}
 
 	/**
@@ -58,6 +58,7 @@ export class ChannelPinsStore extends ProxyCache<string, Message> {
 	 */
 	public async remove(id: string, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.delete(Routes.channelPin(this.channel.id, id), requestOptions);
+		this.delete(id);
 		return this;
 	}
 
