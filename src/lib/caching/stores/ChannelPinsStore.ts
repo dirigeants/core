@@ -62,7 +62,7 @@ export class ChannelPinsStore extends ProxyCache<string, Message> {
 	}
 
 	/**
-	 * Returns a list of {@link Message messages}s with their metadata.
+	 * Returns a list of {@link Message pinned messages}s with their metadata.
 	 * @since 0.0.4
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild-invites
 	 */
