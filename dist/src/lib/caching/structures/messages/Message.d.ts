@@ -114,17 +114,17 @@ export declare class Message extends WebhookMessage<Client> {
      */
     get editedAt(): Date | null;
     /**
-     * If the client can react to this message.
+     * If the client can delete this message.
      * @since 0.0.1
      */
     get deletable(): boolean | null;
     /**
-     * If the client can react to this message.
+     * If the client can edit this message.
      * @since 0.0.1
      */
     get editable(): boolean;
     /**
-     * If the client can react to this message.
+     * If the client can pin this message.
      * @since 0.0.1
      */
     get pinnable(): boolean | null;

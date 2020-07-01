@@ -59,7 +59,7 @@ class Message extends WebhookMessage_1.WebhookMessage {
         return this.editedTimestamp ? new Date(this.editedTimestamp) : null;
     }
     /**
-     * If the client can react to this message.
+     * If the client can delete this message.
      * @since 0.0.1
      */
     get deletable() {
@@ -71,14 +71,14 @@ class Message extends WebhookMessage_1.WebhookMessage {
         return this.editable || ((_b = (_a = this.guild.me) === null || _a === void 0 ? void 0 : _a.permissionsIn(this.channel).has([Permissions_1.Permissions.FLAGS["MANAGE_MESSAGES" /* ManageMessages */]])) !== null && _b !== void 0 ? _b : null);
     }
     /**
-     * If the client can react to this message.
+     * If the client can edit this message.
      * @since 0.0.1
      */
     get editable() {
         return !this.deleted && (this.author === this.client.user);
     }
     /**
-     * If the client can react to this message.
+     * If the client can pin this message.
      * @since 0.0.1
      */
     get pinnable() {
