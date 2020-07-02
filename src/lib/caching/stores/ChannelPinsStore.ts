@@ -44,7 +44,7 @@ export class ChannelPinsStore extends ProxyCache<string, Message> {
 	 * @see https://discord.com/developers/docs/resources/channel#add-pinned-channel-message
 	 */
 	public async add(id: string, requestOptions: RequestOptions = {}): Promise<this> {
-		await this.client.api.put(Routes.channelPin(this.channel.id, id), { ...requestOptions });
+		await this.client.api.put(Routes.channelPin(this.channel.id, id), requestOptions);
 		this.set(id);
 		return this;
 	}

@@ -315,8 +315,8 @@ export class Message extends WebhookMessage<Client> {
 		if (isSet(data, 'pinned')) {
 			this.pinned = data.pinned;
 
-			// eslint-disable-next-line no-unused-expressions
-			this.pinned ? this.channel.pins.set(this.id) : this.channel.pins.delete(this.id);
+			if (this.pinned) this.channel.pins.set(this.id);
+			else this.channel.pins.delete(this.id);
 		}
 
 		if (isSet(data, 'flags')) this.flags = new MessageFlags(data.flags);
