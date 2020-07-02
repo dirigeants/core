@@ -152,7 +152,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 	public async modify({ name, avatar, channelID }: WebhookUpdateData): Promise<this> {
 		const updateData = await (channelID || !this.token ?
 			// Requires MANAGE_WEBHOOKS permission to update channelID or to update without the token
-			// eslint-disable-next-line @typescript-eslint/camelcase
+			// eslint-disable-next-line camelcase
 			this.client.api.patch(Routes.webhook(this.id), { data: { name, avatar, channel_id: channelID } }) :
 			// Doesn't require any permissions, but you cannot change the channelID
 			this.client.api.patch(Routes.webhookTokened(this.id, this.token), { auth: false, data: { name, avatar } }));

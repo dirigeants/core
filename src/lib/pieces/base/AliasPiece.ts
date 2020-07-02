@@ -29,7 +29,7 @@ export class AliasPiece extends Piece {
 	 * Defines the JSON.stringify behavior of this argument.
 	 * @since 0.0.1
 	 */
-	public toJSON(): object {
+	public toJSON(): Record<string, unknown> {
 		return {
 			...super.toJSON(),
 			aliases: this.aliases.slice()

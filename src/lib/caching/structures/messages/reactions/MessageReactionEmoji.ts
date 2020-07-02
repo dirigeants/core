@@ -50,7 +50,7 @@ export class MessageReactionEmoji implements APIEmojiPartial {
 	 * Defines the JSON.stringify behavior of this structure.
 	 * @since 0.0.1
 	 */
-	public toJSON(): object {
+	public toJSON(): Record<string, unknown> {
 		return {
 			id: this.id,
 			name: this.name,

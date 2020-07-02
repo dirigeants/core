@@ -41,7 +41,7 @@ export class DMChannelStore extends DataStore<DMChannel> {
 	 * @see https://discord.com/developers/docs/resources/user#create-dm
 	 */
 	public async add(userID: string): Promise<DMChannel> {
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		const channel = await this.client.api.post(Routes.dms(), { data: { recipient_id: userID } }) as APIChannelData;
 		// eslint-disable-next-line dot-notation
 		return this.client.dms['_add'](channel);

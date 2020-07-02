@@ -79,6 +79,8 @@ export class GuildChannelInviteStore extends ProxyCache<string, Invite> {
 
 }
 
+/* eslint-disable camelcase */
+
 /**
  * The data for {@link GuildChannelInviteStore#add}.
  * @since 0.0.3

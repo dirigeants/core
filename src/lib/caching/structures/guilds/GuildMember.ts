@@ -188,12 +188,14 @@ export class GuildMember extends Structure {
 	/**
 	 * Checks permissions for this member in a given channel.
 	 * @param channel The channel to check permissions in
+	 * @param guildScope If we should take into account guild scoped permissions, or just overwrites
 	 */
-	public permissionsIn(channel: GuildChannel): Readonly<Permissions> {
+	public permissionsIn(channel: GuildChannel, guildScope = true): Readonly<Permissions> {
 		const { permissions } = this;
 
 		if (permissions.equals(Permissions.ALL)) return permissions;
 
+		const guildScopePermissions = guildScope ? permissions.mask(Permissions.GUILD_SCOPE_PERMISSIONS) : 0;
 		const overwrites = channel.permissionOverwrites.for(this);
 
 		return permissions
@@ -203,6 +205,7 @@ export class GuildMember extends Structure {
 			.add(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.allow) : 0)
 			.remove(overwrites.member ? overwrites.member.deny : 0)
 			.add(overwrites.member ? overwrites.member.allow : 0)
+			.add(guildScopePermissions)
 			.freeze();
 	}
 
@@ -237,6 +240,8 @@ export class GuildMember extends Structure {
 	}
 
 }
+
+/* eslint-disable camelcase */
 
 export type MemberData = APIGuildMemberData | Omit<APIGuildMemberData, 'deaf' | 'mute' | 'nick' | 'joined_at'>;
 
@@ -276,3 +281,5 @@ export interface GuildMemberModifyOptions {
 	 */
 	channel_id?: string | null;
 }
+
+/* eslint-enable camelcase */

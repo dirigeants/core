@@ -13,7 +13,7 @@ const token = 'abcdef';
 const rawWebhook: APIWebhookData = {
 	id,
 	type: WebhookType.Incoming,
-	// eslint-disable-next-line @typescript-eslint/camelcase
+	// eslint-disable-next-line camelcase
 	channel_id: '9463781',
 	name: 'Spidey Bot',
 	avatar: null
@@ -28,26 +28,26 @@ const rawUser: APIUserData = {
 
 const rawMessage: APIMessageData = {
 	id: '123789852963',
-	// eslint-disable-next-line @typescript-eslint/camelcase
+	// eslint-disable-next-line camelcase
 	channel_id: '9463781',
 	author: rawUser,
 	content: 'FooBar',
 	timestamp: date.toString(),
-	// eslint-disable-next-line @typescript-eslint/camelcase
+	// eslint-disable-next-line camelcase
 	edited_timestamp: null,
 	tts: false,
-	// eslint-disable-next-line @typescript-eslint/camelcase
+	// eslint-disable-next-line camelcase
 	mention_everyone: false,
 	mentions: [],
-	// eslint-disable-next-line @typescript-eslint/camelcase
+	// eslint-disable-next-line camelcase
 	mention_roles: [],
-	// eslint-disable-next-line @typescript-eslint/camelcase
+	// eslint-disable-next-line camelcase
 	mention_channels: [],
 	attachments: [],
 	embeds: [],
 	pinned: false,
 	type: MessageType.Default,
-	// eslint-disable-next-line @typescript-eslint/camelcase
+	// eslint-disable-next-line camelcase
 	webhook_id: id
 };
 
@@ -59,7 +59,7 @@ nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
 	.times(Infinity)
 	// eslint-disable-next-line prefer-arrow-callback
 	.reply(function handler(): nock.ReplyFnResult {
-		// eslint-disable-next-line no-invalid-this, @typescript-eslint/camelcase
+		// eslint-disable-next-line no-invalid-this, camelcase
 		if (this.req.headers.authorization) return [204, { token, guild_id: '54321', user: rawUser, ...rawWebhook }];
 		return [403, { message: 'Unauthorized', code: 50013 }];
 	})
@@ -70,7 +70,7 @@ nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
 	.times(Infinity)
 	// eslint-disable-next-line prefer-arrow-callback
 	.reply(function handler(): nock.ReplyFnResult {
-		// eslint-disable-next-line no-invalid-this, @typescript-eslint/camelcase
+		// eslint-disable-next-line no-invalid-this, camelcase
 		if (this.req.headers.authorization) return [204];
 		return [403];
 	})
@@ -81,7 +81,7 @@ nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
 	.times(Infinity)
 	// eslint-disable-next-line prefer-arrow-callback
 	.reply(function handler(): nock.ReplyFnResult {
-		// eslint-disable-next-line no-invalid-this, @typescript-eslint/camelcase
+		// eslint-disable-next-line no-invalid-this, camelcase
 		if (this.req.headers.authorization) return [204, rawMessage];
 		return [403];
 	})
@@ -89,7 +89,7 @@ nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
 	.times(Infinity)
 	// eslint-disable-next-line prefer-arrow-callback
 	.reply(function handler(_uri, requestBody): nock.ReplyFnResult {
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		return [204, { ...rawWebhook, name: (requestBody as Record<string, unknown>).name ?? rawWebhook.name, avatar: (requestBody as Record<string, unknown>).avatar ?? rawWebhook.avatar }];
 	})
 	.patch(Routes.webhook(id))
@@ -102,7 +102,7 @@ nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
 				...rawWebhook,
 				name: (requestBody as Record<string, unknown>).name ?? rawWebhook.name,
 				avatar: (requestBody as Record<string, unknown>).avatar ?? rawWebhook.avatar,
-				// eslint-disable-next-line @typescript-eslint/camelcase
+				// eslint-disable-next-line camelcase
 				channel_id: (requestBody as Record<string, unknown>).channel_id ?? rawWebhook.channel_id
 			}];
 		}
