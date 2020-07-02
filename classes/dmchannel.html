@@ -114,6 +114,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-inherited"><a href="dmchannel.html#id" class="tsd-kind-icon">id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dmchannel.html#lastmessageid" class="tsd-kind-icon">last<wbr>MessageID</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dmchannel.html#messages" class="tsd-kind-icon">messages</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dmchannel.html#pins" class="tsd-kind-icon">pins</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dmchannel.html#recipients" class="tsd-kind-icon">recipients</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite"><a href="dmchannel.html#type" class="tsd-kind-icon">type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="dmchannel.html#typing" class="tsd-kind-icon">typing</a></li>
@@ -157,7 +158,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="channel.html">Channel</a>.<a href="channel.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L55">src/lib/caching/structures/channels/DMChannel.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L62">src/lib/caching/structures/channels/DMChannel.ts:62</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -183,7 +184,7 @@
 					<aside class="tsd-sources">
 						<p>Inherited from <a href="structure.html">Structure</a>.<a href="structure.html#client">client</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/base/Structure.ts#L14">src/lib/caching/structures/base/Structure.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/base/Structure.ts#L14">src/lib/caching/structures/base/Structure.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +195,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="categorychannel.html">CategoryChannel</a>.<a href="categorychannel.html#deleted">deleted</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L55">src/lib/caching/structures/channels/DMChannel.ts:55</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L62">src/lib/caching/structures/channels/DMChannel.ts:62</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -216,7 +217,7 @@
 						<p>Inherited from <a href="categorychannel.html">CategoryChannel</a>.<a href="categorychannel.html#id">id</a></p>
 						<p>Overrides <a href="structure.html">Structure</a>.<a href="structure.html#id">id</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/Channel.ts#L15">src/lib/caching/structures/channels/Channel.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/Channel.ts#L15">src/lib/caching/structures/channels/Channel.ts:15</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -236,7 +237,7 @@
 					<div class="tsd-signature tsd-kind-icon">last<wbr>MessageID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L37">src/lib/caching/structures/channels/DMChannel.ts:37</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L44">src/lib/caching/structures/channels/DMChannel.ts:44</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -256,7 +257,7 @@
 					<div class="tsd-signature tsd-kind-icon">messages<span class="tsd-signature-symbol">:</span> <a href="messagestore.html" class="tsd-signature-type">MessageStore</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L49">src/lib/caching/structures/channels/DMChannel.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L56">src/lib/caching/structures/channels/DMChannel.ts:56</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -271,12 +272,32 @@
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="pins" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> pins</h3>
+					<div class="tsd-signature tsd-kind-icon">pins<span class="tsd-signature-symbol">:</span> <a href="channelpinsstore.html" class="tsd-signature-type">ChannelPinsStore</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L38">src/lib/caching/structures/channels/DMChannel.ts:38</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>The pins store for this channel.</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>since</dt>
+							<dd><p>0.0.4</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="recipients" class="tsd-anchor"></a>
 					<h3>recipients</h3>
 					<div class="tsd-signature tsd-kind-icon">recipients<span class="tsd-signature-symbol">:</span> <a href="user.html" class="tsd-signature-type">User</a><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L43">src/lib/caching/structures/channels/DMChannel.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L50">src/lib/caching/structures/channels/DMChannel.ts:50</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -297,7 +318,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="guildchannel.html">GuildChannel</a>.<a href="guildchannel.html#type">type</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L31">src/lib/caching/structures/channels/DMChannel.ts:31</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L32">src/lib/caching/structures/channels/DMChannel.ts:32</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -320,7 +341,7 @@
 					<div class="tsd-signature tsd-kind-icon">typing<span class="tsd-signature-symbol">:</span> <a href="typing.html" class="tsd-signature-type">Typing</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L24">src/lib/caching/structures/channels/DMChannel.ts:24</a></li>
+							<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L25">src/lib/caching/structures/channels/DMChannel.ts:25</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -347,7 +368,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L67">src/lib/caching/structures/channels/DMChannel.ts:67</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L76">src/lib/caching/structures/channels/DMChannel.ts:76</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -374,7 +395,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L85">src/lib/caching/structures/channels/DMChannel.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L94">src/lib/caching/structures/channels/DMChannel.ts:94</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -401,7 +422,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L76">src/lib/caching/structures/channels/DMChannel.ts:76</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L85">src/lib/caching/structures/channels/DMChannel.ts:85</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -432,7 +453,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="structure.html">Structure</a>.<a href="structure.html#_patch">_patch</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L141">src/lib/caching/structures/channels/DMChannel.ts:141</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L150">src/lib/caching/structures/channels/DMChannel.ts:150</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -455,7 +476,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L95">src/lib/caching/structures/channels/DMChannel.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L104">src/lib/caching/structures/channels/DMChannel.ts:104</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -492,7 +513,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="structure.html">Structure</a>.<a href="structure.html#clone">clone</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/base/Structure.ts#L19">src/lib/caching/structures/base/Structure.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/base/Structure.ts#L19">src/lib/caching/structures/base/Structure.ts:19</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -514,7 +535,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L105">src/lib/caching/structures/channels/DMChannel.ts:105</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L114">src/lib/caching/structures/channels/DMChannel.ts:114</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -554,7 +575,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L122">src/lib/caching/structures/channels/DMChannel.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L131">src/lib/caching/structures/channels/DMChannel.ts:131</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -595,7 +616,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/DMChannel.ts#L134">src/lib/caching/structures/channels/DMChannel.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/DMChannel.ts#L143">src/lib/caching/structures/channels/DMChannel.ts:143</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -664,7 +685,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="structure.html">Structure</a>.<a href="structure.html#tojson">toJSON</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/base/Structure.ts#L39">src/lib/caching/structures/base/Structure.ts:39</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/base/Structure.ts#L39">src/lib/caching/structures/base/Structure.ts:39</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -687,7 +708,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="categorychannel.html">CategoryChannel</a>.<a href="categorychannel.html#tostring">toString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/Channel.ts#L40">src/lib/caching/structures/channels/Channel.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/Channel.ts#L40">src/lib/caching/structures/channels/Channel.ts:40</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -715,7 +736,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="structure.html">Structure</a>.<a href="structure.html#valueof">valueOf</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/base/Structure.ts#L32">src/lib/caching/structures/base/Structure.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/base/Structure.ts#L32">src/lib/caching/structures/base/Structure.ts:32</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -738,7 +759,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="categorychannel.html">CategoryChannel</a>.<a href="categorychannel.html#create">create</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/dirigeants/core/blob/e153ade9/src/lib/caching/structures/channels/Channel.ts#L44">src/lib/caching/structures/channels/Channel.ts:44</a></li>
+									<li>Defined in <a href="https://github.com/dirigeants/core/blob/3b385ba6/src/lib/caching/structures/channels/Channel.ts#L44">src/lib/caching/structures/channels/Channel.ts:44</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -791,6 +812,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="dmchannel.html#messages" class="tsd-kind-icon">messages</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="dmchannel.html#pins" class="tsd-kind-icon">pins</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="dmchannel.html#recipients" class="tsd-kind-icon">recipients</a>
