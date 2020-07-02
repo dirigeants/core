@@ -3,6 +3,7 @@ import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageCollectorOptions } from '../../../util/collectors/MessageCollector';
 import { Typing } from '../Typing';
+import { ChannelPinsStore } from '../../stores/ChannelPinsStore';
 import type { RequestOptions } from '@klasa/rest';
 import type { Cache } from '@klasa/cache';
 import type { User } from '../User';
@@ -24,6 +25,11 @@ export declare class DMChannel extends Channel {
      * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
      */
     readonly type = ChannelType.DM;
+    /**
+     * The pins store for this channel.
+     * @since 0.0.4
+     */
+    readonly pins: ChannelPinsStore;
     /**
      * The id of the last message sent in this channel (may not point to an existing or valid message).
      * @since 0.0.1

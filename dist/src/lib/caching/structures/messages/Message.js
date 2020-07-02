@@ -154,6 +154,22 @@ class Message extends WebhookMessage_1.WebhookMessage {
     toString() {
         return this.content;
     }
+    /**
+     * Pins the message to the channel
+     * @since 0.0.4
+     */
+    async pin() {
+        await this.channel.pins.add(this.id);
+        return this;
+    }
+    /**
+     * Unpins the message to the channel
+     * @since 0.0.4
+     */
+    async unpin() {
+        await this.channel.pins.remove(this.id);
+        return this;
+    }
     _patch(data) {
         if (Util_1.isSet(data, 'content'))
             this.content = data.content;
@@ -174,8 +190,13 @@ class Message extends WebhookMessage_1.WebhookMessage {
         if (data.embeds)
             for (const embed of data.embeds)
                 this.embeds.push(new Embed_1.Embed(embed));
-        if (Util_1.isSet(data, 'pinned'))
+        if (Util_1.isSet(data, 'pinned')) {
             this.pinned = data.pinned;
+            if (this.pinned)
+                this.channel.pins.set(this.id);
+            else
+                this.channel.pins.delete(this.id);
+        }
         if (Util_1.isSet(data, 'flags'))
             this.flags = new MessageFlags_1.MessageFlags(data.flags);
         return this;

@@ -183,5 +183,15 @@ export declare class Message extends WebhookMessage<Client> {
      * @since 0.0.4
      */
     toString(): string;
+    /**
+     * Pins the message to the channel
+     * @since 0.0.4
+     */
+    pin(): Promise<this>;
+    /**
+     * Unpins the message to the channel
+     * @since 0.0.4
+     */
+    unpin(): Promise<this>;
     protected _patch(data: Partial<APIMessageData>): this;
 }

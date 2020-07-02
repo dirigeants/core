@@ -2,6 +2,7 @@ import { GuildChannel } from './GuildChannel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageCollectorOptions } from '../../../util/collectors/MessageCollector';
 import { Typing } from '../Typing';
+import { ChannelPinsStore } from '../../stores/ChannelPinsStore';
 import type { Cache } from '@klasa/cache';
 import type { APIChannelData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
@@ -21,6 +22,11 @@ export declare abstract class GuildTextChannel extends GuildChannel {
      * @since 0.0.1
      */
     readonly messages: MessageStore;
+    /**
+     * The pins store for this channel.
+     * @since 0.0.4
+     */
+    readonly pins: ChannelPinsStore;
     /**
      * The typing handler for this channel.
      * @since 0.0.1

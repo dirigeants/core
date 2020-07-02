@@ -7,6 +7,7 @@ const MessageStore_1 = require("../../stores/MessageStore");
 const MessageCollector_1 = require("../../../util/collectors/MessageCollector");
 const Permissions_1 = require("../../../util/bitfields/Permissions");
 const Typing_1 = require("../Typing");
+const ChannelPinsStore_1 = require("../../stores/ChannelPinsStore");
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
  */
@@ -15,6 +16,7 @@ class GuildTextChannel extends GuildChannel_1.GuildChannel {
         super(client, data, guild);
         this.messages = new MessageStore_1.MessageStore(client, this);
         this.typing = new Typing_1.Typing(this);
+        this.pins = new ChannelPinsStore_1.ChannelPinsStore(this, []);
     }
     /**
      * If the client can send message attachments in the channel.

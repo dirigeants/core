@@ -7,6 +7,7 @@ const Channel_1 = require("./Channel");
 const MessageStore_1 = require("../../stores/MessageStore");
 const MessageCollector_1 = require("../../../util/collectors/MessageCollector");
 const Typing_1 = require("../Typing");
+const ChannelPinsStore_1 = require("../../stores/ChannelPinsStore");
 /**
  * @see https://discord.com/developers/docs/resources/channel#channel-object
  */
@@ -26,6 +27,7 @@ class DMChannel extends Channel_1.Channel {
         this.deleted = false;
         this.messages = new MessageStore_1.MessageStore(client, this);
         this.typing = new Typing_1.Typing(this);
+        this.pins = new ChannelPinsStore_1.ChannelPinsStore(this, []);
     }
     /**
      * If the client can send message attachments in the channel.
