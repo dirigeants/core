@@ -12,7 +12,8 @@ class CoreAction extends core_1.Action {
     cache(data) {
         if (data.guild) {
             data.guild.members.set(data.id, data);
-            ++data.guild.memberCount;
+            if (data.guild.memberCount !== null)
+                ++data.guild.memberCount;
         }
     }
 }

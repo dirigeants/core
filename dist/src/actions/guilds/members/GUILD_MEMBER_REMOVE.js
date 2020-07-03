@@ -7,7 +7,8 @@ class CoreAction extends core_1.Action {
         const guild = this.client.guilds.get(data.d.guild_id);
         if (!guild)
             return null;
-        --guild.memberCount;
+        if (guild.memberCount !== null)
+            --guild.memberCount;
         return (_a = guild.members.get(data.d.user.id)) !== null && _a !== void 0 ? _a : null;
     }
     build() {
@@ -15,10 +16,8 @@ class CoreAction extends core_1.Action {
     }
     cache(data) {
         data.deleted = true;
-        if (data.guild) {
+        if (data.guild)
             data.guild.members.delete(data.id);
-            --data.guild.memberCount;
-        }
     }
 }
 exports.default = CoreAction;

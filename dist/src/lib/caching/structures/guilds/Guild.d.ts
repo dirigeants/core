@@ -180,10 +180,10 @@ export declare class Guild extends Structure {
      */
     unavailable: boolean;
     /**
-     * Total number of members in this guild.
+     * Total number of members in this guild. This will be null if the `GUILD_MEMBERS` priviledged intent is specified.
      * @since 0.0.1
      */
-    memberCount: number;
+    memberCount: number | null;
     /**
      * A store of voice states for this guild.
      * @since 0.0.1

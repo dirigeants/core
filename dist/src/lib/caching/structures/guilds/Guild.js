@@ -166,7 +166,7 @@ class Guild extends Structure_1.Structure {
         return this.name;
     }
     _patch(data) {
-        var _a, _b, _c;
+        var _a, _b, _c, _d;
         this.name = data.name;
         this.ownerID = data.owner_id;
         this.region = data.name;
@@ -217,6 +217,7 @@ class Guild extends Structure_1.Structure {
         this.preferredLocale = data.preferred_locale;
         this.description = data.description;
         this.publicUpdatesChannel = data.public_updates_channel_id;
+        this.memberCount = (_d = data.member_count) !== null && _d !== void 0 ? _d : null;
         this.approximateMemberCount = data.approximate_member_count;
         this.approximatePresenceCount = data.approximate_presence_status;
         return this;
