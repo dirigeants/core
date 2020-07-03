@@ -227,10 +227,10 @@ export class Guild extends Structure {
 	public unavailable: boolean;
 
 	/**
-	 * Total number of members in this guild.
+	 * Total number of members in this guild. This will be null if the `GUILD_MEMBERS` priviledged intent is specified.
 	 * @since 0.0.1
 	 */
-	public memberCount!: number;
+	public memberCount!: number | null;
 
 	/**
 	 * A store of voice states for this guild.
@@ -556,6 +556,7 @@ export class Guild extends Structure {
 		this.preferredLocale = data.preferred_locale;
 		this.description = data.description;
 		this.publicUpdatesChannel = data.public_updates_channel_id;
+		this.memberCount = data.member_count ?? null;
 		this.approximateMemberCount = data.approximate_member_count;
 		this.approximatePresenceCount = data.approximate_presence_status;
 
