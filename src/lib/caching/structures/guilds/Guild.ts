@@ -359,10 +359,9 @@ export class Guild extends Structure {
 		// eslint-disable-next-line camelcase
 		this.widget = new GuildWidget({ enabled: null, channel_id: null }, this);
 
-		this.memberCount = data.member_count ?? null;
-
 		this.unavailable = data.unavailable ?? false;
 		if (!this.unavailable) {
+			this.memberCount = data.member_count ?? null;
 			this._patch(data);
 		}
 	}
