@@ -227,7 +227,7 @@ export class Guild extends Structure {
 	public unavailable: boolean;
 
 	/**
-	 * Total number of members in this guild. This will be null if the `GUILD_MEMBERS` priviledged intent is specified.
+	 * Total number of members in this guild. This field will only be present if a guild was received from the `GUILD_CREATE` event.
 	 * @since 0.0.1
 	 */
 	public memberCount!: number | null;
@@ -358,6 +358,8 @@ export class Guild extends Structure {
 
 		// eslint-disable-next-line camelcase
 		this.widget = new GuildWidget({ enabled: null, channel_id: null }, this);
+
+		this.memberCount = data.member_count ?? null;
 
 		this.unavailable = data.unavailable ?? false;
 		if (!this.unavailable) {
@@ -556,7 +558,6 @@ export class Guild extends Structure {
 		this.preferredLocale = data.preferred_locale;
 		this.description = data.description;
 		this.publicUpdatesChannel = data.public_updates_channel_id;
-		this.memberCount = data.member_count ?? null;
 		this.approximateMemberCount = data.approximate_member_count;
 		this.approximatePresenceCount = data.approximate_presence_status;
 
