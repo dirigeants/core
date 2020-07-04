@@ -227,7 +227,7 @@ export class Guild extends Structure {
 	public unavailable: boolean;
 
 	/**
-	 * Total number of members in this guild. This will be null if the `GUILD_MEMBERS` priviledged intent is specified.
+	 * Total number of members in this guild. This will be null if the `GUILD_MEMBERS` priviledged intent isn't specified.
 	 * @since 0.0.1
 	 */
 	public memberCount!: number | null;
