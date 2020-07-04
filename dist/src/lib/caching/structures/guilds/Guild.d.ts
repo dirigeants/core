@@ -180,7 +180,7 @@ export declare class Guild extends Structure {
      */
     unavailable: boolean;
     /**
-     * Total number of members in this guild. This will be null if the `GUILD_MEMBERS` priviledged intent is specified.
+     * Total number of members in this guild. This field will only be present if a guild was received from the `GUILD_CREATE` event.
      * @since 0.0.1
      */
     memberCount: number | null;

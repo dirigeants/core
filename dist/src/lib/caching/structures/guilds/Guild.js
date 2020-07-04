@@ -22,7 +22,7 @@ const ImageUtil_1 = require("../../../util/ImageUtil");
  */
 class Guild extends Structure_1.Structure {
     constructor(client, data, shardID) {
-        var _a;
+        var _a, _b;
         super(client);
         /**
          * Whether the guild is deleted.
@@ -45,6 +45,7 @@ class Guild extends Structure_1.Structure {
         this.widget = new GuildWidget_1.GuildWidget({ enabled: null, channel_id: null }, this);
         this.unavailable = (_a = data.unavailable) !== null && _a !== void 0 ? _a : false;
         if (!this.unavailable) {
+            this.memberCount = (_b = data.member_count) !== null && _b !== void 0 ? _b : null;
             this._patch(data);
         }
     }
@@ -166,7 +167,7 @@ class Guild extends Structure_1.Structure {
         return this.name;
     }
     _patch(data) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         this.name = data.name;
         this.ownerID = data.owner_id;
         this.region = data.name;
@@ -217,7 +218,6 @@ class Guild extends Structure_1.Structure {
         this.preferredLocale = data.preferred_locale;
         this.description = data.description;
         this.publicUpdatesChannel = data.public_updates_channel_id;
-        this.memberCount = (_d = data.member_count) !== null && _d !== void 0 ? _d : null;
         this.approximateMemberCount = data.approximate_member_count;
         this.approximatePresenceCount = data.approximate_presence_status;
         return this;
