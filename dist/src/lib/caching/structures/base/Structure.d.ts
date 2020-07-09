@@ -10,6 +10,14 @@ export declare abstract class Structure<T = Client> {
     abstract readonly id: string;
     constructor(client: T);
     /**
+     * The Date when this object was created at
+     */
+    get createdAt(): Date;
+    /**
+     * The time when this object was created at
+     */
+    get createdTimestamp(): number;
+    /**
      * Basic clone method
      */
     clone(): this;
