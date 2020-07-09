@@ -31,12 +31,24 @@ class MessageStore extends DataStore_1.DataStore {
     }
     /**
      * Deletes a message.
+     * @param messageID The message to delete via the api.
      * @param requestOptions The additional request options.
      * @since 0.0.1
      * @see https://discord.com/developers/docs/resources/channel#delete-message
      */
     async remove(messageID, requestOptions = {}) {
         await this.client.api.delete(rest_1.Routes.channelMessage(this.channel.id, messageID), requestOptions);
+        return this;
+    }
+    /**
+     * Deletes many messages.
+     * @param messages The messages to delete via the api.
+     * @param requestOptions The additional request options.
+     * @since 0.0.3
+     * @see https://discord.com/developers/docs/resources/channel#bulk-delete-messages
+     */
+    async bulkRemove(messages, requestOptions = {}) {
+        await this.client.api.post(rest_1.Routes.bulkDelete(this.channel.id), { ...requestOptions, data: { messages } });
         return this;
     }
     async fetch(idOrOptions) {

@@ -49,11 +49,20 @@ export declare class MessageStore extends DataStore<Message> {
     add(data: (message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>, options?: SplitOptions): Promise<Message[]>;
     /**
      * Deletes a message.
+     * @param messageID The message to delete via the api.
      * @param requestOptions The additional request options.
      * @since 0.0.1
      * @see https://discord.com/developers/docs/resources/channel#delete-message
      */
     remove(messageID: string, requestOptions?: RequestOptions): Promise<this>;
+    /**
+     * Deletes many messages.
+     * @param messages The messages to delete via the api.
+     * @param requestOptions The additional request options.
+     * @since 0.0.3
+     * @see https://discord.com/developers/docs/resources/channel#bulk-delete-messages
+     */
+    bulkRemove(messages: string[], requestOptions?: RequestOptions): Promise<this>;
     /**
      * Returns one or more messages from this channel.
      * @since 0.0.1
