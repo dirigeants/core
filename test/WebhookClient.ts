@@ -74,7 +74,7 @@ nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
 		if (this.req.headers.authorization) return [204];
 		return [403];
 	})
-	.post(Routes.webhookTokened(id, token))
+	.post(`${Routes.webhookTokened(id, token)}?wait=true`)
 	.times(Infinity)
 	.reply(204, rawMessage)
 	.post(Routes.webhook(id))
@@ -114,7 +114,7 @@ const client = new WebhookClient();
 client.token = 'Not-A-Real-Token';
 
 ava('fetch webhook', async (test): Promise<void> => {
-	test.plan(15);
+	test.plan(13);
 
 	const webhook = await client.fetch(id);
 	test.is(webhook.id, id);
@@ -125,8 +125,6 @@ ava('fetch webhook', async (test): Promise<void> => {
 	test.is(webhook.user?.avatar, null);
 	test.is(webhook.user?.discriminator, '0000');
 	test.is(webhook.user?.username, 'Spidey Bot');
-	test.deepEqual(webhook.createdAt, date);
-	test.is(webhook.createdTimestamp, date.valueOf());
 	test.is(webhook.guild, null);
 	test.is(webhook.channel, null);
 	test.is(webhook.name, 'Spidey Bot');
@@ -135,15 +133,13 @@ ava('fetch webhook', async (test): Promise<void> => {
 });
 
 ava('fetch webhook w/ token', async (test): Promise<void> => {
-	test.plan(11);
+	test.plan(9);
 
 	const webhook = await client.fetch(id, token);
 	test.is(webhook.id, id);
 	test.is(webhook.type, WebhookType.Incoming);
 	test.is(webhook.guildID, null);
 	test.is(webhook.user, null);
-	test.deepEqual(webhook.createdAt, date);
-	test.is(webhook.createdTimestamp, date.valueOf());
 	test.is(webhook.guild, null);
 	test.is(webhook.channel, null);
 	test.is(webhook.name, 'Spidey Bot');
@@ -170,23 +166,21 @@ ava('delete webhook w/ token', async (test): Promise<void> => {
 });
 
 ava('send webhook', async (test): Promise<void> => {
-	test.plan(3);
+	test.plan(2);
 
 	const webhook = await client.fetch(id);
 	const [message] = await webhook.send(mb => mb.setContent('FooBar'));
 	test.is(message.content, 'FooBar');
 	test.is(message.toString(), 'FooBar');
-	test.deepEqual(message.createdAt, date);
 });
 
 ava('send webhook w/ token', async (test): Promise<void> => {
-	test.plan(3);
+	test.plan(2);
 
 	const webhook = await client.fetch(id, token);
 	const [message] = await webhook.send(mb => mb.setContent('FooBar'));
 	test.is(message.content, 'FooBar');
 	test.is(message.toString(), 'FooBar');
-	test.deepEqual(message.createdAt, date);
 });
 
 ava('update webhook', async (test): Promise<void> => {
