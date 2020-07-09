@@ -138,7 +138,7 @@ export class Webhook extends Structure<Client | WebhookClient> {
 		const endpoint = Routes.webhookTokened(this.id, this.token);
 		const responses = [];
 
-		for (const message of split) responses.push(this.client.api.post(endpoint, message));
+		for (const message of split) responses.push(this.client.api.post(endpoint, { query: [['wait', true]], ...message }));
 
 		const rawMessages = await Promise.all(responses);
 
