@@ -10,6 +10,7 @@ class CoreAction extends core_1.Action {
     }
     cache(data) {
         if (this.client.options.cache.enabled && data.channel) {
+            data.author.lastMessageID = data.id;
             data.channel.messages.set(data.id, data);
             data.channel.lastMessageID = data.id;
         }

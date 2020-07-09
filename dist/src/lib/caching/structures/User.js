@@ -10,6 +10,11 @@ const Client_1 = require("../../client/Client");
 class User extends Structure_1.Structure {
     constructor(client, data) {
         super(client);
+        /**
+         * The id for the last message recieved for this user
+         * @since 0.0.3
+         */
+        this.lastMessageID = null;
         this.id = data.id;
         this._patch(data);
     }

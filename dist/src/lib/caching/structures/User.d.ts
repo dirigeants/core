@@ -76,6 +76,11 @@ export declare class User<T = Client> extends Structure<T> {
      * @see https://discord.com/developers/docs/resources/user#user-object-user-flags
      */
     publicFlags?: APIUserFlags;
+    /**
+     * The id for the last message recieved for this user
+     * @since 0.0.3
+     */
+    lastMessageID: string | null;
     constructor(client: T, data: APIUserData);
     /**
      * Gets an existing DMChannel from the cache.
