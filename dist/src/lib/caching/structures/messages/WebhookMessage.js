@@ -16,8 +16,6 @@ class WebhookMessage extends Structure_1.Structure {
         this.content = data.content;
         // eslint-disable-next-line dot-notation
         this.author = new (Extender_1.extender.get('User'))(client, data.author);
-        // eslint-disable-next-line dot-notation
-        this.createdTimestamp = new Date(data.timestamp).getTime();
         this.type = data.type;
         this.nonce = (_a = data.nonce) !== null && _a !== void 0 ? _a : null;
         this.webhookID = (_b = data.webhook_id) !== null && _b !== void 0 ? _b : null;

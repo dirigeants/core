@@ -15,11 +15,6 @@ export declare class WebhookMessage<T = WebhookClient> extends Structure<T> {
      */
     readonly author: User<T>;
     /**
-     * When this message was sent.
-     * @since 0.0.1
-     */
-    readonly createdTimestamp: number;
-    /**
      * Contents of the message.
      * @since 0.0.1
      */
