@@ -93,6 +93,12 @@ export class User<T = Client> extends Structure<T> {
 	 */
 	public publicFlags?: APIUserFlags;
 
+	/**
+	 * The id for the last message recieved for this user
+	 * @since 0.0.3
+	 */
+	public lastMessageID: string | null = null;
+
 	public constructor(client: T, data: APIUserData) {
 		super(client);
 		this.id = data.id;
