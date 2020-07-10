@@ -130,7 +130,7 @@ export class Integration extends Structure {
 	}
 
 	/**
-	 * Modifies the behaviour and settings of the integration.
+	 * Modifies the behavior and settings of the integration.
 	 * @since 0.0.1
 	 * @param options The settings to modify in the integration.
 	 * @param requestOptions The additional request options.

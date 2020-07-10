@@ -149,7 +149,7 @@ export class Role extends Structure {
 	}
 
 	/**
-	 * Defines the toString behavior of this structure.
+	 * Defines the toString behavior of roles.
 	 * @since 0.0.4
 	 */
 	public toString(): string {

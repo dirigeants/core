@@ -153,7 +153,7 @@ export class Guild extends Structure {
 	public readonly integrations: IntegrationStore;
 
 	/**
-	 * The guild's store of integrations.
+	 * The guild's shard.
 	 * @since 0.0.4
 	 */
 	public readonly shard: WebSocketShard;
@@ -292,7 +292,7 @@ export class Guild extends Structure {
 	public banner!: string | null;
 
 	/**
-	 * The guild's guild Boosting tier
+	 * The guild's Server Boost level.
 	 * @since 0.0.1
 	 * @see https://discord.com/developers/docs/resources/guild#guild-object-premium-tier
 	 */
@@ -375,7 +375,7 @@ export class Guild extends Structure {
 	}
 
 	/**
-	 * The Client's member of this guild.
+	 * The Client as a member of this guild.
 	 * @since 0.0.1
 	 */
 	public get me(): GuildMember | null {
@@ -498,7 +498,7 @@ export class Guild extends Structure {
 	}
 
 	/**
-	 * Defines the toString behavior of this structure.
+	 * Defines the toString behavior of guilds.
 	 * @since 0.0.4
 	 */
 	public toString(): string {

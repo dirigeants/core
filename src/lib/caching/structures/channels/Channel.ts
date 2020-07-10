@@ -22,7 +22,7 @@ export abstract class Channel extends Structure {
 	public readonly abstract type: ChannelType;
 
 	/**
-	 * Whether the DM channel is deleted.
+	 * Whether the channel is deleted.
 	 * @since 0.0.1
 	 */
 	public deleted = false;
