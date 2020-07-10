@@ -361,7 +361,6 @@ export class Guild extends Structure {
 
 		this.unavailable = data.unavailable ?? false;
 		if (!this.unavailable) {
-			this.memberCount = data.member_count ?? null;
 			this._patch(data);
 		}
 	}
@@ -559,6 +558,8 @@ export class Guild extends Structure {
 		this.publicUpdatesChannel = data.public_updates_channel_id;
 		this.approximateMemberCount = data.approximate_member_count;
 		this.approximatePresenceCount = data.approximate_presence_status;
+
+		if (isSet(data, 'member_count')) this.memberCount = data.member_count;
 
 		return this;
 	}
