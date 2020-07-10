@@ -23,7 +23,7 @@ export declare abstract class Channel extends Structure {
     deleted: boolean;
     constructor(client: Client, data: APIChannelPartial);
     /**
-     * Defines toString behavior for members.
+     * Defines toString behavior for channels.
      * @since 0.0.1
      */
     toString(): string;

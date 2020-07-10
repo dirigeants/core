@@ -20,7 +20,7 @@ class Channel extends Structure_1.Structure {
         this._patch(data);
     }
     /**
-     * Defines toString behavior for members.
+     * Defines toString behavior for channels.
      * @since 0.0.1
      */
     toString() {
