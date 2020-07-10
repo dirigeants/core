@@ -58,7 +58,7 @@ export class GuildMember extends Structure {
 	public premiumSince!: number | null;
 
 	/**
-	 * The roles this member has.
+	 * The roles the member has.
 	 * @since 0.0.1
 	 */
 	public roles!: GuildMemberRoleStore;
@@ -78,7 +78,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * The user for this member
+	 * The {@link User user} for the member
 	 * @since 0.0.1
 	 */
 	public get user(): User | null {
@@ -105,7 +105,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * Whether or not the {@link ClientUser client user} can kick this member.
+	 * Whether or not the {@link ClientUser client user} can kick the member.
 	 * @since 0.0.1
 	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
 	 * or a boolean specifying whether or not the conditions are met.
@@ -115,7 +115,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * Whether or not the {@link ClientUser client user} can ban this member.
+	 * Whether or not the {@link ClientUser client user} can ban the member.
 	 * @since 0.0.1
 	 * @returns `null` when the {@link ClientUser client user}'s member is not cached (or when {@link Client#user} is null),
 	 * or a boolean specifying whether or not the conditions are met.
@@ -145,7 +145,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * Whether or not the {@link ClientUser client user} can manage this member. This is based on:
+	 * Whether or not the {@link ClientUser client user} can manage the member. This is based on:
 	 * - The member is not the {@link Guild#owner guild owner}.
 	 * - The {@link ClientUser client user} is the owner of the {@link Guild}.
 	 * - The {@link ClientUser client user}'s {@link GuildMemberRoleStore#highest highest role} is higher than the member's.
@@ -186,7 +186,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * Checks permissions for this member in a given channel.
+	 * Checks permissions for the member in a given channel.
 	 * @param channel The channel to check permissions in
 	 * @param guildScope If we should take into account guild scoped permissions, or just overwrites
 	 */
@@ -276,7 +276,7 @@ export interface GuildMemberModifyOptions {
 	deaf?: boolean;
 
 	/**
-	 * Id of channel to move user to (if they are connected to a {@link VoiceChannel voice channel}).
+	 * Id of channel to move the user to (if they are connected to a {@link VoiceChannel voice channel}).
 	 * @since 0.0.1
 	 */
 	channel_id?: string | null;

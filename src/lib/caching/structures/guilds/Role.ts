@@ -81,7 +81,7 @@ export class Role extends Structure {
 	}
 
 	/**
-	 * Checks permissions for this member in a given channel.
+	 * Checks permissions for the role in a given channel.
 	 * @param channel The channel to check permissions in
 	 * @param guildScope If we should take into account guild scoped permissions, or just overwrites
 	 */

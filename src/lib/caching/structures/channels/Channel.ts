@@ -9,7 +9,7 @@ import { Client, ClientEvents } from '../../../client/Client';
 export abstract class Channel extends Structure {
 
 	/**
-	 * The ID of this channel.
+	 * The ID of the channel.
 	 * @since 0.0.1
 	 */
 	public readonly id: string;
