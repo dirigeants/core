@@ -558,8 +558,7 @@ export class Guild extends Structure {
 		this.publicUpdatesChannel = data.public_updates_channel_id;
 		this.approximateMemberCount = data.approximate_member_count;
 		this.approximatePresenceCount = data.approximate_presence_status;
-
-		if (isSet(data, 'member_count')) this.memberCount = data.member_count;
+		this.memberCount = data.member_count ?? this.memberCount ?? null;
 
 		return this;
 	}
