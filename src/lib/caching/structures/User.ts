@@ -169,7 +169,7 @@ export class User<T = Client> extends Structure<T> {
 	 */
 	public get defaultAvatarURL(): string | null {
 		if (!(this.client instanceof Client)) return null;
-		return this.client.api.cdn.defaultAvatar(Number(this.discriminator));
+		return this.client.api.cdn.defaultAvatar(Number(this.discriminator) % 5);
 	}
 
 	/**
