@@ -83,7 +83,7 @@ class User extends Structure_1.Structure {
     get defaultAvatarURL() {
         if (!(this.client instanceof Client_1.Client))
             return null;
-        return this.client.api.cdn.defaultAvatar(Number(this.discriminator));
+        return this.client.api.cdn.defaultAvatar(Number(this.discriminator) % 5);
     }
     /**
      * Defines toString behavior for members.
