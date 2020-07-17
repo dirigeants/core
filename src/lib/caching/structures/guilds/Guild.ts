@@ -227,10 +227,10 @@ export class Guild extends Structure {
 	public unavailable: boolean;
 
 	/**
-	 * Total number of members in this guild.
+	 * Total number of members in this guild. This field will only be present if a guild was received from the `GUILD_CREATE` event.
 	 * @since 0.0.1
 	 */
-	public memberCount!: number;
+	public memberCount!: number | null;
 
 	/**
 	 * A store of voice states for this guild.
@@ -356,7 +356,7 @@ export class Guild extends Structure {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		this.shard = this.client.ws.shards.get(shardID)!;
 
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		this.widget = new GuildWidget({ enabled: null, channel_id: null }, this);
 
 		this.unavailable = data.unavailable ?? false;
@@ -536,7 +536,7 @@ export class Guild extends Structure {
 
 		if (data.channels) {
 			this.channels.clear();
-			// eslint-disable-next-line dot-notation, @typescript-eslint/camelcase
+			// eslint-disable-next-line dot-notation, camelcase
 			for (const channel of data.channels) this.client.channels['_add'](channel, this);
 		}
 
@@ -558,11 +558,14 @@ export class Guild extends Structure {
 		this.publicUpdatesChannel = data.public_updates_channel_id;
 		this.approximateMemberCount = data.approximate_member_count;
 		this.approximatePresenceCount = data.approximate_presence_status;
+		this.memberCount = data.member_count ?? this.memberCount ?? null;
 
 		return this;
 	}
 
 }
+
+/* eslint-disable camelcase */
 
 /**
  * The options for {@link Guild#modify}.
@@ -736,3 +739,5 @@ export interface GuildVanityURL {
 	 */
 	uses: number;
 }
+
+/* eslint-enable camelcase */

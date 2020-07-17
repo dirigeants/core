@@ -28,10 +28,15 @@ export function isTextBasedChannel(channel: Channel): channel is TextBasedChanne
 	return Reflect.has(channel, 'messages');
 }
 
+export function isGuildTextBasedChannel(channel: Channel): channel is GuildTextBasedChannel {
+	return isTextBasedChannel(channel) && isGuildChannel(channel);
+}
+
 export function isGuildChannel(channel: Channel): channel is GuildBasedChannel {
 	return Reflect.has(channel, 'guild');
 }
 
+// eslint-disable-next-line @typescript-eslint/ban-types
 export function isSet<V extends {}, K extends keyof V>(value: V, key: K): value is V & Required<Pick<V, K>> {
 	return Reflect.has(value, key);
 }

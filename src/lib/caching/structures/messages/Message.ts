@@ -161,7 +161,7 @@ export class Message extends WebhookMessage<Client> {
 	}
 
 	/**
-	 * If the client can react to this message.
+	 * If the client can delete this message.
 	 * @since 0.0.1
 	 */
 	public get deletable(): boolean | null {
@@ -171,7 +171,7 @@ export class Message extends WebhookMessage<Client> {
 	}
 
 	/**
-	 * If the client can react to this message.
+	 * If the client can edit this message.
 	 * @since 0.0.1
 	 */
 	public get editable(): boolean {
@@ -179,7 +179,7 @@ export class Message extends WebhookMessage<Client> {
 	}
 
 	/**
-	 * If the client can react to this message.
+	 * If the client can pin this message.
 	 * @since 0.0.1
 	 */
 	public get pinnable(): boolean | null {
@@ -278,6 +278,24 @@ export class Message extends WebhookMessage<Client> {
 		return this.content;
 	}
 
+	/**
+	 * Pins the message to the channel
+	 * @since 0.0.4
+	 */
+	public async pin(): Promise<this> {
+		await this.channel.pins.add(this.id);
+		return this;
+	}
+
+	/**
+	 * Unpins the message to the channel
+	 * @since 0.0.4
+	 */
+	public async unpin(): Promise<this> {
+		await this.channel.pins.remove(this.id);
+		return this;
+	}
+
 	protected _patch(data: Partial<APIMessageData>): this {
 		if (isSet(data, 'content')) this.content = data.content;
 		if (isSet(data, 'edited_timestamp')) this.editedTimestamp = data.edited_timestamp ? new Date(data.edited_timestamp).getTime() : null;
@@ -294,7 +312,13 @@ export class Message extends WebhookMessage<Client> {
 		if (data.attachments) for (const attachment of data.attachments) this.attachments.set(attachment.id, new MessageAttachment(attachment));
 		if (data.embeds) for (const embed of data.embeds) this.embeds.push(new Embed(embed));
 
-		if (isSet(data, 'pinned')) this.pinned = data.pinned;
+		if (isSet(data, 'pinned')) {
+			this.pinned = data.pinned;
+
+			if (this.pinned) this.channel.pins.set(this.id);
+			else this.channel.pins.delete(this.id);
+		}
+
 		if (isSet(data, 'flags')) this.flags = new MessageFlags(data.flags);
 		return this;
 	}

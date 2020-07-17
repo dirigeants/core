@@ -38,7 +38,11 @@ export class StoreChannel extends GuildChannel {
 
 }
 
+/* eslint-disable camelcase */
+
 export interface StoreChannelModifyOptions extends ChannelModifyOptions {
 	nsfw?: boolean | null;
 	parent_id?: string | null;
 }
+
+/* eslint-enable camelcase */

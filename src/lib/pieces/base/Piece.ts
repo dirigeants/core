@@ -145,7 +145,7 @@ export class Piece {
 	/**
 	 * Defines the JSON.stringify behavior of this piece.
 	 */
-	public toJSON(): object {
+	public toJSON(): Record<string, unknown> {
 		return {
 			directory: this.directory,
 			file: this.file,

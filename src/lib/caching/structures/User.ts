@@ -93,6 +93,12 @@ export class User<T = Client> extends Structure<T> {
 	 */
 	public publicFlags?: APIUserFlags;
 
+	/**
+	 * The id for the last message recieved for this user
+	 * @since 0.0.3
+	 */
+	public lastMessageID: string | null = null;
+
 	public constructor(client: T, data: APIUserData) {
 		super(client);
 		this.id = data.id;
@@ -163,7 +169,7 @@ export class User<T = Client> extends Structure<T> {
 	 */
 	public get defaultAvatarURL(): string | null {
 		if (!(this.client instanceof Client)) return null;
-		return this.client.api.cdn.defaultAvatar(Number(this.discriminator));
+		return this.client.api.cdn.defaultAvatar(Number(this.discriminator) % 5);
 	}
 
 	/**

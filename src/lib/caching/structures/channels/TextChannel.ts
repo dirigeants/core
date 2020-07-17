@@ -40,6 +40,8 @@ export class TextChannel extends GuildTextChannel {
 
 }
 
+/* eslint-disable camelcase */
+
 export interface TextChannelModifyOptions extends ChannelModifyOptions {
 	type?: ChannelType.GuildText | ChannelType.GuildNews;
 	topic?: string | null;
@@ -47,3 +49,5 @@ export interface TextChannelModifyOptions extends ChannelModifyOptions {
 	rate_limit_per_user?: number | null;
 	parent_id?: string | null;
 }
+
+/* eslint-enable camelcase */

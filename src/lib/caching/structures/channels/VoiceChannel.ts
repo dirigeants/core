@@ -66,8 +66,12 @@ export class VoiceChannel extends GuildChannel {
 
 }
 
+/* eslint-disable camelcase */
+
 export interface VoiceChannelModifyOptions extends ChannelModifyOptions {
 	bitrate?: number | null;
 	user_limit?: number | null;
 	parent_id?: string | null;
 }
+
+/* eslint-enable camelcase */

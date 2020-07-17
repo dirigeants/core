@@ -91,4 +91,9 @@ export class Permissions extends BitField<PermissionsResolvable> {
 	 */
 	public static DEFAULT = 104324673;
 
+	/**
+	 * Permissions that cannot be influenced by channel overwrites, even if explicitly set.
+	 */
+	public static GUILD_SCOPE_PERMISSIONS = 1275592878;
+
 }

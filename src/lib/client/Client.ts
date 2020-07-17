@@ -347,7 +347,7 @@ export class Client extends BaseClient {
 	/**
 	 * The plugins to be used when creating a Client instance
 	 */
-	private static readonly plugins = new Set<Function>();
+	private static readonly plugins = new Set<(this: Client) => void>();
 
 	/**
 	 * Caches a plugin module to be used when creating a Client instance
@@ -364,6 +364,6 @@ export class Client extends BaseClient {
 
 export abstract class Plugin {
 
-	static [Client.plugin]: Function;
+	static [Client.plugin]: (this: Client) => void;
 
 }

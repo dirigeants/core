@@ -174,6 +174,8 @@ export class Integration extends Structure {
 
 }
 
+/* eslint-disable camelcase */
+
 /**
  * The options for {@link Integration#modify}.
  * @since 0.0.1
@@ -199,3 +201,5 @@ export interface IntegrationModifyOptions {
 	 */
 	enable_emoticons?: boolean | null;
 }
+
+/* eslint-enable camelcase */

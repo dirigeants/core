@@ -110,9 +110,10 @@ export abstract class GuildChannel extends Channel {
 	/**
 	 * Checks what permissions a {@link GuildMember member} or {@link Role role} has in this {@link GuildChannel channel}
 	 * @param target The guild member you are checking permissions for
+	 * @param guildScope If we should take into account guild scoped permissions, or just overwrites
 	 */
-	public permissionsFor(target: GuildMember | Role): Readonly<Permissions> {
-		return target.permissionsIn(this);
+	public permissionsFor(target: GuildMember | Role, guildScope = true): Readonly<Permissions> {
+		return target.permissionsIn(this, guildScope);
 	}
 
 	/**
@@ -147,7 +148,7 @@ export abstract class GuildChannel extends Channel {
 		const { parent } = this;
 		if (!parent) return Promise.reject(new Error('This channel does not have a parent channel to sync permissions from.'));
 		const overwrites = parent.permissionOverwrites.map(({ id, type, allow, deny }) => ({ id, type, allow: allow.bitfield, deny: deny.bitfield }));
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		return this.modify({ permission_overwrites: overwrites }, requestOptions);
 	}
 
@@ -180,8 +181,12 @@ export abstract class GuildChannel extends Channel {
 
 }
 
+/* eslint-disable camelcase */
+
 export interface ChannelModifyOptions {
 	name?: string;
 	position?: number | null;
 	permission_overwrites?: APIOverwriteData[] | null;
 }
+
+/* eslint-disable camelcase */

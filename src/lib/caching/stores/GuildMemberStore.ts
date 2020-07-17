@@ -97,9 +97,6 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 				user_ids: userIDs,
 				presences,
 				limit,
-				// This is ignored until the send options for RequestGuildMembers are fixed.
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-expect-error
 				nonce
 			}
 		};
@@ -197,6 +194,8 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 
 }
 
+/* eslint-disable camelcase */
+
 /**
  * The data for {@link GuildMemberStore#add}.
  * @since 0.0.1
@@ -253,15 +252,54 @@ export interface GuildMemberStoreListOptions {
 	after?: string;
 }
 
+/**
+ * The options for {@link GuildMemberStore#fetch} when fetching many.
+ * @since 0.0.3
+ * @see https://discord.com/developers/docs/topics/gateway#request-guild-members
+ */
 export interface GuildMemberStoreFetchOptions {
+	/**
+	 * The query to fetch members with, will be used to search via nicknames.
+	 * @since 0.0.3
+	 */
 	query?: string;
+	/**
+	 * The number of members to fetch.
+	 * @since 0.0.3
+	 */
 	limit?: number;
+	/**
+	 * Whether to include presences with the request.
+	 * @since 0.0.3
+	 */
 	presences?: boolean;
+	/**
+	 * The user ID(s) to search for.
+	 * @since 0.0.3
+	 */
 	userIDs?: string | string[];
+	/**
+	 * The unique nonce to look for, this is mainly used internally.
+	 * @since 0.0.3
+	 * @internal
+	 */
 	nonce?: string;
 }
 
+/**
+ * The options for {@link GuildMemberStore#search}.
+ * @since 0.0.3
+ */
 export interface GuildMemberStoreSearchOptions {
+	/**
+	 * The query to search for.
+	 * @since 0.0.3
+	 */
 	query: string;
+	/**
+	 * The limit for fetching members.
+	 */
 	limit?: number;
 }
+
+/* eslint-enable camelcase */

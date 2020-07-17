@@ -4,6 +4,7 @@ import { Channel } from './Channel';
 import { MessageStore } from '../../stores/MessageStore';
 import { MessageCollectorOptions, MessageCollector } from '../../../util/collectors/MessageCollector';
 import { Typing } from '../Typing';
+import { ChannelPinsStore } from '../../stores/ChannelPinsStore';
 
 import type { RequestOptions } from '@klasa/rest';
 import type { Cache } from '@klasa/cache';
@@ -29,6 +30,12 @@ export class DMChannel extends Channel {
 	 * @see https://discord.com/developers/docs/resources/channel#channel-object-channel-types
 	 */
 	public readonly type = ChannelType.DM;
+
+	/**
+	 * The pins store for this channel.
+	 * @since 0.0.4
+	 */
+	public readonly pins: ChannelPinsStore;
 
 	/**
 	 * The id of the last message sent in this channel (may not point to an existing or valid message).
@@ -58,6 +65,8 @@ export class DMChannel extends Channel {
 		super(client, data);
 		this.messages = new MessageStore(client, this);
 		this.typing = new Typing(this);
+
+		this.pins = new ChannelPinsStore(this, []);
 	}
 
 	/**
@@ -133,6 +142,7 @@ export class DMChannel extends Channel {
 	 */
 	public send(data: (message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>, options?: SplitOptions): Promise<Message[]>;
 	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>), options: SplitOptions = {}): Promise<Message[]> {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-expect-error
 		return this.messages.add(data, options);
 	}
