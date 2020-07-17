@@ -93,7 +93,6 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 				// eslint-disable-next-line @typescript-eslint/camelcase
 				guild_id: this.guild.id,
 				query,
-				// eslint-disable-next-line @typescript-eslint/camelcase
 				user_ids: userIDs,
 				presences,
 				limit,

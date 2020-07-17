@@ -109,11 +109,7 @@ ava('fetch application', async (test): Promise<void> => {
 
 	// Test guild availability
 	test.is(application.guild, null);
-<<<<<<< HEAD
-	const guild = client.guilds._add(rawGuild);
-=======
 	// eslint-disable-next-line dot-notation
 	const guild = client.guilds['_add'](rawGuild);
->>>>>>> e3a7d6af3ec15599b16786598687af5c624af3ba
 	test.is(application.guild, guild);
 });
