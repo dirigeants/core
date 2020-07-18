@@ -166,7 +166,7 @@ class Guild extends Structure_1.Structure {
         return this.name;
     }
     _patch(data) {
-        var _a, _b, _c, _d, _e;
+        var _a, _b, _c, _d, _e, _f;
         this.name = data.name;
         this.ownerID = data.owner_id;
         this.region = data.name;
@@ -177,6 +177,7 @@ class Guild extends Structure_1.Structure {
         this.verificationLevel = data.verification_level;
         this.defaultMessageNotification = data.default_message_notifications;
         this.explicitContentFilter = data.explicit_content_filter;
+        this.unavailable = (_a = data.unavailable) !== null && _a !== void 0 ? _a : false;
         if (data.roles) {
             this.roles.clear();
             // eslint-disable-next-line dot-notation
@@ -203,8 +204,8 @@ class Guild extends Structure_1.Structure {
         }
         this.features = data.features;
         this.mfaLevel = data.mfa_level;
-        this.widgetEnabled = (_a = data.widget_enabled) !== null && _a !== void 0 ? _a : false;
-        this.widgetChannelID = (_b = data.widget_channel_id) !== null && _b !== void 0 ? _b : null;
+        this.widgetEnabled = (_b = data.widget_enabled) !== null && _b !== void 0 ? _b : false;
+        this.widgetChannelID = (_c = data.widget_channel_id) !== null && _c !== void 0 ? _c : null;
         this.systemChannelID = data.system_channel_id;
         this.systemChannelFlags = data.system_channel_flags;
         this.rulesChannelID = data.rules_channel_id;
@@ -213,13 +214,13 @@ class Guild extends Structure_1.Structure {
         this.vanityUrlCode = data.vanity_url_code;
         this.banner = data.banner;
         this.premiumTier = data.premium_tier;
-        this.premiumSubscriptionCount = (_c = data.premium_subscription_count) !== null && _c !== void 0 ? _c : null;
+        this.premiumSubscriptionCount = (_d = data.premium_subscription_count) !== null && _d !== void 0 ? _d : null;
         this.preferredLocale = data.preferred_locale;
         this.description = data.description;
         this.publicUpdatesChannel = data.public_updates_channel_id;
         this.approximateMemberCount = data.approximate_member_count;
         this.approximatePresenceCount = data.approximate_presence_status;
-        this.memberCount = (_e = (_d = data.member_count) !== null && _d !== void 0 ? _d : this.memberCount) !== null && _e !== void 0 ? _e : null;
+        this.memberCount = (_f = (_e = data.member_count) !== null && _e !== void 0 ? _e : this.memberCount) !== null && _f !== void 0 ? _f : null;
         return this;
     }
 }
