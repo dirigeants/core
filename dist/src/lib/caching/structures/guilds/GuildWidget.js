@@ -54,6 +54,9 @@ class GuildWidget {
         const updated = await this.client.api.patch(rest_1.Routes.guildWidget(this.guild.id), { ...requestOptions, data });
         return this._patch(updated);
     }
+    toJSON() {
+        return this.enabled;
+    }
     _patch(data) {
         this.enabled = data.enabled;
         this.channelID = data.channel_id;
