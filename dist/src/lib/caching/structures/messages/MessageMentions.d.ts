@@ -29,4 +29,5 @@ export declare class MessageMentions {
      */
     readonly everyone: boolean;
     constructor(message: Message, users: APIMessageMentionData[], roles: string[], channels: APIMessageMentionChannelData[], everyone: boolean);
+    toJSON(): Record<string, unknown>;
 }

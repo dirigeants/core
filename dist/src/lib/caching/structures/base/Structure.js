@@ -38,11 +38,11 @@ class Structure {
      * The JSON representation of this object.
      */
     toJSON() {
-        var _a;
+        var _a, _b, _c;
         const returnValue = {};
         for (const [key, value] of Object.entries(this))
             if (key !== 'client')
-                Reflect.set(returnValue, key, (_a = value === null || value === void 0 ? void 0 : value.id) !== null && _a !== void 0 ? _a : value);
+                Reflect.set(returnValue, key, (_c = (_a = value === null || value === void 0 ? void 0 : value.id) !== null && _a !== void 0 ? _a : (_b = value === null || value === void 0 ? void 0 : value.toJSON) === null || _b === void 0 ? void 0 : _b.call(value)) !== null && _c !== void 0 ? _c : value);
         return returnValue;
     }
 }

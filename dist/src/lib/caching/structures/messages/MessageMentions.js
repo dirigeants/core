@@ -28,6 +28,15 @@ class MessageMentions {
                 this.channels.set(mention.id, mention);
         this.everyone = Boolean(everyone);
     }
+    toJSON() {
+        return {
+            message: this.message.id,
+            users: [...this.users.keys()],
+            roles: [...this.roles.keys()],
+            channels: [...this.channels.keys()],
+            everyone: this.everyone
+        };
+    }
 }
 exports.MessageMentions = MessageMentions;
 //# sourceMappingURL=MessageMentions.js.map
