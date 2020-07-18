@@ -55,7 +55,7 @@ class GuildWidget {
         return this._patch(updated);
     }
     toJSON() {
-        return this.enabled;
+        return !!this.enabled;
     }
     _patch(data) {
         this.enabled = data.enabled;
