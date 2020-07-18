@@ -515,6 +515,7 @@ export class Guild extends Structure {
 		this.verificationLevel = data.verification_level;
 		this.defaultMessageNotification = data.default_message_notifications;
 		this.explicitContentFilter = data.explicit_content_filter;
+		this.unavailable = data.unavailable ?? false;
 
 		if (data.roles) {
 			this.roles.clear();
