@@ -54,7 +54,7 @@ export declare class GuildWidget {
      * @see https://discord.com/developers/docs/resources/guild#modify-guild-widget
      */
     modify(data: APIGuildWidgetData, requestOptions?: RequestOptions): Promise<this>;
-    toJSON(): boolean | null;
+    toJSON(): boolean;
     protected _patch(data: WidgetData): this;
 }
 interface WidgetData extends Omit<APIGuildWidgetData, 'enabled'> {
