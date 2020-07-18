@@ -84,6 +84,10 @@ export class GuildWidget {
 		return this._patch(updated);
 	}
 
+	public toJSON(): boolean | null {
+		return this.enabled;
+	}
+
 	protected _patch(data: WidgetData): this {
 		this.enabled = data.enabled;
 		this.channelID = data.channel_id;
