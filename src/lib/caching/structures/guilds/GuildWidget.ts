@@ -84,7 +84,7 @@ export class GuildWidget {
 		return this._patch(updated);
 	}
 
-	public toJSON(): boolean | null {
+	public toJSON(): boolean {
 		return !!this.enabled;
 	}
 
