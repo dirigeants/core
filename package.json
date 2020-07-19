@@ -43,7 +43,7 @@
     "@klasa/bitfield": "^0.0.4",
     "@klasa/cache": "^0.0.3",
     "@klasa/dapi-types": "^0.3.0",
-    "@klasa/event-iterator": "^0.0.10",
+    "@klasa/event-iterator": "^0.0.11",
     "@klasa/rest": "^0.5.4",
     "@klasa/snowflake": "^0.0.1",
     "@klasa/timer-manager": "^0.0.1",
