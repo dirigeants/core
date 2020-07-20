@@ -129,7 +129,7 @@ export class Message extends WebhookMessage<Client> {
 		super(client, data);
 		this.attachments = new Cache();
 		this.reactions = new MessageReactionStore(client, this);
-		this.guild = guild || (data.guild_id ? this.client.guilds.get(data.guild_id) ?? null : null);
+		this.guild = guild ?? ((data.guild_id && this.client.guilds.get(data.guild_id)) || null);
 		this.channel = this.client.channels.get(data.channel_id) as TextBasedChannel;
 		// eslint-disable-next-line dot-notation
 		this.author = this.client.users['_add'](data.author);
