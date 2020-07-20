@@ -90,10 +90,11 @@ export class GuildMemberStore extends DataStore<GuildMember> {
 		const options: RequestGuildMembers = {
 			op: OpCodes.REQUEST_GUILD_MEMBERS,
 			d: {
-				// eslint-disable-next-line @typescript-eslint/camelcase
+				/* eslint-disable camelcase */
 				guild_id: this.guild.id,
-				query,
 				user_ids: userIDs,
+				/* eslint-enable camelcase */
+				query,
 				presences,
 				limit,
 				nonce
