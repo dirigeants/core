@@ -60,6 +60,7 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 	 */
 	public async add(roleID: string, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.put(Routes.guildMemberRole(this.guild.id, this.member.id, roleID), requestOptions);
+		this.set(roleID);
 		return this;
 	}
 
@@ -72,6 +73,7 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 	 */
 	public async remove(roleID: string, requestOptions: RequestOptions = {}): Promise<this> {
 		await this.client.api.delete(Routes.guildMemberRole(this.guild.id, this.member.id, roleID), requestOptions);
+		this.delete(roleID);
 		return this;
 	}
 
@@ -83,6 +85,8 @@ export class GuildMemberRoleStore extends ProxyCache<string, Role> {
 	 */
 	public async modify(roles: readonly string[], requestOptions: RequestOptions = {}): Promise<this> {
 		await this.member.modify({ roles }, requestOptions);
+		this.clear();
+		for (const role of roles) this.set(role);
 		return this;
 	}
 
