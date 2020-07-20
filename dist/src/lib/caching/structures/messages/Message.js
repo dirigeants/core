@@ -18,7 +18,7 @@ const Permissions_1 = require("../../../util/bitfields/Permissions");
 const MessageBuilder_1 = require("./MessageBuilder");
 class Message extends WebhookMessage_1.WebhookMessage {
     constructor(client, data, guild) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c;
         super(client, data);
         /**
          * The embedded data.
@@ -32,16 +32,16 @@ class Message extends WebhookMessage_1.WebhookMessage {
         this.deleted = false;
         this.attachments = new cache_1.Cache();
         this.reactions = new MessageReactionStore_1.MessageReactionStore(client, this);
-        this.guild = guild || (data.guild_id ? (_a = this.client.guilds.get(data.guild_id)) !== null && _a !== void 0 ? _a : null : null);
+        this.guild = guild !== null && guild !== void 0 ? guild : ((data.guild_id && this.client.guilds.get(data.guild_id)) || null);
         this.channel = this.client.channels.get(data.channel_id);
         // eslint-disable-next-line dot-notation
         this.author = this.client.users['_add'](data.author);
         // eslint-disable-next-line dot-notation
         this.member = data.member && this.guild ? this.guild.members['_add']({ ...data.member, user: data.author }) : null;
         this.mentions = new MessageMentions_1.MessageMentions(this, data.mentions, data.mention_roles, data.mention_channels, data.mention_everyone);
-        this.activity = (_b = data.activity) !== null && _b !== void 0 ? _b : null;
-        this.application = (_c = data.application) !== null && _c !== void 0 ? _c : null;
-        this.reference = (_d = data.message_reference) !== null && _d !== void 0 ? _d : null;
+        this.activity = (_a = data.activity) !== null && _a !== void 0 ? _a : null;
+        this.application = (_b = data.application) !== null && _b !== void 0 ? _b : null;
+        this.reference = (_c = data.message_reference) !== null && _c !== void 0 ? _c : null;
         this._patch(data);
     }
     /**
