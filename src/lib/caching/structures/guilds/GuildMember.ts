@@ -8,6 +8,7 @@ import type { Guild } from './Guild';
 import type { User } from '../User';
 import type { Client } from '../../../client/Client';
 import type { GuildChannel } from '../channels/GuildChannel';
+import type { VoiceState } from './VoiceState';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
@@ -91,6 +92,14 @@ export class GuildMember extends Structure {
 	 */
 	public get displayName(): string | null {
 		return this.nick ?? this.user?.username ?? null;
+	}
+
+	/**
+	 * The voiceState for the member
+	 * @since 0.0.4
+	 */
+	public get voiceState(): VoiceState | null {
+		return this.guild.voiceStates.get(this.id) ?? null;
 	}
 
 	/**
