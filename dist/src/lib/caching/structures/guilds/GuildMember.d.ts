@@ -7,6 +7,7 @@ import type { Guild } from './Guild';
 import type { User } from '../User';
 import type { Client } from '../../../client/Client';
 import type { GuildChannel } from '../channels/GuildChannel';
+import type { VoiceState } from './VoiceState';
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
  */
@@ -68,6 +69,11 @@ export declare class GuildMember extends Structure {
      * @since 0.0.4
      */
     get displayName(): string | null;
+    /**
+     * The voiceState for the member
+     * @since 0.0.4
+     */
+    get voiceState(): VoiceState | null;
     /**
      * The calculated permissions from the member's {@link GuildMemberRoleStore roles}.
      * @since 0.0.1
