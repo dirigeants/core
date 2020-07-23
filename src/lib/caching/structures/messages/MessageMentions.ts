@@ -63,4 +63,14 @@ export class MessageMentions {
 		this.everyone = Boolean(everyone);
 	}
 
+	public toJSON(): Record<string, unknown> {
+		return {
+			message: this.message.id,
+			users: [...this.users.keys()],
+			roles: [...this.roles.keys()],
+			channels: [...this.channels.keys()],
+			everyone: this.everyone
+		};
+	}
+
 }
