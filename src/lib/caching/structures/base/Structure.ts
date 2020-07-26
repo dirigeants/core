@@ -1,3 +1,4 @@
+import { Snowflake } from '@klasa/snowflake';
 import type { Client } from '../../../client/Client';
 
 /**
@@ -12,6 +13,20 @@ export abstract class Structure<T = Client> {
 
 	// eslint-disable-next-line no-useless-constructor
 	public constructor(public readonly client: T) { }
+
+	/**
+	 * The Date when this object was created at
+	 */
+	public get createdAt(): Date {
+		return new Snowflake(this.id).date;
+	}
+
+	/**
+	 * The time when this object was created at
+	 */
+	public get createdTimestamp(): number {
+		return new Snowflake(this.id).timestamp;
+	}
 
 	/**
 	 * Basic clone method
@@ -38,7 +53,7 @@ export abstract class Structure<T = Client> {
 	 */
 	public toJSON(): Record<string, any> {
 		const returnValue: Record<string, any> = {};
-		for (const [key, value] of Object.entries(this)) if (key !== 'client') Reflect.set(returnValue, key, value?.id ?? value);
+		for (const [key, value] of Object.entries(this)) if (key !== 'client') Reflect.set(returnValue, key, value?.id ?? value?.toJSON?.() ?? value);
 		return returnValue;
 	}
 

@@ -4,6 +4,7 @@ import { MessageStore } from '../../stores/MessageStore';
 import { MessageCollector, MessageCollectorOptions } from '../../../util/collectors/MessageCollector';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 import { Typing } from '../Typing';
+import { ChannelPinsStore } from '../../stores/ChannelPinsStore';
 
 import type { Cache } from '@klasa/cache';
 import type { APIChannelData } from '@klasa/dapi-types';
@@ -28,6 +29,12 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 * @since 0.0.1
 	 */
 	public readonly messages: MessageStore;
+
+	/**
+	 * The pins store for this channel.
+	 * @since 0.0.4
+	 */
+	public readonly pins: ChannelPinsStore;
 
 	/**
 	 * The typing handler for this channel.
@@ -63,6 +70,8 @@ export abstract class GuildTextChannel extends GuildChannel {
 		super(client, data, guild);
 		this.messages = new MessageStore(client, this as unknown as GuildTextBasedChannel);
 		this.typing = new Typing(this);
+
+		this.pins = new ChannelPinsStore(this, []);
 	}
 
 	/**
@@ -131,6 +140,7 @@ export abstract class GuildTextChannel extends GuildChannel {
 	 */
 	public send(data: (message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>, options?: SplitOptions): Promise<Message[]>;
 	public async send(data: MessageOptions | ((message: MessageBuilder) => MessageBuilder | Promise<MessageBuilder>), options: SplitOptions = {}): Promise<Message[]> {
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 		// @ts-expect-error
 		return this.messages.add(data, options);
 	}

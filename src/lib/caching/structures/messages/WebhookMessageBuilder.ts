@@ -7,6 +7,8 @@ import type { APIEmbedData } from '@klasa/dapi-types';
 import { MessageBuilder, AllowedMentions, SplitOptions } from './MessageBuilder';
 import { Embed } from '../Embed';
 
+/* eslint-disable camelcase */
+
 export interface WebhookMessageData {
 	content?: string;
 	embeds?: APIEmbedData[];
@@ -20,6 +22,8 @@ export interface WebhookMessageData {
 export interface WebhookMessageOptions extends RequestOptions {
 	data?: WebhookMessageData;
 }
+
+/* eslint-enable camelcase */
 
 export class WebhookMessageBuilder extends MessageBuilder implements RequiredExcept<WebhookMessageOptions, 'auth' | 'query' | 'headers' | 'reason'> {
 
@@ -44,7 +48,7 @@ export class WebhookMessageBuilder extends MessageBuilder implements RequiredExc
 	public constructor({ data = {}, files = [] }: WebhookMessageOptions = {}) {
 		super();
 		const defaultedData = mergeDefault({
-			// eslint-disable-next-line @typescript-eslint/camelcase
+			// eslint-disable-next-line camelcase
 			allowed_mentions: {
 				parse: [] as ('users' | 'roles' | 'everyone')[],
 				roles: [] as string[],
@@ -104,7 +108,7 @@ export class WebhookMessageBuilder extends MessageBuilder implements RequiredExc
 	 * @param avatar The avatar for the webhook message
 	 */
 	public setAvatar(avatar?: string): this {
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		this.data.avatar_url = avatar;
 		return this;
 	}

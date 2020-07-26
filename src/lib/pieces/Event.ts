@@ -114,7 +114,7 @@ export abstract class Event extends Piece {
 	/**
 	 * Defines the JSON.stringify behavior of this event.
 	 */
-	public toJSON(): object {
+	public toJSON(): Record<string, unknown> {
 		return {
 			...super.toJSON(),
 			once: this.once,

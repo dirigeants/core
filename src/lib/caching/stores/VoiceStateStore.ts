@@ -6,7 +6,6 @@ import type { Client } from '../../client/Client';
 import type { VoiceState } from '../structures/guilds/VoiceState';
 import type { Guild } from '../structures/guilds/Guild';
 
-
 /**
  * The store for {@link VoiceState voice states}.
  * @since 0.0.1

@@ -124,7 +124,6 @@ export class Piece {
 		return this;
 	}
 
-
 	/**
 	 * The init method to be optionally overwritten in actual pieces
 	 * @since 0.0.1
@@ -146,7 +145,7 @@ export class Piece {
 	/**
 	 * Defines the JSON.stringify behavior of this piece.
 	 */
-	public toJSON(): object {
+	public toJSON(): Record<string, unknown> {
 		return {
 			directory: this.directory,
 			file: this.file,

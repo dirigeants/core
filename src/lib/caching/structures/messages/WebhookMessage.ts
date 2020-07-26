@@ -21,12 +21,6 @@ export class WebhookMessage<T = WebhookClient> extends Structure<T> {
 	public readonly author: User<T>;
 
 	/**
-	 * When this message was sent.
-	 * @since 0.0.1
-	 */
-	public readonly createdTimestamp!: number;
-
-	/**
 	 * Contents of the message.
 	 * @since 0.0.1
 	 */
@@ -69,8 +63,6 @@ export class WebhookMessage<T = WebhookClient> extends Structure<T> {
 		this.content = data.content;
 		// eslint-disable-next-line dot-notation
 		this.author = new (extender.get('User'))(client, data.author) as unknown as User<T>;
-		// eslint-disable-next-line dot-notation
-		this.createdTimestamp = new Date(data.timestamp).getTime();
 		this.type = data.type;
 
 		this.nonce = data.nonce ?? null;

@@ -1,7 +1,8 @@
+import { Routes, RequestOptions } from '@klasa/rest';
 import { Channel } from './Channel';
 import { OverwriteStore } from '../../stores/OverwriteStore';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
-import { Routes, RequestOptions } from '@klasa/rest';
+import { GuildChannelInviteStore } from '../../stores/GuildChannelInviteStore';
 
 import type { APIChannelData, APIOverwriteData } from '@klasa/dapi-types';
 import type { Client } from '../../../client/Client';
@@ -41,6 +42,12 @@ export abstract class GuildChannel extends Channel {
 	public permissionOverwrites!: OverwriteStore;
 
 	/**
+	 * The {@link GuildChannelInviteStore invites} store for this channel.
+	 * @since 0.0.3
+	 */
+	public readonly invites: GuildChannelInviteStore;
+
+	/**
 	 * The {@link Guild guild} this channel belongs to.
 	 * @since 0.0.1
 	 */
@@ -49,6 +56,9 @@ export abstract class GuildChannel extends Channel {
 	public constructor(client: Client, data: APIChannelData, guild: Guild | null = null) {
 		super(client, data);
 		this.guild = guild ?? client.guilds.get(data.guild_id as string) as Guild;
+
+		const filterGuildInvites = this.guild.invites.filter(i => i.channel.id === this.id).keys();
+		this.invites = new GuildChannelInviteStore(this, [...filterGuildInvites]);
 	}
 
 	/**
@@ -100,9 +110,10 @@ export abstract class GuildChannel extends Channel {
 	/**
 	 * Checks what permissions a {@link GuildMember member} or {@link Role role} has in this {@link GuildChannel channel}
 	 * @param target The guild member you are checking permissions for
+	 * @param guildScope If we should take into account guild scoped permissions, or just overwrites
 	 */
-	public permissionsFor(target: GuildMember | Role): Readonly<Permissions> {
-		return target.permissionsIn(this);
+	public permissionsFor(target: GuildMember | Role, guildScope = true): Readonly<Permissions> {
+		return target.permissionsIn(this, guildScope);
 	}
 
 	/**
@@ -137,7 +148,7 @@ export abstract class GuildChannel extends Channel {
 		const { parent } = this;
 		if (!parent) return Promise.reject(new Error('This channel does not have a parent channel to sync permissions from.'));
 		const overwrites = parent.permissionOverwrites.map(({ id, type, allow, deny }) => ({ id, type, allow: allow.bitfield, deny: deny.bitfield }));
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		return this.modify({ permission_overwrites: overwrites }, requestOptions);
 	}
 
@@ -170,8 +181,12 @@ export abstract class GuildChannel extends Channel {
 
 }
 
+/* eslint-disable camelcase */
+
 export interface ChannelModifyOptions {
 	name?: string;
 	position?: number | null;
 	permission_overwrites?: APIOverwriteData[] | null;
 }
+
+/* eslint-disable camelcase */

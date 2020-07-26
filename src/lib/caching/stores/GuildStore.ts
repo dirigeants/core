@@ -65,12 +65,14 @@ export class GuildStore extends DataStore<Guild> {
 	 * @see https://discord.com/developers/docs/resources/guild#get-guild
 	 */
 	public async fetch(guildID: string): Promise<Guild> {
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		const entry = await this.client.api.get(Routes.guild(guildID), { query: [['with_counts', true]] }) as APIGuildData;
 		return this._add(entry);
 	}
 
 }
+
+/* eslint-disable camelcase */
 
 /**
  * The settings used in {@link GuildStore#add}.
@@ -152,3 +154,5 @@ export interface GuildStoreAddData {
 	 */
 	system_channel_id?: string;
 }
+
+/* eslint-enable camelcase */

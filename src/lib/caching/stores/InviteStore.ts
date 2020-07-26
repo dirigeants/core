@@ -65,6 +65,8 @@ export class InviteStore extends DataStore<Invite> {
 
 }
 
+/* eslint-disable camelcase */
+
 /**
  * The options for {@link InviteStore#fetch}.
  * @since 0.0.1
@@ -78,3 +80,5 @@ export interface InviteStoreFetchOptions {
 	 */
 	with_counts?: boolean;
 }
+
+/* eslint-enable camelcase */

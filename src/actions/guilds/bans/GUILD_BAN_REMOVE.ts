@@ -14,7 +14,7 @@ export default class CoreAction extends Action {
 	}
 
 	public cache(data: Ban): void {
-		data.guild.bans.delete(data.id);
+		if (data.guild) data.guild.bans.delete(data.id);
 	}
 
 }

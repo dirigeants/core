@@ -4,10 +4,11 @@ import { GuildMemberRoleStore } from '../../stores/GuildMemberRoleStore';
 import { Permissions, PermissionsFlags } from '../../../util/bitfields/Permissions';
 
 import type { APIGuildMemberData, APIUserData } from '@klasa/dapi-types';
-import type { Client } from '../../../client/Client';
 import type { Guild } from './Guild';
 import type { User } from '../User';
+import type { Client } from '../../../client/Client';
 import type { GuildChannel } from '../channels/GuildChannel';
+import type { VoiceState } from './VoiceState';
 
 /**
  * @see https://discord.com/developers/docs/resources/guild#guild-member-object
@@ -94,6 +95,14 @@ export class GuildMember extends Structure {
 	}
 
 	/**
+	 * The voiceState for the member
+	 * @since 0.0.4
+	 */
+	public get voiceState(): VoiceState | null {
+		return this.guild.voiceStates.get(this.id) ?? null;
+	}
+
+	/**
 	 * The calculated permissions from the member's {@link GuildMemberRoleStore roles}.
 	 * @since 0.0.1
 	 */
@@ -164,8 +173,14 @@ export class GuildMember extends Structure {
 		// If this is the owner (and we have already determined we are not the owner), then it can't manage
 		if (this.id === this.guild.ownerID) return false;
 
+		const { highest: clientHighest } = me.roles;
+		const { highest: memberHighest } = this.roles;
+
+		// If these are undefined or null, there is no role hierarchy and it can't manage
+		if (!clientHighest || !memberHighest) return false;
+
 		// If the clients highest role is higher than this roles highest role
-		return me.roles.highest > this.roles.highest;
+		return clientHighest.position > memberHighest.position;
 	}
 
 	/**
@@ -182,12 +197,14 @@ export class GuildMember extends Structure {
 	/**
 	 * Checks permissions for this member in a given channel.
 	 * @param channel The channel to check permissions in
+	 * @param guildScope If we should take into account guild scoped permissions, or just overwrites
 	 */
-	public permissionsIn(channel: GuildChannel): Readonly<Permissions> {
+	public permissionsIn(channel: GuildChannel, guildScope = true): Readonly<Permissions> {
 		const { permissions } = this;
 
 		if (permissions.equals(Permissions.ALL)) return permissions;
 
+		const guildScopePermissions = guildScope ? permissions.mask(Permissions.GUILD_SCOPE_PERMISSIONS) : 0;
 		const overwrites = channel.permissionOverwrites.for(this);
 
 		return permissions
@@ -197,6 +214,7 @@ export class GuildMember extends Structure {
 			.add(overwrites.roles.length > 0 ? overwrites.roles.map(role => role.allow) : 0)
 			.remove(overwrites.member ? overwrites.member.deny : 0)
 			.add(overwrites.member ? overwrites.member.allow : 0)
+			.add(guildScopePermissions)
 			.freeze();
 	}
 
@@ -231,6 +249,8 @@ export class GuildMember extends Structure {
 	}
 
 }
+
+/* eslint-disable camelcase */
 
 export type MemberData = APIGuildMemberData | Omit<APIGuildMemberData, 'deaf' | 'mute' | 'nick' | 'joined_at'>;
 
@@ -270,3 +290,5 @@ export interface GuildMemberModifyOptions {
 	 */
 	channel_id?: string | null;
 }
+
+/* eslint-enable camelcase */

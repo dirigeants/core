@@ -2,9 +2,9 @@ import { Structure } from './base/Structure';
 import { isSet } from '../../util/Util';
 import { Client } from '../../client/Client';
 
-import type { DMChannel } from './channels/DMChannel';
-
 import type { APIUserData, APIUserFlags, PremiumType } from '@klasa/dapi-types';
+import type { ImageURLOptions } from '@klasa/rest';
+import type { DMChannel } from './channels/DMChannel';
 
 /**
  * @see https://discord.com/developers/docs/resources/user#user-object
@@ -93,6 +93,12 @@ export class User<T = Client> extends Structure<T> {
 	 */
 	public publicFlags?: APIUserFlags;
 
+	/**
+	 * The id for the last message recieved for this user
+	 * @since 0.0.3
+	 */
+	public lastMessageID: string | null = null;
+
 	public constructor(client: T, data: APIUserData) {
 		super(client);
 		this.id = data.id;
@@ -136,6 +142,34 @@ export class User<T = Client> extends Structure<T> {
 	public closeDM(): Promise<DMChannel | null> {
 		const existing = this.channel;
 		return existing ? existing.delete() : Promise.resolve(null);
+	}
+
+	/**
+	 * Returns the users avatar url.
+	 * @param options The image size, format and other options.
+	 */
+	public avatarURL(options?: ImageURLOptions): string | null {
+		if (!this.avatar || !(this.client instanceof Client)) return null;
+		return this.client.api.cdn.userAvatar(this.id, this.avatar, options);
+	}
+
+	/**
+	 * Returns the users avatar url or the default discord avatar url if they don't have a avatar.
+	 * @param options The image size, format and other options.
+	 */
+	public displayAvatarURL(options?: ImageURLOptions): string | null {
+		if (!(this.client instanceof Client)) return null;
+		return this.avatar ?
+			this.avatarURL(options) :
+			this.defaultAvatarURL;
+	}
+
+	/**
+	 * Returns the default discord avatar url for the user's discriminator.
+	 */
+	public get defaultAvatarURL(): string | null {
+		if (!(this.client instanceof Client)) return null;
+		return this.client.api.cdn.defaultAvatar(Number(this.discriminator) % 5);
 	}
 
 	/**

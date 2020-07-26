@@ -5,6 +5,8 @@ import { Client, Application, Team, TeamMember } from '../src';
 
 import type { APIUserData, APIOauthData, APITeamData, APITeamMember } from '@klasa/dapi-types';
 
+/* eslint-disable camelcase */
+
 const rawOwner: APIUserData = {
 	id: '339942739275677726',
 	username: 'team339942739275677726',
@@ -48,6 +50,8 @@ const rawApplication: APIOauthData = {
 	owner: rawOwner,
 	team: rawTeam
 };
+
+/* eslint-enable camelcase */
 
 nock(`${RestOptionsDefaults.api}/v${RestOptionsDefaults.version}`)
 	.get(Routes.oauthApplication())

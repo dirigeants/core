@@ -34,7 +34,7 @@ export class NewsChannel extends GuildTextChannel {
 	 * @since 0.0.4
 	 */
 	public async follow(channel: GuildTextChannel): Promise<APIChannelFollowResult> {
-		// eslint-disable-next-line @typescript-eslint/camelcase
+		// eslint-disable-next-line camelcase
 		return this.client.api.post(Routes.followChannel(this.id), { data: { webhook_channel_id: channel.id } }) as Promise<APIChannelFollowResult>;
 	}
 
@@ -50,9 +50,13 @@ export class NewsChannel extends GuildTextChannel {
 
 }
 
+/* eslint-disable camelcase */
+
 export interface NewsChannelModifyOptions extends ChannelModifyOptions {
 	type?: ChannelType.GuildNews | ChannelType.GuildText;
 	topic?: string | null;
 	nsfw?: boolean;
 	parent_id?: string | null;
 }
+
+/* eslint-enable camelcase */

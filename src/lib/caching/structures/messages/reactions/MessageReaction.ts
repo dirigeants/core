@@ -68,7 +68,7 @@ export class MessageReaction extends Structure {
 	 * Defines the JSON.stringify behavior of this structure.
 	 * @since 0.0.1
 	 */
-	public toJSON(): object {
+	public toJSON(): Record<string, unknown> {
 		return {
 			me: this.me,
 			count: this.count,

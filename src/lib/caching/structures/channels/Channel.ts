@@ -34,7 +34,7 @@ export abstract class Channel extends Structure {
 	}
 
 	/**
-	 * Defines toString behavior for members.
+	 * Defines toString behavior for channels.
 	 * @since 0.0.1
 	 */
 	public toString(): string {
