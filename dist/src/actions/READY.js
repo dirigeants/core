@@ -9,9 +9,12 @@ class CoreAction extends core_1.Action {
      */
     run(data) {
         for (const guild of data.d.guilds) {
-            // eslint-disable-next-line dot-notation
-            const created = new (core_1.extender.get('Guild'))(this.client, guild, data.shard_id);
-            if (this.client.options.cache.enabled) {
+            // If we don't already have this guild cached on READY, and the cache is enabled
+            // cache it now to prevent emitting a GUILD_CREATE event later when we get
+            // the full object
+            if (this.client.options.cache.enabled && !this.client.guilds.has(guild.id)) {
+                // eslint-disable-next-line dot-notation
+                const created = new (core_1.extender.get('Guild'))(this.client, guild, data.shard_id);
                 this.client.guilds.set(created.id, created);
             }
         }
