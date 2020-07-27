@@ -95,6 +95,19 @@ export class GuildMember extends Structure {
 	}
 
 	/**
+	 * The displayed color of the member
+	 * @since 0.0.4
+	 */
+	public get displayColor(): number {
+		let highestRole = null;
+		for (const role of this.roles.values()) {
+			if (!highestRole || role.position < highestRole.position) continue;
+			if (role.color) highestRole = role;
+		}
+		return highestRole ? highestRole.color : 0;
+	}
+
+	/**
 	 * The voiceState for the member
 	 * @since 0.0.4
 	 */
