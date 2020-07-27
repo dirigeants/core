@@ -101,7 +101,11 @@ export class GuildMember extends Structure {
 	public get displayColour(): number {
 		let highestRole = null;
 		for (const role of this.roles.values()) {
-			if (!highestRole || role.position < highestRole.position) continue;
+			if (highestRole && role.position < highestRole.position) continue;
+			// roles with the same position are sorted by ID
+			if (highestRole && role.position === highestRole.position) {
+				if (role.id > highestRole.id) continue;
+			}
 			if (role.color) highestRole = role;
 		}
 		return highestRole ? highestRole.color : 0;
