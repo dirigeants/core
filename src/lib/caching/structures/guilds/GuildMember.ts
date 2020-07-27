@@ -98,7 +98,7 @@ export class GuildMember extends Structure {
 	 * The displayed colour of the member.
 	 * @since 0.0.4
 	 */
-	public get displayColor(): number {
+	public get displayColour(): number {
 		let highestRole = null;
 		for (const role of this.roles.values()) {
 			if (!highestRole || role.position < highestRole.position) continue;
