@@ -94,7 +94,7 @@ export class User<T = Client> extends Structure<T> {
 	public publicFlags?: APIUserFlags;
 
 	/**
-	 * The id for the last message recieved for the user
+	 * The id for the last message received from the user
 	 * @since 0.0.3
 	 */
 	public lastMessageID: string | null = null;
