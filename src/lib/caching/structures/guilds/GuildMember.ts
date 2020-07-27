@@ -95,7 +95,7 @@ export class GuildMember extends Structure {
 	}
 
 	/**
-	 * The displayed color of the member
+	 * The displayed colour of the member.
 	 * @since 0.0.4
 	 */
 	public get displayColor(): number {
